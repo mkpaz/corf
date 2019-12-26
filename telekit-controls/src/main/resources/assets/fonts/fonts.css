@@ -1,0 +1,31 @@
+/* Roboto */
+@font-face {
+    font-family: "Roboto";
+    src: url('Roboto/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: "Roboto Medium";
+    src: url('Roboto/Roboto-Medium.ttf');
+}
+@font-face {
+    font-family: "Roboto Bold";
+    src: url('Roboto/Roboto-Bold.ttf');
+}
+@font-face {
+    font-family: "Roboto Italic";
+    src: url('Roboto/Roboto-Italic.ttf');
+}
+
+/* Fira Mono */
+@font-face {
+    font-family: "Fira Mono";
+    src: url('FiraMono/FiraMono-Regular.ttf');
+}
+@font-face {
+    font-family: "Fira Mono Medium";
+    src: url('FiraMono/FiraMono-Medium.ttf');
+}
+@font-face {
+    font-family: "Fira Mono Bold";
+    src: url('FiraMono/FiraMono-Bold.ttf');
+}

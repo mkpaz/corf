@@ -1,0 +1,44 @@
+/*
+ * This isn't a full theme but series of fixes that should be applied to the default Modena theme,
+ * makes it more flat, reduce glowing effects and such.
+ *
+ * See: https://github.com/openjdk/jfx/blob/master/modules/javafx.controls/src/main/resources/com/sun/javafx/scene/control/skin/modena/modena.css
+*/
+
+@import "../fonts/fonts.css";
+
+.root {
+    -fx-font-family: "Roboto";
+
+    -fx-color-primary: #1976D2;
+    -fx-color-success: #388E3C;
+    -fx-color-warning: #FF3D00;
+    -fx-color-error:   #FF1744;
+
+    -fx-base: #F2F2F2;
+    -fx-accent: -fx-color-primary;
+    -fx-focus-color: -fx-color-primary;
+    -fx-faint-focus-color: #2979FF22;
+    -fx-default-button: -fx-accent;
+
+    -fx-body-color: linear-gradient(
+        to bottom,
+        ladder(-fx-color, derive(-fx-color, 8%) 75%, derive(-fx-color, 10%) 80%),
+        /* reducing this value decreases gradient level and makes controls look more flat */
+        derive(-fx-color, -2%)
+    );
+
+    /* Some controls (namely list and tree cells) override "-fx-background" value locally.
+       Hence, fallback variable is needed to address original background color without
+       triggering recursion. */
+    -fx-background-fallback: #F6F5F4;
+
+    -fx-titlebar-color: #DFDBD8;
+
+    -textarea-highlight-color: #F9FBE7;
+}
+
+/* default font size is too small */
+.ikonli-font-icon {
+    -fx-font-size: 1.2em;
+}

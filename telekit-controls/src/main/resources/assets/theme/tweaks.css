@@ -1,0 +1,248 @@
+/* Remove focus borders from containers
+**********************************************************/
+
+.scroll-pane:focused,
+.split-pane:focused,
+.list-view:focused,
+.tree-view:focused,
+.table-view:focused,
+.tree-table-view:focused {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 1;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Split Pane
+**********************************************************/
+
+.split-pane-divider {
+    /* hide divider by default, override this when you actually need it. */
+   -fx-background-color: transparent;
+}
+
+/* Scrollbar
+**********************************************************/
+
+.scroll-bar:vertical {
+    /* beware, dynamic scrollbar width won't work well,
+       because VirtualFlow not always reduces it back on hover exit */
+    -fx-pref-width: 6;
+    -fx-opacity: 0.5;
+}
+.scroll-bar:horizontal {
+    -fx-pref-height: 6;
+    -fx-opacity: 0.5;
+}
+.scroll-bar:hover,
+.scroll-bar:pressed,
+.scroll-bar:focused {
+    -fx-opacity: 1;
+}
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0.0em;
+    -fx-border-radius: 2.0em;
+}
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0.0em;
+    -fx-padding: 0.0 0.0 10.0 0.0;
+}
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0.0em;
+    -fx-padding: 0.0 10.0 0.0 0.0;
+}
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-shape: " ";
+    -fx-padding: 0.15em 0.0;
+}
+ .scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0.0 0.15em;
+}
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2.0, 0.0, 0.0;
+    -fx-background-radius: 2.0em;
+}
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: derive(#4D4C4F, 10%);
+    -fx-background-insets: 2.0, 0.0, 0.0;
+    -fx-background-radius: 2.0em;
+}
+
+/* Reset classes is used to purge any default paddings,
+   margins, background, borders etc
+**********************************************************/
+
+.scroll-pane.reset {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-radius: 0;
+}
+
+.list-view.reset {
+    -fx-background-color: -fx-background;
+    -fx-background-insets: 0;
+    -fx-padding: 0px;
+}
+.list-view.reset {
+    -fx-background-color: -fx-background;
+    -fx-background-insets: 0;
+    -fx-padding: 0px;
+}
+.list-view.reset .list-cell {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0px;
+    -fx-padding: 0px;
+}
+.list-view.reset .list-cell:filled:selected:focused,
+.list-view.reset .list-cell:filled:selected {
+   -fx-background-color: transparent;
+}
+
+.tree-view.reset {
+    -fx-background-color: -fx-background;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.tree-view.reset .tree-cell {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.tree-view.reset .tree-disclosure-node,
+.tree-view.reset .arrow {
+    /* The only way to center disclosure node vertically is by applying calculated
+       top padding that depends on tree-cell height. Our choice is to hide it completely
+       instead and re-implement as a part of tree cell when needed. */
+    -fx-min-width:  0;
+    -fx-pref-width: 0;
+    -fx-max-width:  0;
+
+    -fx-min-height:  0;
+    -fx-pref-height: 0;
+    -fx-max-height:  0;
+}
+
+.text-area.reset,
+.text-area.reset .content {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-style: none;
+    -fx-padding: 0;
+}
+
+/* Buttons
+**********************************************************/
+
+.button,
+.button:focused,
+.button:hover,
+.toggle-button,
+.menu-button {
+    /* remove focus glow and inner border gradient */
+    -fx-background-color: -fx-outer-border, -fx-body-color;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+}
+.toggle-button:selected,
+.toggle-button:armed,
+.button:armed,
+.menu-button:armed {
+    -fx-color: -fx-pressed-base;
+}
+/* fix incorrectly calculated by ladder() buttons hover color */
+.button:default:hover,
+.pagination:focused .toggle-button:selected:hover {
+    -fx-text-fill: -fx-light-text-color;
+}
+
+/* Hyperlinks
+**********************************************************/
+
+.hyperlink,
+.hyperlink:armed,
+.hyperlink .glyph-icon,
+.hyperlink:visited,
+.hyperlink:hover:visited {
+    -fx-underline: false;
+    /* disable visited state, hyperlinks are always the same color */
+    -fx-text-fill: derive(-fx-text-background-color, 20%);
+    /* also remove border that appears on click */
+    -fx-border-color: transparent;
+}
+
+.hyperlink:hover {
+    -fx-underline: true;
+}
+
+/* Table
+**********************************************************/
+
+/* no bold fonts in any tables */
+.table-view .column-header,
+.table-view .filler,
+.tree-table-view .column-header,
+.tree-table-view .filler {
+    -fx-font-weight: normal;
+}
+
+/* increase table rows height */
+.table-view .table-row-cell {
+    -fx-cell-size: 2em;
+}
+
+/* row height must fit text field height for editable tables
+   (you supposed to add "editable" class to table manually) */
+.table-view.editable .table-row-cell {
+    -fx-cell-size: 2.6em;
+}
+
+/* fix glyph font color */
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected .ikonli-font-icon,
+.tree-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected .ikonli-font-icon,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell:filled:selected .ikonli-font-icon,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:selected .ikonli-font-icon,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell .table-cell:selected .ikonli-font-icon,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell .tree-table-cell:selected .ikonli-font-icon {
+    -fx-fill: -fx-light-text-color;
+}
+
+/* Menus
+**********************************************************/
+
+/* by default context menu inherits text input font, null means - use default */
+.context-menu {
+    -fx-font-family: null;
+    -fx-font: null;
+}
+
+/* increase menu item paddings */
+.menu-item {
+    -fx-padding: 0.333em 1em 0.333em 1em;
+}
+.menu-item > .graphic-container {
+    -fx-padding: 0em 1em 0em 0em;
+}
+.menu-item > .graphic-container > .font-icon {
+    /* FIXME: -fx-font-size isn't working in context menu */
+    /* -fx-font-size: 1.2em; */
+    -fx-icon-size: 16px;
+}

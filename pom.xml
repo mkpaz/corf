@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.telekit</groupId>
+    <artifactId>telekit-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+
+    <modules>
+        <module>telekit-base</module>
+        <module>telekit-controls</module>
+        <module>telekit-plugin-example</module>
+        <module>telekit-desktop</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <java.version>16</java.version>
+
+        <!-- dependencies -->
+        <lib.commons-codec.version>1.15</lib.commons-codec.version>
+        <lib.commons-collections.version>4.4</lib.commons-collections.version>
+        <lib.commons-compress.version>1.20</lib.commons-compress.version>
+        <lib.commons-dbutils.version>1.7</lib.commons-dbutils.version>
+        <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
+        <lib.commons-net.version>3.8.0</lib.commons-net.version>
+        <lib.hsqldb.version>2.6.0</lib.hsqldb.version>
+        <lib.httpcomponents.version>4.5.13</lib.httpcomponents.version>
+        <lib.ipaddress.version>5.3.3</lib.ipaddress.version>
+        <lib.ikonli.version>12.2.0</lib.ikonli.version>
+        <lib.j2html.version>1.4.0</lib.j2html.version>
+        <lib.jsoup.version>1.13.1</lib.jsoup.version>
+        <lib.jackson.version>2.12.3</lib.jackson.version>
+        <lib.javax-inject.version>1.1.0</lib.javax-inject.version>
+        <lib.jetbrains-annotations.version>21.0.1</lib.jetbrains-annotations.version>
+        <lib.semantic-version.version>2.1.0</lib.semantic-version.version>
+
+        <lib.flowless.version>0.6.3</lib.flowless.version>
+        <lib.reactfx.version>2.0-M5</lib.reactfx.version>
+        <lib.richtextfx.version>0.10.6</lib.richtextfx.version>
+        <lib.undofx.version>2.1.1</lib.undofx.version>
+        <lib.wellbehavedfx.version>0.3.3</lib.wellbehavedfx.version>
+
+        <test.assertj.version>3.19.0</test.assertj.version>
+        <test.junit.version>5.7.0</test.junit.version>
+
+        <!-- plugins -->
+        <plugin.antrun.version>1.8</plugin.antrun.version>
+        <!-- do not update to 2.x until fixed: https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/597 -->
+        <plugin.asciidoctor.version>1.6.0</plugin.asciidoctor.version>
+        <plugin.assembly.version>3.3.0</plugin.assembly.version>
+        <plugin.compiler.version>3.8.1</plugin.compiler.version>
+        <plugin.dependency.version>3.1.2</plugin.dependency.version>
+        <plugin.jar.version>3.2.0</plugin.jar.version>
+        <plugin.javafx.version>0.0.6</plugin.javafx.version>
+        <plugin.moditect.version>1.0.0.RC1</plugin.moditect.version>
+        <plugin.resources.version>3.2.0</plugin.resources.version>
+        <plugin.versions.version>2.8.1</plugin.versions.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${plugin.antrun.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <version>${plugin.asciidoctor.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${plugin.assembly.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${plugin.compiler.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${plugin.dependency.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${plugin.jar.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>${plugin.javafx.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.moditect</groupId>
+                    <artifactId>moditect-maven-plugin</artifactId>
+                    <version>${plugin.moditect.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${plugin.resources.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${plugin.versions.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>bintray</id>
+            <name>bintray</name>
+            <url>https://jcenter.bintray.com</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Project Modules -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>telekit-base</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>telekit-controls</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>telekit-plugin-example</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Apache Commons -->
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${lib.commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${lib.commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${lib.commons-compress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-dbutils</groupId>
+                <artifactId>commons-dbutils</artifactId>
+                <version>${lib.commons-dbutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${lib.commons-lang.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${lib.commons-net.version}</version>
+            </dependency>
+
+            <!-- Databases -->
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>${lib.hsqldb.version}</version>
+            </dependency>
+
+            <!-- HTTP -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${lib.httpcomponents.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>fluent-hc</artifactId>
+                <version>${lib.httpcomponents.version}</version>
+            </dependency>
+
+            <!-- HTML -->
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${lib.jsoup.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.j2html</groupId>
+                <artifactId>j2html</artifactId>
+                <version>${lib.j2html.version}</version>
+            </dependency>
+
+            <!-- Jackson -->
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${lib.jetbrains-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-properties</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-xml</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+
+            <!-- UI -->
+            <dependency>
+                <groupId>org.fxmisc.richtext</groupId>
+                <artifactId>richtextfx</artifactId>
+                <version>${lib.richtextfx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.flowless</groupId>
+                <artifactId>flowless</artifactId>
+                <version>${lib.flowless.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reactfx</groupId>
+                <artifactId>reactfx</artifactId>
+                <version>${lib.reactfx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.wellbehaved</groupId>
+                <artifactId>wellbehavedfx</artifactId>
+                <version>${lib.wellbehavedfx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.undo</groupId>
+                <artifactId>undofx</artifactId>
+                <version>${lib.undofx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-javafx</artifactId>
+                <version>${lib.ikonli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-fontawesome5-pack</artifactId>
+                <version>${lib.ikonli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-material2-pack</artifactId>
+                <version>${lib.ikonli.version}</version>
+            </dependency>
+
+            <!-- Various -->
+            <dependency>
+                <groupId>io.github.pustike</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${lib.javax-inject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.seancfoley</groupId>
+                <artifactId>ipaddress</artifactId>
+                <version>${lib.ipaddress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.skuzzle</groupId>
+                <artifactId>semantic-version</artifactId>
+                <version>${lib.semantic-version.version}</version>
+            </dependency>
+
+            <!-- TEST -->
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${test.assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${test.junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${test.junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${test.junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

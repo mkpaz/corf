@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.telekit</groupId>
+        <artifactId>telekit-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>telekit-plugin-example</artifactId>
+
+    <properties>
+        <plugin.name>Example Plugin</plugin.name>
+        <plugin.author>John Doe</plugin.author>
+        <plugin.description>Telekit plugin example</plugin.description>
+        <plugin.homepage>http://example.org</plugin.homepage>
+        <!-- required version must follow semantic versioning scheme -->
+        <plugin.platform-version>${project.version}</plugin.platform-version>
+
+        <bld.basePackage>org.telekit.example</bld.basePackage>
+        <bld.pluginClassName>${bld.basePackage}.ExamplePlugin</bld.pluginClassName>
+        <bld.launcherClassName>${bld.basePackage}.demo.DemoLauncher</bld.launcherClassName>
+        <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
+        <!-- this is where application will store plugin and its data after installation -->
+        <bld.pluginSubDir>data/plugins/${bld.pluginClassName}</bld.pluginSubDir>
+    </properties>
+
+    <build>
+        <resources>
+            <!-- everything in the `resources` goes under package prefix -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>org/telekit/example</targetPath>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>org/telekit/example</targetPath>
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.properties</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${bld.launcherClassName}</mainClass>
+                    <executable>${java.home}/bin/java</executable>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>build</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${bld.distribDirectory}</outputDirectory>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <attach>false</attach>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/plugin.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- installs plugin into telekit-desktop build directory for testing -->
+            <id>install</id>
+            <properties>
+                <install.sourceDir>${bld.distribDirectory}/${project.artifactId}-${project.version}</install.sourceDir>
+                <install.appDir>${project.basedir}/../telekit-desktop/target</install.appDir>
+                <install.appPluginDir>${install.appDir}/${bld.pluginSubDir}</install.appPluginDir>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-to-desktop</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <copy todir="${install.appPluginDir}/lib" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}">
+                                                <include name="*.jar"/>
+                                            </fileset>
+                                        </copy>
+                                        <copy todir="${install.appPluginDir}/config" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}/config">
+                                                <include name="**/*"/>
+                                            </fileset>
+                                        </copy>
+                                        <copy todir="${install.appPluginDir}/docs" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}/docs">
+                                                <include name="**/*"/>
+                                            </fileset>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-config</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/${bld.pluginSubDir}/config</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>build/config</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-docs</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/${bld.pluginSubDir}/docs</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/main/docs</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>telekit-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>telekit-controls</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

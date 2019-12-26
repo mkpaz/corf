@@ -1,0 +1,134 @@
+/* Scene
+**********************************************************/
+
+.transparent-scene:decorated {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+    -fx-background-insets: 10;
+}
+
+/* Title Bar
+**********************************************************/
+
+#titlebar {
+    -fx-background-color: linear-gradient(to top, -fx-titlebar-color, derive(-fx-titlebar-color, 25%));
+    -fx-border-color: derive(-fx-titlebar-color, -20%);
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 0.25em;
+}
+#titlebar > .content > * > .restart-pending-icon > .font-icon {
+    -fx-font-size: 1.4em;
+    -fx-fill: -fx-color-warning;
+}
+#titlebar > .content > * > .window-title {
+    -fx-font-size: 1.1em;
+    -fx-font-weight: bold;
+}
+#titlebar > .content > * > .window-controls > * > .font-icon {
+    -fx-font-weight: bold;
+}
+.titlebar-icon-button > .font-icon,
+.titlebar-icon-button > * > .font-icon {
+    -fx-font-size: 1.4em;
+}
+
+/* Content Area
+**********************************************************/
+
+#content-area {
+    -fx-background-color: -fx-background;
+}
+
+.overlay {
+    -fx-background-color: transparent;
+}
+.overlay > .scroll-pane,
+.overlay > .scroll-pane > .viewport {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-background-radius: 0;
+}
+.overlay > .scroll-pane > .viewport > * > .scrollable-content {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.router-pane {
+    -fx-background-color: -fx-background;
+    -fx-padding: 0;
+}
+
+/* Status Bar
+**********************************************************/
+
+#status-bar {
+    -fx-min-height: 1.8em;
+    -fx-pref-height: 1.8em;
+    -fx-max-height: 1.8em;
+    -fx-padding: 2 10 2 10;
+    -fx-border-color: -fx-outer-border;
+    -fx-border-width: 1 0 0 0;
+}
+#status-bar > .security > .font-icon {
+    -fx-font-size: 1.4em;
+}
+#status-bar > .security > .vault-icon:error {
+    -fx-fill: -fx-color-error;
+}
+#status-bar > .progress-tasks > .progress-indicator {
+    -fx-pref-width: 24;
+}
+#status-bar > .progress-tasks {
+    -fx-padding: 0 0 0 20;
+    -fx-spacing: 5;
+}
+#status-bar > .memory > .progress-bar {
+    -fx-opacity: 0.25;
+}
+#status-bar > .memory > .progress-bar > .track {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+#status-bar > .memory > .status {
+    -fx-fill: derive(-fx-text-background-color, 25%);
+}
+
+/* Navigation Drawer
+**********************************************************/
+
+#navigation-drawer {
+    -fx-background-color: -fx-background-fallback;
+    -fx-border-color: -fx-outer-border;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 0;
+}
+#navigation-drawer > .navigation-tree {
+    -fx-background-color: -fx-background-fallback;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+#navigation-drawer > .navigation-tree .tree-cell {
+    -fx-background: -fx-background-fallback;
+    -fx-background-insets: 0;
+    -fx-padding: 10;
+}
+#navigation-drawer > .navigation-tree .tree-cell:empty {
+    -fx-opacity: 0;
+}
+#navigation-drawer > .navigation-tree .tree-cell:hover,
+#navigation-drawer > .navigation-tree .tree-cell:selected {
+    -fx-background-color: derive(-fx-background-fallback, -5%);
+}
+#navigation-drawer > .navigation-tree .tree-disclosure-node {
+    -fx-min-width:  18;
+    -fx-pref-width: 18;
+    -fx-max-width:  18;
+}
+
+#navigation-drawer .nav-link {
+    -fx-padding: 0 10 0 0;
+}
+#navigation-drawer .nav-link > .icon > .font-icon {
+    -fx-font-size: 1.6em;
+}
