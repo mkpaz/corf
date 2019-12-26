@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>corf</groupId>
+        <artifactId>corf-parent</artifactId>
+        <version>1.1.0</version>
+    </parent>
+
+    <artifactId>corf-plugin-example</artifactId>
+    <description>Plugin template</description>
+
+    <properties>
+        <plugin.name>Example Plugin</plugin.name>
+        <plugin.author>John Doe</plugin.author>
+        <plugin.description>Plugin Example</plugin.description>
+        <plugin.homepage>http://example.org</plugin.homepage>
+        <!-- platform version must follow semantic versioning scheme -->
+        <plugin.platform-version>${project.version}</plugin.platform-version>
+        <plugin.launcher>${plugin.module}.Launcher</plugin.launcher>
+        <plugin.module>corf.example</plugin.module>
+
+        <build.packageDir>${project.build.directory}/dist</build.packageDir>
+        <build.pluginDir>user/plugins/${plugin.module}</build.pluginDir>
+    </properties>
+
+    <build>
+        <resources>
+            <!-- copy and filter plugin resources, e.g. metadata -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>corf/example/plugin.properties</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${plugin.launcher}</mainClass>
+                    <executable>${java.home}/bin/java</executable>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <!--
+                Build profile to package plugin artifact for distribution
+                > mvn package -P build
+            -->
+            <id>build</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${build.packageDir}</outputDirectory>
+                                    <appendAssemblyId>false</appendAssemblyId>
+                                    <attach>false</attach>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/plugin.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!--
+                Development profile to install plugin into corf-desktop build directory for testing
+                > mvn package -P build,install
+            -->
+            <id>install</id>
+            <properties>
+                <install.sourceDir>${build.packageDir}/${project.artifactId}-${project.version}</install.sourceDir>
+                <install.appDir>${project.basedir}/../desktop/target</install.appDir>
+                <install.pluginDir>${install.appDir}/${build.pluginDir}</install.pluginDir>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-to-desktop</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <copy todir="${install.pluginDir}/lib" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}">
+                                                <include name="*.jar"/>
+                                            </fileset>
+                                        </copy>
+                                        <copy todir="${install.pluginDir}/config" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}/config">
+                                                <include name="**/*"/>
+                                            </fileset>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!--
+                Development profile to launch plugin without installing it for testing purposes
+                > mvn javafx:run -P run
+            -->
+            <id>run</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-config</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/${build.pluginDir}/config</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>build/config</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>corf-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

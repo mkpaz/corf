@@ -1,0 +1,81 @@
+.root {
+  -fx-font-family: "Inter";
+
+  -color-sidebar-bg: -color-accent-emphasis;
+  -color-sidebar-fg: -color-fg-emphasis;
+  -color-toast-bg: -color-neutral-emphasis-plus;
+  -color-toast-fg: -color-fg-emphasis;
+
+  &:dark {
+    -color-sidebar-bg: -color-bg-inset;
+    -color-sidebar-fg: -color-fg-default;
+    -color-toast-bg: -color-bg-overlay;
+    -color-toast-fg: -color-fg-default;
+  }
+}
+
+/* by default context menu inherits text input font */
+.context-menu {
+  -fx-font-family: "Inter";
+}
+
+#content-area {
+  -fx-background-color: -color-bg-default;
+}
+
+#tool-tab-pane {
+
+  .tool-wrapper {
+    -fx-background-color: transparent,
+      linear-gradient(from 0.5px 0.0px to 25.5px 0.0px, repeat, -color-accent-subtle 5%, transparent 5%),
+      linear-gradient(from 0.0px 0.5px to 0.0px 25.5px, repeat, -color-accent-subtle 5%, transparent 5%);
+
+    >.tool {
+      -fx-background-color: -color-bg-default;
+      -fx-border-width: 0 1 0 1;
+      -fx-border-color: -color-accent-muted;
+    }
+  }
+
+  // reduce tab icon brightness
+  .icon {
+    -fx-opacity: 0.9;
+  }
+
+  &.floating {
+    >.tab-header-area {
+      >.headers-region {
+        >.tab {
+          -fx-padding: 0.3em 0 0.3em 1px;
+
+          >.tab-container {
+            >.tab-label {
+              -fx-padding: 0.6em 2em 0.6em 0.6em;
+              -fx-graphic-text-gap: 10px;
+              -fx-min-width: -1;
+              -fx-pref-width: -1;
+            }
+          }
+
+          &.add-tab-button {
+            >.tab-container {
+              >.tab-label {
+                -fx-padding: 0.6em 0.8em 0.6em 0.8em;
+                -fx-min-width: -1;
+                -fx-pref-width: -1;
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  .control-buttons-tab>.container {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    visibility: hidden;
+  }
+}

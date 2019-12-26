@@ -1,0 +1,31 @@
+#notifications {
+  -fx-padding: 10px;
+  -fx-spacing: 10px;
+  -fx-max-width: 360px;
+}
+
+.toast {
+  -fx-background-color: -color-border-subtle, -color-toast-bg;
+  -fx-background-insets: 0, 1;
+  -fx-background-radius: 5px;
+  -fx-padding: 15px;
+  -fx-hgap: 10px;
+  -fx-min-width: 350px;
+  -fx-max-width: 350px;
+  -fx-min-height: 3em;
+
+  >.text>* {
+    -fx-fill: -color-toast-fg;
+  }
+
+  >.close-button {
+    -fx-fill: -color-toast-fg;
+    -fx-icon-color: -color-toast-fg;
+  }
+
+  >.hyperlink {
+    -color-link-fg: -color-toast-fg;
+    -color-link-fg-visited: -color-toast-fg;
+    -color-link-fg-armed: -color-toast-fg;
+  }
+}

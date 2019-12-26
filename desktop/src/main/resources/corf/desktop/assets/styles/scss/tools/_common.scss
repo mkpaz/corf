@@ -1,0 +1,52 @@
+.actions.tool-bar.top {
+  -fx-background-insets: 0, 1 1 0 1;
+}
+
+.actions.tool-bar.bottom {
+  -fx-background-insets: 0, 0 1 1 1;
+}
+
+.param-list {
+  -fx-padding: 0 5px 0 0;
+
+  &:empty {
+    -fx-padding: 0;
+
+    .items {
+      -fx-border-width: 0;
+      -fx-border-radius: 0;
+    }
+  }
+
+  .placeholder {
+    -fx-padding: 10px 0 0 0;
+  }
+
+  .items {
+    -fx-border-width: 1px;
+    -fx-border-color: -color-border-muted;
+    -fx-border-radius: 6px;
+
+    >.item {
+      -fx-background-color: -color-border-muted, -color-bg-default;
+      -fx-background-insets: 0, 0 0 1 0;
+      -fx-background-radius: 6px 6px 0 0;
+      -fx-padding: 10px;
+
+      &:last {
+        -fx-background-insets: 0;
+        -fx-background-radius: 0 0 6px 6px;
+      }
+
+      .text-field {
+        -color-input-bg: -color-bg-inset;
+        -color-input-border: -color-bg-inset;
+      }
+
+      .edit-button {
+        -fx-padding: 3px 6px 3px 6px;
+        -color-button-bg-hover: -color-accent-subtle;
+      }
+    }
+  }
+}

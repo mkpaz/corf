@@ -1,0 +1,79 @@
+/******************************************************************************
+* Inter                                                                       *
+******************************************************************************/
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 700;
+  src: url('fonts/Inter/Inter-Bold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 500;
+  src: url('fonts/Inter/Inter-Medium.otf') format('truetype');
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  src: url('fonts/Inter/Inter-Regular.otf') format('truetype');
+}
+
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: italic, oblique;
+  src: url('fonts/Inter/Inter-Italic.otf') format('truetype');
+}
+
+/******************************************************************************
+* Fira Mono                                                                   *
+******************************************************************************/
+
+@font-face {
+  font-family: "Fira Mono";
+  font-weight: 700;
+  src: url('fonts/FiraMono/FiraMono-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Fira Mono";
+  font-weight: 500;
+  src: url('fonts/FiraMono/FiraMono-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Fira Mono";
+  font-weight: 400;
+  src: url('fonts/FiraMono/FiraMono-Regular.ttf') format('truetype');
+}
+
+/******************************************************************************
+* Roboto                                                                      *
+******************************************************************************/
+
+@font-face {
+  font-family: "Roboto";
+  font-weight: 700;
+  src: url('fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-weight: 500;
+  src: url('fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-weight: 400;
+  src: url('fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-style: italic, oblique;
+  src: url('fonts/Roboto/Roboto-Italic.ttf') format('truetype');
+}

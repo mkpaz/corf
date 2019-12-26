@@ -1,0 +1,7 @@
+#plugin-dialog .plugin-list .list-cell {
+  -fx-cell-size: 5em;
+
+  &:disabled {
+    -fx-opacity: 0.5;
+  }
+}

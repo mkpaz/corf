@@ -1,0 +1,59 @@
+// reduces slider track padding (1/2 of thumb size by default)
+// should be replaced with .edge-to-edge support for slider
+.slider {
+  -fx-padding: 0 -4px 0 -4px;
+}
+
+// increases icon size for large buttons
+// should be added to AtlantaFX as well
+.button.large>.ikonli-font-icon {
+  -fx-icon-size: 22px;
+  -fx-font-size: 22px;
+}
+
+.ikonli-font-icon.accent {
+  -fx-fill: -color-accent-emphasis;
+  -fx-icon-color: -color-accent-emphasis;
+}
+.ikonli-font-icon.success {
+  -fx-fill: -color-success-emphasis;
+  -fx-icon-color: -color-success-emphasis;
+}
+.ikonli-font-icon.warning {
+  -fx-fill: -color-warning-emphasis;
+  -fx-icon-color: -color-warning-emphasis;
+}
+.ikonli-font-icon.danger {
+  -fx-fill: -color-danger-emphasis;
+  -fx-icon-color: -color-danger-emphasis;
+}
+
+.ikonli-font-icon:accent {
+  -fx-fill: -color-accent-emphasis;
+  -fx-icon-color: -color-accent-emphasis;
+}
+.ikonli-font-icon:success {
+  -fx-fill: -color-success-emphasis;
+  -fx-icon-color: -color-success-emphasis;
+}
+.ikonli-font-icon:warning {
+  -fx-fill: -color-warning-emphasis;
+  -fx-icon-color: -color-warning-emphasis;
+}
+.ikonli-font-icon:danger {
+  -fx-fill: -color-danger-emphasis;
+  -fx-icon-color: -color-danger-emphasis;
+}
+
+.label:accent {
+  -fx-text-fill: -color-accent-emphasis;
+}
+.label:success {
+  -fx-text-fill: -color-success-emphasis;
+}
+.label:warning {
+  -fx-text-fill: -color-warning-emphasis;
+}
+.label:danger {
+  -fx-text-fill: -color-danger-emphasis;
+}

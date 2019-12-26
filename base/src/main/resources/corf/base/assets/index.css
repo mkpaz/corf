@@ -1,0 +1,84 @@
+/* Modals
+***************************************/
+
+.overlay>.scroll-pane>.viewport>*>.scrollable-content {
+  -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog {
+  -fx-background-color: -color-bg-default;
+  -fx-background-radius: 6px;
+  -fx-border-radius: 6px;
+  -fx-border-width: 1px;
+  -fx-border-color: -color-border-default;
+}
+.modal-dialog>.content {
+  -fx-padding: 20px;
+  -fx-spacing: 20px;
+}
+.modal-dialog>.content>.header {
+  -fx-alignment: CENTER_LEFT;
+}
+.modal-dialog>.content>.footer {
+  -fx-padding: 30px 0px 0px 0px;
+  -fx-alignment: CENTER_LEFT;
+}
+
+/* Message
+***************************************/
+
+.message {
+  -color-message-bg: -color-bg-default;
+  -color-message-fg: -color-fg-default;
+  -fx-background-color: -color-message-bg;
+  -fx-border-color: -color-message-fg;
+  -fx-border-width: 1;
+  -fx-alignment: TOP_LEFT;
+}
+.message>.header {
+  -fx-font-weight: bold;
+}
+.message Text {
+  -fx-fill: -color-message-fg;
+}
+.message>.button {
+  -color-button-fg: -color-message-fg;
+}
+.message.info {
+  -color-message-bg: -color-accent-subtle;
+  -color-message-fg: -color-accent-fg;
+}
+.message.success {
+  -color-message-bg: -color-success-subtle;
+  -color-message-fg: -color-success-fg;
+}
+.message.warning {
+  -color-message-bg: -color-warning-subtle;
+  -color-message-fg: -color-warning-fg;
+}
+.message.danger {
+  -color-message-bg: -color-danger-subtle;
+  -color-message-fg: -color-danger-fg;
+}
+
+/* Extra Styles
+***************************************/
+
+.monospace {
+  -fx-font-family: 'Fira Mono';
+  -fx-font-weight: normal;
+}
+
+.bg-default {
+  -fx-background-color: -color-bg-default;
+}
+
+.no-bg-insets {
+  -fx-background-insets: 0;
+}
+
+.no-table-header .column-header-background {
+  -fx-max-height: 0;
+  -fx-pref-height: 0;
+  -fx-min-height: 0;
+}

@@ -1,0 +1,23 @@
+github_ribbon    by Wikimedia Commons
+
+Icons from Flaticon (https://www.flaticon.com):
+
+app              by Freepik
+base64           by riajulislam
+default          by Freepik
+blank            by Freepik
+filebuilder      by Freepik
+httpsender       by Md Tanvirul Haque
+ipcalc           by Freepik
+passgen          by Assia Benkerroum
+plugin           by Pixelmeetup
+seqgen           by Pixelmeetup
+corf             by Freepik
+
+Icons from Icon8 (https://icons8.com):
+
+dialog-error
+dialog-info
+dialog-success
+dialog-warning
+

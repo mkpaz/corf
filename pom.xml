@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>corf</groupId>
+    <artifactId>corf-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.1.0</version>
+
+    <modules>
+        <module>base</module>
+        <module>desktop</module>
+        <module>plugin-example</module>
+        <module>test</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <java.version>17</java.version>
+        <openjfx.version>19</openjfx.version>
+
+        <app.name>Corf</app.name>
+        <app.version>1.0.0</app.version>
+
+        <lib.atlantafx.version>1.1.0</lib.atlantafx.version>
+        <!-- TODO: Release and update -->
+        <lib.backbonefx.version>1.0.1-SNAPSHOT</lib.backbonefx.version>
+        <!-- DO NOT UPDATE independently of sshj without a reason -->
+        <lib.bouncycastle.version>1.70</lib.bouncycastle.version>
+        <lib.commons-codec.version>1.15</lib.commons-codec.version>
+        <lib.commons-collections.version>4.4</lib.commons-collections.version>
+        <lib.commons-compress.version>1.22</lib.commons-compress.version>
+        <lib.commons-dbutils.version>1.7</lib.commons-dbutils.version>
+        <lib.commons-csv.version>1.9.0</lib.commons-csv.version>
+        <lib.commons-io.version>2.11.0</lib.commons-io.version>
+        <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
+        <lib.commons-net.version>3.9.0</lib.commons-net.version>
+        <lib.datafaker.version>1.7.0</lib.datafaker.version>
+        <lib.dflib.version>0.15</lib.dflib.version>
+        <lib.expectit.version>0.9.0</lib.expectit.version>
+        <lib.flyway.version>9.8.3</lib.flyway.version>
+        <lib.hsqldb.version>2.7.1</lib.hsqldb.version>
+        <lib.httpclient5.version>5.2</lib.httpclient5.version>
+        <lib.ipaddress.version>5.3.4</lib.ipaddress.version>
+        <lib.ikonli.version>12.3.1</lib.ikonli.version>
+        <lib.j2html.version>1.6.0</lib.j2html.version>
+        <lib.jsoup.version>1.15.3</lib.jsoup.version>
+        <lib.jackson.version>2.14.1</lib.jackson.version>
+        <lib.jetbrains-annotations.version>23.0.0</lib.jetbrains-annotations.version>
+        <lib.kaitai-struct.version>0.10</lib.kaitai-struct.version>
+        <!-- DO NOT UPDATE: This is the last stable version. Newer versions don't add any features or
+             bugfixes but break backward compatibility and for some reason not (yet?) work with jlink.
+             Author changed artifact name to the 'eu.hansolo.medusa' (all lowercase) and started large
+             refactoring to maintain some kind of ecosystem across all its projects, so it's not a small
+             zero-dependency library anymore.
+        -->
+        <lib.medusa.version>11.7</lib.medusa.version>
+        <lib.mustache.version>0.9.10</lib.mustache.version>
+        <lib.nbvcxz.version>1.5.0</lib.nbvcxz.version>
+        <!-- DO NOT UPDATE: pdfbox 3.x is not stable yet (2022-12) and uses sun.misc.Unsafe,
+             which won't work with JPMS. It will fail at runtime, so beware.
+             2.x https://github.com/apache/pdfbox/blob/2.0.27/pdfbox/src/main/java/org/apache/pdfbox/io/IOUtils.java
+             3.x https://github.com/apache/pdfbox/blob/trunk/io/src/main/java/org/apache/pdfbox/io/IOUtils.java
+        -->
+        <lib.pdfbox.version>2.0.27</lib.pdfbox.version>
+        <lib.semantic-version.version>2.1.1</lib.semantic-version.version>
+        <lib.snmp4j.version>3.7.4</lib.snmp4j.version>
+        <lib.slf4j.version>2.0.5</lib.slf4j.version>
+        <lib.sshj.version>0.34.0</lib.sshj.version>
+        <!-- richtextfx -->
+        <lib.richtextfx.version>0.11.0</lib.richtextfx.version>
+        <lib.flowless.version>0.7.0</lib.flowless.version>
+        <lib.reactfx.version>2.0-M5</lib.reactfx.version>
+        <lib.undofx.version>2.1.1</lib.undofx.version>
+        <lib.wellbehavedfx.version>0.3.3</lib.wellbehavedfx.version>
+
+        <!-- test -->
+        <test.assertj.version>3.23.1</test.assertj.version>
+        <test.junit.version>5.9.1</test.junit.version>
+        <test.p6spy.version>3.9.1</test.p6spy.version>
+
+        <!-- plugins -->
+        <plugin.antrun.version>3.1.0</plugin.antrun.version>
+        <plugin.assembly.version>3.4.2</plugin.assembly.version>
+        <plugin.compiler.version>3.10.1</plugin.compiler.version>
+        <plugin.dependency.version>3.4.0</plugin.dependency.version>
+        <plugin.errorprone.version>2.16</plugin.errorprone.version>
+        <plugin.nullaway.version>0.10.4</plugin.nullaway.version>
+        <plugin.jar.version>3.3.0</plugin.jar.version>
+        <plugin.javafx.version>0.0.8</plugin.javafx.version>
+        <plugin.jtoolprovider.version>1.0.34</plugin.jtoolprovider.version>
+        <plugin.moditect.version>1.0.0.RC2</plugin.moditect.version>
+        <plugin.resources.version>3.3.0</plugin.resources.version>
+        <plugin.sass-cli-maven-plugin>1.0.1</plugin.sass-cli-maven-plugin>
+        <plugin.source.version>3.2.1</plugin.source.version>
+        <plugin.surefire.version>3.0.0-M7</plugin.surefire.version>
+        <plugin.versions.version>2.13.0</plugin.versions.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${plugin.antrun.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${plugin.assembly.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${plugin.compiler.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${plugin.dependency.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${plugin.jar.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-maven-plugin</artifactId>
+                    <version>${plugin.javafx.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.github.wiverson</groupId>
+                    <artifactId>jtoolprovider-plugin</artifactId>
+                    <version>${plugin.jtoolprovider.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.moditect</groupId>
+                    <artifactId>moditect-maven-plugin</artifactId>
+                    <version>${plugin.moditect.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${plugin.resources.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>us.hebi.sass</groupId>
+                    <artifactId>sass-cli-maven-plugin</artifactId>
+                    <version>${plugin.sass-cli-maven-plugin}</version>
+                    <configuration>
+                        <sassVersion>1.54.5</sassVersion>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${plugin.source.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${plugin.surefire.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${plugin.versions.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>linux-active</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <platform>linux</platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows-active</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <platform>win</platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>lint</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${plugin.compiler.version}</version>
+                        <configuration>
+                            <showWarnings>true</showWarnings>
+                            <compilerArgs>
+                                <arg>-XDcompilePolicy=simple</arg>
+                                <arg>
+                                    -Xplugin:ErrorProne \
+                                    -Xep:NullAway:ERROR \
+                                    -XepOpt:NullAway:AnnotatedPackages=corf \
+                                    -XepExcludedPaths:.*/src/test/java/.*
+                                    -XepAllErrorsAsWarnings
+                                </arg>
+                            </compilerArgs>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>com.google.errorprone</groupId>
+                                    <artifactId>error_prone_core</artifactId>
+                                    <version>${plugin.errorprone.version}</version>
+                                </path>
+                                <path>
+                                    <groupId>com.uber.nullaway</groupId>
+                                    <artifactId>nullaway</artifactId>
+                                    <version>${plugin.nullaway.version}</version>
+                                </path>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <!-- TODO: Remove snapshots repo as it's temp solution. -->
+        <repository>
+            <id>ossrh.snapshots</id>
+            <name>OSSRH snapshots</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Project Modules -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>corf-base</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>corf-plugin-example</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>corf</groupId>
+                <artifactId>corf-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- OpenJFX -->
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>${openjfx.version}</version>
+            </dependency>
+            <dependency>
+                <!-- required for Scenic View -->
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-swing</artifactId>
+                <version>${openjfx.version}</version>
+            </dependency>
+
+            <!-- Language / Base -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${lib.commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${lib.commons-lang.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${lib.jetbrains-annotations.version}</version>
+            </dependency>
+
+            <!-- Database -->
+            <dependency>
+                <groupId>commons-dbutils</groupId>
+                <artifactId>commons-dbutils</artifactId>
+                <version>${lib.commons-dbutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nhl.dflib</groupId>
+                <artifactId>dflib</artifactId>
+                <version>${lib.dflib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nhl.dflib</groupId>
+                <artifactId>dflib-csv</artifactId>
+                <version>${lib.dflib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${lib.flyway.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>${lib.hsqldb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>sqltool</artifactId>
+                <version>${lib.hsqldb.version}</version>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${lib.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${lib.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <!-- apache.commons.logging bridge -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${lib.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <!-- java.util.logging bridge -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>jul-to-slf4j</artifactId>
+                <version>${lib.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <!-- System.Logger bridge -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk-platform-logging</artifactId>
+                <version>${lib.slf4j.version}</version>
+            </dependency>
+
+            <!-- Networking -->
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${lib.commons-net.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5</artifactId>
+                <version>${lib.httpclient5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5-h2</artifactId>
+                <version>${lib.httpclient5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${lib.httpclient5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.seancfoley</groupId>
+                <artifactId>ipaddress</artifactId>
+                <version>${lib.ipaddress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.expectit</groupId>
+                <artifactId>expectit-core</artifactId>
+                <version>${lib.expectit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hierynomus</groupId>
+                <artifactId>sshj</artifactId>
+                <version>${lib.sshj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.snmp4j</groupId>
+                <artifactId>snmp4j</artifactId>
+                <version>${lib.snmp4j.version}</version>
+            </dependency>
+
+            <!-- IO / Serialization -->
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${lib.commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-csv</artifactId>
+                <version>${lib.commons-csv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${lib.commons-compress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${lib.commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-properties</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-xml</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jakarta-xmlbind-annotations</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${lib.jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>${lib.pdfbox.version}</version>
+                <exclusions>
+                    <!-- exclude Commons Logging in favor of SLF4J -->
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>fontbox</artifactId>
+                <version>${lib.pdfbox.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.kaitai</groupId>
+                <artifactId>kaitai-struct-runtime</artifactId>
+                <version>${lib.kaitai-struct.version}</version>
+            </dependency>
+
+            <!-- UI / Desktop -->
+            <dependency>
+                <groupId>io.github.mkpaz</groupId>
+                <artifactId>atlantafx-base</artifactId>
+                <version>${lib.atlantafx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.mkpaz</groupId>
+                <artifactId>backbonefx</artifactId>
+                <version>${lib.backbonefx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.richtext</groupId>
+                <artifactId>richtextfx</artifactId>
+                <version>${lib.richtextfx.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.flowless</groupId>
+                <artifactId>flowless</artifactId>
+                <version>${lib.flowless.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reactfx</groupId>
+                <artifactId>reactfx</artifactId>
+                <version>${lib.reactfx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.wellbehaved</groupId>
+                <artifactId>wellbehavedfx</artifactId>
+                <version>${lib.wellbehavedfx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.undo</groupId>
+                <artifactId>undofx</artifactId>
+                <version>${lib.undofx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-javafx</artifactId>
+                <version>${lib.ikonli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-material2-pack</artifactId>
+                <version>${lib.ikonli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.hansolo</groupId>
+                <artifactId>Medusa</artifactId>
+                <version>${lib.medusa.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- HTML -->
+            <dependency>
+                <groupId>com.j2html</groupId>
+                <artifactId>j2html</artifactId>
+                <version>${lib.j2html.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${lib.jsoup.version}</version>
+            </dependency>
+
+            <!-- Various -->
+            <dependency>
+                <groupId>me.gosimple</groupId>
+                <artifactId>nbvcxz</artifactId>
+                <version>${lib.nbvcxz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.datafaker</groupId>
+                <artifactId>datafaker</artifactId>
+                <version>${lib.datafaker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.spullara.mustache.java</groupId>
+                <artifactId>compiler</artifactId>
+                <version>${lib.mustache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.skuzzle</groupId>
+                <artifactId>semantic-version</artifactId>
+                <version>${lib.semantic-version.version}</version>
+            </dependency>
+
+            <!--
+                BouncyCastle is incompatible with Oracle JDK. It can't be included
+                into runtime image 'Oracle's' jlink only accepts signed jars.
+                https://stackoverflow.com/a/68295740/5694145
+            -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${lib.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${lib.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcutil-jdk15on</artifactId>
+                <version>${lib.bouncycastle.version}</version>
+            </dependency>
+
+            <!-- Test -->
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${test.assertj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${test.junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${test.junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${test.junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${test.p6spy.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

@@ -1,0 +1,68 @@
+#sidebar {
+  -fx-background-color: -color-sidebar-bg;
+  -fx-alignment: TOP_CENTER;
+  -fx-padding: 5px 0 5px 0;
+  -fx-spacing: 10px;
+  -fx-min-width: 3em;
+  -fx-pref-width: 3em;
+  -fx-max-width: 3em;
+
+  >.button {
+    -fx-cursor: HAND;
+    -color-button-fg:       -color-sidebar-fg;
+    -color-button-fg-hover: -color-sidebar-fg;
+    -color-button-bg-hover: -color-sidebar-bg;
+    -color-button-border:         transparent;
+    -color-button-border-hover:   transparent;
+    -color-button-border-focused: transparent;
+    -color-button-border-pressed: transparent;
+
+    >.ikonli-font-icon {
+      -fx-icon-size: 20px;
+      -fx-font-size: 20px;
+    }
+  }
+}
+
+#navigation-drawer {
+  -fx-background-color: -color-bg-default;
+  -fx-padding: 10px 0 10px 0;
+  -fx-spacing: 10px;
+
+  >.search {
+    -fx-padding: 10px 16px 10px 16px;
+
+    .ikonli-font-icon {
+      -fx-font-size: 20px;
+      -fx-icon-size: 20px;
+      -fx-icon-color: -color-fg-subtle;
+      -fx-fill: -color-fg-subtle;
+    }
+  }
+
+  >.list-view {
+    -color-cell-bg: -color-bg-default;
+    -color-cell-bg-selected: -color-bg-default;
+    -color-cell-bg-selected-focused: -color-bg-default;
+
+    .list-cell {
+      -fx-cell-size: 3.2em;
+
+      .item {
+        -fx-padding: 0 16px 0 16px;
+        -fx-spacing: 1em;
+        -fx-background-radius: 6px;
+
+        >.title {
+          -fx-spacing: 2px;
+        }
+      }
+
+      &:selected .item,
+      &:filled:hover .item {
+        -fx-background-color: -color-accent-muted;
+
+      }
+    }
+  }
+}
