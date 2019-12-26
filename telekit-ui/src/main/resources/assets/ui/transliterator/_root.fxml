@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.transliterator.RootController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" />
+    <ColumnConstraints hgrow="NEVER" />
+    <ColumnConstraints hgrow="SOMETIMES" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="ALWAYS" />
+  </rowConstraints>
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="5.0">
+         <children>
+            <Label maxWidth="1.7976931348623157E308" text="Text:" HBox.hgrow="NEVER" />
+            <ComboBox fx:id="cmbLang" prefWidth="60.0">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </ComboBox>
+            <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnTransliterate" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#transliterate" text="TRANSLITERATE" />
+         </children>
+      </HBox>
+      <Label text="Transliterated text {EN}:" GridPane.columnIndex="2" />
+      <TextArea fx:id="taText" styleClass="monospaced" wrapText="true" GridPane.rowIndex="1" />
+      <TextArea fx:id="taTransliteratedText" editable="false" styleClass="monospaced" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+   </padding>
+</GridPane>

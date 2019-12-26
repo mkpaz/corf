@@ -1,0 +1,13 @@
+#pbarMemory > .track {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+   -fx-background-color: transparent;
+}
+
+#lbInProgress {
+    -fx-text-fill: #0096C9;
+}
+
+#tpaneTools > .tab-content-area > * {
+    -fx-padding: 10 20 10 20;
+}

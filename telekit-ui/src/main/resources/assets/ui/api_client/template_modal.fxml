@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox fx:id="rootPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.api_client.TemplateModalController">
+   <children>
+      <TabPane fx:id="taTabs">
+         <tabs>
+            <Tab closable="false" text="General">
+               <content>
+                  <GridPane hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../index.css" vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="NEVER" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="500.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints maxHeight="-Infinity" vgrow="NEVER" />
+                      <RowConstraints vgrow="NEVER" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Name *" />
+                        <Label text="URI *" GridPane.rowIndex="1" />
+                        <Label text="Method" GridPane.rowIndex="2" />
+                        <TextField fx:id="tfName" GridPane.columnIndex="1" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                               <ComboBox fx:id="cmbMethod" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <TextField fx:id="tfURI" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Content type" GridPane.rowIndex="3" />
+                        <ComboBox fx:id="cmbContentType" onAction="#onContentTypeChanged" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                  <String fx:value="application/json" />
+                                  <String fx:value="application/soap+xml" />
+                                  <String fx:value="other" />
+                               </FXCollections>
+                           </items>
+                           <value>
+                              <String fx:value="application/json" />
+                           </value>
+                         </ComboBox>
+                        <Label text="Headers" GridPane.rowIndex="4" />
+                        <Label text="Body" GridPane.rowIndex="5" />
+                        <TextArea fx:id="taHeaders" prefHeight="50.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextArea fx:id="taBody" prefHeight="100.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="Batch size" GridPane.rowIndex="6" />
+                        <Spinner fx:id="spnBatchSize" amountToStepBy="5" initialValue="0" max="100" min="0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label text="Batch wrapper" GridPane.rowIndex="7" />
+                        <TextArea fx:id="taBatchWrapper" prefHeight="40.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label text="Wait timeout (sec)" GridPane.rowIndex="8" />
+                        <Spinner fx:id="spnWaitTimeout" amountToStepBy="1" initialValue="3" max="100" min="1" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Description">
+              <content>
+                <AnchorPane>
+                     <children>
+                        <TextArea fx:id="taDescription" layoutX="164.0" layoutY="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+                     </padding>
+                  </AnchorPane>
+              </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
+         <children>
+            <Button fx:id="btnApply" mnemonicParsing="false" onAction="#apply" text="OK" />
+            <Button mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

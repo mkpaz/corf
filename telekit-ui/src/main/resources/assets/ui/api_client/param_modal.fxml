@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane fx:id="rootPane" hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.api_client.ParamModalController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="NEVER" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="200.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+      <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" vgrow="NEVER" />
+      <RowConstraints vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <Label text="Name *" />
+      <Label text="Length *" GridPane.rowIndex="2" />
+      <Label text="Type *" GridPane.rowIndex="1" />
+      <TextField fx:id="tfName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+      <ComboBox fx:id="cmbType" maxWidth="1.7976931348623157E308" onAction="#onParamTypeChanged" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+         <children>
+            <Button fx:id="btnApply" mnemonicParsing="false" onAction="#apply" text="OK" />
+            <Button mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+         </children>
+         <GridPane.margin>
+            <Insets bottom="5.0" right="5.0" />
+         </GridPane.margin>
+      </HBox>
+      <Spinner fx:id="spnLength" initialValue="16" min="8" max="32" maxWidth="1.7976931348623157E308"  GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+      <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

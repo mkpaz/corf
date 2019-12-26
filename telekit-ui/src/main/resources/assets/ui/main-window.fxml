@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fontawesomefx.fa.FontAwesomeIconView?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.main.MainController">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <TabPane fx:id="tpaneTools" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+        <menus>
+            <Menu mnemonicParsing="false" text="File">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showPluginManager" text="Plugin Namager" />
+                  <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="Restart" />
+                <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="SIGN_OUT" />
+                     </graphic></MenuItem>
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Tools">
+            <items>
+               <MenuItem fx:id="apiClient" mnemonicParsing="false" onAction="#openTool" text="API Client" />
+               <MenuItem fx:id="base64Encoder" mnemonicParsing="false" onAction="#openTool" text="Base64 Encoder" />
+               <MenuItem fx:id="importFileBuilder" mnemonicParsing="false" onAction="#openTool" text="Import File Builder" />
+               <MenuItem fx:id="ipCalculator" mnemonicParsing="false" onAction="#openTool" text="IP Calculator" />
+               <MenuItem fx:id="passwordGenerator" mnemonicParsing="false" onAction="#openTool" text="Password Generator" />
+               <MenuItem fx:id="sequenceGenerator" mnemonicParsing="false" onAction="#openTool" text="Sequence Generator" />
+                  <Menu mnemonicParsing="false" text="SS7">
+                    <items>
+                      <MenuItem fx:id="ss7CICTable" mnemonicParsing="false" onAction="#openTool" text="CIC Table" />
+                      <MenuItem fx:id="ss7SPCConverter" mnemonicParsing="false" onAction="#openTool" text="SPC Converter" />
+                    </items>
+                  </Menu>
+               <MenuItem fx:id="transliterator" mnemonicParsing="false" onAction="#openTool" text="Transliterator" />
+            </items>
+          </Menu>
+            <Menu fx:id="menuPlugins" mnemonicParsing="false" text="Plugins" />
+            <Menu mnemonicParsing="false" text="Window">
+              <items>
+                  <CheckMenuItem fx:id="cmAlwaysOnTop" mnemonicParsing="false" onAction="#showOnTop" text="Set always on top" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showHelp" text="Help Contents">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="BOOK" />
+                     </graphic></MenuItem>
+              <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
+         <children>
+            <HBox fx:id="hboxProgressIndicator" alignment="CENTER_LEFT" visible="false">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+               <children>
+                  <ProgressIndicator maxHeight="24.0" maxWidth="24.0" />
+                  <Label fx:id="lbInProgress" text="task(s) in progress">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <Label maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <StackPane alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" HBox.hgrow="NEVER">
+               <children>
+                  <ProgressBar fx:id="pbarMemory" maxHeight="1.7976931348623157E308" onMouseClicked="#runGc" opacity="0.3" prefWidth="100.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ProgressBar>
+                  <Text fx:id="txMemory" fill="#212121cc" onMouseClicked="#runGc" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" StackPane.alignment="CENTER_RIGHT">
+                     <StackPane.margin>
+                        <Insets right="10.0" />
+                     </StackPane.margin>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Text>
+               </children>
+            </StackPane>
+         </children>
+         <padding>
+            <Insets bottom="2.0" right="10.0" top="2.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <stylesheets>
+      <URL value="@index.css" />
+      <URL value="@main-window.css" />
+   </stylesheets>
+</BorderPane>

@@ -1,0 +1,31 @@
+@import "../fonts/fonts.css";
+
+/* increase menu item paddings */
+.menu-item {
+  -fx-padding: 0.333333em 1em 0.333333em 1em;
+}
+
+.table-row-cell {
+    /* row height should fit text field height for editable tables */
+    -fx-cell-size: 2.6em;
+}
+
+/* remove focus glow around titled pane arrow */
+.titled-pane:focused > .title > .arrow-button > .arrow {
+    -fx-background-insets: 0;
+    -fx-effect: none;
+}
+
+/* remove border */
+.hyperlink {
+    -fx-border-color: transparent;
+}
+
+/******************* Utils *******************/
+
+.monospaced {
+    -fx-font-family: 'Fira Mono', 'Courier New', monospaced;
+}
+.text-center {
+    -fx-alignment: CENTER;
+}
