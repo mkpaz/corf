@@ -357,7 +357,7 @@
         <profile>
             <id>win32</id>
             <properties>
-                <bld.compression>0</bld.compression>
+                <bld.compression>2</bld.compression>
                 <bld.descriptor>windows.xml</bld.descriptor>
                 <bld.platform>win32</bld.platform>
             </properties>

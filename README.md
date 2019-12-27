@@ -1,8 +1,6 @@
-A set of apps for telecom engineers.
-
 # Telekit
 
-<img src=".screenshots/main_view.png" width="800">
+Download from [releases page](https://github.com/mkpaz/telekit/releases).
 
 Base app provides the following tools:
 
@@ -17,7 +15,7 @@ Base app provides the following tools:
 
 - **Import File Builder**
 
-  Generates text files (CSV, XML, configs, custom scripts etc) by predefined template.
+  Generates text files (like CSV, XML, configs, custom scripts etc) by predefined template.
 
 - **IPv4 Calculator**
 
@@ -42,19 +40,15 @@ Base app provides the following tools:
 
 ## System requirements
 
-Telekit is a Java app that uses [jlink](https://docs.oracle.com/javase/9/tools/jlink.htm) tool to build native runtime
-image, so there is no need to install Java Virtual Machine (JVM).
+Telekit is a Java app that uses [jlink](https://docs.oracle.com/javase/9/tools/jlink.htm) to build native runtime
+image, so there is no need to install Java.
 
-Right now only Windows 7+ systems (both 32 & 64 bit) are supported.
+Right now, only Windows 7+ systems (both 32 & 64 bit) are supported.
 
 ## Plugins
 
 App features can be extended via plugins. If you want to write your own one, clone this repo and use
-`telekit plugin-example` as starting point.
-
-## Licensing
-
-Telekit is licensed under the Apache License, Version 2.0.
+`telekit-plugin-example` as starting point.
 
 ## Credits
 

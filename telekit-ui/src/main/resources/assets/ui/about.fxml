@@ -30,7 +30,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="a set of apps for telecom engeneers" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="a set of tools for telecom engeneers" />
             <HBox>
                <children>
                   <Label fx:id="lbVersion" text="v.XYZ" />
