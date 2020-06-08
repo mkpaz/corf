@@ -39,6 +39,7 @@ import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.fx.FXBindings;
 import org.telekit.base.util.CSVUtils;
+import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 import org.telekit.ui.main.Views;
@@ -305,7 +306,7 @@ public class RootController extends Controller {
             String html = PreviewRenderer.render(selectedTemplate);
             try {
                 Files.writeString(outputFile.toPath(), html);
-                Desktop.getDesktop().browse(outputFile.toURI());
+                DesktopUtils.browse(outputFile.toURI());
             } catch (IOException e) {
                 throw new TelekitException("Unable to write preview file", e);
             }

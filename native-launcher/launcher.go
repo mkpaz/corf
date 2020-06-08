@@ -19,7 +19,7 @@ func main() {
 
   var (
     OPTIONS_FILE = filepath.Join(cwd, "user.options")
-    JAVA_EXEC = filepath.Join(cwd, "app", "bin", "javaw")
+    JAVA_EXEC = filepath.Join(cwd, "app", "bin", JAVA_EXEC)
   )
 
   fileBytes, err := ioutil.ReadFile(OPTIONS_FILE)

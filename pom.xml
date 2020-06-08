@@ -27,7 +27,7 @@
         <dep.apache-poi.version>4.1.1</dep.apache-poi.version>
         <dep.commons-codec.version>1.13</dep.commons-codec.version>
         <dep.commons-collections.version>4.4</dep.commons-collections.version>
-        <dep.commons-compress.version>1.19</dep.commons-compress.version>
+        <dep.commons-compress.version>1.20</dep.commons-compress.version>
         <dep.commons-dbutils.version>1.7</dep.commons-dbutils.version>
         <dep.commons-lang.version>3.9</dep.commons-lang.version>
         <dep.commons-net.version>3.6</dep.commons-net.version>
@@ -115,7 +115,7 @@
         <repository>
             <id>bintray</id>
             <name>bintray</name>
-            <url>http://jcenter.bintray.com</url>
+            <url>https://jcenter.bintray.com</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>

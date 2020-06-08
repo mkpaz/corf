@@ -3,7 +3,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
 
-    <id>windows</id>
+    <id>linux</id>
     <formats>
         <format>dir</format>
     </formats>
@@ -45,20 +45,20 @@
     <files>
         <!-- launcher & resources -->
         <file>
-            <source>build/native/${bld.platform}.exe</source>
+            <source>build/native/linux64</source>
             <outputDirectory>.</outputDirectory>
-            <destName>telekit.exe</destName>
+            <destName>telekit</destName>
         </file>
         <file>
             <source>build/user.options</source>
             <outputDirectory>.</outputDirectory>
         </file>
         <file>
-            <source>build/telekit.ico</source>
+            <source>build/telekit.png</source>
             <outputDirectory>.</outputDirectory>
         </file>
         <file>
-            <source>build/telekit-fallback.bat</source>
+            <source>build/telekit-fallback.sh</source>
             <outputDirectory>.</outputDirectory>
         </file>
         <file>

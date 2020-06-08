@@ -28,6 +28,7 @@ import org.telekit.ui.domain.PluginContainer.Status;
 import org.telekit.ui.service.PluginManager;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

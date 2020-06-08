@@ -1,6 +1,7 @@
 package org.telekit.ui.tools.import_file_builder;
 
 import org.junit.jupiter.api.Test;
+import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 
 import java.awt.*;
@@ -39,6 +40,6 @@ class PreviewRendererTest {
         try (PrintWriter writer = new PrintWriter(outputFile)) {
             writer.println(html);
         }
-        Desktop.getDesktop().browse(outputFile.toURI());
+        DesktopUtils.browse(outputFile.toURI());
     }
 }

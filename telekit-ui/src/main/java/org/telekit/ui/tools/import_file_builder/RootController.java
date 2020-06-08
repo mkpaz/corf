@@ -256,7 +256,7 @@ public class RootController extends Controller {
             String html = PreviewRenderer.render(selectedTemplate);
             try {
                 Files.writeString(outputFile.toPath(), html);
-                Desktop.getDesktop().browse(outputFile.toURI());
+                DesktopUtils.browse(outputFile.toURI());
             } catch (IOException e) {
                 throw new TelekitException("Unable to write preview file", e);
             }

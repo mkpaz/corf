@@ -363,6 +363,14 @@
             </properties>
         </profile>
         <profile>
+            <id>linux64</id>
+            <properties>
+                <bld.compression>2</bld.compression>
+                <bld.descriptor>linux.xml</bld.descriptor>
+                <bld.platform>linux64</bld.platform>
+            </properties>
+        </profile>
+        <profile>
             <id>dev</id>
             <build>
                 <plugins>

@@ -43,12 +43,14 @@ Base app provides the following tools:
 Telekit is a Java app that uses [jlink](https://docs.oracle.com/javase/9/tools/jlink.htm) to build native runtime
 image, so there is no need to install Java.
 
-Right now, only Windows 7+ systems (both 32 & 64 bit) are supported.
-
 ## Plugins
 
 App features can be extended via plugins. If you want to write your own one, clone this repo and use
 `telekit-plugin-example` as starting point.
+
+## Build
+
+See [BUILD.md](BUILD.md).
 
 ## Credits
 

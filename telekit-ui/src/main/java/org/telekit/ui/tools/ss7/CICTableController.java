@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import org.telekit.base.Settings;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
+import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.telecom.SS7Utils;
 
 import java.awt.*;
@@ -138,7 +139,7 @@ public class CICTableController extends Controller {
         File outputFile = Settings.TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
         try {
             Files.writeString(outputFile.toPath(), html);
-            Desktop.getDesktop().browse(outputFile.toURI());
+            DesktopUtils.browse(outputFile.toURI());
         } catch (IOException e) {
             throw new TelekitException("Unable to write to file", e);
         }
