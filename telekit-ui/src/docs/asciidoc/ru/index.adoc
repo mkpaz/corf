@@ -12,15 +12,15 @@
 
 Список доступных опций в формате `system.property` / `ENVIRONMENT_VARIABLE`:
 
-* `telekit.window.size` / `TELEKIT_WINDOW_SIZE` - позволяет указать препочитаемый размер окна приложения. По умолчанию приложение выбирает оптимальный размер окна исходя из разрешения экрана, но такой способ, возможно, не подходит для конфигураций с несколькими мониторами и мониторов с низким разрешением.
-* `telekit.window.resizable` / `TELEKIT_WINDOW_RESIZABLE` - разблокирует возможность изменения размера окна приложения.
-* `telekit.data.dir` / `TELEKIT_DATA_DIR` - директория в которой сохраняются настройки приложения, включая настройки плагинов. По умолчанию: директория `/data` в корневом каталоге приложения.
-* `telekit.plugins.dir` / `TELEKIT_PLUGINS_DIR` - директория в которой сохраняются установленные плагины. По умолчанию: директория `/plugins` в корневом каталоге приложения.
-* `telekit.proxy.url` / `TELEKIT_PROXY_URL` - URL HTTP(S) прокси (например `http://10.10.10.10:3128`).
-* `telekit.proxy.username` / `TELEKIT_PROXY_USERNANE` - имя пользователя HTTP(S) прокси.
-* `telekit.proxy.password` / `TELEKIT_PROXY_PASSWORD` - пароль пользователя HTTP(S) прокси.
+* `telekit.window.size` / `TELEKIT_WINDOW_SIZE` - позволяет указать препочитаемый размер окна приложения. По умолчанию приложение выбирает оптимальный размер окна исходя из разрешения экрана, но такой способ, возможно, не подходит для конфигураций с несколькими мониторами и мониторов с низким разрешением;
+* `telekit.window.resizable` / `TELEKIT_WINDOW_RESIZABLE` - разблокирует возможность изменения размера окна приложения;
+* `telekit.data.dir` / `TELEKIT_DATA_DIR` - директория в которой сохраняются настройки приложения, включая настройки плагинов. По умолчанию: директория `/data` в корневом каталоге приложения;
+* `telekit.plugins.dir` / `TELEKIT_PLUGINS_DIR` - директория в которой сохраняются установленные плагины. По умолчанию: директория `/plugins` в корневом каталоге приложения;
+* `telekit.proxy.url` / `TELEKIT_PROXY_URL` - URL HTTP(S) прокси (например `http://10.10.10.10:3128`);
+* `telekit.proxy.username` / `TELEKIT_PROXY_USERNANE` - имя пользователя HTTP(S) прокси;
+* `telekit.proxy.password` / `TELEKIT_PROXY_PASSWORD` - пароль пользователя HTTP(S) прокси;
 
-Опции в формате `system.property` записываются в файле `user.options` как `-Dsystem.property`.
+Опции в формате `system.property` записываются в файле `user.options` как `-Dsystem.property`;
 
 ```
 -Xmx256M // ограничить использование оперативной памяти 256Mb
