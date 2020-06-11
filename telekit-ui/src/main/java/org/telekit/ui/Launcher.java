@@ -82,10 +82,12 @@ public class Launcher extends Application implements LauncherDefaults {
         Dimension bounds = isScreenFits(PREF_WIDTH, PREF_HEIGHT) ?
                 new Dimension(PREF_WIDTH, PREF_HEIGHT) :
                 new Dimension(MIN_WIDTH, MIN_HEIGHT);
+        if (FORCE_WINDOW_SIZE != null) bounds = FORCE_WINDOW_SIZE;
+
         primaryStage.setScene(
                 new Scene(controller.getParent(), bounds.getWidth(), bounds.getHeight())
         );
-        primaryStage.setResizable(FORCE_RESIZE);
+        primaryStage.setResizable(FORCE_WINDOW_RESIZE);
         primaryStage.show();
 
         Platform.runLater(() -> {
