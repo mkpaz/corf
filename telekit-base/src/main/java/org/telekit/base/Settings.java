@@ -44,6 +44,12 @@ public final class Settings {
     public static final boolean FORCE_WINDOW_RESIZE =
             getPropertyOrEnv("telekit.window.resizable", "TELEKIT_WINDOW_RESIZABLE") != null;
     public static final Dimension FORCE_WINDOW_SIZE = getForcedWindowsSize();
+    public static final String PROXY_URL =
+            getPropertyOrEnv("telekit.proxy.url", "TELEKIT_PROXY_URL");
+    public static final String PROXY_USERNAME =
+            getPropertyOrEnv("telekit.proxy.username", "TELEKIT_PROXY_USERNAME");
+    public static final String PROXY_PASSWORD =
+            getPropertyOrEnv("telekit.proxy.password", "TELEKIT_PROXY_PASSWORD");
 
     public static Path getPluginDataDir(Class<? extends Plugin> clazz) {
         return DATA_DIR.resolve(clazz.getPackageName());

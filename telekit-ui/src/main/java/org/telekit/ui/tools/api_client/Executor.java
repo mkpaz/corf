@@ -6,6 +6,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import org.telekit.base.Settings;
 import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
@@ -63,6 +64,13 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         Map<String, String> headers = parseHeaders(template.getHeaders());
         Entry<String, String> contentType = contentTypeHeader(template.getContentType());
         headers.put(contentType.getKey(), contentType.getValue());
+
+        if (isNotEmpty(Settings.PROXY_URL)) {
+            AuthPrincipal proxyAuth = isNotEmpty(Settings.PROXY_USERNAME) && isNotEmpty(Settings.PROXY_PASSWORD) ?
+                    new AuthPrincipal(Settings.PROXY_USERNAME, Settings.PROXY_PASSWORD) :
+                    null;
+            http.setProxy(Settings.PROXY_URL, proxyAuth);
+        }
 
         if (authType == AuthType.BASIC) {
             http.setBasicAuth(

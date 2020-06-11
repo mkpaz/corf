@@ -16,6 +16,9 @@
 * `telekit.window.resizable` / `TELEKIT_WINDOW_RESIZABLE` - разблокирует возможность изменения размера окна приложения.
 * `telekit.data.dir` / `TELEKIT_DATA_DIR` - директория в которой сохраняются настройки приложения, включая настройки плагинов. По умолчанию: директория `/data` в корневом каталоге приложения.
 * `telekit.plugins.dir` / `TELEKIT_PLUGINS_DIR` - директория в которой сохраняются установленные плагины. По умолчанию: директория `/plugins` в корневом каталоге приложения.
+* `telekit.proxy.url` / `TELEKIT_PROXY_URL` - URL HTTP(S) прокси (например `http://10.10.10.10:3128`).
+* `telekit.proxy.username` / `TELEKIT_PROXY_USERNANE` - имя пользователя HTTP(S) прокси.
+* `telekit.proxy.password` / `TELEKIT_PROXY_PASSWORD` - пароль пользователя HTTP(S) прокси.
 
 Опции в формате `system.property` записываются в файле `user.options` как `-Dsystem.property`.
 
@@ -24,6 +27,9 @@
 -Dtelekit.window.size=800x600
 -Dtelekit.window.resizable
 -Dtelekit.data.dir=C:/путь/к/любому/каталогу
+-Dtelekit.proxy.url=http://10.10.10.10:3128
+-Dtelekit.proxy.username=admin
+-Dtelekit.proxy.password=123456
 ```
 
 Переменные окружения настраиваются в зависимости от операционной системы, способом определенным для данной операционной системы.

@@ -15,10 +15,12 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.*;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.telekit.base.domain.AuthPrincipal;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
@@ -46,6 +48,7 @@ public class HttpClient {
 
     private final HttpClientBuilder httpBuilder;
     private final ResponseHandler<Response> handler = new SpecificResponseHandler();
+    private final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     private HttpClientContext localContext = HttpClientContext.create();
     private CloseableHttpClient client;
 
@@ -80,7 +83,7 @@ public class HttpClient {
             // https://stackoverflow.com/questions/1828775/how-to-handle-invalid-ssl-certificates-with-apache-httpclient
             return new SSLConnectionSocketFactory(
                     sslContext,
-                    new String[] {"SSLv2Hello", "SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"},
+                    new String[]{"SSLv2Hello", "SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"},
                     null,
                     NoopHostnameVerifier.INSTANCE
             );
@@ -94,8 +97,18 @@ public class HttpClient {
         this.client = httpBuilder.build();
     }
 
+    public void setProxy(String proxyUrl, AuthPrincipal principal) {
+        HttpHost proxy = HttpHost.create(proxyUrl);
+        if (principal != null) {
+            credentialsProvider.setCredentials(
+                    new AuthScope(proxy),
+                    new UsernamePasswordCredentials(principal.getUsername(), principal.getPassword()));
+        }
+        httpBuilder.setRoutePlanner(new DefaultProxyRoutePlanner(proxy));
+        client = httpBuilder.build();
+    }
+
     public void setBasicAuth(String username, String password, String url) {
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
         credentialsProvider.setCredentials(AuthScope.ANY, credentials);
         this.httpBuilder.setDefaultCredentialsProvider(credentialsProvider);
