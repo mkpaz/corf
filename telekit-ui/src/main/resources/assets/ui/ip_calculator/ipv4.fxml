@@ -33,15 +33,15 @@
     <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <TextField fx:id="tfIPAddress" alignment="CENTER" prefWidth="200.0" styleClass="monospaced" GridPane.rowIndex="1" />
-      <ComboBox fx:id="cmbNetmask" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="tfIPAddress" alignment="CENTER" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="200.0" styleClass="monospaced" GridPane.rowIndex="1" />
+      <ComboBox fx:id="cmbNetmask" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label text="IP address:" />
-      <Label text="Detailed info:" GridPane.rowIndex="3">
+      <Label text="Details:" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Bit usage:" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
+      <Label text="Bit usage (s = subnet; h = host):" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
       <TableView fx:id="tblSplit" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <columns>
             <TableColumn editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" styleClass="text-center" text="#" />
@@ -63,12 +63,7 @@
          </GridPane.margin>
       </Label>
       <Label text="Netmask:" GridPane.columnIndex="1" />
-      <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-         <children>
-            <TextField fx:id="tfBitUsage" alignment="CENTER" editable="false" prefWidth="400.0" styleClass="monospaced" HBox.hgrow="ALWAYS" />
-            <Label text="(s = subnet; h = host)" />
-         </children>
-      </HBox>
+      <TextField fx:id="tfBitUsage" alignment="CENTER" editable="false" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="400.0" styleClass="monospaced" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <children>
             <Label text="Split to" />
