@@ -19,13 +19,15 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" stylesheets="@_root.css" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.api_client.RootController">
+<GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" stylesheets="@_root.css" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.api_client.RootController">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
    </columnConstraints>
@@ -38,28 +40,25 @@
          <tabs>
             <Tab closable="false" text="Settings">
                <content>
-                  <GridPane hgap="10.0" vgap="10.0">
+                  <GridPane hgap="10.0" vgap="5.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" />
-                      <ColumnConstraints hgrow="NEVER" maxWidth="180.0" minWidth="180.0" />
+                      <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="300.0" />
                       <ColumnConstraints hgrow="ALWAYS" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints vgrow="NEVER" />
                       <RowConstraints vgrow="NEVER" />
                       <RowConstraints fillHeight="false" vgrow="NEVER" />
-                      <RowConstraints maxHeight="1.7976931348623157E308" vgrow="NEVER" />
-                      <RowConstraints vgrow="NEVER" />
                       <RowConstraints vgrow="NEVER" />
                       <RowConstraints vgrow="ALWAYS" />
                         <RowConstraints vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Label text="Template:" GridPane.columnSpan="2" />
-                        <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                            <children>
                               <ComboBox fx:id="cmbTemplate" maxWidth="1.7976931348623157E308" onAction="#displaySelectedTemplateParams" HBox.hgrow="ALWAYS" />
-                              <MenuButton mnemonicParsing="false">
+                              <MenuButton mnemonicParsing="false" styleClass="btn-flat-dropdown">
                                 <items>
                                   <MenuItem fx:id="previewTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Preview" />
                                   <SeparatorMenuItem mnemonicParsing="false" />
@@ -72,12 +71,43 @@
                                   <MenuItem fx:id="exportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Export" />
                                 </items>
                                  <graphic>
-                                    <FontAwesomeIconView glyphName="PENCIL_SQUARE_ALT" />
+                                    <FontAwesomeIconView glyphName="BARS" />
                                  </graphic>
                               </MenuButton>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="2">
+                        <TitledPane animated="false" collapsible="false" text="Basic authentication:" GridPane.rowIndex="2">
+                           <content>
+                              <GridPane hgap="10.0" vgap="5.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <TextField fx:id="tfUsername" GridPane.columnIndex="1" />
+                                    <PasswordField fx:id="tfPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Username:">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label text="Password:" textAlignment="RIGHT" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                 </children>
+                              </GridPane>
+                           </content>
+                           <GridPane.margin>
+                              <Insets top="5.0" />
+                           </GridPane.margin>
+                        </TitledPane>
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                            <children>
                               <Label maxWidth="1.7976931348623157E308" text="List for replacement:" HBox.hgrow="ALWAYS" />
                               <Label fx:id="lbListLineCount" text="0">
@@ -92,8 +122,8 @@
                               </Label>
                            </children>
                         </HBox>
-                        <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="6" />
-                        <TableView fx:id="tblParams" editable="true" GridPane.columnSpan="2" GridPane.rowIndex="6">
+                        <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4" />
+                        <TableView fx:id="tblParams" editable="true" GridPane.rowIndex="4">
                           <columns>
                             <TableColumn fx:id="tcolParamName" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="NAME" />
                             <TableColumn fx:id="tcolParamValue" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="VALUE" />
@@ -110,27 +140,11 @@
                               </ContextMenu>
                            </contextMenu>
                         </TableView>
-                        <Label text="Parameters:" GridPane.rowIndex="5">
+                        <Label text="Parameters:" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets top="5.0" />
                            </GridPane.margin></Label>
-                        <Label text="Username" GridPane.rowIndex="3">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <Label text="Basic authentication:" GridPane.columnSpan="2" GridPane.rowIndex="2">
-                           <GridPane.margin>
-                              <Insets top="5.0" />
-                           </GridPane.margin></Label>
-                        <TextField fx:id="tfUsername" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Password" textAlignment="RIGHT" GridPane.rowIndex="4">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin>
-                        </Label>
-                        <PasswordField fx:id="tfPassword" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <HBox alignment="TOP_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                        <HBox alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <children>
                               <MenuButton mnemonicParsing="false" text="Clipboard">
                                 <items>
@@ -147,14 +161,14 @@
                   </GridPane>
                </content>
                <graphic>
-                  <FontAwesomeIconView glyphName="COGS" />
+                  <FontAwesomeIconView fill="#2196f3" glyphName="CUBE" />
                </graphic>
             </Tab>
             <Tab closable="false" text="Log">
                <content>
                   <SplitPane dividerPositions="0.7">
                      <items>
-                        <VBox minWidth="400.0" spacing="10.0">
+                        <VBox minWidth="400.0" spacing="5.0">
                            <children>
                               <Label maxWidth="1.7976931348623157E308" text="Completed requests:" />
                               <TableView fx:id="tblLog" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -181,7 +195,7 @@
                               <Insets right="10.0" />
                            </padding>
                         </VBox>
-                        <VBox minWidth="300.0" spacing="10.0">
+                        <VBox minWidth="300.0" spacing="5.0">
                            <children>
                               <Label text="Details:" />
                               <TextArea fx:id="taRequestDetails" editable="false" styleClass="monospaced" VBox.vgrow="ALWAYS" />
@@ -194,7 +208,7 @@
                   </SplitPane>
                </content>
                <graphic>
-                  <FontAwesomeIconView glyphName="BAR_CHART" />
+                  <FontAwesomeIconView fill="#2196f3" glyphName="BAR_CHART" />
                </graphic>
             </Tab>
          </tabs>
@@ -204,11 +218,25 @@
             <Insets />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnStart" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#startHTTPClient" text="START" />
-            <Button fx:id="btnStop" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#stopHTTPClient" text="STOP" />
+            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="btn-main" text="Start">
+               <graphic>
+                  <StackPane alignment="BOTTOM_LEFT">
+                     <children>
+                        <FontAwesomeIconView fill="#4caf50" glyphName="PLAY" />
+                     </children>
+                  </StackPane>
+               </graphic></Button>
+            <Button fx:id="btnStop" mnemonicParsing="false" onAction="#stopHTTPClient" styleClass="btn-main" text="Stop">
+               <graphic>
+                  <StackPane alignment="BOTTOM_LEFT">
+                     <children>
+                        <FontAwesomeIconView fill="#f44336" glyphName="STOP" />
+                     </children>
+                  </StackPane>
+               </graphic></Button>
             <Spinner fx:id="spnTimeout" amountToStepBy="100" initialValue="500" max="10000" maxWidth="120.0" min="100" minWidth="120.0">
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets />
                </HBox.margin>
             </Spinner>
             <Label text="timeout between requests (ms)" />

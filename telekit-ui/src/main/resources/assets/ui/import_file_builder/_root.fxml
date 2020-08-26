@@ -25,6 +25,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
 <GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.import_file_builder.RootController">
   <columnConstraints>
@@ -113,7 +114,14 @@
       </RadioButton>
       <FlowPane alignment="CENTER_LEFT" hgap="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
          <children>
-            <Button fx:id="btnGenerate" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#generateImportFile" text="GENERATE" />
+            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generateImportFile" styleClass="btn-main" text="Generate">
+               <graphic>
+                  <StackPane alignment="BOTTOM_LEFT">
+                     <children>
+                        <FontAwesomeIconView glyphName="RANDOM" />
+                     </children>
+                  </StackPane>
+               </graphic></Button>
             <ComboBox fx:id="cmbCharset" prefWidth="120.0">
                <items>
                   <FXCollections fx:factory="observableArrayList">

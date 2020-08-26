@@ -1,8 +1,10 @@
 @import "../fonts/fonts.css";
 
+/******************* Fixes *******************/
+
 /* increase menu item paddings */
 .menu-item {
-  -fx-padding: 0.333333em 1em 0.333333em 1em;
+    -fx-padding: 0.333333em 1em 0.333333em 1em;
 }
 
 .table-row-cell {
@@ -21,11 +23,35 @@
     -fx-border-color: transparent;
 }
 
+/******************* Components *******************/
+
+.btn-main {
+    -fx-padding: 10 15 10 15;
+}
+
+.btn-main StackPane {
+    -fx-padding: 0 4 0 0;
+}
+
+.btn-flat-dropdown {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.btn-flat-dropdown > .arrow-button {
+    -fx-padding: 0;
+}
+
+.btn-flat-dropdown > .arrow-button > .arrow {
+    -fx-padding: 0;
+}
+
 /******************* Utils *******************/
 
 .monospaced {
     -fx-font-family: 'Fira Mono', 'Courier New', monospaced;
 }
+
 .text-center {
     -fx-alignment: CENTER;
 }

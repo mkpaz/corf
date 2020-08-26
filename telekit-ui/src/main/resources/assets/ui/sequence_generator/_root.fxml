@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fontawesomefx.fa.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -12,6 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
 <GridPane fx:id="rootPane" hgap="20.0" prefHeight="768.0" prefWidth="1280.0" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.sequence_generator.RootController">
   <columnConstraints>
@@ -89,10 +91,17 @@
             <Button fx:id="btnSaveToFile" mnemonicParsing="false" onAction="#saveToFile" text="Save to file" />
          </children>
       </HBox>
-      <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" prefHeight="40.0" prefWidth="100.0" text="GENERATE" GridPane.rowIndex="8">
+      <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="Generate" GridPane.rowIndex="8">
          <GridPane.margin>
             <Insets top="20.0" />
          </GridPane.margin>
+         <graphic>
+            <StackPane alignment="BOTTOM_LEFT">
+               <children>
+                  <FontAwesomeIconView glyphName="RANDOM" />
+               </children>
+            </StackPane>
+         </graphic>
       </Button>
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="3">
          <children>

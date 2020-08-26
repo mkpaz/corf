@@ -31,4 +31,9 @@
 
 #tblLog .table-row-cell:selected .table-cell {
     -fx-text-fill: white;
- }
+}
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 1 0 1;
+    -fx-background-color: transparent
+}
