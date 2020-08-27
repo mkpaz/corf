@@ -33,6 +33,12 @@
             <Menu mnemonicParsing="false" text="File">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#showPluginManager" text="Plugin Namager" />
+                  <Menu mnemonicParsing="false" text="Configuration">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#openDataDir" text="Data Directory" />
+                        <MenuItem mnemonicParsing="false" onAction="#openPluginsDir" text="Plugins Directory" />
+                    </items>
+                  </Menu>
                   <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="Restart" />
                 <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit">
                      <graphic>

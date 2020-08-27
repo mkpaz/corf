@@ -13,10 +13,10 @@ import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.Settings;
 import org.telekit.base.UILoader;
-import org.telekit.base.internal.UserPreferences;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
+import org.telekit.base.internal.UserPreferences;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.util.DesktopUtils;
@@ -28,7 +28,7 @@ import org.telekit.ui.domain.PluginContainer.Status;
 import org.telekit.ui.service.PluginManager;
 
 import javax.inject.Inject;
-import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -313,6 +313,19 @@ public class MainController extends Controller {
     public void showHelp() {
         Path docPath = Settings.DOCS_DIR.resolve("ru/index.html");
         DesktopUtils.openQuietly(docPath.toFile());
+    }
+
+    @FXML
+    public void openDataDir() {
+        DesktopUtils.openQuietly(Settings.DATA_DIR.toFile());
+    }
+
+    @FXML
+    public void openPluginsDir() {
+        Path pluginsDir = Settings.PLUGINS_DIR;
+        if (Files.exists(pluginsDir)) {
+            DesktopUtils.openQuietly(pluginsDir.toFile());
+        }
     }
 
     @Listener
