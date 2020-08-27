@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
 <GridPane fx:id="rootPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../index.css" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ip_calculator.IPv4ConverterController">
   <columnConstraints>
     <ColumnConstraints hgrow="NEVER" prefWidth="80.0" />
@@ -15,11 +23,10 @@
     <RowConstraints vgrow="SOMETIMES" />
     <RowConstraints vgrow="SOMETIMES" />
     <RowConstraints vgrow="SOMETIMES" />
-    <RowConstraints prefHeight="20.0" vgrow="SOMETIMES" />
     <RowConstraints vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="IP address:">
+      <Label text="IP address :">
          <padding>
             <Insets right="20.0" />
          </padding>
@@ -37,25 +44,27 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin></TextField>
-      <Label text="Binary:" GridPane.rowIndex="1">
+      <Label text="Binary :" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Label>
-      <Label text="Hex:" GridPane.rowIndex="3">
+      <Label text="Hex :" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Label>
-      <Label text="Integer:" GridPane.rowIndex="5">
+      <Label text="Integer :" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Label>
-      <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
+      <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
          <children>
             <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#close" text="Close" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="Close" />
          </children>
+         <GridPane.margin>
+            <Insets top="5.0" />
+         </GridPane.margin>
       </HBox>
-      <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="6" />
       <CheckBox fx:id="cbIPBinaryDotted" mnemonicParsing="false" onAction="#switchBinaryFormat" text="dotted" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <CheckBox fx:id="cbIPHexDotted" mnemonicParsing="false" onAction="#switchHexFormat" text="dotted" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    </children>

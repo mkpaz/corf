@@ -1,5 +1,9 @@
 @import "../fonts/fonts.css";
 
+.root{
+    -fx-font-family: "Open Sans Regular";
+}
+
 /******************* Fixes *******************/
 
 /* increase menu item paddings */
@@ -21,6 +25,11 @@
 /* remove border */
 .hyperlink {
     -fx-border-color: transparent;
+}
+
+/* by default context menu inherits text input font */
+.context-menu {
+    -fx-font-family: "Open Sans Regular";
 }
 
 /******************* Components *******************/
@@ -49,7 +58,7 @@
 /******************* Utils *******************/
 
 .monospaced {
-    -fx-font-family: 'Fira Mono', 'Courier New', monospaced;
+    -fx-font-family: 'Fira Mono';
 }
 
 .text-center {

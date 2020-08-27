@@ -54,7 +54,7 @@
                         <RowConstraints vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <Label text="Template:" GridPane.columnSpan="2" />
+                        <Label text="Template" GridPane.columnSpan="2" />
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                            <children>
                               <ComboBox fx:id="cmbTemplate" maxWidth="1.7976931348623157E308" onAction="#displaySelectedTemplateParams" HBox.hgrow="ALWAYS" />
@@ -76,7 +76,7 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <TitledPane animated="false" collapsible="false" text="Basic authentication:" GridPane.rowIndex="2">
+                        <TitledPane animated="false" collapsible="false" text="Basic authentication" GridPane.rowIndex="2">
                            <content>
                               <GridPane hgap="10.0" vgap="5.0">
                                 <columnConstraints>
@@ -84,18 +84,18 @@
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints vgrow="NEVER" />
+                                  <RowConstraints vgrow="NEVER" />
                                 </rowConstraints>
                                  <children>
                                     <TextField fx:id="tfUsername" GridPane.columnIndex="1" />
                                     <PasswordField fx:id="tfPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Username:">
+                                    <Label text="Username :">
                                        <padding>
                                           <Insets left="10.0" />
                                        </padding>
                                     </Label>
-                                    <Label text="Password:" textAlignment="RIGHT" GridPane.rowIndex="1">
+                                    <Label text="Password :" textAlignment="RIGHT" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets left="10.0" />
                                        </GridPane.margin>
@@ -109,7 +109,7 @@
                         </TitledPane>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" text="List for replacement:" HBox.hgrow="ALWAYS" />
+                              <Label maxWidth="1.7976931348623157E308" text="List for replacement" HBox.hgrow="ALWAYS" />
                               <Label fx:id="lbListLineCount" text="0">
                                  <padding>
                                     <Insets left="5.0" right="5.0" />
@@ -125,8 +125,8 @@
                         <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4" />
                         <TableView fx:id="tblParams" editable="true" GridPane.rowIndex="4">
                           <columns>
-                            <TableColumn fx:id="tcolParamName" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="NAME" />
-                            <TableColumn fx:id="tcolParamValue" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="VALUE" />
+                            <TableColumn fx:id="tcolParamName" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="Name" />
+                            <TableColumn fx:id="tcolParamValue" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="Value" />
                           </columns>
                           <columnResizePolicy>
                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -140,7 +140,7 @@
                               </ContextMenu>
                            </contextMenu>
                         </TableView>
-                        <Label text="Parameters:" GridPane.rowIndex="3">
+                        <Label text="Parameters" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets top="5.0" />
                            </GridPane.margin></Label>
@@ -170,12 +170,12 @@
                      <items>
                         <VBox minWidth="400.0" spacing="5.0">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" text="Completed requests:" />
+                              <Label maxWidth="1.7976931348623157E308" text="Completed requests" />
                               <TableView fx:id="tblLog" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="tcolLogIndex" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER;" text="#" />
-                                  <TableColumn fx:id="tcolLogStatus" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER;" text="STATUS" />
-                                    <TableColumn fx:id="tcolLogRequestLine" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="REQUEST LINE" />
+                                  <TableColumn fx:id="tcolLogStatus" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER;" text="Status" />
+                                    <TableColumn fx:id="tcolLogRequestLine" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="Request Line" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -192,16 +192,16 @@
                               </HBox>
                            </children>
                            <padding>
-                              <Insets right="10.0" />
+                              <Insets right="5.0" />
                            </padding>
                         </VBox>
                         <VBox minWidth="300.0" spacing="5.0">
                            <children>
-                              <Label text="Details:" />
+                              <Label text="Details" />
                               <TextArea fx:id="taRequestDetails" editable="false" styleClass="monospaced" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>
-                              <Insets left="10.0" right="5.0" />
+                              <Insets left="5.0" right="5.0" />
                            </padding>
                         </VBox>
                      </items>
@@ -244,6 +244,6 @@
       </HBox>
    </children>
    <padding>
-      <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
 </GridPane>

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="rootPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@index.css" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.main.PluginManagerController">
+<GridPane fx:id="rootPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@index.css" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.main.PluginManagerController">
   <columnConstraints>
     <ColumnConstraints hgrow="NEVER" />
     <ColumnConstraints hgrow="ALWAYS" />
@@ -36,7 +36,7 @@
             <Button mnemonicParsing="false" onAction="#close" text="Close" />
          </children>
       </HBox>
-      <Label text="Installed plugins:" />
+      <Label text="Installed plugins" />
       <TextArea fx:id="taPluginDetails" editable="false" prefWidth="250.0" styleClass="monospaced" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <HBox fx:id="panePluginControls" alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>

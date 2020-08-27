@@ -1,4 +1,9 @@
 @font-face {
+    font-family: "Open Sans Regular";
+    src: url('OpenSans-Regular.ttf');
+}
+
+@font-face {
     font-family: "Fira Mono";
     src: url('FiraMono.ttf');
 }
