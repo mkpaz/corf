@@ -41,8 +41,6 @@ public final class Settings {
     public static final Path DOCS_DIR = APP_DIR.resolve("docs");
     public static final Path HOME_DIR = Paths.get(System.getProperty("user.home"));
     public static final Path TEMP_DIR = Paths.get(System.getProperty("java.io.tmpdir"));
-    public static final boolean FORCE_WINDOW_RESIZE =
-            getPropertyOrEnv("telekit.window.resizable", "TELEKIT_WINDOW_RESIZABLE") != null;
     public static final Dimension FORCE_WINDOW_SIZE = getForcedWindowsSize();
     public static final String PROXY_URL =
             getPropertyOrEnv("telekit.proxy.url", "TELEKIT_PROXY_URL");
