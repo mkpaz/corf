@@ -1,6 +1,7 @@
 package org.telekit.ui.tools.api_client;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import fontawesomefx.fa.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -80,7 +81,9 @@ public class RootController extends Controller {
     public @FXML MenuItem deleteTemplate;
     public @FXML MenuItem exportTemplate;
     public @FXML TextField tfUsername;
-    public @FXML PasswordField tfPassword;
+    public @FXML PasswordField pfPassword;
+    public @FXML FontAwesomeIconView imgShowPassword;
+    public @FXML TextField tfPassword;
     public @FXML TableView<Param> tblParams;
     public @FXML TableColumn<Param, String> tcolParamName;
     public @FXML TableColumn<Param, String> tcolParamValue;
@@ -106,6 +109,7 @@ public class RootController extends Controller {
     private XmlMapper xmlMapper;
     private Executor executor;
     private ReadOnlyBooleanProperty ongoingProperty;
+    private boolean passwordVisible = false;
 
     @Inject
     public RootController(XmlMapper xmlMapper) {
@@ -118,6 +122,8 @@ public class RootController extends Controller {
         EventBus.getInstance().subscribe(ParamUpdateEvent.class, this::addParam);
 
         // init controls
+        pfPassword.textProperty().bindBidirectional(tfPassword.textProperty());
+
         cmbTemplate.setButtonCell(new TemplateListCell());
         cmbTemplate.setCellFactory(property -> new TemplateListCell());
         previewTemplate.disableProperty().bind(Bindings.isEmpty(cmbTemplate.getItems()));
@@ -444,10 +450,10 @@ public class RootController extends Controller {
         executor = new Executor(template, csv);
         executor.setTimeoutBetweenRequests(spnTimeout.getValue());
 
-        if (isNotBlank(tfUsername.getText()) && isNotBlank(tfPassword.getText())) {
+        if (isNotBlank(tfUsername.getText()) && isNotBlank(pfPassword.getText())) {
             executor.setAuthData(
                     Executor.AuthType.BASIC,
-                    new AuthPrincipal(trim(tfUsername.getText()), trim(tfPassword.getText()))
+                    new AuthPrincipal(trim(tfUsername.getText()), trim(pfPassword.getText()))
             );
         }
 
@@ -621,6 +627,20 @@ public class RootController extends Controller {
 
         // using replaceText() because setText() doesn't trigger creation of undo entry
         taCsv.replaceText(0, originalLength, sb.toString());
+    }
+
+    @FXML
+    public void togglePassword() {
+        if (!passwordVisible) {
+            tfPassword.toFront();
+            imgShowPassword.toFront();
+            imgShowPassword.setGlyphName("EYE_SLASH");
+        } else {
+            pfPassword.toFront();
+            imgShowPassword.toFront();
+            imgShowPassword.setGlyphName("EYE");
+        }
+        passwordVisible = !passwordVisible;
     }
 
     @Override

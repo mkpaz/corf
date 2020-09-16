@@ -2,6 +2,7 @@
 
 <?import fontawesomefx.fa.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -78,7 +79,7 @@
                         </HBox>
                         <TitledPane animated="false" collapsible="false" text="%tools.BasicAuthentication" GridPane.rowIndex="2">
                            <content>
-                              <GridPane hgap="10.0" vgap="5.0">
+                              <GridPane hgap="10.0" vgap="10.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -89,7 +90,24 @@
                                 </rowConstraints>
                                  <children>
                                     <TextField fx:id="tfUsername" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                                    <PasswordField fx:id="tfPassword" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                    <StackPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                       <children>
+                                          <TextField fx:id="tfPassword" styleClass="password-field">
+                                             <StackPane.margin>
+                                                <Insets />
+                                             </StackPane.margin>
+                                          </TextField>
+                                          <PasswordField fx:id="pfPassword" styleClass="password-field" />
+                                          <FontAwesomeIconView fx:id="imgShowPassword" glyphName="EYE" onMouseClicked="#togglePassword" StackPane.alignment="CENTER_RIGHT">
+                                             <StackPane.margin>
+                                                <Insets right="10.0" />
+                                             </StackPane.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </FontAwesomeIconView>
+                                       </children>
+                                    </StackPane>
                                     <Label text="%Username">
                                        <padding>
                                           <Insets left="10.0" />

@@ -37,3 +37,7 @@
     -fx-padding: 0 1 0 1;
     -fx-background-color: transparent
 }
+
+.password-field {
+    -fx-padding: 0.333333em 3em 0.333333em 0.583em;
+}
