@@ -23,6 +23,7 @@ import java.lang.reflect.Field;
 /**
  * @author Jens Deters
  */
+@SuppressWarnings("ALL")
 public class GlyphsFactory {
 
     /**

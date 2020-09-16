@@ -28,6 +28,7 @@ import java.util.List;
 /**
  * @author Diego Cirujano Cuesta (diego.cirujano-cuesta@zeiss.com)
  */
+@SuppressWarnings("ALL")
 public abstract class GlyphStackIcon<T extends Enum<T> & GlyphStackIcons<W>, V extends GlyphIcon, W extends Enum<W> & GlyphIcons> extends StackPane {
 
     public static final double DEFAULT_ICON_SIZE = 32.0d;

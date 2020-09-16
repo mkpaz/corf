@@ -21,6 +21,7 @@ import java.util.Collection;
 /**
  * @author Jens Deters
  */
+@SuppressWarnings("ALL")
 public class GlyphsStack extends StackPane {
 
     public static GlyphsStack create() {

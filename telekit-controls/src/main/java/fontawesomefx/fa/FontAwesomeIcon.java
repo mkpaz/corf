@@ -24,6 +24,7 @@ import fontawesomefx.GlyphIcons;
  *
  * @author Jens Deters
  */
+@SuppressWarnings("SpellCheckingInspection")
 public enum FontAwesomeIcon implements GlyphIcons {
 
     FA_500PX("\uf26E"),

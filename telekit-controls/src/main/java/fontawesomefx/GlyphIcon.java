@@ -36,6 +36,7 @@ import java.util.logging.Logger;
  * @param <T> The type of GlyphIcons enum.
  * @author Jens Deters
  */
+@SuppressWarnings("ALL")
 public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
 
     public final static Double DEFAULT_ICON_SIZE = 12.0;
@@ -50,8 +51,7 @@ public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
     public final Class<T> typeOfT;
 
     @FXML
-    public void init() {
-    }
+    public void init() {}
 
     public GlyphIcon(Class<T> iconType) {
         this.typeOfT = iconType;

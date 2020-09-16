@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 /**
  * @author Jens Deters (mail@jensd.de)
  */
+@SuppressWarnings("ALL")
 public class GlyphsBuilder {
 
     private GlyphIcon glyphIcon;

@@ -27,7 +27,7 @@ public enum GlyphsStyle {
 
     private final String stylePath;
 
-    private GlyphsStyle(String stylePath) {
+    GlyphsStyle(String stylePath) {
         this.stylePath = stylePath;
     }
 
