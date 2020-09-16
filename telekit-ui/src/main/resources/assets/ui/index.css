@@ -55,6 +55,10 @@
     -fx-padding: 0;
 }
 
+.lbl-mandatory {
+    -fx-text-fill: red;
+}
+
 /******************* Utils *******************/
 
 .monospaced {
@@ -63,4 +67,12 @@
 
 .text-center {
     -fx-alignment: CENTER;
+}
+
+.text-sm {
+    -fx-font-size: 0.9em;
+}
+
+.text-xs {
+    -fx-font-size: 0.8em;
 }

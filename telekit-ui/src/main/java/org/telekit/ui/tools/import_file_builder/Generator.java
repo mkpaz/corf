@@ -16,6 +16,8 @@ import static org.telekit.base.util.CollectionUtils.nullToEmpty;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.base.util.PasswordGenerator.random;
+import static org.telekit.ui.service.Messages.Keys.MSG_GENERIC_IO_ERROR;
+import static org.telekit.ui.service.Messages.getMessage;
 import static org.telekit.ui.tools.import_file_builder.Param.*;
 
 public class Generator implements Runnable {
@@ -71,7 +73,7 @@ public class Generator implements Runnable {
                 out.write(lineSeparator);
             }
         } catch (Exception e) {
-            throw new TelekitException("Unable to save file", e);
+            throw new TelekitException(getMessage(MSG_GENERIC_IO_ERROR), e);
         }
     }
 

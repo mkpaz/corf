@@ -310,6 +310,7 @@
                                         <!-- add "jdk.crypto.cryptoki" module, otherwise jlink includes
                                              only a minimal set of cipher suites in JRT image -->
                                         <module>jdk.crypto.cryptoki</module>
+                                        <module>jdk.localedata</module>
                                     </modules>
                                     <launcher>
                                         <name>telekit</name>

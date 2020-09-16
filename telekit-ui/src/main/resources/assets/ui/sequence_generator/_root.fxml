@@ -34,9 +34,9 @@
     <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <Label text="Pattern" />
+      <Label text="%Pattern" />
       <TextField fx:id="tfPattern" alignment="CENTER" text="\%(A)" GridPane.rowIndex="1" />
-      <Label text="Parameters" GridPane.rowIndex="2">
+      <Label text="%Parameters" GridPane.rowIndex="2">
          <padding>
             <Insets top="10.0" />
          </padding></Label>
@@ -45,7 +45,7 @@
             <CheckBox fx:id="cbA" mnemonicParsing="false" prefWidth="60.0" text="\%(A)" />
             <Spinner fx:id="startA" editable="true" prefWidth="200.0" />
             <Spinner fx:id="stepA" prefWidth="80.0" />
-            <Spinner fx:id="countA" editable="true" prefWidth="80.0" />
+            <Spinner fx:id="countA" editable="true" prefWidth="100.0" />
          </children>
       </HBox>
       <HBox fx:id="boxB" alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="5">
@@ -53,7 +53,7 @@
             <CheckBox fx:id="cbB" mnemonicParsing="false" prefWidth="60.0" text="\%(B)" />
             <Spinner fx:id="startB" editable="true" prefWidth="200.0" />
             <Spinner fx:id="stepB" prefWidth="80.0" />
-            <Spinner fx:id="countB" editable="true" prefWidth="80.0" />
+            <Spinner fx:id="countB" editable="true" prefWidth="100.0" />
          </children>
       </HBox>
       <HBox fx:id="boxC" alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="6">
@@ -61,7 +61,7 @@
             <CheckBox fx:id="cbC" mnemonicParsing="false" prefWidth="60.0" text="\%(C)" />
             <Spinner fx:id="startC" editable="true" prefWidth="200.0" />
             <Spinner fx:id="stepC" prefWidth="80.0" />
-            <Spinner fx:id="countC" editable="true" prefWidth="80.0" />
+            <Spinner fx:id="countC" editable="true" prefWidth="100.0" />
          </children>
       </HBox>
       <HBox fx:id="boxD" alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="7">
@@ -69,14 +69,14 @@
             <CheckBox fx:id="cbD" mnemonicParsing="false" prefWidth="60.0" text="\%(D)" />
             <Spinner fx:id="startD" editable="true" prefWidth="200.0" />
             <Spinner fx:id="stepD" prefWidth="80.0" />
-            <Spinner fx:id="countD" editable="true" prefWidth="80.0" />
+            <Spinner fx:id="countD" editable="true" prefWidth="100.0" />
          </children>
       </HBox>
       <HBox spacing="5.0" GridPane.columnIndex="1">
          <children>
-            <Label maxWidth="1.7976931348623157E308" text="Result" HBox.hgrow="ALWAYS" />
+            <Label maxWidth="1.7976931348623157E308" text="%Result" HBox.hgrow="ALWAYS" />
             <Label fx:id="lbLinesCount" text="0" />
-            <Label text="lines">
+            <Label text="%tools.lines">
                <HBox.margin>
                   <Insets right="5.0" />
                </HBox.margin>
@@ -86,25 +86,28 @@
       <TextArea fx:id="taResult" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="9" />
       <HBox GridPane.columnIndex="1" GridPane.rowIndex="10">
          <children>
-            <Label opacity="0.75" text="only first 1000 rows will be shown, use save button to get complete result" />
+            <Label fx:id="lbRowLimit" opacity="0.75" styleClass="text-sm" text="%tools.only-first-N-rows-will-be-shown" />
             <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnSaveToFile" mnemonicParsing="false" onAction="#saveToFile" text="Save to file" />
+            <Button fx:id="btnSaveToFile" mnemonicParsing="false" onAction="#saveToFile" text="%Save" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="3">
          <children>
             <Label prefWidth="60.0" HBox.hgrow="ALWAYS" />
-            <Label prefWidth="200.0" text="Start" />
-            <Label prefWidth="80.0" text="Step" />
-            <Label prefWidth="80.0" text="Count" />
+            <Label prefWidth="200.0" text="%tools.sequence-generator.Count" />
+            <Label prefWidth="80.0" text="%Step" />
+            <Label prefWidth="80.0" text="%Count" />
          </children>
+         <GridPane.margin>
+            <Insets top="5.0" />
+         </GridPane.margin>
       </HBox>
       <HBox alignment="CENTER_LEFT" fillHeight="false" prefWidth="451.0" GridPane.rowIndex="8">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="Generate">
+            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="%Generate">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>

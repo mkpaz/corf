@@ -28,13 +28,14 @@ import static org.telekit.base.domain.TelekitException.fire;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.base.util.FileUtils.*;
 import static org.telekit.base.util.StringUtils.trimEquals;
+import static org.telekit.ui.service.Messages.Keys.*;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class PluginManager {
 
     private static final Logger LOGGER = Logger.getLogger(ExceptionHandler.class.getName());
     private static final Comparator<PluginContainer> ALPHABETICAL_COMPARATOR =
             Comparator.comparing(container -> container.getPlugin().getMetadata().getName());
-    private static final String INSTALL_FAILED = "Installation failed: ";
 
     // plugins are loaded by different class loaders, but using
     // canonical class name as a key guarantees that the same plugin can't be loaded twice
@@ -68,7 +69,7 @@ public class PluginManager {
         Path tempDir = null;
         try {
             if (!ZipUtils.isExtractable(zipFile)) {
-                throw new TelekitException("The file is not a ZIP archive: " + zipFile.toString());
+                throw new TelekitException(getMessage(PLUGMAN_MSG_FILE_IS_NOT_ZIP_ARCHIVE));
             }
 
             tempDir = Files.createTempDirectory("telekit_plugin_");
@@ -76,7 +77,7 @@ public class PluginManager {
             ZipUtils.unzip(zipFile, tempDir);
             installFromDirectory(tempDir);
         } catch (IOException e) {
-            throw new TelekitException("Unable to extract file: " + zipFile.toString(), e);
+            throw new TelekitException(getMessage(MGG_UNABLE_TO_EXTRACT_FILE), e);
         } finally {
             try {
                 // Windows won't allow to delete loaded JAR file
@@ -94,8 +95,9 @@ public class PluginManager {
                 .iterator()
                 .forEachRemaining(plugins::add);
 
-        if (plugins.size() == 0) fire(INSTALL_FAILED + "provided path doesn't contain any plugins");
-        if (plugins.size() > 1) fire(INSTALL_FAILED + "only one plugin per archive/directory allowed");
+        String installFailed = getMessage(PLUGMAN_MSG_INSTALL_FAILED) + ": ";
+        if (plugins.size() == 0) fire(installFailed + getMessage(PLUGMAN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS));
+        if (plugins.size() > 1) fire(installFailed + getMessage(PLUGMAN_MSG_ONLY_ONE_PLUGIN_PER_DIR_ALLOWED));
 
         Plugin candidate = plugins.get(0);
         validate(candidate);
@@ -113,27 +115,25 @@ public class PluginManager {
 
     private void validate(Plugin plugin) {
         final Metadata metadata = plugin.getMetadata();
+        String installFailed = getMessage(PLUGMAN_MSG_INSTALL_FAILED) + ": ";
 
         // check metadata
-        if (metadata == null) fire(INSTALL_FAILED + "missing plugin metadata");
-        if (isBlank(metadata.getName())) fire(INSTALL_FAILED + "invalid plugin name");
-        if (isBlank(metadata.getVersion())) fire(INSTALL_FAILED + "invalid plugin version");
+        if (metadata == null) fire(installFailed + getMessage(PLUGMAN_MSG_MISSING_PLUGIN_METADATA));
+        if (isBlank(metadata.getName())) fire(installFailed + getMessage(PLUGMAN_MSG_INVALID_PLUGIN_NAME));
+        if (isBlank(metadata.getVersion())) fire(installFailed + getMessage(PLUGMAN_MSG_INVALID_PLUGIN_VERSION));
 
         // check minimal required version
         if (!isPluginMatchVersion(System.getProperty("application.version"), metadata.getRequiredVersion())) {
-            String reason = "plugin required version (%s) is greater than application version (%s)";
-            fire(INSTALL_FAILED +
-                    String.format(reason, metadata.getRequiredVersion(), System.getProperty("application.version"))
-            );
+            fire(installFailed + getMessage(PLUGMAN_MSG_REQUIRE_HIGHER_VERSION, metadata.getRequiredVersion()));
         }
 
         // check for duplicates
-        if (find(plugin.getClass()) != null) fire(INSTALL_FAILED + "plugin already installed");
+        if (find(plugin.getClass()) != null) fire(installFailed + getMessage(PLUGMAN_MSG_PLUGIN_ALREADY_INSTALLED));
         boolean nameAlreadyUsed = loadedPlugins.values().stream()
                 .map(PluginContainer::getPlugin)
                 .map(Plugin::getMetadata)
                 .anyMatch(elem -> trimEquals(elem.getName(), trim(metadata.getName())));
-        if (nameAlreadyUsed) fire(INSTALL_FAILED + "plugin with same name already installed");
+        if (nameAlreadyUsed) fire(installFailed + getMessage(PLUGMAN_MSG_PLUGIN_SAME_NAME_ALREADY_INSTALLED));
     }
 
     private boolean isPluginMatchVersion(String appVersion, String pluginVersion) {

@@ -30,52 +30,52 @@
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
-            <Menu mnemonicParsing="false" text="File">
+            <Menu mnemonicParsing="false" text="%File">
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#showPluginManager" text="Plugin Namager" />
-                  <Menu mnemonicParsing="false" text="Configuration">
+                  <MenuItem mnemonicParsing="false" onAction="#showPluginManager" text="%main.PluginManager" />
+                  <Menu mnemonicParsing="false" text="%main.Configuration">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#openDataDir" text="Data Directory" />
-                        <MenuItem mnemonicParsing="false" onAction="#openPluginsDir" text="Plugins Directory" />
+                      <MenuItem mnemonicParsing="false" onAction="#openDataDir" text="%main.OpenDataDirectory" />
+                        <MenuItem mnemonicParsing="false" onAction="#openPluginsDir" text="%main.OpenPluginsDirectory" />
                     </items>
                   </Menu>
-                  <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="Restart" />
-                <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit">
+                  <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="%Restart" />
+                <MenuItem mnemonicParsing="false" onAction="#quit" text="%Quit">
                      <graphic>
                         <FontAwesomeIconView glyphName="SIGN_OUT" />
                      </graphic></MenuItem>
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Tools">
+          <Menu mnemonicParsing="false" text="%Tools">
             <items>
-               <MenuItem fx:id="apiClient" mnemonicParsing="false" onAction="#openTool" text="API Client" />
-               <MenuItem fx:id="base64Encoder" mnemonicParsing="false" onAction="#openTool" text="Base64 Encoder" />
-               <MenuItem fx:id="importFileBuilder" mnemonicParsing="false" onAction="#openTool" text="Import File Builder" />
-               <MenuItem fx:id="ipCalculator" mnemonicParsing="false" onAction="#openTool" text="IP Calculator" />
-               <MenuItem fx:id="passwordGenerator" mnemonicParsing="false" onAction="#openTool" text="Password Generator" />
-               <MenuItem fx:id="sequenceGenerator" mnemonicParsing="false" onAction="#openTool" text="Sequence Generator" />
+               <MenuItem fx:id="apiClient" mnemonicParsing="false" onAction="#openTool" text="%tools.APIClient" />
+               <MenuItem fx:id="base64Encoder" mnemonicParsing="false" onAction="#openTool" text="%tools.Base64Encoder" />
+               <MenuItem fx:id="importFileBuilder" mnemonicParsing="false" onAction="#openTool" text="%tools.ImportFileBuilder" />
+               <MenuItem fx:id="ipCalculator" mnemonicParsing="false" onAction="#openTool" text="%tools.IPCalculator" />
+               <MenuItem fx:id="passwordGenerator" mnemonicParsing="false" onAction="#openTool" text="%tools.PasswordGenerator" />
+               <MenuItem fx:id="sequenceGenerator" mnemonicParsing="false" onAction="#openTool" text="%tools.SequenceGenerator" />
                   <Menu mnemonicParsing="false" text="SS7">
                     <items>
-                      <MenuItem fx:id="ss7CICTable" mnemonicParsing="false" onAction="#openTool" text="CIC Table" />
-                      <MenuItem fx:id="ss7SPCConverter" mnemonicParsing="false" onAction="#openTool" text="SPC Converter" />
+                      <MenuItem fx:id="ss7CICTable" mnemonicParsing="false" onAction="#openTool" text="%tools.CICTable" />
+                      <MenuItem fx:id="ss7SPCConverter" mnemonicParsing="false" onAction="#openTool" text="%tools.SPCConverter" />
                     </items>
                   </Menu>
-               <MenuItem fx:id="transliterator" mnemonicParsing="false" onAction="#openTool" text="Transliterator" />
+               <MenuItem fx:id="transliterator" mnemonicParsing="false" onAction="#openTool" text="%tools.Transliterator" />
             </items>
           </Menu>
-            <Menu fx:id="menuPlugins" mnemonicParsing="false" text="Plugins" />
-            <Menu mnemonicParsing="false" text="Window">
+            <Menu fx:id="menuPlugins" mnemonicParsing="false" text="%Plugins" />
+            <Menu mnemonicParsing="false" text="%Window">
               <items>
-                  <CheckMenuItem fx:id="cmAlwaysOnTop" mnemonicParsing="false" onAction="#showOnTop" text="Set always on top" />
+                  <CheckMenuItem fx:id="cmAlwaysOnTop" mnemonicParsing="false" onAction="#showOnTop" text="%main.SetAlwaysOnTop" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="%Help">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#showHelp" text="Help Contents">
+                  <MenuItem mnemonicParsing="false" onAction="#showHelp" text="%Documentation">
                      <graphic>
                         <FontAwesomeIconView glyphName="BOOK" />
                      </graphic></MenuItem>
-              <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="%main.About" />
             </items>
           </Menu>
         </menus>

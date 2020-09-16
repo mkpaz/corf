@@ -19,10 +19,7 @@ import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.PluginContainer;
 import org.telekit.ui.main.MainController;
 import org.telekit.ui.main.Views;
-import org.telekit.ui.service.ExceptionHandler;
-import org.telekit.ui.service.MainDependencyModule;
-import org.telekit.ui.service.PluginCleaner;
-import org.telekit.ui.service.PluginManager;
+import org.telekit.ui.service.*;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.awt.*;
@@ -34,12 +31,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.*;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.telekit.base.Settings.*;
+import static org.telekit.base.util.CommonUtils.getPropertyOrEnv;
 
 public class Launcher extends Application implements LauncherDefaults {
 
@@ -72,7 +71,9 @@ public class Launcher extends Application implements LauncherDefaults {
         // init & run application
         initialize();
 
-        MainController controller = (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation());
+        MainController controller = (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation(),
+                                                                   Messages.getInstance().getBundle()
+        );
         controller.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle(Settings.APP_NAME);
@@ -187,9 +188,20 @@ public class Launcher extends Application implements LauncherDefaults {
         try {
             logger.info("OS=" + System.getProperty("os.name"));
             logger.info("OS arch=" + System.getProperty("os.arch"));
-            Screen.getScreens().forEach(screen ->
-                    logger.info("Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi())
-            );
+            logger.info("Info=" + getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE"));
+            logger.info("Locale=" + LOCALE);
+            Screen.getScreens()
+                    .forEach(screen -> logger.info(
+                            "Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi()
+                    ));
+
+            // iterate through each locale and print
+            // locale code, display name and country
+            Locale[] locales = SimpleDateFormat.getAvailableLocales();
+            logger.info("Supported locales:");
+            for (Locale locale : locales) {
+                logger.info(locale.toString() + " / " + locale.getDisplayName());
+            }
 
             logger.info("Supported SSL/TLS ciphers:");
             SSLServerSocketFactory sslSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
@@ -197,8 +209,10 @@ public class Launcher extends Application implements LauncherDefaults {
             for (String cipherSuite : ciphers) {
                 logger.info(cipherSuite);
             }
-        } catch (Throwable ignored) {
+        } catch (
+                Throwable ignored) {
         }
+
     }
 
     private void setSystemProperties() {

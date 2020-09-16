@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.telekit.ui.service.Messages.Keys.MGG_UNABLE_TO_PARSE_CONFIG;
+import static org.telekit.ui.service.Messages.Keys.MGG_UNABLE_TO_SAVE_CONFIG;
+import static org.telekit.ui.service.Messages.getMessage;
+
 public class TemplateRepository extends XMLBeanRepository<Template> {
 
     private static final String DATA_FILE_NAME = "api-client.templates.xml";
@@ -39,7 +43,7 @@ public class TemplateRepository extends XMLBeanRepository<Template> {
                 result.addAll(data.getTemplates());
             }
         } catch (Exception e) {
-            throw new TelekitException("Unable to parse config file", e);
+            throw new TelekitException(getMessage(MGG_UNABLE_TO_PARSE_CONFIG), e);
         }
 
         return result;
@@ -52,7 +56,7 @@ public class TemplateRepository extends XMLBeanRepository<Template> {
             Collections.sort(templates);
             mapper.writeValue(DATA_FILE_PATH.toFile(), new Templates(templates));
         } catch (Exception e) {
-            throw new TelekitException("Unable to save config file", e);
+            throw new TelekitException(getMessage(MGG_UNABLE_TO_SAVE_CONFIG), e);
         }
     }
 

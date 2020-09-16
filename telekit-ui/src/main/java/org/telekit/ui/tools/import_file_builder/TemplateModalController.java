@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.telekit.base.EventBus;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.FXBindings;
+import org.telekit.ui.service.Messages;
 import org.telekit.ui.tools.Action;
 
 import java.util.Set;
@@ -50,9 +51,11 @@ public class TemplateModalController extends Controller {
         this.template = sourceTemplate == null ? new Template() : new Template(sourceTemplate);
         this.usedTemplateNames = usedTemplateNames;
 
-        String title = action.toString().substring(0, 1) + action.toString().substring(1).toLowerCase();
-        ((Stage) rootPane.getScene().getWindow()).setTitle(title);
+        String titleKey = "";
+        if (action == Action.NEW || action == Action.DUPLICATE) titleKey = Messages.Keys.TOOLS_NEW_TEMPLATE;
+        if (action == Action.EDIT) titleKey = Messages.Keys.TOOLS_EDIT_TEMPLATE;
 
+        ((Stage) rootPane.getScene().getWindow()).setTitle(Messages.getInstance().getBundle().getString(titleKey));
         tfName.setText(template.getName());
         taHeader.setText(template.getHeader());
         taFooter.setText(template.getFooter());

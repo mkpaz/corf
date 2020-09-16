@@ -32,7 +32,7 @@
       <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
          <children>
             <TextField fx:id="tfSpc" alignment="CENTER" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="300.0" />
-            <Label text="specified as" />
+            <Label text="%tools.ss7.specified-as" />
             <ComboBox fx:id="cmbFormat" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefWidth="150.0" />
          </children>
          <GridPane.margin>
@@ -43,15 +43,16 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin></TextArea>
-      <Label text="Result" GridPane.rowIndex="4">
+      <Label text="%Result" GridPane.rowIndex="4">
          <GridPane.margin>
-            <Insets top="5.0" />
+            <Insets top="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Point code" />
+      <Label text="%tools.ss7.PointCode" />
       <HBox spacing="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
          <children>
-            <Label text="Length :" />
+            <Label text="%Length" />
+            <Label text=":" />
             <RadioButton fx:id="rb14bit" mnemonicParsing="false" selected="true" text="14 bit">
                <toggleGroup>
                   <ToggleGroup fx:id="toggleType" />
@@ -68,7 +69,7 @@
             <Insets top="5.0" />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnConvert" mnemonicParsing="false" onAction="#convert" styleClass="btn-main" text="Update">
+            <Button fx:id="btnConvert" mnemonicParsing="false" onAction="#convert" styleClass="btn-main" text="%Update">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>

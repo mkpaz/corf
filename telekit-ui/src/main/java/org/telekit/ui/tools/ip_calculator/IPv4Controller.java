@@ -22,6 +22,7 @@ import org.telekit.base.util.TextBuilder;
 import org.telekit.base.util.net.IP4Address;
 import org.telekit.base.util.net.IP4Subnet;
 import org.telekit.ui.main.Views;
+import org.telekit.ui.service.Messages;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,6 +40,8 @@ import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.Settings.ICON_APP;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.base.util.net.IP4Subnet.NETMASKS;
+import static org.telekit.ui.service.Messages.Keys.*;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class IPv4Controller extends Controller {
 
@@ -116,7 +119,7 @@ public class IPv4Controller extends Controller {
             address = getEnteredAddress();
             subnet = getEnteredSubnet();
         } catch (Exception e) {
-            taDetails.setText("Invalid IP address.");
+            taDetails.setText(getMessage(TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS));
             return;
         }
 
@@ -174,10 +177,10 @@ public class IPv4Controller extends Controller {
     private IPv4ConverterController getOrCreateConverterDialog() {
         if (this.formatsConverterController != null) return this.formatsConverterController;
 
-        Controller controller = UILoader.load(Views.IP_V4_CONVERTER.getLocation());
+        Controller controller = UILoader.load(Views.IP_V4_CONVERTER.getLocation(), Messages.getInstance().getBundle());
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
-                .title("IP Format Converter")
+                .title(getMessage(TOOLS_IPCALC_TASK_REPORT))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build();
@@ -191,7 +194,7 @@ public class IPv4Controller extends Controller {
     public void saveToFile() {
         List<Subnet> subnets = tblSplit.getItems();
         File outputFile = Dialogs.file()
-                .addFilter("Text files (*.txt)", "*.txt")
+                .addFilter(getMessage(FILE_DIALOG_TEXT), "*.txt")
                 .initialFilename(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
@@ -207,7 +210,7 @@ public class IPv4Controller extends Controller {
                 out.write("\n");
             }
         } catch (Exception e) {
-            throw new TelekitException("Unable to save file", e);
+            throw new TelekitException(getMessage(MSG_UNABLE_TO_SAVE_FILE), e);
         }
     }
 

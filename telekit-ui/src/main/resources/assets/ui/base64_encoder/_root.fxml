@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
@@ -23,7 +24,7 @@
     <RowConstraints vgrow="ALWAYS" />
   </rowConstraints>
    <children>
-      <Label text="Text" />
+      <Label text="%Text" />
       <Label text="Base64" GridPane.columnIndex="2" />
       <TextArea fx:id="taText" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.rowIndex="1" />
       <TextArea fx:id="taBase64" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -39,13 +40,18 @@
                </graphic></Button>
             <VBox spacing="10.0">
                <children>
-                  <Label text="Mode :" />
-                  <RadioButton fx:id="rbModeByLine" mnemonicParsing="false" selected="true" text="line-by-line">
+                  <HBox>
+                     <children>
+                        <Label text="%Mode" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <RadioButton fx:id="rbModeByLine" mnemonicParsing="false" selected="true" text="%tools.base64-encoder.line-by-line">
                      <toggleGroup>
                         <ToggleGroup fx:id="toggleMode" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="rbModeAsText" mnemonicParsing="false" text="as text" toggleGroup="$toggleMode" />
+                  <RadioButton fx:id="rbModeAsText" mnemonicParsing="false" text="%tools.base64-encoder.as-text" toggleGroup="$toggleMode" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

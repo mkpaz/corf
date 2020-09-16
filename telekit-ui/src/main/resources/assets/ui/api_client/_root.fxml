@@ -38,7 +38,7 @@
    <children>
       <TabPane fx:id="tpaneRight" nodeOrientation="LEFT_TO_RIGHT" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab closable="false" text="Settings">
+            <Tab closable="false" text="%Settings">
                <content>
                   <GridPane hgap="10.0" vgap="5.0">
                     <columnConstraints>
@@ -54,21 +54,21 @@
                         <RowConstraints vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <Label text="Template" GridPane.columnSpan="2" />
+                        <Label text="%tools.Template" GridPane.columnSpan="2" />
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                            <children>
                               <ComboBox fx:id="cmbTemplate" maxWidth="1.7976931348623157E308" onAction="#displaySelectedTemplateParams" HBox.hgrow="ALWAYS" />
                               <MenuButton mnemonicParsing="false" styleClass="btn-flat-dropdown">
                                 <items>
-                                  <MenuItem fx:id="previewTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Preview" />
+                                  <MenuItem fx:id="previewTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Preview" />
                                   <SeparatorMenuItem mnemonicParsing="false" />
-                                  <MenuItem fx:id="newTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="New" />
-                                  <MenuItem fx:id="editTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Edit" />
-                                  <MenuItem fx:id="duplicateTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Duplicate" />
-                                  <MenuItem fx:id="deleteTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Delete" />
+                                  <MenuItem fx:id="newTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%New" />
+                                  <MenuItem fx:id="editTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Edit" />
+                                  <MenuItem fx:id="duplicateTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Duplicate" />
+                                  <MenuItem fx:id="deleteTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Delete" />
                                   <SeparatorMenuItem mnemonicParsing="false" />
-                                  <MenuItem fx:id="importTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Import" />
-                                  <MenuItem fx:id="exportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="Export" />
+                                  <MenuItem fx:id="importTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Import" />
+                                  <MenuItem fx:id="exportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Export" />
                                 </items>
                                  <graphic>
                                     <FontAwesomeIconView glyphName="BARS" />
@@ -76,7 +76,7 @@
                               </MenuButton>
                            </children>
                         </HBox>
-                        <TitledPane animated="false" collapsible="false" text="Basic authentication" GridPane.rowIndex="2">
+                        <TitledPane animated="false" collapsible="false" text="%tools.BasicAuthentication" GridPane.rowIndex="2">
                            <content>
                               <GridPane hgap="10.0" vgap="5.0">
                                 <columnConstraints>
@@ -90,12 +90,12 @@
                                  <children>
                                     <TextField fx:id="tfUsername" GridPane.columnIndex="1" />
                                     <PasswordField fx:id="tfPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Username :">
+                                    <Label text="%Username">
                                        <padding>
                                           <Insets left="10.0" />
                                        </padding>
                                     </Label>
-                                    <Label text="Password :" textAlignment="RIGHT" GridPane.rowIndex="1">
+                                    <Label text="%Password" textAlignment="RIGHT" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets left="10.0" />
                                        </GridPane.margin>
@@ -109,13 +109,13 @@
                         </TitledPane>
                         <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" text="List for replacement" HBox.hgrow="ALWAYS" />
+                              <Label maxWidth="1.7976931348623157E308" text="%tools.ListForReplacement" HBox.hgrow="ALWAYS" />
                               <Label fx:id="lbListLineCount" text="0">
                                  <padding>
                                     <Insets left="5.0" right="5.0" />
                                  </padding>
                               </Label>
-                              <Label alignment="CENTER_RIGHT" text="lines" HBox.hgrow="NEVER">
+                              <Label alignment="CENTER_RIGHT" text="%tools.lines" HBox.hgrow="NEVER">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
@@ -125,8 +125,8 @@
                         <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4" />
                         <TableView fx:id="tblParams" editable="true" GridPane.rowIndex="4">
                           <columns>
-                            <TableColumn fx:id="tcolParamName" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="Name" />
-                            <TableColumn fx:id="tcolParamValue" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="Value" />
+                            <TableColumn fx:id="tcolParamName" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="%Name" />
+                            <TableColumn fx:id="tcolParamValue" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="%Value" />
                           </columns>
                           <columnResizePolicy>
                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -134,22 +134,22 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem fx:id="miAddParam" mnemonicParsing="false" onAction="#showParamDialog" text="Add" />
-                                  <MenuItem fx:id="miRemoveParam" mnemonicParsing="false" onAction="#removeParam" text="Remove" />
+                                  <MenuItem fx:id="miAddParam" mnemonicParsing="false" onAction="#showParamDialog" text="%Add" />
+                                  <MenuItem fx:id="miRemoveParam" mnemonicParsing="false" onAction="#removeParam" text="%Remove" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
                         </TableView>
-                        <Label text="Parameters" GridPane.rowIndex="3">
+                        <Label text="%Parameters" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets top="5.0" />
                            </GridPane.margin></Label>
                         <HBox alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <children>
-                              <MenuButton mnemonicParsing="false" text="Clipboard">
+                              <MenuButton mnemonicParsing="false" text="%tools.Clipboard">
                                 <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="Paste from MS Excel" />
-                                    <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="Paste columns on the right" />
+                                  <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
+                                    <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="%tools.PasteColumnsRight" />
                                 </items>
                               </MenuButton>
                            </children>
@@ -164,18 +164,18 @@
                   <FontAwesomeIconView fill="#2196f3" glyphName="CUBE" />
                </graphic>
             </Tab>
-            <Tab closable="false" text="Log">
+            <Tab closable="false" text="%Log">
                <content>
                   <SplitPane dividerPositions="0.7">
                      <items>
                         <VBox minWidth="400.0" spacing="5.0">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" text="Completed requests" />
+                              <Label maxWidth="1.7976931348623157E308" text="%tools.api-client.CompletedRequests" />
                               <TableView fx:id="tblLog" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="tcolLogIndex" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER;" text="#" />
-                                  <TableColumn fx:id="tcolLogStatus" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER;" text="Status" />
-                                    <TableColumn fx:id="tcolLogRequestLine" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="Request Line" />
+                                  <TableColumn fx:id="tcolLogStatus" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER;" text="%Status" />
+                                    <TableColumn fx:id="tcolLogRequestLine" editable="false" minWidth="-1.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="%tools.api-client.RequestLine" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -183,8 +183,8 @@
                               </TableView>
                               <HBox alignment="CENTER_LEFT">
                                  <children>
-                                    <CheckBox fx:id="cbLogDisplayErrorsOnly" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="show unsuccessful requests only" HBox.hgrow="ALWAYS" />
-                                    <Button fx:id="btnExportLog" mnemonicParsing="false" onAction="#exportLogFile" text="Export" />
+                                    <CheckBox fx:id="cbLogDisplayErrorsOnly" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%tools.api-client.show-unsuccessful-requests-only" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="btnExportLog" mnemonicParsing="false" onAction="#exportLogFile" text="%Export" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" />
@@ -197,7 +197,7 @@
                         </VBox>
                         <VBox minWidth="300.0" spacing="5.0">
                            <children>
-                              <Label text="Details" />
+                              <Label text="%Details" />
                               <TextArea fx:id="taRequestDetails" editable="false" styleClass="monospaced" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>
@@ -218,7 +218,7 @@
             <Insets />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="btn-main" text="Start">
+            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="btn-main" text="%Start">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
@@ -226,7 +226,7 @@
                      </children>
                   </StackPane>
                </graphic></Button>
-            <Button fx:id="btnStop" mnemonicParsing="false" onAction="#stopHTTPClient" styleClass="btn-main" text="Stop">
+            <Button fx:id="btnStop" mnemonicParsing="false" onAction="#stopHTTPClient" styleClass="btn-main" text="%Stop">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
@@ -239,7 +239,7 @@
                   <Insets />
                </HBox.margin>
             </Spinner>
-            <Label text="timeout between requests (ms)" />
+            <Label text="%tools.api-client.timeout-between-requests" />
          </children>
       </HBox>
    </children>

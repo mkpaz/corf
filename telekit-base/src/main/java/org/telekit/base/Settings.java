@@ -1,6 +1,7 @@
 package org.telekit.base;
 
 import javafx.scene.image.Image;
+import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,9 +12,11 @@ import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.LauncherDefaults.PREF_HEIGHT;
 import static org.telekit.base.LauncherDefaults.PREF_WIDTH;
 import static org.telekit.base.util.CommonUtils.defaultPath;
@@ -27,6 +30,7 @@ public final class Settings {
     // icon cache
     public static final Map<String, Image> ICON_CACHE = new HashMap<>();
     public static final String ICON_APP = "ICON_APP";
+    public static final int TEXTAREA_ROW_LIMIT = 1000;
 
     // application paths
     public static final Path APP_DIR = Paths.get(
@@ -48,6 +52,7 @@ public final class Settings {
             getPropertyOrEnv("telekit.proxy.username", "TELEKIT_PROXY_USERNAME");
     public static final String PROXY_PASSWORD =
             getPropertyOrEnv("telekit.proxy.password", "TELEKIT_PROXY_PASSWORD");
+    public static final Locale LOCALE = getLocale();
 
     public static Path getPluginDataDir(Class<? extends Plugin> clazz) {
         return DATA_DIR.resolve(clazz.getPackageName());
@@ -59,6 +64,17 @@ public final class Settings {
 
     public static void putIcon(String iconID, Image icon) {
         ICON_CACHE.put(iconID, icon);
+    }
+
+    private static Locale getLocale() {
+        String localeStr = getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE");
+        if (isNotBlank(localeStr)) {
+            Locale locale = new Locale.Builder().setLanguageTag(localeStr).build();
+            if (LocaleUtils.isAvailableLocale(locale)) {
+                return locale;
+            }
+        }
+        return Locale.getDefault();
     }
 
     @Nullable

@@ -27,23 +27,23 @@
       <ListView fx:id="listPlugins" prefWidth="350.0" GridPane.rowIndex="1" />
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" onAction="#installPlugin" text="Install" />
-            <Button fx:id="btnUninstall" mnemonicParsing="false" onAction="#uninstallPlugin" text="Uninstall" />
+            <Button mnemonicParsing="false" onAction="#installPlugin" text="%Install" />
+            <Button fx:id="btnUninstall" mnemonicParsing="false" onAction="#uninstallPlugin" text="%Uninstall" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <children>
-            <Button mnemonicParsing="false" onAction="#close" text="Close" />
+            <Button mnemonicParsing="false" onAction="#close" text="%Close" />
          </children>
       </HBox>
-      <Label text="Installed plugins" />
+      <Label text="%plugin-manager.InstalledPlugins" />
       <TextArea fx:id="taPluginDetails" editable="false" prefWidth="250.0" styleClass="monospaced" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <HBox fx:id="panePluginControls" alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="btnPluginEnable" mnemonicParsing="false" onAction="#enablePlugin" text="Enable" />
-            <Button fx:id="btnPluginDisable" mnemonicParsing="false" onAction="#disablePlugin" text="Disable" />
+            <Button fx:id="btnPluginEnable" mnemonicParsing="false" onAction="#enablePlugin" text="%Enable" />
+            <Button fx:id="btnPluginDisable" mnemonicParsing="false" onAction="#disablePlugin" text="%Disable" />
             <Label maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
-            <Hyperlink fx:id="lnkPluginDocs" onAction="#openDocs" text="Plugin Docs" visited="true">
+            <Hyperlink fx:id="lnkPluginDocs" onAction="#openDocs" text="%Documentation" visited="true">
                <HBox.margin>
                   <Insets />
                </HBox.margin></Hyperlink>

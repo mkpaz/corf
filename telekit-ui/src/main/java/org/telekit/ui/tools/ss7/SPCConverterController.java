@@ -8,6 +8,8 @@ import org.telekit.base.util.TextBuilder;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.util.telecom.SS7Utils.*;
+import static org.telekit.ui.service.Messages.Keys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class SPCConverterController extends Controller {
 
@@ -56,7 +58,7 @@ public class SPCConverterController extends Controller {
         if (spc > 0) {
             updateResult(spc, length);
         } else {
-            taResult.setText("Invalid point code.");
+            taResult.setText(getMessage(TOOLS_SS7_MSG_INVALID_POINT_CODE));
         }
     }
 

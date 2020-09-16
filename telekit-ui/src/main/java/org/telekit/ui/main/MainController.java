@@ -25,6 +25,7 @@ import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.PluginContainer;
 import org.telekit.ui.domain.PluginContainer.Status;
+import org.telekit.ui.service.Messages;
 import org.telekit.ui.service.PluginManager;
 
 import javax.inject.Inject;
@@ -36,6 +37,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Settings.ICON_APP;
 import static org.telekit.base.util.CommonUtils.canonicalName;
+import static org.telekit.ui.service.Messages.Keys.*;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class MainController extends Controller {
 
@@ -149,45 +152,45 @@ public class MainController extends Controller {
         switch (source.getId()) {
             case "apiClient":
                 resource = Views.API_CLIENT;
-                tabName = "API Client";
+                tabName = getMessage(TOOLS_APICLIENT);
                 break;
             case "base64Encoder":
                 resource = Views.BASE64_ENCODER;
-                tabName = "Base64 Encoder";
+                tabName = getMessage(TOOLS_BASE64);
                 break;
             case "importFileBuilder":
                 resource = Views.IMPORT_FILE_BUILDER;
-                tabName = "Import File Builder";
+                tabName = getMessage(TOOLS_FILEBUILD);
                 break;
             case "ipCalculator":
                 resource = Views.IP_V4_CALCULATOR;
-                tabName = "IP Calculator";
+                tabName = getMessage(TOOLS_IPCALC);
                 break;
             case "passwordGenerator":
                 resource = Views.PASSWORD_GENERATOR;
-                tabName = "Password Generator";
+                tabName = getMessage(TOOLS_PASSGEN);
                 break;
             case "sequenceGenerator":
                 resource = Views.SEQUENCE_GENERATOR;
-                tabName = "Sequence Generator";
+                tabName = getMessage(TOOLS_SEQGEN);
                 break;
             case "ss7CICTable":
                 resource = Views.SS7_CIC_TABLE;
-                tabName = "SS7 / CIC Table";
+                tabName = getMessage(TOOLS_CICTABLE);
                 break;
             case "ss7SPCConverter":
                 resource = Views.SS7_SPC_CONVERTER;
-                tabName = "SS7 / SPC Converter";
+                tabName = getMessage(TOOLS_SPCCONV);
                 break;
             case "transliterator":
                 resource = Views.TRANSLITERATOR;
-                tabName = "Transliterator";
+                tabName = getMessage(TOOLS_TRANSLIT);
                 break;
             default:
                 return;
         }
 
-        Controller controller = UILoader.load(resource.getLocation());
+        Controller controller = UILoader.load(resource.getLocation(), Messages.getInstance().getBundle());
         addTab(tabName, controller.getParent(), canonicalName(controller));
     }
 
@@ -282,10 +285,10 @@ public class MainController extends Controller {
 
     @FXML
     public void showAboutDialog() {
-        Controller controller = UILoader.load(Views.ABOUT.getLocation());
+        Controller controller = UILoader.load(Views.ABOUT.getLocation(), Messages.getInstance().getBundle());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
-                .title("About")
+                .title(getMessage(MAIN_ABOUT))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
@@ -294,10 +297,10 @@ public class MainController extends Controller {
 
     @FXML
     public void showPluginManager() {
-        Controller controller = UILoader.load(Views.PLUGIN_MANAGER.getLocation());
+        Controller controller = UILoader.load(Views.PLUGIN_MANAGER.getLocation(), Messages.getInstance().getBundle());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
-                .title("Plugin Manager")
+                .title(getMessage(MAIN_PLUGIN_MANAGER))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
@@ -342,11 +345,11 @@ public class MainController extends Controller {
     private void onApplicationEvent(ApplicationEvent event) {
         switch (event.getType()) {
             case RESTART_REQUIRED:
-                primaryStage.setTitle(Settings.APP_NAME + " (pending restart)");
+                primaryStage.setTitle(Settings.APP_NAME + " (" + getMessage(MAIN_RESTART_REQUIRED) + ")");
                 break;
             case PLUGINS_STATE_CHANGED:
                 List<PluginContainer> plugins = pluginManager.getPlugins(status ->
-                        EnumSet.of(Status.DISABLED, Status.UNINSTALLED).contains(status)
+                                                                                 EnumSet.of(Status.DISABLED, Status.UNINSTALLED).contains(status)
                 );
                 plugins.forEach(container -> closeTabs(canonicalName(container.getPlugin())));
                 reloadPluginsMenu();

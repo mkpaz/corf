@@ -13,7 +13,7 @@
 
 <GridPane fx:id="rootPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../index.css" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ip_calculator.IPv4ConverterController">
   <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" prefWidth="80.0" />
+    <ColumnConstraints hgrow="NEVER" minWidth="80.0" />
     <ColumnConstraints hgrow="NEVER" prefWidth="400.0" />
   </columnConstraints>
   <rowConstraints>
@@ -26,7 +26,7 @@
     <RowConstraints vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="IP address :">
+      <Label text="%tools.IPAddress">
          <padding>
             <Insets right="20.0" />
          </padding>
@@ -44,29 +44,29 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin></TextField>
-      <Label text="Binary :" GridPane.rowIndex="1">
+      <Label text="Binary" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Label>
-      <Label text="Hex :" GridPane.rowIndex="3">
+      <Label text="Hex" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Label>
-      <Label text="Integer :" GridPane.rowIndex="5">
+      <Label text="Integer" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Label>
       <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
          <children>
             <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="Close" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="%Close" />
          </children>
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin>
       </HBox>
-      <CheckBox fx:id="cbIPBinaryDotted" mnemonicParsing="false" onAction="#switchBinaryFormat" text="dotted" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <CheckBox fx:id="cbIPHexDotted" mnemonicParsing="false" onAction="#switchHexFormat" text="dotted" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <CheckBox fx:id="cbIPBinaryDotted" mnemonicParsing="false" onAction="#switchBinaryFormat" text="%tools.ip-calc.dotted" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <CheckBox fx:id="cbIPHexDotted" mnemonicParsing="false" onAction="#switchHexFormat" text="%tools.ip-calc.dotted" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

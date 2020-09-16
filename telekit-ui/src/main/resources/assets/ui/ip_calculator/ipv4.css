@@ -1,4 +1,12 @@
+.table-view .column-header .label {
+    -fx-alignment:CENTER_LEFT
+}
+
 .ip {
     -fx-alignment: CENTER-LEFT;
     -fx-padding: 0 0 0 20;
+}
+
+.table-column-center.column-header  .label {
+  -fx-alignment: CENTER;
 }

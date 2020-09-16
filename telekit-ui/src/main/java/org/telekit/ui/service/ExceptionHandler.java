@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 import static org.telekit.base.util.CollectionUtils.getLast;
+import static org.telekit.ui.service.Messages.Keys.MAIN_MSG_ERROR_OCCURRED;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class ExceptionHandler {
 
@@ -46,7 +48,7 @@ public class ExceptionHandler {
             Throwable cause = findExactCauseOrRootIfNotPresent(throwable, TelekitException.class);
 
             exceptionDialog.setHeaderText(ensureGrammar(
-                    defaultIfBlank(cause.getMessage(), "An error occurred. See stack trace for details.")
+                    defaultIfBlank(cause.getMessage(), getMessage(MAIN_MSG_ERROR_OCCURRED))
             ));
 
             exceptionDialog.setStackTrace(

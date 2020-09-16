@@ -39,6 +39,8 @@ import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PLUGINS_STATE_CHANGED;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
+import static org.telekit.ui.service.Messages.Keys.*;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class PluginManagerController extends Controller {
 
@@ -84,7 +86,7 @@ public class PluginManagerController extends Controller {
         btnUninstall.disableProperty().bind(Bindings.or(
                 Bindings.isEmpty(listPlugins.getItems()),
                 hasStatus(listPlugins.getSelectionModel().selectedItemProperty(),
-                        EnumSet.of(Status.INACTIVE, Status.UNINSTALLED)
+                          EnumSet.of(Status.INACTIVE, Status.UNINSTALLED)
                 )
         ));
 
@@ -166,7 +168,7 @@ public class PluginManagerController extends Controller {
     @FXML
     public void installPlugin() {
         File zipFile = Dialogs.file()
-                .addFilter("ZIP files (*.zip)", "*.zip")
+                .addFilter(getMessage(FILE_DIALOG_ZIP), "*.zip")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
 
@@ -176,8 +178,8 @@ public class PluginManagerController extends Controller {
 
         updatePluginsList(0);
         Dialogs.info()
-                .title("Info")
-                .content("Plugin installed successfully. Application restart required.")
+                .title(getMessage(INFO))
+                .content(getMessage(PLUGMAN_MSG_INSTALL_SUCCESS))
                 .build()
                 .showAndWait();
         EventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
@@ -193,8 +195,8 @@ public class PluginManagerController extends Controller {
 
         if (container.hasResources()) {
             Alert dialog = Dialogs.confirm()
-                    .title("Confirmation")
-                    .content("Do you want to delete plugin configuration data as well?")
+                    .title(getMessage(CONFIRMATION))
+                    .content(getMessage(PLUGMAN_MSG_UNINSTALL_CONFIRM))
                     .setButtonTypes(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
                     .build();
             Optional<ButtonType> confirmation = dialog.showAndWait();
@@ -210,8 +212,8 @@ public class PluginManagerController extends Controller {
 
         updatePluginsList(0);
         Dialogs.info()
-                .title("Info")
-                .content("Plugin uninstalled successfully. Application restart required.")
+                .title(getMessage(INFO))
+                .content(getMessage(PLUGMAN_MSG_UNINSTALL_SUCCESS))
                 .build()
                 .showAndWait();
 

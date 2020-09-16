@@ -11,13 +11,14 @@ import javafx.stage.Stage;
 import org.telekit.base.EventBus;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.FXBindings;
+import org.telekit.ui.service.Messages;
+import org.telekit.ui.service.Messages.Keys;
 import org.telekit.ui.tools.Action;
 import org.telekit.ui.tools.api_client.Template.HTTPMethod;
 
 import java.util.Set;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.trim;
+import static org.apache.commons.lang3.StringUtils.*;
 
 public class TemplateModalController extends Controller {
 
@@ -81,9 +82,11 @@ public class TemplateModalController extends Controller {
         this.template = sourceTemplate == null ? new Template() : new Template(sourceTemplate);
         this.usedTemplateNames = usedTemplateNames;
 
-        String title = action.toString().substring(0, 1) + action.toString().substring(1).toLowerCase();
-        ((Stage) rootPane.getScene().getWindow()).setTitle(title);
+        String titleKey = "";
+        if (action == Action.NEW || action == Action.DUPLICATE) titleKey = Keys.TOOLS_NEW_TEMPLATE;
+        if (action == Action.EDIT) titleKey = Keys.TOOLS_EDIT_TEMPLATE;
 
+        ((Stage) rootPane.getScene().getWindow()).setTitle(Messages.getInstance().getBundle().getString(titleKey));
         tfName.setText(template.getName());
         tfURI.setText(template.getUri());
         cmbMethod.getSelectionModel().select(template.getMethod());

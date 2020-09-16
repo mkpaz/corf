@@ -12,7 +12,6 @@ import org.telekit.base.fx.Controller;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.telecom.SS7Utils;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,6 +22,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.telekit.base.util.CollectionUtils.*;
 import static org.telekit.base.util.telecom.SS7Utils.*;
+import static org.telekit.ui.service.Messages.Keys.MSG_GENERIC_IO_ERROR;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class CICTableController extends Controller {
 
@@ -131,8 +132,8 @@ public class CICTableController extends Controller {
         String html = document(html(
                 head(style(CSS)),
                 body(div(attrs(".wrapper"),
-                        h3("CIC Table: "),
-                        rawHtml(tableBuilder.toString())
+                         h3("CIC Table: "),
+                         rawHtml(tableBuilder.toString())
                 ))
         ));
 
@@ -141,7 +142,7 @@ public class CICTableController extends Controller {
             Files.writeString(outputFile.toPath(), html);
             DesktopUtils.browse(outputFile.toURI());
         } catch (IOException e) {
-            throw new TelekitException("Unable to write to file", e);
+            throw new TelekitException(getMessage(MSG_GENERIC_IO_ERROR), e);
         }
     }
 

@@ -37,7 +37,9 @@ import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 import org.telekit.ui.main.Views;
+import org.telekit.ui.service.Messages;
 import org.telekit.ui.tools.Action;
+import org.telekit.ui.tools.api_client.Executor;
 import org.telekit.ui.tools.import_file_builder.ParamModalController.ParamUpdateEvent;
 import org.telekit.ui.tools.import_file_builder.TemplateModalController.TemplateUpdateEvent;
 
@@ -56,6 +58,8 @@ import java.util.concurrent.CompletableFuture;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Settings.ICON_APP;
+import static org.telekit.ui.service.Messages.Keys.*;
+import static org.telekit.ui.service.Messages.getMessage;
 import static org.telekit.ui.tools.Action.NEW;
 
 public class RootController extends Controller {
@@ -225,7 +229,9 @@ public class RootController extends Controller {
     private TemplateModalController getOrCreateTemplateDialog() {
         if (this.templateModalController != null) return this.templateModalController;
 
-        Controller controller = UILoader.load(Views.IMPORT_FILE_BUILDER_TEMPLATE.getLocation());
+        Controller controller = UILoader.load(Views.IMPORT_FILE_BUILDER_TEMPLATE.getLocation(),
+                                              Messages.getInstance().getBundle()
+        );
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
                 .icon(Settings.getIcon(ICON_APP))
@@ -239,8 +245,8 @@ public class RootController extends Controller {
 
     private void doDeleteTemplate(Template template) {
         Alert dialog = Dialogs.confirm()
-                .title("Confirmation")
-                .content("Delete template \"" + template.getName() + "\"")
+                .title(getMessage(CONFIRMATION))
+                .content(getMessage(TOOLS_MSG_DELETE_TEMPLATE, template.getName()))
                 .build();
         Optional<ButtonType> confirmation = dialog.showAndWait();
         if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
@@ -258,12 +264,12 @@ public class RootController extends Controller {
                 Files.writeString(outputFile.toPath(), html);
                 DesktopUtils.browse(outputFile.toURI());
             } catch (IOException e) {
-                throw new TelekitException("Unable to write preview file", e);
+                throw new TelekitException(getMessage(MSG_GENERIC_IO_ERROR), e);
             }
         } else {
             Dialogs.info()
-                    .title("Info")
-                    .content("You have no templates to preview.")
+                    .title(getMessage(INFO))
+                    .content(getMessage(TOOLS_MSG_YOU_HAVE_NO_TEMPLATES_TO_PREVIEW))
                     .build()
                     .showAndWait();
         }
@@ -271,7 +277,7 @@ public class RootController extends Controller {
 
     private void doImportTemplate() {
         File inputFile = Dialogs.file()
-                .addFilter("XML files (*.xml)", "*.xml")
+                .addFilter(getMessage(FILE_DIALOG_XML), "*.xml")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
 
@@ -280,14 +286,14 @@ public class RootController extends Controller {
                 templateRepository.loadFromXML(Files.readString(inputFile.toPath()));
                 reloadTemplates(null);
             } catch (IOException e) {
-                throw new TelekitException("Unable to load import file", e);
+                throw new TelekitException(getMessage(MSG_UNABLE_TO_IMPORT_DATA), e);
             }
         }
     }
 
     private void doExportTemplate(Template template) {
         File outputFile = Dialogs.file()
-                .addFilter("XML files (*.xml)", "*.xml")
+                .addFilter(getMessage(FILE_DIALOG_XML), "*.xml")
                 .initialFilename(FileUtils.sanitizeFileName(template.getName()) + ".xml")
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
@@ -298,7 +304,7 @@ public class RootController extends Controller {
                         try {
                             Files.writeString(outputFile.toPath(), xml);
                         } catch (Exception e) {
-                            throw new TelekitException("Unable to export template file", e);
+                            throw new TelekitException(getMessage(MGG_UNABLE_TO_EXPORT_DATA), e);
                         }
                     });
         }
@@ -337,10 +343,12 @@ public class RootController extends Controller {
     private ParamModalController getOrCreateParamDialog() {
         if (this.paramModalController != null) return this.paramModalController;
 
-        Controller controller = UILoader.load(Views.IMPORT_FILE_BUILDER_PARAM.getLocation());
+        Controller controller = UILoader.load(Views.IMPORT_FILE_BUILDER_PARAM.getLocation(),
+                                              Messages.getInstance().getBundle()
+        );
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
-                .title("Add param")
+                .title(getMessage(TOOLS_ADD_PARAM))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build();
@@ -374,7 +382,7 @@ public class RootController extends Controller {
     @FXML
     public void selectDestFile() {
         File destFile = Dialogs.file()
-                .addFilter("Text files (*.txt)", "*.txt")
+                .addFilter(getMessage(FILE_DIALOG_TEXT), "*.txt")
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
 
@@ -446,8 +454,8 @@ public class RootController extends Controller {
                 DesktopUtils.openQuietly(outputFile);
             } else {
                 Platform.runLater(() -> Dialogs.info()
-                        .title("Info")
-                        .content("Generated successfully.")
+                        .title(getMessage(INFO))
+                        .content(getMessage(MSG_TASK_COMPLETED))
                         .build()
                         .showAndWait());
             }
@@ -456,7 +464,7 @@ public class RootController extends Controller {
 
     private void requireCharsetSupport(String charsetName) {
         boolean supported = Charset.availableCharsets().containsKey(charsetName);
-        if (!supported) throw new TelekitException("Unsupported charset: " + charsetName);
+        if (!supported) throw new TelekitException(getMessage(MGG_UNSUPPORTED_CHARSET, charsetName));
     }
 
     private boolean validateInputData(Template template, String[][] csv) {
@@ -465,26 +473,25 @@ public class RootController extends Controller {
 
         // some warning need to be shown
         Alert dialog = Dialogs.confirm()
-                .title("Warning")
+                .title(getMessage(WARNING))
                 .content("")
                 .build();
         StringBuilder message = new StringBuilder();
-        message.append("You see this warning because one of the following has happened:\n");
+        message.append(getMessage(TOOLS_MSG_VALIDATION_HEAD_0) + ":\n");
 
         if (warnings.contains(Generator.Warning.BLANK_LINES))
-            message.append("- you haven't specified all parameters values in the table;\n");
+            message.append("- " + getMessage(TOOLS_MSG_VALIDATION_BLANK_LINES) + ";\n");
         if (warnings.contains(Generator.Warning.MIXED_CSV_SIZE))
-            message.append("- some line(s) in replacements list has more values than others;\n");
+            message.append("- " + getMessage(TOOLS_MSG_VALIDATION_MIXED_CSV) + ";\n");
         if (warnings.contains(Generator.Warning.UNRESOLVED_PLACEHOLDERS))
-            message.append("- some placeholders in the template wasn't replaced;\n");
+            message.append("- " + getMessage(TOOLS_MSG_VALIDATION_UNRESOLVED_PLACEHOLDERS) + ";\n");
         if (warnings.contains(Generator.Warning.CSV_THRESHOLD_EXCEEDED))
-            message.append("- replacements list exceeds limit " + Generator.MAX_CSV_SIZE + " rows;\n");
+            message.append("- " + getMessage(TOOLS_MSG_VALIDATION_CSV_THRESHOLD_EXCEEDED, Generator.MAX_CSV_SIZE) + ";\n");
 
         message.append("\n");
-        message.append("You may ignore this message, if you know what you're doing.\n");
+        message.append(getMessage(TOOLS_MSG_VALIDATION_TAIL_0) + ".\n");
         message.append("\n");
-        message.append("Click OK to continue or Cancel to interrupt file generation.\n");
-        message.append("\n");
+        message.append(getMessage(TOOLS_MSG_VALIDATION_TAIL_1) + ".\n");
 
         Label label = new Label(message.toString());
         label.setWrapText(true);

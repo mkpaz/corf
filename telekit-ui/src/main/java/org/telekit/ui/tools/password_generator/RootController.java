@@ -15,6 +15,7 @@ import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PasswordGenerator;
 import org.telekit.ui.Launcher;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
+import org.telekit.ui.service.Messages;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +23,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.telekit.base.Settings.TEXTAREA_ROW_LIMIT;
+import static org.telekit.ui.service.Messages.Keys.MSG_UNABLE_TO_SAVE_FILE;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class RootController extends Controller {
 
@@ -57,6 +62,7 @@ public class RootController extends Controller {
     public @FXML TitledPane paneXKCD;
     public @FXML Label lbXKCDExample;
     public @FXML Spinner<Integer> spnXKCDWords;
+    public @FXML Label lbRowLimit;
 
     // all collections are immutable
     private List<String> xkcdDict = null;
@@ -65,6 +71,8 @@ public class RootController extends Controller {
 
     @FXML
     public void initialize() {
+        lbRowLimit.setText(getMessage(Messages.Keys.TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT));
+
         paneRandom.expandedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) onPaneExpanded(TYPE_RANDOM);
         });
@@ -139,7 +147,7 @@ public class RootController extends Controller {
     @FXML
     public void saveToFile() {
         File outputFile = Dialogs.file()
-                .addFilter("Text files (*.txt)", "*.txt")
+                .addFilter(getMessage(Messages.Keys.FILE_DIALOG_TEXT), "*.txt")
                 .initialFilename(FileUtils.sanitizeFileName("passwords.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
@@ -152,7 +160,7 @@ public class RootController extends Controller {
 
             out.write(generatedPasswordsCache);
         } catch (Exception e) {
-            throw new TelekitException("Unable to save file", e);
+            throw new TelekitException(getMessage(MSG_UNABLE_TO_SAVE_FILE), e);
         }
     }
 

@@ -25,14 +25,14 @@
    <children>
       <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
-            <Label maxWidth="1.7976931348623157E308" text="Text" HBox.hgrow="NEVER" />
-            <ComboBox fx:id="cmbLang" prefWidth="60.0">
+            <Label maxWidth="1.7976931348623157E308" text="%Text" HBox.hgrow="NEVER" />
+            <ComboBox fx:id="cmbLang">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </ComboBox>
             <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnTransliterate" mnemonicParsing="false" onAction="#transliterate" styleClass="btn-main" text="Transliterate">
+            <Button fx:id="btnTransliterate" mnemonicParsing="false" onAction="#transliterate" styleClass="btn-main" text="%tools.transliterator.Transliterate">
                <graphic>
                   <StackPane>
                      <children>
@@ -42,7 +42,12 @@
                </graphic></Button>
          </children>
       </HBox>
-      <Label text="Transliterated text {EN}" GridPane.columnIndex="1" />
+      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+         <children>
+            <Label text="%tools.transliterator.TransliteratedText" />
+            <Label text="{EN}" />
+         </children>
+      </HBox>
       <TextArea fx:id="taText" wrapText="true" GridPane.rowIndex="1" />
       <TextArea fx:id="taTransliteratedText" editable="false" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
    </children>
