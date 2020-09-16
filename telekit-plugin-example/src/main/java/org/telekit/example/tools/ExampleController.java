@@ -17,7 +17,7 @@ import static org.telekit.example.ExamplePlugin.SAMPLE_PROPERTIES;
 
 public class ExampleController extends Controller {
 
-    private FooService fooService;
+    private final FooService fooService;
 
     @Inject
     public ExampleController(FooService fooService) {
