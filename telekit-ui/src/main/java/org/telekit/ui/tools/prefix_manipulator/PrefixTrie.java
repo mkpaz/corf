@@ -87,9 +87,6 @@ public class PrefixTrie {
         return builder.length() != 0 ? builder.toString() : null;
     }
 
-    public void shrink() {
-    }
-
     private static class Node {
 
         private Node[] children;

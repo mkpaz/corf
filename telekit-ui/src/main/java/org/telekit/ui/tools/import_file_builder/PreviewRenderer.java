@@ -20,17 +20,17 @@ import static org.telekit.base.util.CollectionUtils.nullToEmpty;
 public final class PreviewRenderer {
 
     public static String render(Template template) {
-        Tag templateHTML;
+        Tag<?> templateHTML;
         if (isNotBlank(template.getDelimiter())) {
             List<Row> theadRows = splitHeaderToTable(template.getHeader(), template.getDelimiter());
             List<Row> tbodyRows = splitTextToTable(template.getPattern(), template.getDelimiter());
             tbodyRows.addAll(splitTextToTable(template.getFooter(), template.getDelimiter()));
 
-            Tag head = thead(
+            Tag<?> head = thead(
                     each(theadRows, row -> tr(
                             each(row.cells, cell -> th(cell.content).attr("colspan", cell.colspan))
                     )));
-            Tag body = tbody(
+            Tag<?> body = tbody(
                     each(tbodyRows, row -> tr(
                             each(row.cells, cell -> th(cell.content))
                     )));
@@ -45,7 +45,7 @@ public final class PreviewRenderer {
                     );
         }
 
-        Tag paramsHTML =
+        Tag<?> paramsHTML =
                 table(attrs("#params"),
                       thead(
                               th("NAME"),

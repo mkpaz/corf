@@ -39,7 +39,6 @@ import org.telekit.ui.domain.ExceptionCaughtEvent;
 import org.telekit.ui.main.Views;
 import org.telekit.ui.service.Messages;
 import org.telekit.ui.tools.Action;
-import org.telekit.ui.tools.api_client.Executor;
 import org.telekit.ui.tools.import_file_builder.ParamModalController.ParamUpdateEvent;
 import org.telekit.ui.tools.import_file_builder.TemplateModalController.TemplateUpdateEvent;
 

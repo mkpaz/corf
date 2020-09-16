@@ -117,11 +117,7 @@ public class PluginManagerController extends Controller {
         Plugin plugin = container.getPlugin();
         Metadata metadata = plugin.getMetadata();
 
-        if (plugin.providesDocs()) {
-            lnkPluginDocs.setVisible(true);
-        } else {
-            lnkPluginDocs.setVisible(false);
-        }
+        lnkPluginDocs.setVisible(plugin.providesDocs());
 
         final int padding = 10;
 
@@ -290,11 +286,7 @@ public class PluginManagerController extends Controller {
 
                 CheckBox cb = (CheckBox) getGraphic();
                 cb.setDisable(true);
-                if (container.getStatus() == Status.ENABLED) {
-                    cb.setSelected(true);
-                } else {
-                    cb.setSelected(false);
-                }
+                cb.setSelected(container.getStatus() == Status.ENABLED);
             }
         }
     }

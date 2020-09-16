@@ -11,7 +11,7 @@ import static org.telekit.base.util.CollectionUtils.nullToEmpty;
 public final class PreviewRenderer {
 
     public static String render(Template template) {
-        Tag templateHTML =
+        Tag<?> templateHTML =
                 div(attrs("#template"),
                         p(
                                 span(template.getMethod() + ":"),
@@ -28,7 +28,7 @@ public final class PreviewRenderer {
                         iff(isNotBlank(template.getBody()), pre(attrs(".body"), template.getBody()))
                 );
 
-        Tag paramsHTML =
+        Tag<?> paramsHTML =
                 table(attrs("#params"),
                         thead(
                                 th("NAME"),

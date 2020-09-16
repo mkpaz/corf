@@ -56,7 +56,9 @@ public class ExamplePlugin implements Plugin {
     }
 
     @Override
-    public void onLoad() {}
+    public void onLoad() {
+        // not yet implemented
+    }
 
     @Override
     public void openDocs() {
