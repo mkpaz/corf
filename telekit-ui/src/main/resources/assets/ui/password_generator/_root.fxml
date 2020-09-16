@@ -21,7 +21,7 @@
 
 <GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.password_generator.RootController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="300.0" />
     <ColumnConstraints hgrow="ALWAYS" />
   </columnConstraints>
   <rowConstraints>
@@ -47,7 +47,7 @@
                         <CheckBox fx:id="cbRandomUppercase" mnemonicParsing="false" selected="true" text="ABCD" />
                         <CheckBox fx:id="cbRandomDigits" mnemonicParsing="false" selected="true" text="123456" />
                         <CheckBox fx:id="cbRandomSpecialChars" mnemonicParsing="false" text="\$#@*_" />
-                        <CheckBox fx:id="cbRandomExcludeSimilar" mnemonicParsing="false" text="%tools.password-generator.exclude-similar-chars" />
+                        <CheckBox fx:id="cbRandomExcludeSimilar" mnemonicParsing="false" text="%tools.password-generator.exclude-similar-chars" wrapText="true" />
                         <FlowPane hgap="10.0">
                            <children>
                               <Label text="%Example">

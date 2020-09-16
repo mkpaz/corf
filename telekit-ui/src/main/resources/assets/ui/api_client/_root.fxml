@@ -42,7 +42,7 @@
                <content>
                   <GridPane hgap="10.0" vgap="5.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="NEVER" maxWidth="300.0" minWidth="300.0" />
+                      <ColumnConstraints hgrow="NEVER" maxWidth="400.0" minWidth="400.0" />
                       <ColumnConstraints hgrow="ALWAYS" />
                     </columnConstraints>
                     <rowConstraints>
@@ -88,8 +88,8 @@
                                   <RowConstraints vgrow="NEVER" />
                                 </rowConstraints>
                                  <children>
-                                    <TextField fx:id="tfUsername" GridPane.columnIndex="1" />
-                                    <PasswordField fx:id="tfPassword" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tfUsername" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                                    <PasswordField fx:id="tfPassword" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                     <Label text="%Username">
                                        <padding>
                                           <Insets left="10.0" />
