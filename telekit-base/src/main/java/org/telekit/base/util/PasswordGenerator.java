@@ -29,12 +29,11 @@ public class PasswordGenerator {
     );
 
     public static final List<Character> CONSONANTS = List.of(
-            'k', 's', 't', 'n', 'h', 'm', 'y', 'r', 'w', 'f', 'g', 'z', 'd', 'b', 'p',
             'K', 'S', 'T', 'N', 'H', 'M', 'Y', 'R', 'W', 'F', 'G', 'Z', 'D', 'B', 'P'
     );
 
     public static final List<Character> VOWELS = List.of(
-            'a', 'i', 'u', 'e', 'o', 'A', 'U', 'E', 'O'
+            'a', 'i', 'u', 'e', 'o'
     );
     // @formatter:on
 
