@@ -70,13 +70,6 @@ public class PasswordGenerator {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < wordsCount; i++) {
             String word = dict.get(RANDOM.nextInt(dict.size()));
-
-            if (NumberUtils.isOdd(RANDOM.nextInt())) {
-                word = capitalizeFirstLetter(word);
-            } else {
-                word = capitalizeLastLetter(word);
-            }
-
             result.append(word);
 
             if (i + 1 < wordsCount) {
