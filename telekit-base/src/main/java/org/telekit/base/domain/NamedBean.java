@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Comparator;
 import java.util.Objects;
 
+@SuppressWarnings("rawtypes")
 public abstract class NamedBean<T extends NamedBean<T>> implements Comparable<T> {
 
     public static final Comparator<NamedBean> COMPARATOR = Comparator.comparing(NamedBean::getName);

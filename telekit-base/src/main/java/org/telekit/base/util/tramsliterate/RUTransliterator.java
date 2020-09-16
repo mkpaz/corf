@@ -191,18 +191,18 @@ public class RUTransliterator implements Transliterator {
     }
 
     private static boolean isConsonant(Character letter) {
-        return letter != null && CONSONANTS.indexOf(letter) >= 0;
+        return letter != null && CONSONANTS.contains(letter);
     }
 
     private static boolean isVowel(Character letter) {
-        return letter != null && VOWELS.indexOf(letter) >= 0;
+        return letter != null && VOWELS.contains(letter);
     }
 
     private static boolean isIotatedVowel(Character letter) {
-        return letter != null && IOTATED_VOWELS.indexOf(letter) >= 0;
+        return letter != null && IOTATED_VOWELS.contains(letter);
     }
 
     private static boolean isNonIotatedVowel(Character letter) {
-        return letter != null && NON_IOTATED_VOWELS.indexOf(letter) >= 0;
+        return letter != null && NON_IOTATED_VOWELS.contains(letter);
     }
 }

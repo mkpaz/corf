@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * You can use the default event bus instance {@link #getInstance}, which is a singleton or you can create one or multiple
  * instances of {@link EventBus}.
  */
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings({"unused", "unchecked", "rawtypes"})
 public class EventBus {
 
     private EventBus() {}

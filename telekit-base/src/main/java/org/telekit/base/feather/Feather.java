@@ -27,7 +27,7 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class Feather {
 
     private final Map<Key, Provider<?>> providers = new ConcurrentHashMap<>();

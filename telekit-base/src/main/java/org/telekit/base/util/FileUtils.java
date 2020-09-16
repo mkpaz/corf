@@ -35,7 +35,7 @@ public final class FileUtils {
     }
 
     public static String sanitizeFileName(String filename) {
-        return filename.replaceAll("[\\\\/:*?\"\'<>|]", "_");
+        return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
     }
 
     public static Properties loadProperties(File file, Charset charset) {
