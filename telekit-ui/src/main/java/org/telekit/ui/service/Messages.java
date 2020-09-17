@@ -37,6 +37,7 @@ public final class Messages {
 
         public static final String CONFIRMATION = "Confirmation";
         public static final String INFO = "Info";
+        public static final String PREFERENCES = "Preferences";
         public static final String STATUS = "Status";
         public static final String WARNING = "Warning";
 

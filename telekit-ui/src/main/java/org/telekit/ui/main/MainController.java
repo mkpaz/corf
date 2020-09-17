@@ -296,6 +296,18 @@ public class MainController extends Controller {
     }
 
     @FXML
+    public void showPreferences() {
+        Controller controller = UILoader.load(Views.PREFERENCES.getLocation(), Messages.getInstance().getBundle());
+        Dialogs.modal(controller.getParent())
+                .owner(primaryStage)
+                .title(getMessage(PREFERENCES))
+                .icon(Settings.getIcon(ICON_APP))
+                .resizable(false)
+                .build()
+                .showAndWait();
+    }
+
+    @FXML
     public void showPluginManager() {
         Controller controller = UILoader.load(Views.PLUGIN_MANAGER.getLocation(), Messages.getInstance().getBundle());
         Dialogs.modal(controller.getParent())

@@ -32,6 +32,7 @@
         <menus>
             <Menu mnemonicParsing="false" text="%File">
               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showPreferences" text="%Preferences" />
                   <MenuItem mnemonicParsing="false" onAction="#showPluginManager" text="%main.PluginManager" />
                   <Menu mnemonicParsing="false" text="%main.Configuration">
                     <items>

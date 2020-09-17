@@ -22,6 +22,7 @@ public enum Views {
     SS7_SPC_CONVERTER("ss7/spc_converter.fxml"),
     TRANSLITERATOR("transliterator/_root.fxml"),
     ABOUT("about.fxml"),
+    PREFERENCES("preferences.fxml"),
     PLUGIN_MANAGER("plugin-manager.fxml"),
     MAIN_WINDOW("main-window.fxml");
 

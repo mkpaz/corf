@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<GridPane fx:id="rootPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" stylesheets="@index.css" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.main.PreferencesController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="NEVER" />
+    <ColumnConstraints hgrow="ALWAYS" minWidth="300.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+      <RowConstraints vgrow="ALWAYS" />
+    <RowConstraints vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <Label text="%Language" />
+      <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
+         <children>
+             <ComboBox fx:id="cmbLanguage" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <Label text="%preferences.SystemTray" GridPane.rowIndex="1" />
+      <HBox alignment="BOTTOM_RIGHT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="btnApply" defaultButton="true" mnemonicParsing="false" onAction="#apply" text="%Submit" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="%Cancel" />
+         </children>
+      </HBox>
+      <CheckBox fx:id="cbSystemTray" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   </children>
+   <padding>
+      <Insets left="10.0" right="10.0" top="20.0" />
+   </padding>
+</GridPane>
