@@ -12,6 +12,7 @@ module telekit.ui {
     requires org.apache.httpcomponents.httpclient;
     requires org.jetbrains.annotations;
     requires j2html;
+    // requires SystemTray;
     // end of non modular dependencies
 
     exports org.telekit.ui.domain;

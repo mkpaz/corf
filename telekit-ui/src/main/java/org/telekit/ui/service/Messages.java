@@ -39,6 +39,7 @@ public final class Messages {
         public static final String INFO = "Info";
         public static final String PREFERENCES = "Preferences";
         public static final String STATUS = "Status";
+        public static final String QUIT = "Quit";
         public static final String WARNING = "Warning";
 
         public static final String MSG_GENERIC_IO_ERROR = "msg.generic-io-error";
@@ -59,6 +60,7 @@ public final class Messages {
         public static final String MAIN_PLUGIN_MANAGER = "main.PluginManager";
         public static final String MAIN_RESTART_REQUIRED = "main.restart-required";
         public static final String MAIN_MSG_ERROR_OCCURRED = "main.msg.error-occurred";
+        public static final String MAIN_TRAY_OPEN = "main.tray.Open";
 
         public static final String PLUGMAN_MSG_INSTALL_SUCCESS = "plugin-manager.msg.install-success";
         public static final String PLUGMAN_MSG_UNINSTALL_CONFIRM = "plugin-manager.msg.uninstall-confirm";

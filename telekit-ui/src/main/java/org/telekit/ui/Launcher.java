@@ -3,11 +3,13 @@ package org.telekit.ui;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.*;
 import org.telekit.base.EventBus.Listener;
@@ -23,6 +25,7 @@ import org.telekit.ui.service.*;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +42,9 @@ import java.util.logging.Logger;
 
 import static org.telekit.base.Settings.*;
 import static org.telekit.base.util.CommonUtils.getPropertyOrEnv;
+import static org.telekit.ui.service.Messages.Keys.MAIN_TRAY_OPEN;
+import static org.telekit.ui.service.Messages.Keys.QUIT;
+import static org.telekit.ui.service.Messages.getMessage;
 
 public class Launcher extends Application implements LauncherDefaults {
 
@@ -51,7 +57,9 @@ public class Launcher extends Application implements LauncherDefaults {
 
     private static int exitCode = 0;
     private ApplicationContext applicationContext = ApplicationContext.getInstance();
+    private Logger logger;
     private ExceptionHandler exceptionHandler;
+    private Settings settings;
 
     public static void main(String[] args) {
         launch(args);
@@ -95,6 +103,10 @@ public class Launcher extends Application implements LauncherDefaults {
                 new Scene(controller.getParent(), bounds.getWidth(), bounds.getHeight())
         );
         primaryStage.show();
+
+        if (settings.getPreferences().isSystemTray()) {
+            createTrayIcon(primaryStage);
+        }
 
         Platform.runLater(() -> {
             primaryStage.toFront();
@@ -156,7 +168,8 @@ public class Launcher extends Application implements LauncherDefaults {
 
         // configure application context
         applicationContext.configure(modules);
-        applicationContext.getBean(Settings.class).setPreferences(preferences);
+        settings = applicationContext.getBean(Settings.class);
+        settings.setPreferences(preferences);
     }
 
     private void setupLogging() {
@@ -177,14 +190,15 @@ public class Launcher extends Application implements LauncherDefaults {
                         new ByteArrayInputStream(String.join("\n", configData).getBytes())
                 );
             }
+
+            logger = Logger.getLogger(this.getClass().getName());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void logEnvironmentInfo() {
-        Logger logger = Logger.getLogger(this.getClass().getName());
-
         try {
             logger.info("OS=" + System.getProperty("os.name"));
             logger.info("OS arch=" + System.getProperty("os.arch"));
@@ -209,10 +223,83 @@ public class Launcher extends Application implements LauncherDefaults {
             for (String cipherSuite : ciphers) {
                 logger.info(cipherSuite);
             }
-        } catch (
-                Throwable ignored) {
-        }
+        } catch (Throwable ignored) {}
+    }
 
+    // - JavaFX doesn't support system tray at all
+    // - AWT system tray support is outdated and it may not work in KDE and Gnome3+
+    // - dorkbox.SystemTray library is the best option but...
+    //   it's not JDK11 compliant because it relies on JDK internal API (com.sun.*)
+    // You may choose whatewer you like :)
+    private void createTrayIcon(Stage primaryStage) {
+        // example of dorkbox.SystemTray
+        //try {
+        //    SystemTray systemTray = SystemTray.get();
+        //    if (systemTray == null) {
+        //        logger.warning("Unable to load system tray");
+        //        return;
+        //    }
+        //
+        //    systemTray.setImage(getResourceAsStream(APP_ICON_PATH));
+        //    Menu trayMenu = systemTray.getMenu();
+        //
+        //    MenuItem showItem = new MenuItem(getMessage(MAIN_TRAY_OPEN), e -> {
+        //        if (primaryStage.isShowing()) {
+        //            Platform.runLater(primaryStage::toFront);
+        //        } else {
+        //            Platform.runLater(primaryStage::show);
+        //        }
+        //    });
+        //    trayMenu.add(showItem);
+        //
+        //    MenuItem quitItem = new MenuItem(getMessage(QUIT), e -> {
+        //        Platform.runLater(() -> EventBus.getInstance().publish(new CloseEvent(exitCode)));
+        //    });
+        //    trayMenu.add(quitItem);
+        //
+        //} catch (Throwable t) {
+        //    logger.warning(ExceptionUtils.getStackTrace(t));
+        //}
+
+        String xdgCurrentDesktop = System.getenv("XDG_CURRENT_DESKTOP");
+        boolean badTraySupport = xdgCurrentDesktop != null && (
+                xdgCurrentDesktop.toLowerCase().contains("kde") |
+                        xdgCurrentDesktop.toLowerCase().contains("gnome")
+        );
+
+        if (SystemTray.isSupported() && badTraySupport) {
+            Platform.setImplicitExit(false);
+            primaryStage.setOnCloseRequest(t -> Platform.runLater(primaryStage::hide));
+
+            PopupMenu trayMenu = new PopupMenu();
+
+            MenuItem showItem = new MenuItem(getMessage(MAIN_TRAY_OPEN));
+            ActionListener showListener = e -> {
+                if (primaryStage.isShowing()) {
+                    Platform.runLater(primaryStage::toFront);
+                } else {
+                    Platform.runLater(primaryStage::show);
+                }
+            };
+            showItem.addActionListener(showListener);
+            trayMenu.add(showItem);
+
+            MenuItem closeItem = new MenuItem(getMessage(QUIT));
+            ActionListener closeListener = e ->
+                    Platform.runLater(() -> EventBus.getInstance().publish(new CloseEvent(exitCode)));
+            closeItem.addActionListener(closeListener);
+            trayMenu.add(closeItem);
+
+            java.awt.Image trayImage = SwingFXUtils.fromFXImage(Settings.getIcon(ICON_APP), null);
+            TrayIcon trayIcon = new TrayIcon(trayImage, APP_NAME, trayMenu);
+
+            SystemTray tray = SystemTray.getSystemTray();
+            try {
+                tray.add(trayIcon);
+            } catch (AWTException e) {
+                logger.warning(ExceptionUtils.getStackTrace(e));
+            }
+        }
     }
 
     private void setSystemProperties() {

@@ -41,6 +41,8 @@
         <dep.jetbrains-annotations.version>17.0.0</dep.jetbrains-annotations.version>
         <dep.richtextfx.version>0.10.3</dep.richtextfx.version>
         <dep.semantic-version.version>2.0.0</dep.semantic-version.version>
+        <dep.slf4j.version>1.8.0-beta4</dep.slf4j.version>
+        <dep.system-tray.version>3.17</dep.system-tray.version>
         <test.assertj.version>3.11.1</test.assertj.version>
         <test.junit.version>5.5.2</test.junit.version>
 
@@ -79,7 +81,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${plugin.compiler.version}</version>
                     <configuration>
-                        <release>${java.version}</release>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -270,6 +273,16 @@
                 <groupId>de.skuzzle</groupId>
                 <artifactId>semantic-version</artifactId>
                 <version>${dep.semantic-version.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>${dep.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dorkbox</groupId>
+                <artifactId>SystemTray</artifactId>
+                <version>${dep.system-tray.version}</version>
             </dependency>
 
             <!-- TEST -->
