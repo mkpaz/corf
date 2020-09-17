@@ -18,14 +18,6 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public final class FileUtils {
 
-    public static final String EOL_SPLIT_PATTERN = "\\r?\\n";
-    public static final Character BOM = '\ufeff';
-    public static final Map<String, String> LINE_SEPARATOR = Map.of(
-            "UNIX", "\n",
-            "WINDOWS", "\r\n",
-            "OSX", "\r"
-    );
-
     public static File createFromURL(URL url) {
         try {
             return new File(url.toURI());

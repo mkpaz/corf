@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import org.telekit.base.Settings;
 import org.telekit.base.domain.AuthPrincipal;
+import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.ui.tools.api_client.HttpClient.Request;
@@ -196,7 +197,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         Map<String, String> headers = new LinkedHashMap<>();
         if (isBlank(text)) return headers;
 
-        for (String line : text.split(FileUtils.EOL_SPLIT_PATTERN)) {
+        for (String line : text.split(LineSeparator.LINE_SPLIT_PATTERN)) {
             if (isBlank(line)) continue;
             String[] keyValue = line.split(":");
             if (keyValue.length == 2) {

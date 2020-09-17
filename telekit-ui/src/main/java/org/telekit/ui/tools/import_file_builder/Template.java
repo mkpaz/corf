@@ -2,6 +2,8 @@ package org.telekit.ui.tools.import_file_builder;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import org.telekit.base.domain.Encoding;
+import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.domain.NamedBean;
 
 import java.util.Set;
@@ -16,6 +18,8 @@ public class Template extends NamedBean<Template> {
     private String delimiter;
     private Set<Param> params;
     private @JacksonXmlCData String description;
+    private Encoding encoding = Encoding.UTF8;
+    private LineSeparator lineSeparator = LineSeparator.UNIX;
 
     public Template() {}
 
@@ -30,6 +34,8 @@ public class Template extends NamedBean<Template> {
         this.footer = template.getFooter();
         this.delimiter = template.getDelimiter();
         this.pattern = template.getPattern();
+        this.encoding = template.getEncoding();
+        this.lineSeparator = template.getLineSeparator();
         if (template.getParams() != null) {
             Set<Param> params = new TreeSet<>();
             for (Param param : template.getParams()) {
@@ -97,6 +103,22 @@ public class Template extends NamedBean<Template> {
         this.description = description;
     }
 
+    public Encoding getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(Encoding encoding) {
+        this.encoding = encoding;
+    }
+
+    public LineSeparator getLineSeparator() {
+        return lineSeparator;
+    }
+
+    public void setLineSeparator(LineSeparator lineSeparator) {
+        this.lineSeparator = lineSeparator;
+    }
+
     @Override
     public String toString() {
         return "Template{" +
@@ -106,6 +128,8 @@ public class Template extends NamedBean<Template> {
                 ", delimiter='" + delimiter + '\'' +
                 ", params=" + params +
                 ", description='" + description + '\'' +
+                ", encoding=" + encoding +
+                ", lineSeparator=" + lineSeparator +
                 "} " + super.toString();
     }
 

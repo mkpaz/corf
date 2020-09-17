@@ -2,8 +2,8 @@ package org.telekit.ui.tools.import_file_builder;
 
 import j2html.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
+import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.util.CollectionUtils;
-import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public final class PreviewRenderer {
         if (text == null || text.isBlank()) return Collections.emptyList();
 
         List<Row> rows = new ArrayList<>();
-        for (String line : text.split(FileUtils.EOL_SPLIT_PATTERN)) {
+        for (String line : text.split(LineSeparator.LINE_SPLIT_PATTERN)) {
             List<Cell> cells = new ArrayList<>();
             String[] chunks = splitLineToCells(line, delimiter);
             for (int cellIdx = 0; cellIdx < chunks.length; cellIdx++) {
@@ -111,7 +111,7 @@ public final class PreviewRenderer {
         if (text == null || text.isBlank()) return Collections.emptyList();
 
         List<Row> rows = new ArrayList<>();
-        for (String line : text.split(FileUtils.EOL_SPLIT_PATTERN)) {
+        for (String line : text.split(LineSeparator.LINE_SPLIT_PATTERN)) {
             List<Cell> cells = new ArrayList<>();
             for (String cell : splitLineToCells(line, delimiter)) {
                 cells.add(new Cell(trim(cell), 1));

@@ -1,13 +1,15 @@
 package org.telekit.ui.tools.import_file_builder;
 
+import org.telekit.base.domain.Encoding;
+import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.domain.TelekitException;
-import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -30,7 +32,7 @@ public class Generator implements Runnable {
 
     private String lineSeparator = System.lineSeparator();
     private boolean append = false;
-    private String charsetName = StandardCharsets.UTF_8.name();
+    private Charset charset = StandardCharsets.UTF_8;
     private boolean bom = false;
 
     public Generator(Template template, String[][] csv, File outputFile) {
@@ -45,10 +47,10 @@ public class Generator implements Runnable {
         Set<Param> params = nullToEmpty(template.getParams());
 
         try (FileOutputStream fos = new FileOutputStream(outputFile, append);
-             OutputStreamWriter osw = new OutputStreamWriter(fos, charsetName);
+             OutputStreamWriter osw = new OutputStreamWriter(fos, charset);
              BufferedWriter out = new BufferedWriter(osw)) {
 
-            if (bom && !append) out.write(FileUtils.BOM);
+            if (bom && !append) out.write(Encoding.BOM);
 
             if (isNotBlank(template.getHeader())) {
                 String header = forceLineSeparator(trim(template.getHeader()), lineSeparator);
@@ -177,7 +179,7 @@ public class Generator implements Runnable {
     }
 
     private static String forceLineSeparator(String text, String lineSeparator) {
-        return String.join(lineSeparator, text.split(FileUtils.EOL_SPLIT_PATTERN));
+        return String.join(lineSeparator, text.split(LineSeparator.LINE_SPLIT_PATTERN));
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -190,8 +192,8 @@ public class Generator implements Runnable {
         this.append = append;
     }
 
-    public void setCharsetName(String charsetName) {
-        this.charsetName = charsetName;
+    public void setCharset(Charset charset) {
+        this.charset = charset;
     }
 
     public void setBom(boolean bom) {

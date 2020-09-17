@@ -46,8 +46,6 @@ import javax.inject.Inject;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -86,8 +84,6 @@ public class RootController extends Controller {
     public @FXML TextArea taCsv;
     public @FXML TextField tfDestPath;
     public @FXML Button btnGenerate;
-    public @FXML ComboBox<String> cmbCharset;
-    public @FXML ComboBox<String> cmbEOL;
     public @FXML ToggleGroup toggleSaveType;
     public @FXML RadioButton rbSaveDynamic;
     public @FXML RadioButton rbSavePredefined;
@@ -398,18 +394,6 @@ public class RootController extends Controller {
         // generate button is blocked until both specified, but anyway
         if (cmbTemplate.getSelectionModel().isEmpty() || StringUtils.isBlank(taCsv.getText())) return;
 
-        // init dict
-        String charsetName = cmbCharset.getSelectionModel().getSelectedItem();
-        boolean bom = false;
-        if (charsetName.toUpperCase().contains("BOM")) {
-            charsetName = StandardCharsets.UTF_8.name();
-            bom = true;
-        }
-        requireCharsetSupport(charsetName);
-
-        String eol = cmbEOL.getSelectionModel().getSelectedItem().toUpperCase();
-        String lineSeparator = FileUtils.LINE_SEPARATOR.get(eol);
-
         Template template = cmbTemplate.getSelectionModel().getSelectedItem();
         String[][] csv = CSVUtils.splitToTable(taCsv.getText());
 
@@ -433,9 +417,9 @@ public class RootController extends Controller {
         // print
         Generator generator = new Generator(template, csv, outputFile);
         generator.setAppend(append);
-        generator.setLineSeparator(lineSeparator);
-        generator.setCharsetName(charsetName);
-        generator.setBom(bom);
+        generator.setLineSeparator(template.getLineSeparator().getCharacters());
+        generator.setCharset(template.getEncoding().getCanonicalName());
+        generator.setBom(template.getEncoding().requiresBOM());
 
         this.ongoing = true;
         EventBus.getInstance().publish(new ProgressIndicatorEvent(id, true));
@@ -459,11 +443,6 @@ public class RootController extends Controller {
                         .showAndWait());
             }
         });
-    }
-
-    private void requireCharsetSupport(String charsetName) {
-        boolean supported = Charset.availableCharsets().containsKey(charsetName);
-        if (!supported) throw new TelekitException(getMessage(MGG_UNSUPPORTED_CHARSET, charsetName));
     }
 
     private boolean validateInputData(Template template, String[][] csv) {

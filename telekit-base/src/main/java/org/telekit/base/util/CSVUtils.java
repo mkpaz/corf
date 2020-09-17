@@ -1,5 +1,7 @@
 package org.telekit.base.util;
 
+import org.telekit.base.domain.LineSeparator;
+
 import java.util.Arrays;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -13,13 +15,13 @@ public final class CSVUtils {
         int count = 0;
         if (isNotBlank(text)) {
             String csvNoEmptyLines = text.replaceAll("(?m)^[ \t]*\r?\n", "");
-            count = csvNoEmptyLines.split(FileUtils.EOL_SPLIT_PATTERN, -1).length;
+            count = csvNoEmptyLines.split(LineSeparator.LINE_SPLIT_PATTERN, -1).length;
         }
         return count;
     }
 
     public static String[][] splitToTable(String text) {
-        String[] lines = text.split(FileUtils.EOL_SPLIT_PATTERN);
+        String[] lines = text.split(LineSeparator.LINE_SPLIT_PATTERN);
         String[][] result = new String[lines.length][];
         int nonEmptyRows = 0;
         for (String line : lines) {

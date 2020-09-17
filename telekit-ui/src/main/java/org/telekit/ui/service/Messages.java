@@ -49,7 +49,6 @@ public final class Messages {
         public static final String MGG_UNABLE_TO_EXTRACT_FILE = "msg.unable-to-extract-file";
         public static final String MGG_UNABLE_TO_PARSE_CONFIG = "msg.unable-to-parse-config";
         public static final String MGG_UNABLE_TO_SAVE_CONFIG = "msg.unable-to-save-config";
-        public static final String MGG_UNSUPPORTED_CHARSET= "msg.unsupported-charset";
 
         public static final String FILE_DIALOG_TEXT = "file-dialog.text";
         public static final String FILE_DIALOG_XML = "file-dialog.xml";

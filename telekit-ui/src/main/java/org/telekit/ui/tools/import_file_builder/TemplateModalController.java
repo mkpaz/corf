@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.telekit.base.EventBus;
+import org.telekit.base.domain.Encoding;
+import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.FXBindings;
 import org.telekit.ui.service.Messages;
@@ -25,6 +27,8 @@ public class TemplateModalController extends Controller {
     public @FXML TextArea taFooter;
     public @FXML ComboBox<String> cmbDelimiter;
     public @FXML TextArea taPattern;
+    public @FXML ComboBox<Encoding> cmbEncoding;
+    public @FXML ComboBox<LineSeparator> cmbLineSeparator;
     public @FXML Button btnApply;
     public @FXML TextArea taDescription;
     public @FXML TabPane taTabs;
@@ -38,10 +42,13 @@ public class TemplateModalController extends Controller {
         BooleanBinding isNameNotUnique = isNameNotUnique(tfName.textProperty());
 
         cmbDelimiter.setConverter(new DelimiterStringConverter());
+        cmbEncoding.getItems().setAll(Encoding.values());
+        cmbLineSeparator.getItems().setAll(LineSeparator.values());
+
         btnApply.disableProperty().bind(
                 FXBindings.isBlank(tfName.textProperty())
                         .or(isNameNotUnique
-                                .or(FXBindings.isBlank(taPattern.textProperty()))
+                                    .or(FXBindings.isBlank(taPattern.textProperty()))
                         )
         );
     }
@@ -62,6 +69,8 @@ public class TemplateModalController extends Controller {
         cmbDelimiter.getSelectionModel().select(template.getDelimiter());
         taPattern.setText(template.getPattern());
         taDescription.setText(template.getDescription());
+        cmbEncoding.getSelectionModel().select(template.getEncoding());
+        cmbLineSeparator.getSelectionModel().select(template.getLineSeparator());
 
         taTabs.getSelectionModel().selectFirst();
     }
@@ -74,6 +83,8 @@ public class TemplateModalController extends Controller {
         template.setDelimiter(cmbDelimiter.getSelectionModel().getSelectedItem());
         template.setPattern(trim(taPattern.getText()));
         template.setDescription(trim(taDescription.getText()));
+        template.setEncoding(cmbEncoding.getSelectionModel().getSelectedItem());
+        template.setLineSeparator(cmbLineSeparator.getSelectionModel().getSelectedItem());
 
         rootPane.getScene().getWindow().hide();
         EventBus.getInstance().publish(new TemplateUpdateEvent(this.action, new Template(this.template)));

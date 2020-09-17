@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import fontawesomefx.fa.FontAwesomeIconView?>
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -19,7 +17,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -122,34 +119,6 @@
                      </children>
                   </StackPane>
                </graphic></Button>
-            <ComboBox fx:id="cmbCharset" prefWidth="120.0">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="UTF-8" />
-                     <String fx:value="UTF-8 with BOM" />
-                  </FXCollections>
-               </items>
-               <value>
-                  <String fx:value="UTF-8" />
-               </value>
-               <tooltip>
-                  <Tooltip text="File Encoding" />
-               </tooltip>
-            </ComboBox>
-            <ComboBox fx:id="cmbEOL" prefWidth="120.0">
-               <items>
-                  <FXCollections fx:factory="observableArrayList">
-                     <String fx:value="UNIX" />
-                     <String fx:value="WINDOWS" />
-                  </FXCollections>
-                </items>
-                <value>
-                    <String fx:value="UNIX" />
-                </value>
-               <tooltip>
-                  <Tooltip text="Line Separator" />
-               </tooltip>
-            </ComboBox>
          </children>
          <GridPane.margin>
             <Insets top="5.0" />

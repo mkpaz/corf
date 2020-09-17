@@ -5,8 +5,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import org.apache.commons.lang3.StringUtils;
+import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.fx.Controller;
-import org.telekit.base.util.FileUtils;
 
 import java.util.Arrays;
 import java.util.Base64;
@@ -41,7 +41,7 @@ public class RootController extends Controller {
 
         Base64.Encoder encoder = Base64.getEncoder();
         if (MODE_BY_LINE.equals(mode)) {
-            List<String> encoded = Arrays.stream(text.split(FileUtils.EOL_SPLIT_PATTERN))
+            List<String> encoded = Arrays.stream(text.split(LineSeparator.LINE_SPLIT_PATTERN))
                     .filter(StringUtils::isNotBlank)
                     .map(line -> new String(encoder.encode(
                             trim(line).getBytes()))
@@ -61,7 +61,7 @@ public class RootController extends Controller {
 
         Base64.Decoder decoder = Base64.getDecoder();
         if (MODE_BY_LINE.equals(mode)) {
-            List<String> decoded = Arrays.stream(base64Text.split(FileUtils.EOL_SPLIT_PATTERN))
+            List<String> decoded = Arrays.stream(base64Text.split(LineSeparator.LINE_SPLIT_PATTERN))
                     .filter(StringUtils::isNotBlank)
                     .map(line -> new String(decoder.decode(
                             trim(line).getBytes()))
