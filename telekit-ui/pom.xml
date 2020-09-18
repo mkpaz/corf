@@ -45,6 +45,26 @@
                     <mainClass>${bld.mainClass}</mainClass>
                     <executable>${java.home}/bin/java</executable>
                 </configuration>
+                <!-- remote debugging -->
+                <executions>
+                    <execution>
+                        <id>run</id>
+                        <configuration>
+                            <mainClass>${bld.mainClass}</mainClass>
+                            <executable>${java.home}/bin/java</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>debug</id>
+                        <configuration>
+                            <options>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:9000</option>
+                            </options>
+                            <mainClass>${bld.mainClass}</mainClass>
+                            <executable>${java.home}/bin/java</executable>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
