@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.telekit.base.Messages;
 import org.telekit.base.Settings;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.TelekitException;
@@ -22,7 +23,6 @@ import org.telekit.base.util.TextBuilder;
 import org.telekit.base.util.net.IP4Address;
 import org.telekit.base.util.net.IP4Subnet;
 import org.telekit.ui.main.Views;
-import org.telekit.ui.service.Messages;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,8 +40,7 @@ import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.Settings.ICON_APP;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.base.util.net.IP4Subnet.NETMASKS;
-import static org.telekit.ui.service.Messages.Keys.*;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.*;
 
 public class IPv4Controller extends Controller {
 
@@ -119,7 +118,7 @@ public class IPv4Controller extends Controller {
             address = getEnteredAddress();
             subnet = getEnteredSubnet();
         } catch (Exception e) {
-            taDetails.setText(getMessage(TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS));
+            taDetails.setText(Messages.get(TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS));
             return;
         }
 
@@ -131,19 +130,19 @@ public class IPv4Controller extends Controller {
         tb.appendLine("NETWORK:");
         tb.newLine();
         tb.appendLine(rightPad("Address:", padding),
-                defaultString(subnet.getNetworkAddress(), EMPTY_DATA));
+                      defaultString(subnet.getNetworkAddress(), EMPTY_DATA));
         tb.appendLine(rightPad("Netmask:", padding),
-                subnet.getNetmask().toString(), " / ", subnet.getNetmask().toHexString("."));
+                      subnet.getNetmask().toString(), " / ", subnet.getNetmask().toHexString("."));
         tb.appendLine(rightPad("Bitmask:", padding),
-                String.valueOf(subnet.getPrefixLength()));
+                      String.valueOf(subnet.getPrefixLength()));
         tb.appendLine(rightPad("Hosts:", padding),
-                subnet.getMinHost().toString(), " - ", subnet.getMaxHost().toString());
+                      subnet.getMinHost().toString(), " - ", subnet.getMaxHost().toString());
         tb.appendLine(rightPad("Available:", padding),
-                formatCount(subnet.getNumberOfHosts()), " address(es)");
+                      formatCount(subnet.getNumberOfHosts()), " address(es)");
         tb.appendLine(rightPad("Broadcast:", padding),
-                defaultString(subnet.getBroadcast(), EMPTY_DATA));
+                      defaultString(subnet.getBroadcast(), EMPTY_DATA));
         tb.appendLine(rightPad("Wildcard:", padding),
-                subnet.getNetmask().reverseBytes().toString());
+                      subnet.getNetmask().reverseBytes().toString());
 
         tb.appendLine(rightPad("Remarks:", padding), "class " + subnet.getNetworkClass() + "-based;");
         List<String> remarks = new ArrayList<>();
@@ -158,11 +157,11 @@ public class IPv4Controller extends Controller {
         tb.appendLine("FORMATS:");
         tb.newLine();
         tb.appendLine(rightPad("Integer:", padding),
-                String.valueOf(address.longValue()));
+                      String.valueOf(address.longValue()));
         tb.appendLine(rightPad("Binary:", padding),
-                address.toBinaryString("."));
+                      address.toBinaryString("."));
         tb.appendLine(rightPad("Hex:", padding),
-                address.toHexString("."));
+                      address.toHexString("."));
 
         taDetails.setText(tb.toString());
     }
@@ -177,10 +176,10 @@ public class IPv4Controller extends Controller {
     private IPv4ConverterController getOrCreateConverterDialog() {
         if (this.formatsConverterController != null) return this.formatsConverterController;
 
-        Controller controller = UILoader.load(Views.IP_V4_CONVERTER.getLocation(), Messages.getInstance().getBundle());
+        Controller controller = UILoader.load(Views.IP_V4_CONVERTER.getLocation(), Messages.getInstance());
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
-                .title(getMessage(TOOLS_IPCALC_TASK_REPORT))
+                .title(Messages.get(TOOLS_IPCALC_TASK_REPORT))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build();
@@ -194,7 +193,7 @@ public class IPv4Controller extends Controller {
     public void saveToFile() {
         List<Subnet> subnets = tblSplit.getItems();
         File outputFile = Dialogs.file()
-                .addFilter(getMessage(FILE_DIALOG_TEXT), "*.txt")
+                .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
                 .initialFilename(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
@@ -210,14 +209,13 @@ public class IPv4Controller extends Controller {
                 out.write("\n");
             }
         } catch (Exception e) {
-            throw new TelekitException(getMessage(MSG_UNABLE_TO_SAVE_FILE), e);
+            throw new TelekitException(Messages.get(MSG_UNABLE_TO_SAVE_FILE), e);
         }
     }
 
     @Override
     public void reset() {}
 
-    @SuppressWarnings("unused")
     private void initSplitTable() {
         ObservableList<TableColumn<Subnet, ?>> columns = tblSplit.getColumns();
 
@@ -354,7 +352,6 @@ public class IPv4Controller extends Controller {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    @SuppressWarnings("unused")
     public static class Subnet {
 
         private final IP4Subnet ip4Subnet;

@@ -1,5 +1,6 @@
 package org.telekit.ui.tools.import_file_builder;
 
+import org.telekit.base.Messages;
 import org.telekit.base.domain.Encoding;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.domain.TelekitException;
@@ -18,8 +19,7 @@ import static org.telekit.base.util.CollectionUtils.nullToEmpty;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.base.util.PasswordGenerator.random;
-import static org.telekit.ui.service.Messages.Keys.MSG_GENERIC_IO_ERROR;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.MSG_GENERIC_IO_ERROR;
 import static org.telekit.ui.tools.import_file_builder.Param.*;
 
 public class Generator implements Runnable {
@@ -75,7 +75,7 @@ public class Generator implements Runnable {
                 out.write(lineSeparator);
             }
         } catch (Exception e) {
-            throw new TelekitException(getMessage(MSG_GENERIC_IO_ERROR), e);
+            throw new TelekitException(Messages.get(MSG_GENERIC_IO_ERROR), e);
         }
     }
 

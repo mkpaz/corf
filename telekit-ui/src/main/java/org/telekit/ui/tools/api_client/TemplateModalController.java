@@ -9,16 +9,18 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.telekit.base.EventBus;
+import org.telekit.base.Messages;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.FXBindings;
-import org.telekit.ui.service.Messages;
-import org.telekit.ui.service.Messages.Keys;
 import org.telekit.ui.tools.Action;
 import org.telekit.ui.tools.api_client.Template.HTTPMethod;
 
 import java.util.Set;
 
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.trim;
+import static org.telekit.ui.main.AllMessageKeys.TOOLS_EDIT_TEMPLATE;
+import static org.telekit.ui.main.AllMessageKeys.TOOLS_NEW_TEMPLATE;
 
 public class TemplateModalController extends Controller {
 
@@ -47,7 +49,7 @@ public class TemplateModalController extends Controller {
         btnApply.disableProperty().bind(
                 FXBindings.isBlank(tfName.textProperty())
                         .or(isNameNotUnique
-                                .or(FXBindings.isBlank(tfURI.textProperty()))
+                                    .or(FXBindings.isBlank(tfURI.textProperty()))
                         )
         );
 
@@ -83,10 +85,10 @@ public class TemplateModalController extends Controller {
         this.usedTemplateNames = usedTemplateNames;
 
         String titleKey = "";
-        if (action == Action.NEW || action == Action.DUPLICATE) titleKey = Keys.TOOLS_NEW_TEMPLATE;
-        if (action == Action.EDIT) titleKey = Keys.TOOLS_EDIT_TEMPLATE;
+        if (action == Action.NEW || action == Action.DUPLICATE) titleKey = TOOLS_NEW_TEMPLATE;
+        if (action == Action.EDIT) titleKey = TOOLS_EDIT_TEMPLATE;
 
-        ((Stage) rootPane.getScene().getWindow()).setTitle(Messages.getInstance().getBundle().getString(titleKey));
+        ((Stage) rootPane.getScene().getWindow()).setTitle(Messages.get(titleKey));
         tfName.setText(template.getName());
         tfURI.setText(template.getUri());
         cmbMethod.getSelectionModel().select(template.getMethod());

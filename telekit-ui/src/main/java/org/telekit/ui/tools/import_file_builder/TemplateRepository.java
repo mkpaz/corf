@@ -4,6 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import org.telekit.base.Messages;
 import org.telekit.base.Settings;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.service.XMLBeanRepository;
@@ -14,9 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.telekit.ui.service.Messages.Keys.MGG_UNABLE_TO_PARSE_CONFIG;
-import static org.telekit.ui.service.Messages.Keys.MGG_UNABLE_TO_SAVE_CONFIG;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.MGG_UNABLE_TO_PARSE_CONFIG;
+import static org.telekit.ui.main.AllMessageKeys.MGG_UNABLE_TO_SAVE_CONFIG;
 
 public class TemplateRepository extends XMLBeanRepository<Template> {
 
@@ -43,7 +43,7 @@ public class TemplateRepository extends XMLBeanRepository<Template> {
                 result.addAll(data.getTemplates());
             }
         } catch (Exception e) {
-            throw new TelekitException(getMessage(MGG_UNABLE_TO_PARSE_CONFIG), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_PARSE_CONFIG), e);
         }
 
         return result;
@@ -56,7 +56,7 @@ public class TemplateRepository extends XMLBeanRepository<Template> {
             Collections.sort(templates);
             mapper.writeValue(DATA_FILE_PATH.toFile(), new Templates(templates));
         } catch (Exception e) {
-            throw new TelekitException(getMessage(MGG_UNABLE_TO_SAVE_CONFIG), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_CONFIG), e);
         }
     }
 

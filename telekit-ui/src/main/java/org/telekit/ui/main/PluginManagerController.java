@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.telekit.base.EventBus;
+import org.telekit.base.Messages;
 import org.telekit.base.Settings;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
@@ -39,8 +40,7 @@ import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PLUGINS_STATE_CHANGED;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
-import static org.telekit.ui.service.Messages.Keys.*;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.*;
 
 public class PluginManagerController extends Controller {
 
@@ -164,7 +164,7 @@ public class PluginManagerController extends Controller {
     @FXML
     public void installPlugin() {
         File zipFile = Dialogs.file()
-                .addFilter(getMessage(FILE_DIALOG_ZIP), "*.zip")
+                .addFilter(Messages.get(FILE_DIALOG_ZIP), "*.zip")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
 
@@ -174,8 +174,8 @@ public class PluginManagerController extends Controller {
 
         updatePluginsList(0);
         Dialogs.info()
-                .title(getMessage(INFO))
-                .content(getMessage(PLUGMAN_MSG_INSTALL_SUCCESS))
+                .title(Messages.get(INFO))
+                .content(Messages.get(PLUGMAN_MSG_INSTALL_SUCCESS))
                 .build()
                 .showAndWait();
         EventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
@@ -191,8 +191,8 @@ public class PluginManagerController extends Controller {
 
         if (container.hasResources()) {
             Alert dialog = Dialogs.confirm()
-                    .title(getMessage(CONFIRMATION))
-                    .content(getMessage(PLUGMAN_MSG_UNINSTALL_CONFIRM))
+                    .title(Messages.get(CONFIRMATION))
+                    .content(Messages.get(PLUGMAN_MSG_UNINSTALL_CONFIRM))
                     .setButtonTypes(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
                     .build();
             Optional<ButtonType> confirmation = dialog.showAndWait();
@@ -208,8 +208,8 @@ public class PluginManagerController extends Controller {
 
         updatePluginsList(0);
         Dialogs.info()
-                .title(getMessage(INFO))
-                .content(getMessage(PLUGMAN_MSG_UNINSTALL_SUCCESS))
+                .title(Messages.get(INFO))
+                .content(Messages.get(PLUGMAN_MSG_UNINSTALL_SUCCESS))
                 .build()
                 .showAndWait();
 

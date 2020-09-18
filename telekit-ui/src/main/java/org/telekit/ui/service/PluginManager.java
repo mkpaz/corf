@@ -2,6 +2,7 @@ package org.telekit.ui.service;
 
 import de.skuzzle.semantic.Version;
 import org.jetbrains.annotations.Nullable;
+import org.telekit.base.Messages;
 import org.telekit.base.Settings;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.plugin.Metadata;
@@ -28,8 +29,7 @@ import static org.telekit.base.domain.TelekitException.fire;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.base.util.FileUtils.*;
 import static org.telekit.base.util.StringUtils.trimEquals;
-import static org.telekit.ui.service.Messages.Keys.*;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.*;
 
 public class PluginManager {
 
@@ -69,7 +69,7 @@ public class PluginManager {
         Path tempDir = null;
         try {
             if (!ZipUtils.isExtractable(zipFile)) {
-                throw new TelekitException(getMessage(PLUGMAN_MSG_FILE_IS_NOT_ZIP_ARCHIVE));
+                throw new TelekitException(Messages.get(PLUGMAN_MSG_FILE_IS_NOT_ZIP_ARCHIVE));
             }
 
             tempDir = Files.createTempDirectory("telekit_plugin_");
@@ -77,7 +77,7 @@ public class PluginManager {
             ZipUtils.unzip(zipFile, tempDir);
             installFromDirectory(tempDir);
         } catch (IOException e) {
-            throw new TelekitException(getMessage(MGG_UNABLE_TO_EXTRACT_FILE), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_EXTRACT_FILE), e);
         } finally {
             try {
                 // Windows won't allow to delete loaded JAR file
@@ -95,9 +95,9 @@ public class PluginManager {
                 .iterator()
                 .forEachRemaining(plugins::add);
 
-        String installFailed = getMessage(PLUGMAN_MSG_INSTALL_FAILED) + ": ";
-        if (plugins.size() == 0) fire(installFailed + getMessage(PLUGMAN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS));
-        if (plugins.size() > 1) fire(installFailed + getMessage(PLUGMAN_MSG_ONLY_ONE_PLUGIN_PER_DIR_ALLOWED));
+        String installFailed = Messages.get(PLUGMAN_MSG_INSTALL_FAILED) + ": ";
+        if (plugins.size() == 0) fire(installFailed + Messages.get(PLUGMAN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS));
+        if (plugins.size() > 1) fire(installFailed + Messages.get(PLUGMAN_MSG_ONLY_ONE_PLUGIN_PER_DIR_ALLOWED));
 
         Plugin candidate = plugins.get(0);
         validate(candidate);
@@ -115,25 +115,25 @@ public class PluginManager {
 
     private void validate(Plugin plugin) {
         final Metadata metadata = plugin.getMetadata();
-        String installFailed = getMessage(PLUGMAN_MSG_INSTALL_FAILED) + ": ";
+        String installFailed = Messages.get(PLUGMAN_MSG_INSTALL_FAILED) + ": ";
 
         // check metadata
-        if (metadata == null) fire(installFailed + getMessage(PLUGMAN_MSG_MISSING_PLUGIN_METADATA));
-        if (isBlank(metadata.getName())) fire(installFailed + getMessage(PLUGMAN_MSG_INVALID_PLUGIN_NAME));
-        if (isBlank(metadata.getVersion())) fire(installFailed + getMessage(PLUGMAN_MSG_INVALID_PLUGIN_VERSION));
+        if (metadata == null) fire(installFailed + Messages.get(PLUGMAN_MSG_MISSING_PLUGIN_METADATA));
+        if (isBlank(metadata.getName())) fire(installFailed + Messages.get(PLUGMAN_MSG_INVALID_PLUGIN_NAME));
+        if (isBlank(metadata.getVersion())) fire(installFailed + Messages.get(PLUGMAN_MSG_INVALID_PLUGIN_VERSION));
 
         // check minimal required version
         if (!isPluginMatchVersion(System.getProperty("application.version"), metadata.getRequiredVersion())) {
-            fire(installFailed + getMessage(PLUGMAN_MSG_REQUIRE_HIGHER_VERSION, metadata.getRequiredVersion()));
+            fire(installFailed + Messages.get(PLUGMAN_MSG_REQUIRE_HIGHER_VERSION, metadata.getRequiredVersion()));
         }
 
         // check for duplicates
-        if (find(plugin.getClass()) != null) fire(installFailed + getMessage(PLUGMAN_MSG_PLUGIN_ALREADY_INSTALLED));
+        if (find(plugin.getClass()) != null) fire(installFailed + Messages.get(PLUGMAN_MSG_PLUGIN_ALREADY_INSTALLED));
         boolean nameAlreadyUsed = loadedPlugins.values().stream()
                 .map(PluginContainer::getPlugin)
                 .map(Plugin::getMetadata)
                 .anyMatch(elem -> trimEquals(elem.getName(), trim(metadata.getName())));
-        if (nameAlreadyUsed) fire(installFailed + getMessage(PLUGMAN_MSG_PLUGIN_SAME_NAME_ALREADY_INSTALLED));
+        if (nameAlreadyUsed) fire(installFailed + Messages.get(PLUGMAN_MSG_PLUGIN_SAME_NAME_ALREADY_INSTALLED));
     }
 
     private boolean isPluginMatchVersion(String appVersion, String pluginVersion) {

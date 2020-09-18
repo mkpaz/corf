@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
+import org.telekit.base.Messages;
 import org.telekit.base.Settings;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.ProgressIndicatorEvent;
@@ -25,7 +26,6 @@ import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.PluginContainer;
 import org.telekit.ui.domain.PluginContainer.Status;
-import org.telekit.ui.service.Messages;
 import org.telekit.ui.service.PluginManager;
 
 import javax.inject.Inject;
@@ -37,8 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Settings.ICON_APP;
 import static org.telekit.base.util.CommonUtils.canonicalName;
-import static org.telekit.ui.service.Messages.Keys.*;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.*;
 
 public class MainController extends Controller {
 
@@ -152,45 +151,45 @@ public class MainController extends Controller {
         switch (source.getId()) {
             case "apiClient":
                 resource = Views.API_CLIENT;
-                tabName = getMessage(TOOLS_APICLIENT);
+                tabName = Messages.get(TOOLS_APICLIENT);
                 break;
             case "base64Encoder":
                 resource = Views.BASE64_ENCODER;
-                tabName = getMessage(TOOLS_BASE64);
+                tabName = Messages.get(TOOLS_BASE64);
                 break;
             case "importFileBuilder":
                 resource = Views.IMPORT_FILE_BUILDER;
-                tabName = getMessage(TOOLS_FILEBUILD);
+                tabName = Messages.get(TOOLS_FILEBUILD);
                 break;
             case "ipCalculator":
                 resource = Views.IP_V4_CALCULATOR;
-                tabName = getMessage(TOOLS_IPCALC);
+                tabName = Messages.get(TOOLS_IPCALC);
                 break;
             case "passwordGenerator":
                 resource = Views.PASSWORD_GENERATOR;
-                tabName = getMessage(TOOLS_PASSGEN);
+                tabName = Messages.get(TOOLS_PASSGEN);
                 break;
             case "sequenceGenerator":
                 resource = Views.SEQUENCE_GENERATOR;
-                tabName = getMessage(TOOLS_SEQGEN);
+                tabName = Messages.get(TOOLS_SEQGEN);
                 break;
             case "ss7CICTable":
                 resource = Views.SS7_CIC_TABLE;
-                tabName = getMessage(TOOLS_CICTABLE);
+                tabName = Messages.get(TOOLS_CICTABLE);
                 break;
             case "ss7SPCConverter":
                 resource = Views.SS7_SPC_CONVERTER;
-                tabName = getMessage(TOOLS_SPCCONV);
+                tabName = Messages.get(TOOLS_SPCCONV);
                 break;
             case "transliterator":
                 resource = Views.TRANSLITERATOR;
-                tabName = getMessage(TOOLS_TRANSLIT);
+                tabName = Messages.get(TOOLS_TRANSLIT);
                 break;
             default:
                 return;
         }
 
-        Controller controller = UILoader.load(resource.getLocation(), Messages.getInstance().getBundle());
+        Controller controller = UILoader.load(resource.getLocation(), Messages.getInstance());
         addTab(tabName, controller.getParent(), canonicalName(controller));
     }
 
@@ -285,10 +284,10 @@ public class MainController extends Controller {
 
     @FXML
     public void showAboutDialog() {
-        Controller controller = UILoader.load(Views.ABOUT.getLocation(), Messages.getInstance().getBundle());
+        Controller controller = UILoader.load(Views.ABOUT.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
-                .title(getMessage(MAIN_ABOUT))
+                .title(Messages.get(MAIN_ABOUT))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
@@ -297,10 +296,10 @@ public class MainController extends Controller {
 
     @FXML
     public void showPreferences() {
-        Controller controller = UILoader.load(Views.PREFERENCES.getLocation(), Messages.getInstance().getBundle());
+        Controller controller = UILoader.load(Views.PREFERENCES.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
-                .title(getMessage(PREFERENCES))
+                .title(Messages.get(PREFERENCES))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
@@ -309,10 +308,10 @@ public class MainController extends Controller {
 
     @FXML
     public void showPluginManager() {
-        Controller controller = UILoader.load(Views.PLUGIN_MANAGER.getLocation(), Messages.getInstance().getBundle());
+        Controller controller = UILoader.load(Views.PLUGIN_MANAGER.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
-                .title(getMessage(MAIN_PLUGIN_MANAGER))
+                .title(Messages.get(MAIN_PLUGIN_MANAGER))
                 .icon(Settings.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
@@ -357,7 +356,7 @@ public class MainController extends Controller {
     private void onApplicationEvent(ApplicationEvent event) {
         switch (event.getType()) {
             case RESTART_REQUIRED:
-                primaryStage.setTitle(Settings.APP_NAME + " (" + getMessage(MAIN_RESTART_REQUIRED) + ")");
+                primaryStage.setTitle(Settings.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
                 break;
             case PLUGINS_STATE_CHANGED:
                 List<PluginContainer> plugins = pluginManager.getPlugins(status ->

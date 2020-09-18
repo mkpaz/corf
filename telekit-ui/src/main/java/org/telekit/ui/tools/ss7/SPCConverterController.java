@@ -2,14 +2,14 @@ package org.telekit.ui.tools.ss7;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.telekit.base.Messages;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.FXBindings;
 import org.telekit.base.util.TextBuilder;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.util.telecom.SS7Utils.*;
-import static org.telekit.ui.service.Messages.Keys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
 
 public class SPCConverterController extends Controller {
 
@@ -58,7 +58,7 @@ public class SPCConverterController extends Controller {
         if (spc > 0) {
             updateResult(spc, length);
         } else {
-            taResult.setText(getMessage(TOOLS_SS7_MSG_INVALID_POINT_CODE));
+            taResult.setText(Messages.get(TOOLS_SS7_MSG_INVALID_POINT_CODE));
         }
     }
 

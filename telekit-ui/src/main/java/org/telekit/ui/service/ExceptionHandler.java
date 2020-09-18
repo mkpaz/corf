@@ -8,6 +8,7 @@ import javafx.scene.layout.Priority;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
+import org.telekit.base.Messages;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.ui.Launcher;
@@ -20,8 +21,7 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 import static org.telekit.base.util.CollectionUtils.getLast;
-import static org.telekit.ui.service.Messages.Keys.MAIN_MSG_ERROR_OCCURRED;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.MAIN_MSG_ERROR_OCCURRED;
 
 public class ExceptionHandler {
 
@@ -48,7 +48,7 @@ public class ExceptionHandler {
             Throwable cause = findExactCauseOrRootIfNotPresent(throwable, TelekitException.class);
 
             exceptionDialog.setHeaderText(ensureGrammar(
-                    defaultIfBlank(cause.getMessage(), getMessage(MAIN_MSG_ERROR_OCCURRED))
+                    defaultIfBlank(cause.getMessage(), Messages.get(MAIN_MSG_ERROR_OCCURRED))
             ));
 
             exceptionDialog.setStackTrace(

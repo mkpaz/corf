@@ -21,7 +21,10 @@ import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.PluginContainer;
 import org.telekit.ui.main.MainController;
 import org.telekit.ui.main.Views;
-import org.telekit.ui.service.*;
+import org.telekit.ui.service.ExceptionHandler;
+import org.telekit.ui.service.MainDependencyModule;
+import org.telekit.ui.service.PluginCleaner;
+import org.telekit.ui.service.PluginManager;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.awt.*;
@@ -42,9 +45,8 @@ import java.util.logging.Logger;
 
 import static org.telekit.base.Settings.*;
 import static org.telekit.base.util.CommonUtils.getPropertyOrEnv;
-import static org.telekit.ui.service.Messages.Keys.MAIN_TRAY_OPEN;
-import static org.telekit.ui.service.Messages.Keys.QUIT;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.MAIN_TRAY_OPEN;
+import static org.telekit.ui.main.AllMessageKeys.QUIT;
 
 public class Launcher extends Application implements LauncherDefaults {
 
@@ -54,6 +56,7 @@ public class Launcher extends Application implements LauncherDefaults {
     public static final String APP_PROPS_PATH = "/assets/application.properties";
     public static final String LOG_CONFIG_FILE_NAME = "logging.properties";
     public static final String LOG_OUTPUT_FILE_NAME = "telekit.log";
+    public static final String I18N_RESOURCES_PATH = "org.telekit.ui.i18n.messages";
 
     private static int exitCode = 0;
     private ApplicationContext applicationContext = ApplicationContext.getInstance();
@@ -79,9 +82,8 @@ public class Launcher extends Application implements LauncherDefaults {
         // init & run application
         initialize();
 
-        MainController controller = (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation(),
-                                                                   Messages.getInstance().getBundle()
-        );
+        MainController controller =
+                (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation(), Messages.getInstance());
         controller.setPrimaryStage(primaryStage);
 
         primaryStage.setTitle(Settings.APP_NAME);
@@ -136,7 +138,8 @@ public class Launcher extends Application implements LauncherDefaults {
         setupLogging();
         logEnvironmentInfo();
         setSystemProperties();
-        createResources();
+        loadResourceBundles();
+        createUserResources();
 
         // cleanup previously uninstalled plugins
         PluginCleaner cleaner = new PluginCleaner();
@@ -223,7 +226,13 @@ public class Launcher extends Application implements LauncherDefaults {
             for (String cipherSuite : ciphers) {
                 logger.info(cipherSuite);
             }
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) { }
+    }
+
+    private void loadResourceBundles() {
+        ResourceBundle baseBundle = MessagesBundleProvider.getBundle(Settings.LOCALE);
+        ResourceBundle uiBundle = ResourceBundle.getBundle(I18N_RESOURCES_PATH, Settings.LOCALE, Launcher.class.getModule());
+        Messages.getInstance().loadFromBundles(Arrays.asList(baseBundle, uiBundle));
     }
 
     // - JavaFX doesn't support system tray at all
@@ -243,7 +252,7 @@ public class Launcher extends Application implements LauncherDefaults {
         //    systemTray.setImage(getResourceAsStream(APP_ICON_PATH));
         //    Menu trayMenu = systemTray.getMenu();
         //
-        //    MenuItem showItem = new MenuItem(getMessage(MAIN_TRAY_OPEN), e -> {
+        //    MenuItem showItem = new MenuItem(Messages.get(MAIN_TRAY_OPEN), e -> {
         //        if (primaryStage.isShowing()) {
         //            Platform.runLater(primaryStage::toFront);
         //        } else {
@@ -252,7 +261,7 @@ public class Launcher extends Application implements LauncherDefaults {
         //    });
         //    trayMenu.add(showItem);
         //
-        //    MenuItem quitItem = new MenuItem(getMessage(QUIT), e -> {
+        //    MenuItem quitItem = new MenuItem(Messages.get(QUIT), e -> {
         //        Platform.runLater(() -> EventBus.getInstance().publish(new CloseEvent(exitCode)));
         //    });
         //    trayMenu.add(quitItem);
@@ -273,7 +282,7 @@ public class Launcher extends Application implements LauncherDefaults {
 
             PopupMenu trayMenu = new PopupMenu();
 
-            MenuItem showItem = new MenuItem(getMessage(MAIN_TRAY_OPEN));
+            MenuItem showItem = new MenuItem(Messages.get(MAIN_TRAY_OPEN));
             ActionListener showListener = e -> {
                 if (primaryStage.isShowing()) {
                     Platform.runLater(primaryStage::toFront);
@@ -284,7 +293,7 @@ public class Launcher extends Application implements LauncherDefaults {
             showItem.addActionListener(showListener);
             trayMenu.add(showItem);
 
-            MenuItem closeItem = new MenuItem(getMessage(QUIT));
+            MenuItem closeItem = new MenuItem(Messages.get(QUIT));
             ActionListener closeListener = e ->
                     Platform.runLater(() -> EventBus.getInstance().publish(new CloseEvent(exitCode)));
             closeItem.addActionListener(closeListener);
@@ -317,7 +326,7 @@ public class Launcher extends Application implements LauncherDefaults {
         }
     }
 
-    private void createResources() throws Exception {
+    private void createUserResources() throws Exception {
         if (!Files.exists(DATA_DIR)) Files.createDirectory(DATA_DIR);
         if (!Files.exists(PLUGINS_DIR)) Files.createDirectory(PLUGINS_DIR);
     }

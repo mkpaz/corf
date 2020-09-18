@@ -10,6 +10,7 @@ import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import org.telekit.base.EventBus;
+import org.telekit.base.Messages;
 import org.telekit.base.Settings;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
@@ -19,7 +20,6 @@ import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.base.util.SequenceGenerator;
 import org.telekit.base.util.SequenceGenerator.Item;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
-import org.telekit.ui.service.Messages.Keys;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.telekit.ui.service.Messages.getMessage;
+import static org.telekit.ui.main.AllMessageKeys.*;
 
 public class RootController extends Controller {
 
@@ -82,7 +82,7 @@ public class RootController extends Controller {
 
     @FXML
     public void initialize() {
-        lbRowLimit.setText(getMessage(Keys.TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, Settings.TEXTAREA_ROW_LIMIT));
+        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, Settings.TEXTAREA_ROW_LIMIT));
 
         startA.setEditable(true);
 
@@ -174,8 +174,8 @@ public class RootController extends Controller {
         long sequenceSize = items.stream().map(item -> item.count).reduce(1, (a, b) -> a * b);
         if (sequenceSize > MAX_SEQUENCE_SIZE) {
             Dialogs.warning()
-                    .title(getMessage(Keys.WARNING))
-                    .content(getMessage(Keys.TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_SEQUENCE_SIZE))
+                    .title(Messages.get(WARNING))
+                    .content(Messages.get(TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_SEQUENCE_SIZE))
                     .build()
                     .showAndWait();
         }
@@ -207,7 +207,7 @@ public class RootController extends Controller {
     @FXML
     public void saveToFile() {
         File outputFile = Dialogs.file()
-                .addFilter(getMessage(Keys.FILE_DIALOG_TEXT), "*.txt")
+                .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
                 .initialFilename(FileUtils.sanitizeFileName("sequence.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
@@ -220,7 +220,7 @@ public class RootController extends Controller {
 
             out.write(resultCache);
         } catch (Exception e) {
-            throw new TelekitException(getMessage(Keys.MSG_UNABLE_TO_SAVE_FILE), e);
+            throw new TelekitException(Messages.get(MSG_UNABLE_TO_SAVE_FILE), e);
         }
     }
 
