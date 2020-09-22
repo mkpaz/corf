@@ -5,6 +5,8 @@ import org.jetbrains.annotations.Nullable;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public interface Plugin {
 
@@ -22,6 +24,8 @@ public interface Plugin {
     List<? extends DependencyModule> getModules();
 
     List<Tool> getTools();
+
+    ResourceBundle getBundle(Locale locale);
 
     void onLoad();
 

@@ -230,9 +230,11 @@ public class Launcher extends Application implements LauncherDefaults {
     }
 
     private void loadResourceBundles() {
-        ResourceBundle baseBundle = MessagesBundleProvider.getBundle(Settings.LOCALE);
-        ResourceBundle uiBundle = ResourceBundle.getBundle(I18N_RESOURCES_PATH, Settings.LOCALE, Launcher.class.getModule());
-        Messages.getInstance().loadFromBundles(Arrays.asList(baseBundle, uiBundle));
+        Messages.getInstance().load(MessagesBundleProvider.getBundle(Settings.LOCALE), Messages.class.getName());
+        Messages.getInstance().load(
+                ResourceBundle.getBundle(I18N_RESOURCES_PATH, Settings.LOCALE, Launcher.class.getModule()),
+                Launcher.class.getName()
+        );
     }
 
     // - JavaFX doesn't support system tray at all

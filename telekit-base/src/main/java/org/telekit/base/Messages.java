@@ -8,6 +8,7 @@ import java.util.*;
 public class Messages extends ResourceBundle {
 
     private Map<String, String> resources = new HashMap<>();
+    private Set<String> loadedID = new HashSet<>();
 
     private Messages() {}
 
@@ -21,11 +22,11 @@ public class Messages extends ResourceBundle {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    public void loadFromBundles(List<ResourceBundle> bundles) {
-        bundles.forEach(bundle -> {
-            ArrayList<String> keysList = Collections.list(bundle.getKeys());
-            keysList.forEach(key -> resources.put(key, bundle.getString(key)));
-        });
+    public void load(@NotNull ResourceBundle bundle, @NotNull String id) {
+        if (loadedID.contains(id)) return;
+        ArrayList<String> keysList = Collections.list(bundle.getKeys());
+        keysList.forEach(key -> resources.put(key, bundle.getString(key)));
+        loadedID.add(id);
     }
 
     @Override

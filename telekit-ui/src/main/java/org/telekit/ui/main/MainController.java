@@ -241,6 +241,12 @@ public class MainController extends Controller {
         Objects.requireNonNull(container);
         Plugin plugin = container.getPlugin();
 
+        // load plugin i18n resources lazily on first start
+        ResourceBundle bundle = plugin.getBundle(Settings.LOCALE);
+        if (bundle != null) {
+            Messages.getInstance().load(bundle, plugin.getClass().getName());
+        }
+
         Tool tool = plugin.getTools().stream()
                 .filter(elem -> elem.getName().equals(id.getToolName()))
                 .findFirst()

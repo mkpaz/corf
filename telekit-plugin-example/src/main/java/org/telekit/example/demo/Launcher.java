@@ -5,10 +5,9 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.telekit.base.ApplicationContext;
-import org.telekit.base.LauncherDefaults;
-import org.telekit.base.Settings;
+import org.telekit.base.*;
 import org.telekit.base.plugin.Tool;
+import org.telekit.example.ExamplePlugin;
 import org.telekit.example.service.ExampleDependencyModule;
 import org.telekit.example.tools.ExampleController;
 import org.telekit.example.tools.ExampleTool;
@@ -28,7 +27,12 @@ public class Launcher extends Application implements LauncherDefaults {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
+        ExamplePlugin plugin = new ExamplePlugin();
+
+        Messages.getInstance().load(MessagesBundleProvider.getBundle(Settings.LOCALE), Messages.class.getName());
+        Messages.getInstance().load(plugin.getBundle(Settings.LOCALE), Launcher.class.getName());
+
         applicationContext.configure(new ExampleDependencyModule());
 
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());

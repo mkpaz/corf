@@ -11,13 +11,12 @@ import org.telekit.example.tools.ExampleTool;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class ExamplePlugin implements Plugin {
 
     public static final String ASSETS_PATH = "/org/telekit/example/assets/";
+    public static final String I18N_MESSAGES_PATH = "org.telekit.example.i18n.messages";
     public static final String PLUGIN_PROPERTIES = "plugin.properties";
     public static final String SAMPLE_PROPERTIES = "sample.properties";
 
@@ -53,6 +52,11 @@ public class ExamplePlugin implements Plugin {
     @Override
     public List<Tool> getTools() {
         return List.of(new ExampleTool());
+    }
+
+    @Override
+    public ResourceBundle getBundle(Locale locale) {
+        return ResourceBundle.getBundle(I18N_MESSAGES_PATH, locale, ExamplePlugin.class.getModule());
     }
 
     @Override

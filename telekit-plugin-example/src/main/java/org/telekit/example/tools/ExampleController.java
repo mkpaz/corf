@@ -1,10 +1,12 @@
 package org.telekit.example.tools;
 
 import javafx.fxml.FXML;
+import org.telekit.base.Messages;
 import org.telekit.base.Settings;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.util.FileUtils;
+import org.telekit.example.ExampleMessageKeys;
 import org.telekit.example.ExamplePlugin;
 import org.telekit.example.service.FooService;
 
@@ -30,7 +32,7 @@ public class ExampleController extends Controller {
         System.out.println(loadConfig());
 
         System.out.println("Checking injected dependencies:");
-        System.out.println(FooService.class.getName() + " says: " + fooService.foo());
+        System.out.println(FooService.class.getName() + " says: " + fooService.hello());
     }
 
     private Properties loadConfig() {
@@ -41,8 +43,8 @@ public class ExampleController extends Controller {
     @FXML
     public void hello() {
         Dialogs.info()
-                .title("Info")
-                .content(fooService.foo())
+                .title(Messages.get(ExampleMessageKeys.INFO))
+                .content(fooService.hello())
                 .build()
                 .showAndWait();
     }
