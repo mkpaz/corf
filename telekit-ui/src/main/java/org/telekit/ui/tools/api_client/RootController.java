@@ -28,10 +28,10 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.Messages;
-import org.telekit.base.Environment;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.domain.NamedBean;
@@ -40,6 +40,7 @@ import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.fx.FXBindings;
+import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.CSVUtils;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
@@ -109,9 +110,11 @@ public class RootController extends Controller {
     private Executor executor;
     private ReadOnlyBooleanProperty ongoingProperty;
     private boolean passwordVisible = false;
+    private ApplicationPreferences preferences;
 
     @Inject
-    public RootController(XmlMapper xmlMapper) {
+    public RootController(ApplicationPreferences preferences, XmlMapper xmlMapper) {
+        this.preferences = preferences;
         this.xmlMapper = xmlMapper;
     }
 
@@ -454,6 +457,10 @@ public class RootController extends Controller {
                     Executor.AuthType.BASIC,
                     new AuthPrincipal(trim(tfUsername.getText()), trim(pfPassword.getText()))
             );
+        }
+
+        if (preferences.getProxy() != null) {
+            executor.setProxy(preferences.getProxy());
         }
 
         final ObservableList<CompletedRequest> result = executor.getPartialResults();

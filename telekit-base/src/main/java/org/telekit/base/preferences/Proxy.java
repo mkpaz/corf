@@ -1,5 +1,6 @@
 package org.telekit.base.preferences;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.domain.AuthPrincipal;
 
@@ -44,10 +45,12 @@ public class Proxy {
         this.password = password;
     }
 
+    @JsonIgnore
     public @Nullable AuthPrincipal getPrincipal() {
         return isNotBlank(username) && isNotBlank(password) ? new AuthPrincipal(username, password) : null;
     }
 
+    @JsonIgnore
     public boolean isValid() {
         // TODO: add decent url validator
         return !isBlank(url);
