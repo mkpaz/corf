@@ -72,11 +72,11 @@ public class PreferencesController extends Controller {
         if (isNotBlank(tfProxyURL.getText())) {
             Proxy proxy = new Proxy();
             proxy.setUrl(tfProxyURL.getText().trim());
-            if (isNotBlank(tfProxyUsername.getText()) && isNotBlank(pfProxyPassword.getText())) {
-                proxy.setUsername(tfProxyUsername.getText().trim());
-                proxy.setPassword(pfProxyPassword.getText().trim());
-            }
+            if (isNotBlank(tfProxyUsername.getText())) proxy.setUsername(tfProxyUsername.getText().trim());
+            if (isNotBlank(pfProxyPassword.getText())) proxy.setPassword(pfProxyPassword.getText().trim());
             preferences.setProxy(proxy);
+        } else {
+            preferences.setProxy(null);
         }
 
         rootPane.getScene().getWindow().hide();

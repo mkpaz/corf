@@ -51,7 +51,7 @@ public class ApplicationPreferences {
     }
 
     public @Nullable Proxy getProxy() {
-        return proxy != null && proxy.isValid() ? proxy : null;
+        return proxy;
     }
 
     public void setProxy(Proxy proxy) {

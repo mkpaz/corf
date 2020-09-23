@@ -31,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.i18n.Messages;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.domain.NamedBean;
@@ -40,6 +39,7 @@ import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.fx.FXBindings;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.CSVUtils;
 import org.telekit.base.util.DesktopUtils;
@@ -459,7 +459,7 @@ public class RootController extends Controller {
             );
         }
 
-        if (preferences.getProxy() != null) {
+        if (preferences.getProxy() != null && preferences.getProxy().isValid()) {
             executor.setProxy(preferences.getProxy());
         }
 
