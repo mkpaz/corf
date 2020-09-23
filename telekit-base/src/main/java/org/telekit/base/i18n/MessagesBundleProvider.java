@@ -1,4 +1,6 @@
-package org.telekit.base;
+package org.telekit.base.i18n;
+
+import org.telekit.base.i18n.Messages;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

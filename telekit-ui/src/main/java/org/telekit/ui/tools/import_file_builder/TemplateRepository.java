@@ -4,7 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.service.XMLBeanRepository;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.telekit.ui.main.AllMessageKeys.MGG_UNABLE_TO_PARSE_CONFIG;
-import static org.telekit.ui.main.AllMessageKeys.MGG_UNABLE_TO_SAVE_CONFIG;
+import static org.telekit.ui.main.MessageKeys.MGG_UNABLE_TO_PARSE_CONFIG;
+import static org.telekit.ui.main.MessageKeys.MGG_UNABLE_TO_SAVE_CONFIG;
 
 public class TemplateRepository extends XMLBeanRepository<Template> {
 

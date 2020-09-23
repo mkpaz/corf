@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
@@ -23,7 +23,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.telekit.base.util.CollectionUtils.*;
 import static org.telekit.base.util.telecom.SS7Utils.*;
-import static org.telekit.ui.main.AllMessageKeys.MSG_GENERIC_IO_ERROR;
+import static org.telekit.ui.main.MessageKeys.MSG_GENERIC_IO_ERROR;
 
 public class CICTableController extends Controller {
 

@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import org.telekit.base.EventBus;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.telekit.base.Environment.TEXTAREA_ROW_LIMIT;
-import static org.telekit.ui.main.AllMessageKeys.*;
+import static org.telekit.ui.main.MessageKeys.*;
 
 public class RootController extends Controller {
 

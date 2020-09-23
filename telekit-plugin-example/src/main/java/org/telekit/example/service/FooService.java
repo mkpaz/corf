@@ -1,11 +1,11 @@
 package org.telekit.example.service;
 
-import org.telekit.base.Messages;
-import org.telekit.example.ExampleMessageKeys;
+import org.telekit.base.i18n.Messages;
+import org.telekit.example.MessageKeys;
 
 public class FooService {
 
     public String hello() {
-        return Messages.get(ExampleMessageKeys.HELLO);
+        return Messages.get(MessageKeys.HELLO);
     }
 }

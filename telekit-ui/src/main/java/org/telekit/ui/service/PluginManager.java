@@ -2,7 +2,7 @@ package org.telekit.ui.service;
 
 import de.skuzzle.semantic.Version;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.plugin.Metadata;
@@ -29,7 +29,7 @@ import static org.telekit.base.domain.TelekitException.fire;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.base.util.FileUtils.*;
 import static org.telekit.base.util.StringUtils.trimEquals;
-import static org.telekit.ui.main.AllMessageKeys.*;
+import static org.telekit.ui.main.MessageKeys.*;
 
 public class PluginManager {
 

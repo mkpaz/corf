@@ -1,4 +1,4 @@
-package org.telekit.base;
+package org.telekit.base.i18n;
 
 import org.jetbrains.annotations.NotNull;
 

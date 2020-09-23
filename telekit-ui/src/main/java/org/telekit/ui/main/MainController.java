@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.fx.Controller;
@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Environment.ICON_APP;
 import static org.telekit.base.util.CommonUtils.canonicalName;
-import static org.telekit.ui.main.AllMessageKeys.*;
+import static org.telekit.ui.main.MessageKeys.*;
 
 public class MainController extends Controller {
 

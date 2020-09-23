@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.telekit.base.*;
+import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.MessagesBundleProvider;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.example.ExamplePlugin;

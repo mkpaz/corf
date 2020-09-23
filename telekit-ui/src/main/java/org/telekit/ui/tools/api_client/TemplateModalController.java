@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.telekit.base.EventBus;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.FXBindings;
 import org.telekit.ui.tools.Action;
@@ -19,8 +19,8 @@ import java.util.Set;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.ui.main.AllMessageKeys.TOOLS_EDIT_TEMPLATE;
-import static org.telekit.ui.main.AllMessageKeys.TOOLS_NEW_TEMPLATE;
+import static org.telekit.ui.main.MessageKeys.TOOLS_EDIT_TEMPLATE;
+import static org.telekit.ui.main.MessageKeys.TOOLS_NEW_TEMPLATE;
 
 public class TemplateModalController extends Controller {
 

@@ -12,6 +12,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.*;
 import org.telekit.base.EventBus.Listener;
+import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.MessagesBundleProvider;
 import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.preferences.ApplicationPreferences;
@@ -21,7 +23,6 @@ import org.telekit.ui.domain.PluginContainer;
 import org.telekit.ui.main.MainController;
 import org.telekit.ui.main.Views;
 import org.telekit.ui.service.ExceptionHandler;
-import org.telekit.ui.service.MainDependencyModule;
 import org.telekit.ui.service.PluginCleaner;
 import org.telekit.ui.service.PluginManager;
 
@@ -43,8 +44,8 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.telekit.base.Environment.*;
-import static org.telekit.ui.main.AllMessageKeys.MAIN_TRAY_OPEN;
-import static org.telekit.ui.main.AllMessageKeys.QUIT;
+import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
+import static org.telekit.ui.main.MessageKeys.QUIT;
 
 public class Launcher extends Application implements LauncherDefaults {
 

@@ -1,6 +1,6 @@
-package org.telekit.base;
+package org.telekit.base.i18n;
 
-public interface MessageKeys {
+public interface BaseMessageKeys {
 
     String CONFIRMATION = "Confirmation";
     String INFO = "Info";

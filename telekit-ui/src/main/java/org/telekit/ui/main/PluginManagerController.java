@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.plugin.Metadata;
@@ -41,7 +41,7 @@ import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PLUGINS_STATE_CHANGED;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
-import static org.telekit.ui.main.AllMessageKeys.*;
+import static org.telekit.ui.main.MessageKeys.*;
 
 public class PluginManagerController extends Controller {
 

@@ -1,12 +1,12 @@
 package org.telekit.example.tools;
 
 import javafx.fxml.FXML;
-import org.telekit.base.Messages;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.Environment;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.util.FileUtils;
-import org.telekit.example.ExampleMessageKeys;
+import org.telekit.example.MessageKeys;
 import org.telekit.example.ExamplePlugin;
 import org.telekit.example.service.FooService;
 
@@ -43,7 +43,7 @@ public class ExampleController extends Controller {
     @FXML
     public void hello() {
         Dialogs.info()
-                .title(Messages.get(ExampleMessageKeys.INFO))
+                .title(Messages.get(MessageKeys.INFO))
                 .content(fooService.hello())
                 .build()
                 .showAndWait();
