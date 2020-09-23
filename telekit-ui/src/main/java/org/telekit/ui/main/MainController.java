@@ -9,17 +9,17 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
-import org.telekit.base.internal.UserPreferences;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
+import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.ui.Launcher;
 import org.telekit.ui.domain.ApplicationEvent;
@@ -35,7 +35,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.Settings.ICON_APP;
+import static org.telekit.base.Environment.ICON_APP;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.ui.main.AllMessageKeys.*;
 
@@ -61,13 +61,13 @@ public class MainController extends Controller {
     public Stage primaryStage;
     public Timer memoryMonitoringTimer;
 
-    private Settings settings;
+    private ApplicationPreferences preferences;
     private XmlMapper xmlMapper;
     private PluginManager pluginManager;
 
     @Inject
-    public MainController(Settings settings, PluginManager pluginManager, XmlMapper xmlMapper) {
-        this.settings = settings;
+    public MainController(ApplicationPreferences preferences, PluginManager pluginManager, XmlMapper xmlMapper) {
+        this.preferences = preferences;
         this.pluginManager = pluginManager;
         this.xmlMapper = xmlMapper;
     }
@@ -242,7 +242,7 @@ public class MainController extends Controller {
         Plugin plugin = container.getPlugin();
 
         // load plugin i18n resources lazily on first start
-        ResourceBundle bundle = plugin.getBundle(settings.getLocale());
+        ResourceBundle bundle = plugin.getBundle(preferences.getLocale());
         if (bundle != null) {
             Messages.getInstance().load(bundle, plugin.getClass().getName());
         }
@@ -261,7 +261,7 @@ public class MainController extends Controller {
             Stage modalWindow = Dialogs.modal(controller.getParent())
                     .owner(primaryStage)
                     .title(tool.getName())
-                    .icon(Settings.getIcon(ICON_APP))
+                    .icon(Environment.getIcon(ICON_APP))
                     .resizable(false)
                     .build();
             controller.setStage(modalWindow);
@@ -294,7 +294,7 @@ public class MainController extends Controller {
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
                 .title(Messages.get(MAIN_ABOUT))
-                .icon(Settings.getIcon(ICON_APP))
+                .icon(Environment.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
                 .showAndWait();
@@ -306,7 +306,7 @@ public class MainController extends Controller {
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
                 .title(Messages.get(PREFERENCES))
-                .icon(Settings.getIcon(ICON_APP))
+                .icon(Environment.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
                 .showAndWait();
@@ -318,7 +318,7 @@ public class MainController extends Controller {
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
                 .title(Messages.get(MAIN_PLUGIN_MANAGER))
-                .icon(Settings.getIcon(ICON_APP))
+                .icon(Environment.getIcon(ICON_APP))
                 .resizable(false)
                 .build()
                 .showAndWait();
@@ -331,18 +331,18 @@ public class MainController extends Controller {
 
     @FXML
     public void showHelp() {
-        Path docPath = Settings.DOCS_DIR.resolve("ru/index.html");
+        Path docPath = Environment.DOCS_DIR.resolve("ru/index.html");
         DesktopUtils.openQuietly(docPath.toFile());
     }
 
     @FXML
     public void openDataDir() {
-        DesktopUtils.openQuietly(Settings.DATA_DIR.toFile());
+        DesktopUtils.openQuietly(Environment.DATA_DIR.toFile());
     }
 
     @FXML
     public void openPluginsDir() {
-        Path pluginsDir = Settings.PLUGINS_DIR;
+        Path pluginsDir = Environment.PLUGINS_DIR;
         if (Files.exists(pluginsDir)) {
             DesktopUtils.openQuietly(pluginsDir.toFile());
         }
@@ -362,7 +362,7 @@ public class MainController extends Controller {
     private void onApplicationEvent(ApplicationEvent event) {
         switch (event.getType()) {
             case RESTART_REQUIRED:
-                primaryStage.setTitle(Settings.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
+                primaryStage.setTitle(Environment.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
                 break;
             case PLUGINS_STATE_CHANGED:
                 List<PluginContainer> plugins = pluginManager.getPlugins(status ->
@@ -372,8 +372,7 @@ public class MainController extends Controller {
                 reloadPluginsMenu();
                 break;
             case PREFERENCES_CHANGED:
-                UserPreferences preferences = settings.getPreferences();
-                UserPreferences.store(preferences, xmlMapper, UserPreferences.CONFIG_PATH);
+                ApplicationPreferences.store(preferences, xmlMapper, ApplicationPreferences.CONFIG_PATH);
                 break;
         }
     }

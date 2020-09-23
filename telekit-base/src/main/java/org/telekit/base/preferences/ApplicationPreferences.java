@@ -1,33 +1,38 @@
-package org.telekit.base.internal;
+package org.telekit.base.preferences;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.domain.Language;
+import org.jetbrains.annotations.Nullable;
+import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 
 import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
-import static org.telekit.base.Settings.DATA_DIR;
+import static org.telekit.base.Environment.DATA_DIR;
 
 @JacksonXmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserPreferences {
+public class ApplicationPreferences {
 
     public static final Path CONFIG_PATH = DATA_DIR.resolve("preferences.xml");
 
     private Language language = Language.EN;
     private boolean systemTray = false;
+    private Proxy proxy;
+
     @JacksonXmlElementWrapper(localName = "disabledPlugins")
     @JacksonXmlProperty(localName = "item")
     private Set<String> disabledPlugins = new HashSet<>();
 
-    public UserPreferences() {}
+    public ApplicationPreferences() {}
 
     public Language getLanguage() {
         return language;
@@ -45,8 +50,15 @@ public class UserPreferences {
         this.systemTray = systemTray;
     }
 
-    @NotNull
-    public Set<String> getDisabledPlugins() {
+    public @Nullable Proxy getProxy() {
+        return proxy != null && proxy.isValid() ? proxy : null;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public @NotNull Set<String> getDisabledPlugins() {
         return disabledPlugins;
     }
 
@@ -54,22 +66,31 @@ public class UserPreferences {
         this.disabledPlugins = disabledPlugins != null ? disabledPlugins : new HashSet<>();
     }
 
+    @JsonIgnore
+    public @NotNull Locale getLocale() {
+        // env variable is only needed to simplify app testing
+        return Environment.LOCALE != null ? Environment.LOCALE : language.getLocale();
+    }
+
     @Override
     public String toString() {
-        return "Preferences{" +
-                "disabledPlugins=" + disabledPlugins +
+        return "UserPreferences{" +
+                "language=" + language +
+                ", systemTray=" + systemTray +
+                ", proxy=" + proxy +
+                ", disabledPlugins=" + disabledPlugins +
                 '}';
     }
 
-    public static UserPreferences load(XmlMapper mapper, Path path) {
+    public static ApplicationPreferences load(XmlMapper mapper, Path path) {
         try {
-            return mapper.readValue(CONFIG_PATH.toFile(), UserPreferences.class);
+            return mapper.readValue(CONFIG_PATH.toFile(), ApplicationPreferences.class);
         } catch (Exception e) {
             throw new TelekitException("Unable to parse preferences file", e);
         }
     }
 
-    public static void store(UserPreferences preferences, XmlMapper mapper, Path path) {
+    public static void store(ApplicationPreferences preferences, XmlMapper mapper, Path path) {
         try {
             mapper.writeValue(CONFIG_PATH.toFile(), preferences);
         } catch (Exception e) {

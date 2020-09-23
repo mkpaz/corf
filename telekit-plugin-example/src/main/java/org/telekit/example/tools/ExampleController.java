@@ -2,7 +2,7 @@ package org.telekit.example.tools;
 
 import javafx.fxml.FXML;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.util.FileUtils;
@@ -36,7 +36,7 @@ public class ExampleController extends Controller {
     }
 
     private Properties loadConfig() {
-        File resource = Settings.getPluginResourcesDir(ExamplePlugin.class).resolve(SAMPLE_PROPERTIES).toFile();
+        File resource = Environment.getPluginResourcesDir(ExamplePlugin.class).resolve(SAMPLE_PROPERTIES).toFile();
         return FileUtils.loadProperties(resource, StandardCharsets.UTF_8);
     }
 

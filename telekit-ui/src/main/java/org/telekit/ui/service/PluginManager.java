@@ -3,7 +3,7 @@ package org.telekit.ui.service;
 import de.skuzzle.semantic.Version;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
@@ -44,7 +44,7 @@ public class PluginManager {
     public void loadPlugins(Set<String> disabledPlugins) {
         LOGGER.info("Found plugins:");
 
-        Set<Path> scanPaths = Set.of(Settings.PLUGINS_DIR);
+        Set<Path> scanPaths = Set.of(Environment.PLUGINS_DIR);
         ServiceLoader<Plugin> plugins = scanForPlugins(scanPaths);
         for (Plugin plugin : plugins) {
             Status status = !disabledPlugins.contains(canonicalName(plugin)) ?
@@ -107,8 +107,8 @@ public class PluginManager {
         Path distribJAR = createFromURL(Objects.requireNonNull(location)).toPath();
         Path distribResources = installDirectory.resolve(Plugin.PLUGIN_RESOURCES_DIR);
 
-        copyFile(distribJAR, Settings.PLUGINS_DIR.resolve(distribJAR.getFileName()), REPLACE_EXISTING);
-        copyFolder(distribResources, Settings.getPluginResourcesDir(candidate.getClass()), false);
+        copyFile(distribJAR, Environment.PLUGINS_DIR.resolve(distribJAR.getFileName()), REPLACE_EXISTING);
+        copyFolder(distribResources, Environment.getPluginResourcesDir(candidate.getClass()), false);
 
         registerPlugin(candidate, Status.INACTIVE);
     }
@@ -159,7 +159,7 @@ public class PluginManager {
 
         PluginCleaner cleaner = new PluginCleaner();
         cleaner.appendTask(pluginJAR);
-        if (deleteResources) cleaner.appendTask(Settings.getPluginResourcesDir(clazz));
+        if (deleteResources) cleaner.appendTask(Environment.getPluginResourcesDir(clazz));
     }
 
     private ServiceLoader<Plugin> scanForPlugins(Set<Path> scanPaths) {

@@ -1,4 +1,4 @@
-package org.telekit.base.domain;
+package org.telekit.base.preferences;
 
 import java.util.Locale;
 

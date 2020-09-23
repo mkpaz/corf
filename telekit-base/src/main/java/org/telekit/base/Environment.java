@@ -5,7 +5,7 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.internal.UserPreferences;
+import org.telekit.base.preferences.Proxy;
 import org.telekit.base.plugin.Plugin;
 
 import java.awt.*;
@@ -23,7 +23,7 @@ import static org.telekit.base.util.CommonUtils.defaultPath;
 import static org.telekit.base.util.CommonUtils.getPropertyOrEnv;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 
-public final class Settings {
+public final class Environment {
 
     public static final String APP_NAME = "Telekit";
     public static final int TEXTAREA_ROW_LIMIT = 1000;
@@ -49,8 +49,8 @@ public final class Settings {
 
     /* Icon Cache */
 
-    public static final Map<String, Image> ICON_CACHE = new HashMap<>();
     public static final String ICON_APP = "ICON_APP";
+    public static final Map<String, Image> ICON_CACHE = new HashMap<>();
 
     public static Image getIcon(String iconID) {
         return ICON_CACHE.get(iconID);
@@ -82,10 +82,9 @@ public final class Settings {
         return new Dimension(userWidth, userHeight);
     }
 
-    /* Preferences */
+    /* Locale */
 
-    private UserPreferences preferences;
-    private static Locale LOCALE = getLocaleFromEnv();
+    public static Locale LOCALE = getLocaleFromEnv();
 
     private static Locale getLocaleFromEnv() {
         String localeStr = getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE");
@@ -96,26 +95,5 @@ public final class Settings {
             }
         }
         return null;
-    }
-
-    public static final String PROXY_URL =
-            getPropertyOrEnv("telekit.proxy.url", "TELEKIT_PROXY_URL");
-    public static final String PROXY_USERNAME =
-            getPropertyOrEnv("telekit.proxy.username", "TELEKIT_PROXY_USERNAME");
-    public static final String PROXY_PASSWORD =
-            getPropertyOrEnv("telekit.proxy.password", "TELEKIT_PROXY_PASSWORD");
-
-    @NotNull
-    public UserPreferences getPreferences() {
-        return preferences != null ? preferences : new UserPreferences();
-    }
-
-    public void setPreferences(UserPreferences preferences) {
-        this.preferences = preferences;
-    }
-
-    public Locale getLocale() {
-        // env variable is only needed to simplify app testing
-        return LOCALE != null ? LOCALE : getPreferences().getLanguage().getLocale();
     }
 }

@@ -11,9 +11,9 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 
-import static org.telekit.base.Settings.ICON_APP;
+import static org.telekit.base.Environment.ICON_APP;
 
 public final class Dialogs {
 
@@ -51,7 +51,7 @@ public final class Dialogs {
             this.alert = new Alert(type);
             this.alert.setHeaderText(null);
 
-            Image appIcon = Settings.getIcon(ICON_APP);
+            Image appIcon = Environment.getIcon(ICON_APP);
             if (appIcon != null) icon(appIcon);
         }
 

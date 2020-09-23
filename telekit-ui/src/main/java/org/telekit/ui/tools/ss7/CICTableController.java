@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.util.DesktopUtils;
@@ -137,7 +137,7 @@ public class CICTableController extends Controller {
                 ))
         ));
 
-        File outputFile = Settings.TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
+        File outputFile = Environment.TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
         try {
             Files.writeString(outputFile.toPath(), html);
             DesktopUtils.browse(outputFile.toURI());

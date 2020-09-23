@@ -12,13 +12,14 @@ import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
+import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.ApplicationEvent.Type;
@@ -53,12 +54,12 @@ public class PluginManagerController extends Controller {
     public @FXML Button btnPluginDisable;
     public @FXML Hyperlink lnkPluginDocs;
 
-    private Settings settings;
+    private ApplicationPreferences preferences;
     private PluginManager pluginManager;
 
     @Inject
-    public PluginManagerController(Settings settings, PluginManager pluginManager) {
-        this.settings = settings;
+    public PluginManagerController(ApplicationPreferences preferences, PluginManager pluginManager) {
+        this.preferences = preferences;
         this.pluginManager = pluginManager;
     }
 
@@ -145,13 +146,13 @@ public class PluginManagerController extends Controller {
         try {
             URL location = plugin.getLocation();
             if (location != null) {
-                final Path pluginsDir = Settings.PLUGINS_DIR;
+                final Path pluginsDir = Environment.PLUGINS_DIR;
                 tb.appendLine(
                         pluginsDir.getParent().relativize(Paths.get(location.toURI())).toString()
                 );
             }
 
-            final Path dataDir = Settings.getPluginResourcesDir(plugin.getClass());
+            final Path dataDir = Environment.getPluginResourcesDir(plugin.getClass());
             if (Files.exists(dataDir)) {
                 Files.walk(dataDir)
                         .filter(path -> !path.equals(dataDir))
@@ -204,7 +205,7 @@ public class PluginManagerController extends Controller {
         }
 
         pluginManager.uninstall(plugin.getClass(), deleteResources);
-        settings.getPreferences().getDisabledPlugins().remove(canonicalName(plugin));
+        preferences.getDisabledPlugins().remove(canonicalName(plugin));
 
         updatePluginsList(0);
         Dialogs.info()
@@ -250,11 +251,11 @@ public class PluginManagerController extends Controller {
         pluginManager.setStatus(Set.of(canonicalName), status);
 
         if (status == Status.ENABLED) {
-            settings.getPreferences().getDisabledPlugins().remove(canonicalName);
+            preferences.getDisabledPlugins().remove(canonicalName);
         }
 
         if (status == Status.DISABLED) {
-            settings.getPreferences().getDisabledPlugins().add(canonicalName);
+            preferences.getDisabledPlugins().add(canonicalName);
         }
 
         updatePluginsList(selectedIndex);

@@ -31,7 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.domain.NamedBean;
@@ -60,7 +60,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.Settings.ICON_APP;
+import static org.telekit.base.Environment.ICON_APP;
 import static org.telekit.ui.main.AllMessageKeys.*;
 import static org.telekit.ui.tools.Action.NEW;
 
@@ -286,7 +286,7 @@ public class RootController extends Controller {
         Controller controller = UILoader.load(Views.API_CLIENT_TEMPLATE.getLocation(), Messages.getInstance());
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
-                .icon(Settings.getIcon(ICON_APP))
+                .icon(Environment.getIcon(ICON_APP))
                 .resizable(false)
                 .build();
         controller.setStage(dialog);
@@ -310,7 +310,7 @@ public class RootController extends Controller {
     public void showPreview() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
         if (selectedTemplate != null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            File outputFile = Settings.TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
+            File outputFile = Environment.TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
             String html = PreviewRenderer.render(selectedTemplate);
             try {
                 Files.writeString(outputFile.toPath(), html);
@@ -399,7 +399,7 @@ public class RootController extends Controller {
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
                 .title(Messages.get(TOOLS_ADD_PARAM))
-                .icon(Settings.getIcon(ICON_APP))
+                .icon(Environment.getIcon(ICON_APP))
                 .resizable(false)
                 .build();
         controller.setStage(dialog);

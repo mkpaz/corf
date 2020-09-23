@@ -6,10 +6,9 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import org.telekit.base.Settings;
 import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.domain.LineSeparator;
-import org.telekit.base.util.FileUtils;
+import org.telekit.base.preferences.Proxy;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.ui.tools.api_client.HttpClient.Request;
 import org.telekit.ui.tools.api_client.HttpClient.Response;
@@ -35,6 +34,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
 
     private AuthType authType;
     private AuthPrincipal authPrincipal;
+    private Proxy proxy;
 
     public Executor(Template template, String[][] csv) {
         this.template = new Template(template);
@@ -66,11 +66,8 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         Entry<String, String> contentType = contentTypeHeader(template.getContentType());
         headers.put(contentType.getKey(), contentType.getValue());
 
-        if (isNotEmpty(Settings.PROXY_URL)) {
-            AuthPrincipal proxyAuth = isNotEmpty(Settings.PROXY_USERNAME) && isNotEmpty(Settings.PROXY_PASSWORD) ?
-                    new AuthPrincipal(Settings.PROXY_USERNAME, Settings.PROXY_PASSWORD) :
-                    null;
-            http.setProxy(Settings.PROXY_URL, proxyAuth);
+        if (proxy != null) {
+            http.setProxy(proxy.getUrl(), proxy.getPrincipal());
         }
 
         if (authType == AuthType.BASIC) {
@@ -313,6 +310,10 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
     public void setAuthData(AuthType authType, AuthPrincipal authPrincipal) {
         this.authType = authType;
         this.authPrincipal = authPrincipal;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
     }
 
     public enum Warning {

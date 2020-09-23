@@ -1,7 +1,7 @@
 package org.telekit.ui.domain;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.plugin.Plugin;
 
 import java.nio.file.Files;
@@ -37,7 +37,7 @@ public class PluginContainer {
     }
 
     public boolean hasResources() {
-        return Files.exists(Settings.getPluginResourcesDir(plugin.getClass()));
+        return Files.exists(Environment.getPluginResourcesDir(plugin.getClass()));
     }
 
     public SimpleBooleanProperty selectedProperty() {

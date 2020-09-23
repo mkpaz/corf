@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import org.telekit.base.EventBus;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.*;
@@ -82,7 +82,7 @@ public class RootController extends Controller {
 
     @FXML
     public void initialize() {
-        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, Settings.TEXTAREA_ROW_LIMIT));
+        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, Environment.TEXTAREA_ROW_LIMIT));
 
         startA.setEditable(true);
 

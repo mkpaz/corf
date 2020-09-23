@@ -12,33 +12,46 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.telekit.base.Provides;
-import org.telekit.base.Settings;
+import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.plugin.DependencyModule;
 
 import javax.inject.Singleton;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import static org.apache.commons.lang3.StringUtils.trim;
 
 public class MainDependencyModule implements DependencyModule {
 
+    private final XmlMapper mapper;
     private final PluginManager pluginManager;
 
     public MainDependencyModule(PluginManager pluginManager) {
         this.pluginManager = pluginManager;
+        this.mapper = createDefaultMapper();
     }
 
     @Provides
+    @Singleton
     public PluginManager pluginManager() {
         return pluginManager;
     }
 
     @Provides
     @Singleton
-    public Settings settings() {
-        return new Settings();
+    public ApplicationPreferences applicationPreferences() {
+        ApplicationPreferences preferences;
+
+        if (Files.exists(ApplicationPreferences.CONFIG_PATH)) {
+            preferences = ApplicationPreferences.load(mapper, ApplicationPreferences.CONFIG_PATH);
+        } else {
+            preferences = new ApplicationPreferences();
+            ApplicationPreferences.store(preferences, mapper, ApplicationPreferences.CONFIG_PATH);
+        }
+
+        return preferences;
     }
 
     @Provides

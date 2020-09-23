@@ -2,7 +2,7 @@ package org.telekit.ui.service;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.util.FileUtils;
 
 import java.io.*;
@@ -28,7 +28,7 @@ public class PluginCleaner {
     private final Path configPath;
 
     public PluginCleaner() {
-        configPath = Settings.PLUGINS_DIR.resolve(STARTUP_RM_FILE);
+        configPath = Environment.PLUGINS_DIR.resolve(STARTUP_RM_FILE);
     }
 
     public void appendTask(@NotNull Path path) {

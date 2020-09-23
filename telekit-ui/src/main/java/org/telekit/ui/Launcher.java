@@ -1,6 +1,5 @@
 package org.telekit.ui;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -13,9 +12,9 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.*;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.internal.UserPreferences;
 import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.Plugin;
+import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.CommonUtils;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.PluginContainer;
@@ -43,7 +42,7 @@ import java.util.*;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import static org.telekit.base.Settings.*;
+import static org.telekit.base.Environment.*;
 import static org.telekit.ui.main.AllMessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.AllMessageKeys.QUIT;
 
@@ -61,7 +60,7 @@ public class Launcher extends Application implements LauncherDefaults {
     private ApplicationContext applicationContext = ApplicationContext.getInstance();
     private Logger logger;
     private ExceptionHandler exceptionHandler;
-    private Settings settings;
+    private ApplicationPreferences preferences;
 
     public static void main(String[] args) {
         launch(args);
@@ -75,7 +74,7 @@ public class Launcher extends Application implements LauncherDefaults {
                 (thread, throwable) -> exceptionHandler.showErrorDialog(throwable)
         );
 
-        Settings.putIcon(ICON_APP, new Image(getResourceAsStream(APP_ICON_PATH)));
+        Environment.putIcon(ICON_APP, new Image(getResourceAsStream(APP_ICON_PATH)));
         EventBus.getInstance().subscribe(CloseEvent.class, this::close);
 
         // init & run application
@@ -85,8 +84,8 @@ public class Launcher extends Application implements LauncherDefaults {
                 (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation(), Messages.getInstance());
         controller.setPrimaryStage(primaryStage);
 
-        primaryStage.setTitle(Settings.APP_NAME);
-        primaryStage.getIcons().add(Settings.getIcon(ICON_APP));
+        primaryStage.setTitle(Environment.APP_NAME);
+        primaryStage.getIcons().add(Environment.getIcon(ICON_APP));
         primaryStage.setOnCloseRequest(t -> Platform.exit());
 
         Dimension bounds = isScreenFits(PREF_WIDTH, PREF_HEIGHT) ?
@@ -105,7 +104,7 @@ public class Launcher extends Application implements LauncherDefaults {
         );
         primaryStage.show();
 
-        if (settings.getPreferences().isSystemTray()) {
+        if (preferences.isSystemTray()) {
             createTrayIcon(primaryStage);
         }
 
@@ -144,18 +143,17 @@ public class Launcher extends Application implements LauncherDefaults {
         cleaner.executeAllSilently();
 
         // load preferences
-        UserPreferences preferences;
-        XmlMapper mapper = MainDependencyModule.createDefaultMapper();
-        if (Files.exists(UserPreferences.CONFIG_PATH)) {
-            preferences = UserPreferences.load(mapper, UserPreferences.CONFIG_PATH);
-        } else {
-            preferences = new UserPreferences();
-            UserPreferences.store(preferences, mapper, UserPreferences.CONFIG_PATH);
-        }
+//        ApplicationPreferences preferences;
+//        XmlMapper mapper = MainDependencyModule.createDefaultMapper();
+//        if (Files.exists(ApplicationPreferences.CONFIG_PATH)) {
+//            preferences = ApplicationPreferences.load(mapper, ApplicationPreferences.CONFIG_PATH);
+//        } else {
+//            preferences = new ApplicationPreferences();
+//            ApplicationPreferences.store(preferences, mapper, ApplicationPreferences.CONFIG_PATH);
+//        }
 
         // load plugins
         PluginManager pluginManager = new PluginManager();
-        pluginManager.loadPlugins(preferences.getDisabledPlugins());
 
         List<DependencyModule> modules = new ArrayList<>();
         modules.add(new MainDependencyModule(pluginManager));
@@ -165,12 +163,12 @@ public class Launcher extends Application implements LauncherDefaults {
             modules.addAll(plugin.getModules());
         }
 
-        pluginManager.setStatus(preferences.getDisabledPlugins(), PluginContainer.Status.DISABLED);
-
         // configure application context
         applicationContext.configure(modules);
-        settings = applicationContext.getBean(Settings.class);
-        settings.setPreferences(preferences);
+        this.preferences = applicationContext.getBean(ApplicationPreferences.class);
+
+        pluginManager.loadPlugins(preferences.getDisabledPlugins());
+        pluginManager.setStatus(preferences.getDisabledPlugins(), PluginContainer.Status.DISABLED);
 
         loadResourceBundles();
     }
@@ -228,9 +226,12 @@ public class Launcher extends Application implements LauncherDefaults {
     }
 
     private void loadResourceBundles() {
-        Messages.getInstance().load(MessagesBundleProvider.getBundle(settings.getLocale()), Messages.class.getName());
         Messages.getInstance().load(
-                ResourceBundle.getBundle(I18N_RESOURCES_PATH, settings.getLocale(), Launcher.class.getModule()),
+                MessagesBundleProvider.getBundle(preferences.getLocale()),
+                Messages.class.getName()
+        );
+        Messages.getInstance().load(
+                ResourceBundle.getBundle(I18N_RESOURCES_PATH, preferences.getLocale(), Launcher.class.getModule()),
                 Launcher.class.getName()
         );
     }
@@ -299,7 +300,7 @@ public class Launcher extends Application implements LauncherDefaults {
             closeItem.addActionListener(closeListener);
             trayMenu.add(closeItem);
 
-            java.awt.Image trayImage = SwingFXUtils.fromFXImage(Settings.getIcon(ICON_APP), null);
+            java.awt.Image trayImage = SwingFXUtils.fromFXImage(Environment.getIcon(ICON_APP), null);
             TrayIcon trayIcon = new TrayIcon(trayImage, APP_NAME, trayMenu);
 
             SystemTray tray = SystemTray.getSystemTray();

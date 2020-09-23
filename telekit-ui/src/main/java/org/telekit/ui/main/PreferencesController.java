@@ -6,10 +6,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import org.telekit.base.EventBus;
-import org.telekit.base.Settings;
-import org.telekit.base.domain.Language;
 import org.telekit.base.fx.Controller;
-import org.telekit.base.internal.UserPreferences;
+import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.preferences.Language;
 import org.telekit.ui.domain.ApplicationEvent;
 
 import javax.inject.Inject;
@@ -19,15 +18,15 @@ import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 
 public class PreferencesController extends Controller {
 
-    private UserPreferences preferences;
+    private ApplicationPreferences preferences;
 
     public @FXML GridPane rootPane;
     public @FXML ComboBox<Language> cmbLanguage;
     public @FXML CheckBox cbSystemTray;
 
     @Inject
-    public PreferencesController(Settings settings) {
-        this.preferences = settings.getPreferences();
+    public PreferencesController(ApplicationPreferences preferences) {
+        this.preferences = preferences;
     }
 
     @FXML

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.telekit.base.Messages;
-import org.telekit.base.Settings;
+import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.service.XMLBeanRepository;
 
@@ -21,7 +21,7 @@ import static org.telekit.ui.main.AllMessageKeys.MGG_UNABLE_TO_SAVE_CONFIG;
 public class TemplateRepository extends XMLBeanRepository<Template> {
 
     private static final String DATA_FILE_NAME = "api-client.templates.xml";
-    private static final Path DATA_FILE_PATH = Settings.DATA_DIR.resolve(DATA_FILE_NAME);
+    private static final Path DATA_FILE_PATH = Environment.DATA_DIR.resolve(DATA_FILE_NAME);
 
     public TemplateRepository(XmlMapper mapper) {
         super(mapper);
