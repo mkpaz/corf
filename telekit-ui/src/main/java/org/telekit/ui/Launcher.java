@@ -69,25 +69,28 @@ public class Launcher extends Application implements LauncherDefaults {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // set exception handler first
         exceptionHandler = new ExceptionHandler();
         Thread.currentThread().setUncaughtExceptionHandler(
                 (thread, throwable) -> exceptionHandler.showErrorDialog(throwable)
         );
 
-        Environment.putIcon(ICON_APP, new Image(getResourceAsStream(APP_ICON_PATH)));
-        EventBus.getInstance().subscribe(CloseEvent.class, this::close);
-
-        // init & run application
+        // initialize application and set class-level variables
         initialize();
 
-        MainController controller =
-                (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation(), Messages.getInstance());
+        // create main controller
+        MainController controller = (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation(), Messages.getInstance());
         controller.setPrimaryStage(primaryStage);
 
-        primaryStage.setTitle(Environment.APP_NAME);
+        // populate icon cache
+        Environment.putIcon(ICON_APP, new Image(getResourceAsStream(APP_ICON_PATH)));
         primaryStage.getIcons().add(Environment.getIcon(ICON_APP));
+
+        // handle application close events
+        EventBus.getInstance().subscribe(CloseEvent.class, this::close);
         primaryStage.setOnCloseRequest(t -> Platform.exit());
 
+        // set main window size
         Dimension bounds = isScreenFits(PREF_WIDTH, PREF_HEIGHT) ?
                 new Dimension(PREF_WIDTH, PREF_HEIGHT) :
                 new Dimension(MIN_WIDTH, MIN_HEIGHT);
@@ -99,19 +102,19 @@ public class Launcher extends Application implements LauncherDefaults {
         primaryStage.setMinWidth(MIN_WIDTH);
         primaryStage.setMinHeight(MIN_HEIGHT);
 
-        primaryStage.setScene(
-                new Scene(controller.getParent(), bounds.getWidth(), bounds.getHeight())
-        );
+        // show primary stage
+        primaryStage.setTitle(Environment.APP_NAME);
+        primaryStage.setScene(new Scene(controller.getParent(), bounds.getWidth(), bounds.getHeight()));
         primaryStage.show();
-
-        if (preferences.isSystemTray()) {
-            createTrayIcon(primaryStage);
-        }
-
         Platform.runLater(() -> {
             primaryStage.toFront();
             primaryStage.requestFocus();
         });
+
+        // create tray icon (won't work in some Linux DE)
+        if (preferences.isSystemTray()) {
+            createTrayIcon(primaryStage);
+        }
     }
 
     @NotNull
@@ -132,32 +135,21 @@ public class Launcher extends Application implements LauncherDefaults {
 
     ///////////////////////////////////////////////////////////////////////////
 
+    // ATTENTION: code order matters, some of these methods initialize class level variables
     private void initialize() throws Exception {
-        setupLogging();
+        setupLogging(); // initializes logger variable
         logEnvironmentInfo();
-        setSystemProperties();
+        loadApplicationProperties(); // load properties from application.properties file
         createUserResources();
 
         // cleanup previously uninstalled plugins
         PluginCleaner cleaner = new PluginCleaner();
         cleaner.executeAllSilently();
 
-        // load preferences
-//        ApplicationPreferences preferences;
-//        XmlMapper mapper = MainDependencyModule.createDefaultMapper();
-//        if (Files.exists(ApplicationPreferences.CONFIG_PATH)) {
-//            preferences = ApplicationPreferences.load(mapper, ApplicationPreferences.CONFIG_PATH);
-//        } else {
-//            preferences = new ApplicationPreferences();
-//            ApplicationPreferences.store(preferences, mapper, ApplicationPreferences.CONFIG_PATH);
-//        }
-
-        // load plugins
-        PluginManager pluginManager = new PluginManager();
-
+        // collect DI modules
         List<DependencyModule> modules = new ArrayList<>();
+        PluginManager pluginManager = new PluginManager();
         modules.add(new MainDependencyModule(pluginManager));
-
         for (PluginContainer container : pluginManager.getAllPlugins()) {
             Plugin plugin = container.getPlugin();
             modules.addAll(plugin.getModules());
@@ -165,12 +157,21 @@ public class Launcher extends Application implements LauncherDefaults {
 
         // configure application context
         applicationContext.configure(modules);
-        this.preferences = applicationContext.getBean(ApplicationPreferences.class);
+        preferences = applicationContext.getBean(ApplicationPreferences.class);
 
+        // load plugins
         pluginManager.loadPlugins(preferences.getDisabledPlugins());
         pluginManager.setStatus(preferences.getDisabledPlugins(), PluginContainer.Status.DISABLED);
 
-        loadResourceBundles();
+        // load resource bundles
+        Messages.getInstance().load(
+                MessagesBundleProvider.getBundle(preferences.getLocale()),
+                Messages.class.getName()
+        );
+        Messages.getInstance().load(
+                ResourceBundle.getBundle(I18N_RESOURCES_PATH, preferences.getLocale(), Launcher.class.getModule()),
+                Launcher.class.getName()
+        );
     }
 
     private void setupLogging() {
@@ -203,15 +204,12 @@ public class Launcher extends Application implements LauncherDefaults {
         try {
             logger.info("OS=" + System.getProperty("os.name"));
             logger.info("OS arch=" + System.getProperty("os.arch"));
-            Screen.getScreens()
-                    .forEach(screen -> logger.info(
-                            "Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi()
-                    ));
+            Screen.getScreens().forEach(screen -> logger.info(
+                    "Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi()
+            ));
 
-            // iterate through each locale and print
-            // locale code, display name and country
-            Locale[] locales = SimpleDateFormat.getAvailableLocales();
             logger.info("Supported locales:");
+            Locale[] locales = SimpleDateFormat.getAvailableLocales();
             for (Locale locale : locales) {
                 logger.info(locale.toString() + " / " + locale.getDisplayName());
             }
@@ -225,52 +223,12 @@ public class Launcher extends Application implements LauncherDefaults {
         } catch (Throwable ignored) { }
     }
 
-    private void loadResourceBundles() {
-        Messages.getInstance().load(
-                MessagesBundleProvider.getBundle(preferences.getLocale()),
-                Messages.class.getName()
-        );
-        Messages.getInstance().load(
-                ResourceBundle.getBundle(I18N_RESOURCES_PATH, preferences.getLocale(), Launcher.class.getModule()),
-                Launcher.class.getName()
-        );
-    }
-
     // - JavaFX doesn't support system tray at all
     // - AWT system tray support is outdated and it may not work in KDE and Gnome3+
-    // - dorkbox.SystemTray library is the best option but...
-    //   it's not JDK11 compliant because it relies on JDK internal API (com.sun.*)
-    // You may choose whatewer you like :)
+    // - dorkbox.SystemTray library is the best option but it's not JDK11 compliant
+    //   because it relies on JDK internal API (com.sun.*)
+    // You may choose whatever you like :)
     private void createTrayIcon(Stage primaryStage) {
-        // example of dorkbox.SystemTray
-        //try {
-        //    SystemTray systemTray = SystemTray.get();
-        //    if (systemTray == null) {
-        //        logger.warning("Unable to load system tray");
-        //        return;
-        //    }
-        //
-        //    systemTray.setImage(getResourceAsStream(APP_ICON_PATH));
-        //    Menu trayMenu = systemTray.getMenu();
-        //
-        //    MenuItem showItem = new MenuItem(Messages.get(MAIN_TRAY_OPEN), e -> {
-        //        if (primaryStage.isShowing()) {
-        //            Platform.runLater(primaryStage::toFront);
-        //        } else {
-        //            Platform.runLater(primaryStage::show);
-        //        }
-        //    });
-        //    trayMenu.add(showItem);
-        //
-        //    MenuItem quitItem = new MenuItem(Messages.get(QUIT), e -> {
-        //        Platform.runLater(() -> EventBus.getInstance().publish(new CloseEvent(exitCode)));
-        //    });
-        //    trayMenu.add(quitItem);
-        //
-        //} catch (Throwable t) {
-        //    logger.warning(ExceptionUtils.getStackTrace(t));
-        //}
-
         String xdgCurrentDesktop = System.getenv("XDG_CURRENT_DESKTOP");
         boolean badTraySupport = xdgCurrentDesktop != null && (
                 xdgCurrentDesktop.toLowerCase().contains("kde") |
@@ -312,7 +270,7 @@ public class Launcher extends Application implements LauncherDefaults {
         }
     }
 
-    private void setSystemProperties() {
+    private void loadApplicationProperties() {
         try {
             Properties properties = new Properties();
             properties.load(new InputStreamReader(getResourceAsStream(APP_PROPS_PATH), StandardCharsets.UTF_8));
@@ -332,7 +290,7 @@ public class Launcher extends Application implements LauncherDefaults {
         if (!Files.exists(PLUGINS_DIR)) Files.createDirectory(PLUGINS_DIR);
     }
 
-    static boolean isScreenFits(int width, int height) {
+    private static boolean isScreenFits(int width, int height) {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         return screenBounds.getWidth() > width && screenBounds.getHeight() > height;
     }
