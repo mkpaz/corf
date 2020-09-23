@@ -5,7 +5,10 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.telekit.base.*;
+import org.telekit.base.ApplicationContext;
+import org.telekit.base.Environment;
+import org.telekit.base.IconCache;
+import org.telekit.base.LauncherDefaults;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.i18n.MessagesBundleProvider;
 import org.telekit.base.plugin.Tool;
@@ -18,7 +21,7 @@ import org.telekit.example.tools.ExampleTool;
 import java.io.InputStream;
 import java.util.Objects;
 
-import static org.telekit.base.Environment.ICON_APP;
+import static org.telekit.base.IconCache.ICON_APP;
 import static org.telekit.example.ExamplePlugin.ASSETS_PATH;
 
 public class Launcher extends Application implements LauncherDefaults {
@@ -44,7 +47,7 @@ public class Launcher extends Application implements LauncherDefaults {
         );
 
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
-        Environment.putIcon(ICON_APP, new Image(getResourceAsStream(ASSETS_PATH + "images/telekit.png")));
+        IconCache.put(ICON_APP, new Image(getResourceAsStream(ASSETS_PATH + "images/telekit.png")));
 
         Tool exampleTool = new ExampleTool();
         ExampleController controller = (ExampleController) exampleTool.createController();
@@ -52,7 +55,7 @@ public class Launcher extends Application implements LauncherDefaults {
         primaryStage.setTitle(Environment.APP_NAME);
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(controller.getParent(), PREF_WIDTH, PREF_HEIGHT));
-        primaryStage.getIcons().add(Environment.getIcon(ICON_APP));
+        primaryStage.getIcons().add(IconCache.get(ICON_APP));
         primaryStage.setOnCloseRequest(t -> Platform.exit());
         primaryStage.show();
     }

@@ -44,6 +44,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.telekit.base.Environment.*;
+import static org.telekit.base.IconCache.ICON_APP;
 import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.MessageKeys.QUIT;
 
@@ -84,8 +85,8 @@ public class Launcher extends Application implements LauncherDefaults {
         controller.setPrimaryStage(primaryStage);
 
         // populate icon cache
-        Environment.putIcon(ICON_APP, new Image(getResourceAsStream(APP_ICON_PATH)));
-        primaryStage.getIcons().add(Environment.getIcon(ICON_APP));
+        IconCache.put(ICON_APP, new Image(getResourceAsStream(APP_ICON_PATH)));
+        primaryStage.getIcons().add(IconCache.get(ICON_APP));
 
         // handle application close events
         EventBus.getInstance().subscribe(CloseEvent.class, this::close);
@@ -259,7 +260,7 @@ public class Launcher extends Application implements LauncherDefaults {
             closeItem.addActionListener(closeListener);
             trayMenu.add(closeItem);
 
-            java.awt.Image trayImage = SwingFXUtils.fromFXImage(Environment.getIcon(ICON_APP), null);
+            java.awt.Image trayImage = SwingFXUtils.fromFXImage(IconCache.get(ICON_APP), null);
             TrayIcon trayIcon = new TrayIcon(trayImage, APP_NAME, trayMenu);
 
             SystemTray tray = SystemTray.getSystemTray();

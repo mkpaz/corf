@@ -47,19 +47,6 @@ public final class Environment {
         return DATA_DIR.resolve(clazz.getPackageName());
     }
 
-    /* Icon Cache */
-
-    public static final String ICON_APP = "ICON_APP";
-    public static final Map<String, Image> ICON_CACHE = new HashMap<>();
-
-    public static Image getIcon(String iconID) {
-        return ICON_CACHE.get(iconID);
-    }
-
-    public static void putIcon(String iconID, Image icon) {
-        ICON_CACHE.put(iconID, icon);
-    }
-
     /* Screen Size */
 
     public static final Dimension FORCE_WINDOW_SIZE = getForcedWindowsSize();

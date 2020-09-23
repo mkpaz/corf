@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
+import org.telekit.base.IconCache;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.domain.NamedBean;
@@ -61,7 +62,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.Environment.ICON_APP;
+import static org.telekit.base.IconCache.ICON_APP;
 import static org.telekit.ui.main.MessageKeys.*;
 import static org.telekit.ui.tools.Action.NEW;
 
@@ -289,7 +290,7 @@ public class RootController extends Controller {
         Controller controller = UILoader.load(Views.API_CLIENT_TEMPLATE.getLocation(), Messages.getInstance());
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
-                .icon(Environment.getIcon(ICON_APP))
+                .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
         controller.setStage(dialog);
@@ -402,7 +403,7 @@ public class RootController extends Controller {
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
                 .title(Messages.get(TOOLS_ADD_PARAM))
-                .icon(Environment.getIcon(ICON_APP))
+                .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
         controller.setStage(dialog);

@@ -11,13 +11,13 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.telekit.base.i18n.Messages;
-import org.telekit.base.Environment;
+import org.telekit.base.IconCache;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.fx.FXFormatters;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.base.util.net.IP4Address;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.Environment.ICON_APP;
+import static org.telekit.base.IconCache.ICON_APP;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.base.util.net.IP4Subnet.NETMASKS;
 import static org.telekit.ui.main.MessageKeys.*;
@@ -180,7 +180,7 @@ public class IPv4Controller extends Controller {
         Stage dialog = Dialogs.modal(controller.getParent())
                 .owner(rootPane.getScene().getWindow())
                 .title(Messages.get(TOOLS_IPCALC_TASK_REPORT))
-                .icon(Environment.getIcon(ICON_APP))
+                .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
         controller.setStage(dialog);

@@ -12,11 +12,12 @@ import javafx.stage.Stage;
 import org.telekit.base.Environment;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.IconCache;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.preferences.ApplicationPreferences;
@@ -35,7 +36,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.Environment.ICON_APP;
+import static org.telekit.base.IconCache.ICON_APP;
 import static org.telekit.base.util.CommonUtils.canonicalName;
 import static org.telekit.ui.main.MessageKeys.*;
 
@@ -261,7 +262,7 @@ public class MainController extends Controller {
             Stage modalWindow = Dialogs.modal(controller.getParent())
                     .owner(primaryStage)
                     .title(tool.getName())
-                    .icon(Environment.getIcon(ICON_APP))
+                    .icon(IconCache.get(ICON_APP))
                     .resizable(false)
                     .build();
             controller.setStage(modalWindow);
@@ -294,7 +295,7 @@ public class MainController extends Controller {
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
                 .title(Messages.get(MAIN_ABOUT))
-                .icon(Environment.getIcon(ICON_APP))
+                .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build()
                 .showAndWait();
@@ -306,7 +307,7 @@ public class MainController extends Controller {
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
                 .title(Messages.get(PREFERENCES))
-                .icon(Environment.getIcon(ICON_APP))
+                .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build()
                 .showAndWait();
@@ -318,7 +319,7 @@ public class MainController extends Controller {
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage)
                 .title(Messages.get(MAIN_PLUGIN_MANAGER))
-                .icon(Environment.getIcon(ICON_APP))
+                .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build()
                 .showAndWait();
