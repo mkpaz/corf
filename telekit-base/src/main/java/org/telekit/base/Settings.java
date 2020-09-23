@@ -26,13 +26,10 @@ import static org.telekit.base.util.NumberUtils.ensureRange;
 public final class Settings {
 
     public static final String APP_NAME = "Telekit";
-
-    // icon cache
-    public static final Map<String, Image> ICON_CACHE = new HashMap<>();
-    public static final String ICON_APP = "ICON_APP";
     public static final int TEXTAREA_ROW_LIMIT = 1000;
 
-    // application paths
+    /* Application Paths */
+
     public static final Path APP_DIR = Paths.get(
             getPropertyOrEnv("telekit.app.dir", "TELEKIT_APP_DIR")
     );
@@ -45,18 +42,15 @@ public final class Settings {
     public static final Path DOCS_DIR = APP_DIR.resolve("docs");
     public static final Path HOME_DIR = Paths.get(System.getProperty("user.home"));
     public static final Path TEMP_DIR = Paths.get(System.getProperty("java.io.tmpdir"));
-    public static final Dimension FORCE_WINDOW_SIZE = getForcedWindowsSize();
-    public static final String PROXY_URL =
-            getPropertyOrEnv("telekit.proxy.url", "TELEKIT_PROXY_URL");
-    public static final String PROXY_USERNAME =
-            getPropertyOrEnv("telekit.proxy.username", "TELEKIT_PROXY_USERNAME");
-    public static final String PROXY_PASSWORD =
-            getPropertyOrEnv("telekit.proxy.password", "TELEKIT_PROXY_PASSWORD");
-    public static final Locale LOCALE = getLocale();
 
-    public static Path getPluginDataDir(Class<? extends Plugin> clazz) {
+    public static Path getPluginResourcesDir(Class<? extends Plugin> clazz) {
         return DATA_DIR.resolve(clazz.getPackageName());
     }
+
+    /* Icon Cache */
+
+    public static final Map<String, Image> ICON_CACHE = new HashMap<>();
+    public static final String ICON_APP = "ICON_APP";
 
     public static Image getIcon(String iconID) {
         return ICON_CACHE.get(iconID);
@@ -66,16 +60,9 @@ public final class Settings {
         ICON_CACHE.put(iconID, icon);
     }
 
-    private static Locale getLocale() {
-        String localeStr = getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE");
-        if (isNotBlank(localeStr)) {
-            Locale locale = new Locale.Builder().setLanguageTag(localeStr).build();
-            if (LocaleUtils.isAvailableLocale(locale)) {
-                return locale;
-            }
-        }
-        return Locale.getDefault();
-    }
+    /* Screen Size */
+
+    public static final Dimension FORCE_WINDOW_SIZE = getForcedWindowsSize();
 
     @Nullable
     private static Dimension getForcedWindowsSize() {
@@ -95,9 +82,28 @@ public final class Settings {
         return new Dimension(userWidth, userHeight);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    /* Preferences */
 
     private UserPreferences preferences;
+    private static Locale LOCALE = getLocaleFromEnv();
+
+    private static Locale getLocaleFromEnv() {
+        String localeStr = getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE");
+        if (isNotBlank(localeStr)) {
+            Locale locale = new Locale.Builder().setLanguageTag(localeStr).build();
+            if (LocaleUtils.isAvailableLocale(locale)) {
+                return locale;
+            }
+        }
+        return null;
+    }
+
+    public static final String PROXY_URL =
+            getPropertyOrEnv("telekit.proxy.url", "TELEKIT_PROXY_URL");
+    public static final String PROXY_USERNAME =
+            getPropertyOrEnv("telekit.proxy.username", "TELEKIT_PROXY_USERNAME");
+    public static final String PROXY_PASSWORD =
+            getPropertyOrEnv("telekit.proxy.password", "TELEKIT_PROXY_PASSWORD");
 
     @NotNull
     public UserPreferences getPreferences() {
@@ -106,5 +112,10 @@ public final class Settings {
 
     public void setPreferences(UserPreferences preferences) {
         this.preferences = preferences;
+    }
+
+    public Locale getLocale() {
+        // env variable is only needed to simplify app testing
+        return LOCALE != null ? LOCALE : getPreferences().getLanguage().getLocale();
     }
 }

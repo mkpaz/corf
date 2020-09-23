@@ -28,12 +28,17 @@ public class Launcher extends Application implements LauncherDefaults {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        applicationContext.configure(new ExampleDependencyModule());
+        Settings settings = applicationContext.getBean(Settings.class);
+
         ExamplePlugin plugin = new ExamplePlugin();
 
-        Messages.getInstance().load(MessagesBundleProvider.getBundle(Settings.LOCALE), Messages.class.getName());
-        Messages.getInstance().load(plugin.getBundle(Settings.LOCALE), Launcher.class.getName());
-
-        applicationContext.configure(new ExampleDependencyModule());
+        Messages.getInstance().load(
+                MessagesBundleProvider.getBundle(settings.getLocale()), Messages.class.getName()
+        );
+        Messages.getInstance().load(
+                plugin.getBundle(settings.getLocale()), Launcher.class.getName()
+        );
 
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
         Settings.putIcon(ICON_APP, new Image(getResourceAsStream(ASSETS_PATH + "images/telekit.png")));

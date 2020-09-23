@@ -151,7 +151,7 @@ public class PluginManagerController extends Controller {
                 );
             }
 
-            final Path dataDir = Settings.getPluginDataDir(plugin.getClass());
+            final Path dataDir = Settings.getPluginResourcesDir(plugin.getClass());
             if (Files.exists(dataDir)) {
                 Files.walk(dataDir)
                         .filter(path -> !path.equals(dataDir))

@@ -36,7 +36,7 @@ public class ExampleController extends Controller {
     }
 
     private Properties loadConfig() {
-        File resource = Settings.getPluginDataDir(ExamplePlugin.class).resolve(SAMPLE_PROPERTIES).toFile();
+        File resource = Settings.getPluginResourcesDir(ExamplePlugin.class).resolve(SAMPLE_PROPERTIES).toFile();
         return FileUtils.loadProperties(resource, StandardCharsets.UTF_8);
     }
 

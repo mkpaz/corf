@@ -37,7 +37,7 @@ public class PluginContainer {
     }
 
     public boolean hasResources() {
-        return Files.exists(Settings.getPluginDataDir(plugin.getClass()));
+        return Files.exists(Settings.getPluginResourcesDir(plugin.getClass()));
     }
 
     public SimpleBooleanProperty selectedProperty() {

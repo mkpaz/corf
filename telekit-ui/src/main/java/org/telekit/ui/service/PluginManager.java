@@ -108,7 +108,7 @@ public class PluginManager {
         Path distribResources = installDirectory.resolve(Plugin.PLUGIN_RESOURCES_DIR);
 
         copyFile(distribJAR, Settings.PLUGINS_DIR.resolve(distribJAR.getFileName()), REPLACE_EXISTING);
-        copyFolder(distribResources, Settings.getPluginDataDir(candidate.getClass()), false);
+        copyFolder(distribResources, Settings.getPluginResourcesDir(candidate.getClass()), false);
 
         registerPlugin(candidate, Status.INACTIVE);
     }
@@ -159,7 +159,7 @@ public class PluginManager {
 
         PluginCleaner cleaner = new PluginCleaner();
         cleaner.appendTask(pluginJAR);
-        if (deleteResources) cleaner.appendTask(Settings.getPluginDataDir(clazz));
+        if (deleteResources) cleaner.appendTask(Settings.getPluginResourcesDir(clazz));
     }
 
     private ServiceLoader<Plugin> scanForPlugins(Set<Path> scanPaths) {

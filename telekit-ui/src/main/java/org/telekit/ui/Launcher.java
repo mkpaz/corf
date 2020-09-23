@@ -44,7 +44,6 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.telekit.base.Settings.*;
-import static org.telekit.base.util.CommonUtils.getPropertyOrEnv;
 import static org.telekit.ui.main.AllMessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.AllMessageKeys.QUIT;
 
@@ -138,7 +137,6 @@ public class Launcher extends Application implements LauncherDefaults {
         setupLogging();
         logEnvironmentInfo();
         setSystemProperties();
-        loadResourceBundles();
         createUserResources();
 
         // cleanup previously uninstalled plugins
@@ -173,6 +171,8 @@ public class Launcher extends Application implements LauncherDefaults {
         applicationContext.configure(modules);
         settings = applicationContext.getBean(Settings.class);
         settings.setPreferences(preferences);
+
+        loadResourceBundles();
     }
 
     private void setupLogging() {
@@ -205,8 +205,6 @@ public class Launcher extends Application implements LauncherDefaults {
         try {
             logger.info("OS=" + System.getProperty("os.name"));
             logger.info("OS arch=" + System.getProperty("os.arch"));
-            logger.info("Info=" + getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE"));
-            logger.info("Locale=" + LOCALE);
             Screen.getScreens()
                     .forEach(screen -> logger.info(
                             "Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi()
@@ -230,9 +228,9 @@ public class Launcher extends Application implements LauncherDefaults {
     }
 
     private void loadResourceBundles() {
-        Messages.getInstance().load(MessagesBundleProvider.getBundle(Settings.LOCALE), Messages.class.getName());
+        Messages.getInstance().load(MessagesBundleProvider.getBundle(settings.getLocale()), Messages.class.getName());
         Messages.getInstance().load(
-                ResourceBundle.getBundle(I18N_RESOURCES_PATH, Settings.LOCALE, Launcher.class.getModule()),
+                ResourceBundle.getBundle(I18N_RESOURCES_PATH, settings.getLocale(), Launcher.class.getModule()),
                 Launcher.class.getName()
         );
     }

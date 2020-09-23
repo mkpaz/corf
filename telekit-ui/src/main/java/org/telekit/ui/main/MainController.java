@@ -242,7 +242,7 @@ public class MainController extends Controller {
         Plugin plugin = container.getPlugin();
 
         // load plugin i18n resources lazily on first start
-        ResourceBundle bundle = plugin.getBundle(Settings.LOCALE);
+        ResourceBundle bundle = plugin.getBundle(settings.getLocale());
         if (bundle != null) {
             Messages.getInstance().load(bundle, plugin.getClass().getName());
         }
