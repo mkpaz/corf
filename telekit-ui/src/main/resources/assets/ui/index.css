@@ -41,6 +41,14 @@
     -fx-border-color: transparent;
 }
 
+/* no bold fonts in tables */
+.table-view .column-header,
+.table-view .filler,
+.tree-table-view .column-header,
+.tree-table-view .filler {
+    -fx-font-weight: normal;
+}
+
 /* by default context menu inherits text input font */
 .context-menu {
     -fx-font-family: "Open Sans Regular";
