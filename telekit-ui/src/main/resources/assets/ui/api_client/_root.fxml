@@ -21,6 +21,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -52,7 +53,6 @@
                       <RowConstraints fillHeight="false" vgrow="NEVER" />
                       <RowConstraints vgrow="NEVER" />
                       <RowConstraints vgrow="ALWAYS" />
-                        <RowConstraints vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <Label text="%tools.Template" GridPane.columnSpan="2" />
@@ -125,12 +125,25 @@
                               <Insets top="5.0" />
                            </GridPane.margin>
                         </TitledPane>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" text="%tools.ListForReplacement" HBox.hgrow="ALWAYS" />
+                              <Label text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
+                              <MenuButton mnemonicParsing="false" styleClass="btn-flat-dropdown">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
+                                  <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="%tools.PasteColumnsRight" />
+                                </items>
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="CLIPBOARD" />
+                                 </graphic>
+                                 <tooltip>
+                                    <Tooltip text="%tools.Clipboard" wrapText="true" />
+                                 </tooltip>
+                              </MenuButton>
+                              <Label maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                               <Label fx:id="lbListLineCount" text="0">
                                  <padding>
-                                    <Insets left="5.0" right="5.0" />
+                                    <Insets left="5.0" />
                                  </padding>
                               </Label>
                               <Label alignment="CENTER_RIGHT" text="%tools.lines" HBox.hgrow="NEVER">
@@ -162,16 +175,6 @@
                            <GridPane.margin>
                               <Insets top="5.0" />
                            </GridPane.margin></Label>
-                        <HBox alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <children>
-                              <MenuButton mnemonicParsing="false" text="%tools.Clipboard">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
-                                    <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="%tools.PasteColumnsRight" />
-                                </items>
-                              </MenuButton>
-                           </children>
-                        </HBox>
                      </children>
                      <padding>
                         <Insets right="5.0" />
@@ -233,7 +236,7 @@
       </TabPane>
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets />
+            <Insets top="10.0" />
          </GridPane.margin>
          <children>
             <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="btn-main" text="%Start">

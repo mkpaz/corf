@@ -4,6 +4,10 @@
     -fx-font-family: "Open Sans Regular";
 }
 
+.glyph-icon{
+    -fx-padding: 0;
+}
+
 /******************* Fixes *******************/
 
 /* increase menu item paddings */
@@ -45,6 +49,10 @@
 .btn-flat-dropdown {
     -fx-background-color: transparent;
     -fx-cursor: hand;
+}
+
+.btn-flat-dropdown > .label {
+    -fx-padding: 0 0.666667em 0 0.666667em;
 }
 
 .btn-flat-dropdown > .arrow-button {

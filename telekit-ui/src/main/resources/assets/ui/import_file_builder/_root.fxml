@@ -17,6 +17,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -65,12 +66,25 @@
             </MenuButton>
          </children>
       </HBox>
-      <HBox GridPane.columnIndex="2">
+      <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="2">
          <children>
-            <Label maxWidth="1.7976931348623157E308" text="%tools.ListForReplacement" HBox.hgrow="ALWAYS" />
+            <Label text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
+            <MenuButton maxHeight="5.0" minWidth="5.0" mnemonicParsing="false" prefHeight="5.0" styleClass="btn-flat-dropdown">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
+                  <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="%tools.PasteColumnsRight" />
+              </items>
+               <graphic>
+                  <FontAwesomeIconView glyphName="CLIPBOARD" />
+               </graphic>
+               <tooltip>
+                  <Tooltip text="%tools.Clipboard" wrapText="true" />
+               </tooltip>
+            </MenuButton>
+            <Label maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
             <Label fx:id="lbListLineCount" text="0">
                <padding>
-                  <Insets left="5.0" right="5.0" />
+                  <Insets left="5.0" />
                </padding>
             </Label>
             <Label alignment="CENTER_RIGHT" text="%tools.lines" HBox.hgrow="NEVER">
@@ -108,6 +122,9 @@
          <toggleGroup>
             <ToggleGroup fx:id="toggleSaveType" />
          </toggleGroup>
+         <GridPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </GridPane.margin>
       </RadioButton>
       <FlowPane alignment="CENTER_LEFT" hgap="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
          <children>
@@ -139,16 +156,6 @@
             <Insets left="5.0" />
          </GridPane.margin>
       </CheckBox>
-      <HBox alignment="TOP_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4">
-         <children>
-            <MenuButton mnemonicParsing="false" text="%tools.Clipboard">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
-                  <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="%tools.PasteColumnsRight" />
-              </items>
-            </MenuButton>
-         </children>
-      </HBox>
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
