@@ -4,10 +4,6 @@
     -fx-font-family: "Open Sans Regular";
 }
 
-.glyph-icon{
-    -fx-padding: 0;
-}
-
 /******************* Fixes *******************/
 
 /* increase menu item paddings */

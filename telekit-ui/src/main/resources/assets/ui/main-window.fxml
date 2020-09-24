@@ -126,7 +126,6 @@
       </HBox>
    </bottom>
    <stylesheets>
-      <URL value="@index.css" />
       <URL value="@main-window.css" />
    </stylesheets>
 </BorderPane>

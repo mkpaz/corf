@@ -178,7 +178,7 @@ public class IPv4Controller extends Controller {
 
         Controller controller = UILoader.load(Views.IP_V4_CONVERTER.getLocation(), Messages.getInstance());
         Stage dialog = Dialogs.modal(controller.getParent())
-                .owner(rootPane.getScene().getWindow())
+                .owner(rootPane.getScene().getWindow(), true)
                 .title(Messages.get(TOOLS_IPCALC_TASK_REPORT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)

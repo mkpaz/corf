@@ -57,6 +57,8 @@ public class Launcher extends Application implements LauncherDefaults {
     public static final String LOG_CONFIG_FILE_NAME = "logging.properties";
     public static final String LOG_OUTPUT_FILE_NAME = "telekit.log";
     public static final String I18N_RESOURCES_PATH = "org.telekit.ui.i18n.messages";
+    public static final String THEMES_DIR_PATH = "/assets/themes/";
+    public static final String INDEX_CSS_PATH = "/assets/ui/index.css";
 
     private static int exitCode = 0;
     private ApplicationContext applicationContext = ApplicationContext.getInstance();
@@ -104,9 +106,14 @@ public class Launcher extends Application implements LauncherDefaults {
         primaryStage.setMinWidth(MIN_WIDTH);
         primaryStage.setMinHeight(MIN_HEIGHT);
 
+        // create scene and apply (TBD: user selected) theme to it
+        Scene scene = new Scene(controller.getParent(), bounds.getWidth(), bounds.getHeight());
+        scene.getStylesheets().add(getResource(INDEX_CSS_PATH).toExternalForm());
+        scene.getStylesheets().add(getResource(THEMES_DIR_PATH + "base.css").toExternalForm());
+
         // show primary stage
         primaryStage.setTitle(Environment.APP_NAME);
-        primaryStage.setScene(new Scene(controller.getParent(), bounds.getWidth(), bounds.getHeight()));
+        primaryStage.setScene(scene);
         primaryStage.show();
         Platform.runLater(() -> {
             primaryStage.toFront();

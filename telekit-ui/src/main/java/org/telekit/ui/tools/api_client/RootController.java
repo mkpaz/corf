@@ -289,7 +289,7 @@ public class RootController extends Controller {
 
         Controller controller = UILoader.load(Views.API_CLIENT_TEMPLATE.getLocation(), Messages.getInstance());
         Stage dialog = Dialogs.modal(controller.getParent())
-                .owner(rootPane.getScene().getWindow())
+                .owner(rootPane.getScene().getWindow(), true)
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
@@ -401,7 +401,7 @@ public class RootController extends Controller {
 
         Controller controller = UILoader.load(Views.API_CLIENT_PARAM.getLocation(), Messages.getInstance());
         Stage dialog = Dialogs.modal(controller.getParent())
-                .owner(rootPane.getScene().getWindow())
+                .owner(rootPane.getScene().getWindow(), true)
                 .title(Messages.get(TOOLS_ADD_PARAM))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)

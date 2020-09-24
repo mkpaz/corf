@@ -126,10 +126,12 @@ public final class Dialogs {
     public static class ModalBuilder {
 
         private final Stage stage;
+        private final Scene scene;
 
         public ModalBuilder(Parent root) {
             stage = new Stage();
-            stage.setScene(new Scene(root));
+            scene = new Scene(root);
+            stage.setScene(scene);
             stage.initModality(Modality.WINDOW_MODAL);
         }
 
@@ -143,7 +145,10 @@ public final class Dialogs {
             return this;
         }
 
-        public ModalBuilder owner(Window owner) {
+        public ModalBuilder owner(Window owner, boolean inheritStyles) {
+            if (inheritStyles && owner.getScene() != null) {
+                scene.getStylesheets().addAll(owner.getScene().getStylesheets());
+            }
             stage.initOwner(owner);
             return this;
         }

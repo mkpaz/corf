@@ -24,7 +24,7 @@
          <tabs>
             <Tab closable="false" text="%Parameters">
                <content>
-                  <GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../index.css" vgap="10.0">
+                  <GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="NEVER" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="500.0" />

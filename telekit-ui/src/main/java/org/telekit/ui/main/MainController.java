@@ -260,7 +260,7 @@ public class MainController extends Controller {
             addTab(tool.getName(), controller.getParent(), canonicalName(plugin));
         } else {
             Stage modalWindow = Dialogs.modal(controller.getParent())
-                    .owner(primaryStage)
+                    .owner(primaryStage, true)
                     .title(tool.getName())
                     .icon(IconCache.get(ICON_APP))
                     .resizable(false)
@@ -293,7 +293,7 @@ public class MainController extends Controller {
     public void showAboutDialog() {
         Controller controller = UILoader.load(Views.ABOUT.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
-                .owner(primaryStage)
+                .owner(primaryStage, true)
                 .title(Messages.get(MAIN_ABOUT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -305,7 +305,7 @@ public class MainController extends Controller {
     public void showPreferences() {
         Controller controller = UILoader.load(Views.PREFERENCES.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
-                .owner(primaryStage)
+                .owner(primaryStage, true)
                 .title(Messages.get(PREFERENCES))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -317,7 +317,7 @@ public class MainController extends Controller {
     public void showPluginManager() {
         Controller controller = UILoader.load(Views.PLUGIN_MANAGER.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
-                .owner(primaryStage)
+                .owner(primaryStage, true)
                 .title(Messages.get(MAIN_PLUGIN_MANAGER))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
