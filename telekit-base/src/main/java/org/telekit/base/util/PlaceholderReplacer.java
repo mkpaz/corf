@@ -1,7 +1,11 @@
 package org.telekit.base.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 public final class PlaceholderReplacer {
 
@@ -36,6 +40,7 @@ public final class PlaceholderReplacer {
      * @return The formatted string.
      */
     public static String format(String fmt, Map<String, String> values) {
+        if (isBlank(fmt)) return "";
         return EXPRESSION.matcher(fmt).replaceAll(match ->
                 match.group(1) != null ?
                         match.group(1) :
