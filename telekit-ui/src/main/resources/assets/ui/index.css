@@ -22,6 +22,20 @@
     -fx-effect: none;
 }
 
+/* remove focus glow around active tab in tab pane */
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
+/* remove any paddings from tab pane header region (make tabs flat) */
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 0 0;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-insets: 0 1 1 0, 0 2 0 0, 2 3 0 2;
+}
+
 /* remove border */
 .hyperlink {
     -fx-border-color: transparent;
