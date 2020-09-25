@@ -24,11 +24,12 @@ module telekit.base {
     requires transitive de.skuzzle.semantic;
     requires transitive inet.ipaddr;
 
-    // not modularized dependencies
+    // dependencies with Automatic-Module-Name
     requires org.apache.commons.codec;
     requires org.apache.commons.collections4;
     requires org.apache.commons.compress;
     requires org.apache.commons.lang3;
+    requires org.apache.commons.net;
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpclient;
     requires org.apache.httpcomponents.httpclient.fluent;
@@ -39,7 +40,6 @@ module telekit.base {
     // dependencies without Auto-Module-Name
     requires hsqldb;
     requires commons.dbutils;
-    requires commons.net;
     requires j2html;
 
     // exports

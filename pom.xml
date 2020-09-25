@@ -21,30 +21,30 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <java.version>13</java.version>
+        <java.version>15</java.version>
 
         <!-- dependencies -->
-        <dep.apache-poi.version>4.1.1</dep.apache-poi.version>
-        <dep.commons-codec.version>1.13</dep.commons-codec.version>
+        <dep.apache-poi.version>4.1.2</dep.apache-poi.version>
+        <dep.commons-codec.version>1.15</dep.commons-codec.version>
         <dep.commons-collections.version>4.4</dep.commons-collections.version>
         <dep.commons-compress.version>1.20</dep.commons-compress.version>
         <dep.commons-dbutils.version>1.7</dep.commons-dbutils.version>
-        <dep.commons-lang.version>3.9</dep.commons-lang.version>
-        <dep.commons-net.version>3.6</dep.commons-net.version>
-        <dep.hsqldb.version>2.5.0</dep.hsqldb.version>
-        <dep.httpcomponents.version>4.5.10</dep.httpcomponents.version>
-        <dep.ipaddress.version>5.0.2</dep.ipaddress.version>
+        <dep.commons-lang.version>3.11</dep.commons-lang.version>
+        <dep.commons-net.version>3.7</dep.commons-net.version>
+        <dep.hsqldb.version>2.5.1</dep.hsqldb.version>
+        <dep.httpcomponents.version>4.5.12</dep.httpcomponents.version>
+        <dep.ipaddress.version>5.3.2</dep.ipaddress.version>
         <dep.j2html.version>1.4.0</dep.j2html.version>
-        <dep.jsoup.version>1.12.1</dep.jsoup.version>
-        <dep.jackson.version>2.10.1</dep.jackson.version>
+        <dep.jsoup.version>1.13.1</dep.jsoup.version>
+        <dep.jackson.version>2.11.2</dep.jackson.version>
         <dep.javax-inject.version>1.1.0</dep.javax-inject.version>
         <dep.jetbrains-annotations.version>17.0.0</dep.jetbrains-annotations.version>
-        <dep.richtextfx.version>0.10.3</dep.richtextfx.version>
-        <dep.semantic-version.version>2.0.0</dep.semantic-version.version>
+        <dep.richtextfx.version>0.10.5</dep.richtextfx.version>
+        <dep.semantic-version.version>2.1.0</dep.semantic-version.version>
         <dep.slf4j.version>1.8.0-beta4</dep.slf4j.version>
         <dep.system-tray.version>3.17</dep.system-tray.version>
-        <test.assertj.version>3.11.1</test.assertj.version>
-        <test.junit.version>5.5.2</test.junit.version>
+        <test.assertj.version>3.17.2</test.assertj.version>
+        <test.junit.version>5.7.0</test.junit.version>
 
         <!-- plugins -->
         <plugin.antrun.version>1.8</plugin.antrun.version>
@@ -56,6 +56,7 @@
         <plugin.javafx.version>0.0.3</plugin.javafx.version>
         <plugin.moditect.version>1.0.0.Beta2</plugin.moditect.version>
         <plugin.resources.version>3.1.0</plugin.resources.version>
+        <plugin.versions.version>2.8.1</plugin.versions.version>
     </properties>
 
     <build>
@@ -109,6 +110,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${plugin.resources.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${plugin.versions.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

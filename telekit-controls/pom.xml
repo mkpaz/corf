@@ -27,4 +27,11 @@
         </plugins>
     </build>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

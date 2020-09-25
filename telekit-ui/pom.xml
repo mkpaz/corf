@@ -129,9 +129,9 @@
                                                 <artifactId>jakarta.activation-api</artifactId>
                                             </artifact>
                                             <!--
-                                                Jackson transitive dependency;
-                                                auto-generation doesn't work correctly;
-                                                JPMS support planned in next version (1.2.2)
+                                                jdeps generates incorrect module info
+                                                JPMS support planned in v1.2.2, waiting for migration to Jakarta EE
+                                                https://github.com/FasterXML/jackson-modules-base/issues/96
                                             -->
                                             <moduleInfoSource>
                                                 module jakarta.activation {
@@ -162,16 +162,6 @@
                                         </module>
                                         <module>
                                             <artifact>
-                                                <groupId>org.apache.commons</groupId>
-                                                <artifactId>commons-compress</artifactId>
-                                            </artifact>
-                                            <moduleInfo>
-                                                <name>org.apache.commons.compress</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
-                                        </module>
-                                        <module>
-                                            <artifact>
                                                 <groupId>commons-dbutils</groupId>
                                                 <artifactId>commons-dbutils</artifactId>
                                             </artifact>
@@ -196,7 +186,7 @@
                                                 <artifactId>commons-net</artifactId>
                                             </artifact>
                                             <moduleInfo>
-                                                <name>commons.net</name>
+                                                <name>org.apache.commons.net</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
@@ -266,7 +256,8 @@
                                                 <artifactId>hsqldb</artifactId>
                                             </artifact>
                                             <!--
-                                                HSQLDB provides module-info only when built with JDK9+;
+                                                HSQLDB provides module-info only when built with JDK9+
+                                                https://sourceforge.net/p/hsqldb/svn/HEAD/tree/base/trunk/src/module-info.java
                                                 Maven Central artifact built with JDK8 without JPMS support
                                             -->
                                             <moduleInfoSource>
@@ -301,6 +292,144 @@
                                     </modules>
                                 </configuration>
                             </execution>
+                            <execution>
+                                <id>add-module-info-missing-deps</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>add-module-info</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${bld.modulesDirectory}</outputDirectory>
+                                    <overwriteExistingFiles>true</overwriteExistingFiles>
+                                    <jdepsExtraArgs>
+                                        <arg>--ignore-missing-deps</arg>
+                                    </jdepsExtraArgs>
+                                    <modules>
+                                        <!--
+                                            Pack200 API has been deprecated and removed since JDK14
+                                            https://issues.apache.org/jira/browse/COMPRESS-507
+                                            expected to be fixed in v1.21
+                                        -->
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.apache.commons</groupId>
+                                                <artifactId>commons-compress</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>org.apache.commons.compress</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                    </modules>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>add-module-info-richtextfx</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>add-module-info</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${bld.modulesDirectory}</outputDirectory>
+                                    <overwriteExistingFiles>true</overwriteExistingFiles>
+                                    <modules>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.reactfx</groupId>
+                                                <artifactId>reactfx</artifactId>
+                                            </artifact>
+                                            <moduleInfoSource>
+                                                module org.reactfx {
+                                                requires transitive javafx.base;
+                                                requires transitive javafx.controls;
+                                                requires transitive javafx.graphics;
+
+                                                exports org.reactfx;
+                                                exports org.reactfx.collection;
+                                                exports org.reactfx.inhibeans;
+                                                exports org.reactfx.inhibeans.binding;
+                                                exports org.reactfx.inhibeans.collection;
+                                                exports org.reactfx.inhibeans.property;
+                                                exports org.reactfx.inhibeans.value;
+                                                exports org.reactfx.util;
+                                                exports org.reactfx.value;
+                                                }
+                                            </moduleInfoSource>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.fxmisc.flowless</groupId>
+                                                <artifactId>flowless</artifactId>
+                                            </artifact>
+                                            <moduleInfoSource>
+                                                module org.fxmisc.flowless {
+                                                requires transitive javafx.base;
+                                                requires transitive javafx.controls;
+                                                requires transitive javafx.graphics;
+                                                requires transitive org.reactfx;
+
+                                                exports org.fxmisc.flowless;
+                                                }
+                                            </moduleInfoSource>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.fxmisc.wellbehaved</groupId>
+                                                <artifactId>wellbehavedfx</artifactId>
+                                            </artifact>
+                                            <moduleInfoSource>
+                                                module org.fxmisc.wellbehaved {
+                                                requires transitive javafx.base;
+                                                requires transitive javafx.graphics;
+
+                                                exports org.fxmisc.wellbehaved.event;
+                                                exports org.fxmisc.wellbehaved.event.internal;
+                                                exports org.fxmisc.wellbehaved.event.template;
+                                                }
+                                            </moduleInfoSource>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.fxmisc.undo</groupId>
+                                                <artifactId>undofx</artifactId>
+                                            </artifact>
+                                            <moduleInfoSource>
+                                                module org.fxmisc.undo {
+                                                requires transitive javafx.base;
+                                                requires transitive org.reactfx;
+
+                                                exports org.fxmisc.undo;
+                                                exports org.fxmisc.undo.impl;
+                                                }
+                                            </moduleInfoSource>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.fxmisc.richtext</groupId>
+                                                <artifactId>richtextfx</artifactId>
+                                            </artifact>
+                                            <moduleInfoSource>
+                                                module org.fxmisc.richtext {
+
+                                                requires transitive javafx.base;
+                                                requires transitive javafx.controls;
+                                                requires transitive javafx.graphics;
+
+                                                requires transitive org.reactfx;
+                                                requires transitive org.fxmisc.flowless;
+                                                requires transitive org.fxmisc.undo;
+                                                requires org.fxmisc.wellbehaved;
+
+                                                exports org.fxmisc.richtext;
+                                                exports org.fxmisc.richtext.event;
+                                                exports org.fxmisc.richtext.model;
+                                                exports org.fxmisc.richtext.util;
+                                                }
+                                            </moduleInfoSource>
+                                        </module>
+                                    </modules>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
@@ -321,7 +450,7 @@
                                     <goal>create-runtime-image</goal>
                                 </goals>
                                 <configuration>
-                                    <baseJdk>version=13,platform=${bld.platform}</baseJdk>
+                                    <baseJdk>version=${java.version},platform=${bld.platform}</baseJdk>
                                     <modulePath>
                                         <path>${bld.modulesDirectory}</path>
                                     </modulePath>
