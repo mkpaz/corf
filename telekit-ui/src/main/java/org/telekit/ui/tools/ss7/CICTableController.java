@@ -6,10 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import org.telekit.base.i18n.Messages;
 import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.telecom.SS7Utils;
 
@@ -137,7 +137,7 @@ public class CICTableController extends Controller {
                 ))
         ));
 
-        File outputFile = Environment.TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
+        File outputFile = Environment.APP_TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
         try {
             Files.writeString(outputFile.toPath(), html);
             DesktopUtils.browse(outputFile.toURI());
@@ -146,12 +146,13 @@ public class CICTableController extends Controller {
         }
     }
 
-    private static final String CSS =
-            "body { overflow: auto; width: 100%; font-family: monospace; font-size: 11pt; }\n" +
-                    ".wrapper { display: inline-block; padding: 10px 20px; word-break: keep-all; }\n" +
-                    "table { border-collapse: collapse; }\n" +
-                    "th { font-weight: bold; text-align: center; background-color: #EEEEEE; }\n" +
-                    "td, th { text-align: center; padding: 4px 8px; border: 1px solid #9E9E9E; }\n";
+    private static final String CSS = """
+            body { overflow: auto; width: 100%; font-family: monospace; font-size: 11pt; }
+            .wrapper { display: inline-block; padding: 10px 20px; word-break: keep-all; }
+            table { border-collapse: collapse; }
+            th { font-weight: bold; text-align: center; background-color: #EEEEEE; }
+            td, th { text-align: center; padding: 4px 8px; border: 1px solid #9E9E9E; }
+            """;
 
     @Override
     public void reset() {}

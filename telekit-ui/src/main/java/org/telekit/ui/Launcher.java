@@ -297,6 +297,7 @@ public class Launcher extends Application implements LauncherDefaults {
     private void createUserResources() throws Exception {
         if (!Files.exists(DATA_DIR)) Files.createDirectory(DATA_DIR);
         if (!Files.exists(PLUGINS_DIR)) Files.createDirectory(PLUGINS_DIR);
+        if (!Files.exists(APP_TEMP_DIR)) Files.createDirectory(APP_TEMP_DIR);
     }
 
     private static boolean isScreenFits(int width, int height) {

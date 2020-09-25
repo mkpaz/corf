@@ -41,7 +41,8 @@ public final class Environment {
     );
     public static final Path DOCS_DIR = APP_DIR.resolve("docs");
     public static final Path HOME_DIR = Paths.get(System.getProperty("user.home"));
-    public static final Path TEMP_DIR = Paths.get(System.getProperty("java.io.tmpdir"));
+    public static final Path OS_TEMP_DIR = Paths.get(System.getProperty("java.io.tmpdir"));
+    public static final Path APP_TEMP_DIR = OS_TEMP_DIR.resolve("telekit");
 
     public static Path getPluginResourcesDir(Class<? extends Plugin> clazz) {
         return DATA_DIR.resolve(clazz.getPackageName());
