@@ -64,6 +64,14 @@
                             <executable>${java.home}/bin/java</executable>
                         </configuration>
                     </execution>
+                    <!-- Preview -->
+                    <execution>
+                        <id>preview</id>
+                        <configuration>
+                            <mainClass>org.telekit.ui.test.PreviewLauncher</mainClass>
+                            <executable>${java.home}/bin/java</executable>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
