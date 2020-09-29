@@ -44,7 +44,6 @@ public class MainController extends Controller {
 
     private static final int MB = 1024 * 1024;
     private static final int MINUTE = 1000 * 60;
-    private static final String TAB_LABEL_GAP = "  "; // because it's simpler than digging into overcomplicated TabPane CSS
 
     public @FXML TabPane tpaneTools;
 
@@ -206,7 +205,7 @@ public class MainController extends Controller {
             }
         }
 
-        Tab tab = new Tab(TAB_LABEL_GAP + tabName + TAB_LABEL_GAP);
+        Tab tab = new Tab(tabName);
         tab.setContent(parent);
         tab.setUserData(userData);
         tabs.add(tab);

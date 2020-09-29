@@ -33,6 +33,7 @@
         <dep.commons-net.version>3.7</dep.commons-net.version>
         <dep.hsqldb.version>2.5.1</dep.hsqldb.version>
         <dep.httpcomponents.version>4.5.12</dep.httpcomponents.version>
+        <dep.flowless.version>0.6.1</dep.flowless.version>
         <dep.ipaddress.version>5.3.2</dep.ipaddress.version>
         <dep.j2html.version>1.4.0</dep.j2html.version>
         <dep.jsoup.version>1.13.1</dep.jsoup.version>
@@ -258,6 +259,11 @@
             </dependency>
 
             <!-- UI -->
+            <dependency>
+                <groupId>org.fxmisc.flowless</groupId>
+                <artifactId>flowless</artifactId>
+                <version>${dep.flowless.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.fxmisc.richtext</groupId>
                 <artifactId>richtextfx</artifactId>

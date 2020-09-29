@@ -154,7 +154,7 @@
                            </children>
                         </HBox>
                         <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4" />
-                        <TableView fx:id="tblParams" editable="true" GridPane.rowIndex="4">
+                        <TableView fx:id="tblParams" editable="true" styleClass="editable" GridPane.rowIndex="4">
                           <columns>
                             <TableColumn fx:id="tcolParamName" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="%Name" />
                             <TableColumn fx:id="tcolParamValue" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="150.0" sortable="false" style="-fx-alignment: CENTER-LEFT;" text="%Value" />

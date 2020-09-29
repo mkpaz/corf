@@ -4,54 +4,14 @@
     -fx-font-family: "Open Sans Regular";
 }
 
-/******************* Fixes *******************/
-
-/* increase menu item paddings */
-.menu-item {
-    -fx-padding: 0.333333em 1em 0.333333em 1em;
-}
-
-.table-row-cell {
-    /* row height should fit text field height for editable tables */
-    -fx-cell-size: 2.6em;
-}
-
-/* remove focus glow around titled pane arrow */
-.titled-pane:focused > .title > .arrow-button > .arrow {
-    -fx-background-insets: 0;
-    -fx-effect: none;
-}
-
-/* remove focus glow around active tab in tab pane */
-.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
-    -fx-border-color: transparent;
-}
-
-/* remove any paddings from tab pane header region (make tabs flat) */
-.tab-pane .tab-header-area {
-    -fx-padding: 0 0 0 0;
-}
-
-.tab-pane > .tab-header-area > .headers-region > .tab {
-    -fx-background-insets: 0 1 1 0, 0 2 0 0, 2 3 0 2;
-}
-
-/* remove border */
-.hyperlink {
-    -fx-border-color: transparent;
-}
-
-/* no bold fonts in tables */
-.table-view .column-header,
-.table-view .filler,
-.tree-table-view .column-header,
-.tree-table-view .filler {
-    -fx-font-weight: normal;
-}
-
 /* by default context menu inherits text input font */
 .context-menu {
     -fx-font-family: "Open Sans Regular";
+}
+
+.styled-text-area .text {
+    -fx-font-family: 'Fira Mono';
+    -fx-font-size: 1.1em;
 }
 
 /******************* Components *******************/
@@ -89,6 +49,7 @@
 
 .monospaced {
     -fx-font-family: 'Fira Mono';
+    -fx-font-size: 1.1em; /* slightly increase font size, because Fira glyphs lower than Open Sans */
 }
 
 .text-center {
