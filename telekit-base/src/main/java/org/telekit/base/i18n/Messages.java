@@ -2,6 +2,7 @@ package org.telekit.base.i18n;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -46,5 +47,9 @@ public class Messages extends ResourceBundle {
     public static String get(String key, Object... args) {
         String pattern = getInstance().getString(key);
         return MessageFormat.format(pattern, args);
+    }
+
+    public void print(PrintStream out) {
+        resources.forEach((key, value) -> out.println(key + "=" + value));
     }
 }

@@ -4,13 +4,18 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.telekit.base.Environment;
 import org.telekit.base.LauncherDefaults;
 import org.telekit.base.UILoader;
 import org.telekit.base.fx.Controller;
+import org.telekit.base.i18n.BaseMessagesBundleProvider;
+import org.telekit.base.i18n.Messages;
+import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.Launcher;
 
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class PreviewLauncher extends Application implements LauncherDefaults {
 
@@ -22,7 +27,23 @@ public class PreviewLauncher extends Application implements LauncherDefaults {
     public void start(Stage primaryStage) {
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
 
-        Controller controller = UILoader.load(Launcher.getResource("/assets/test/preview.fxml"));
+        Messages.getInstance().load(
+                ControlsMessagesBundleProvider.getBundle(Environment.LOCALE),
+                ControlsMessagesBundleProvider.class.getName()
+        );
+        Messages.getInstance().load(
+                BaseMessagesBundleProvider.getBundle(Environment.LOCALE),
+                BaseMessagesBundleProvider.class.getName()
+        );
+        Messages.getInstance().load(
+                ResourceBundle.getBundle(Launcher.I18N_RESOURCES_PATH, Environment.LOCALE, Launcher.class.getModule()),
+                Launcher.class.getName()
+        );
+
+        Controller controller = UILoader.load(
+                Launcher.getResource("/assets/test/preview.fxml"),
+                Messages.getInstance()
+        );
 
         // create scene and apply (TBD: user selected) theme to it
         Scene scene = new Scene(controller.getParent(), 1024, 768);

@@ -423,7 +423,7 @@
                                                 <artifactId>undofx</artifactId>
                                             </artifact>
                                             <moduleInfoSource>
-                                                module undo {
+                                                module undofx {
                                                 requires transitive javafx.base;
                                                 requires transitive reactfx;
 
@@ -446,7 +446,7 @@
 
                                                 requires transitive reactfx;
                                                 requires transitive flowless;
-                                                requires transitive undo;
+                                                requires transitive undofx;
                                                 requires transitive wellbehaved;
 
                                                 exports org.fxmisc.richtext;
@@ -617,6 +617,24 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>telekit-base</artifactId>
         </dependency>
+        <!--
+            RichTextFX (also Flowless, UndoFX etc) is a transitive dependency of telekit-ui
+            but due to modularization jerks Maven requires all of them to be direct dependency
+            otherwise it won't compile.
+        -->
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.flowless</groupId>
+            <artifactId>flowless</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.undo</groupId>
+            <artifactId>undofx</artifactId>
+        </dependency>
+        <!-- Test -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>

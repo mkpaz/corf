@@ -44,6 +44,7 @@
         <dep.semantic-version.version>2.1.0</dep.semantic-version.version>
         <dep.slf4j.version>1.8.0-beta4</dep.slf4j.version>
         <dep.system-tray.version>3.17</dep.system-tray.version>
+        <dep.undofx.version>2.1.0</dep.undofx.version>
         <test.assertj.version>3.17.2</test.assertj.version>
         <test.junit.version>5.7.0</test.junit.version>
 
@@ -260,14 +261,19 @@
 
             <!-- UI -->
             <dependency>
+                <groupId>org.fxmisc.richtext</groupId>
+                <artifactId>richtextfx</artifactId>
+                <version>${dep.richtextfx.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.fxmisc.flowless</groupId>
                 <artifactId>flowless</artifactId>
                 <version>${dep.flowless.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.fxmisc.richtext</groupId>
-                <artifactId>richtextfx</artifactId>
-                <version>${dep.richtextfx.version}</version>
+                <groupId>org.fxmisc.undo</groupId>
+                <artifactId>undofx</artifactId>
+                <version>${dep.undofx.version}</version>
             </dependency>
 
             <!-- Various -->

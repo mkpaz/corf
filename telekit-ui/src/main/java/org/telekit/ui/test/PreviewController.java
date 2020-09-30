@@ -12,6 +12,10 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.StyleClassedTextArea;
 import org.telekit.base.fx.Controller;
+import org.telekit.base.i18n.Messages;
+import org.telekit.controls.ContextMenuPolicy;
+import org.telekit.controls.richtextfx.RichTextFXContextMenu;
+import org.telekit.controls.richtextfx.RichTextFXHelper;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -51,40 +55,56 @@ public class PreviewController extends Controller {
     public void initialize() {
         choiceBoxA.getItems().addAll(List.of("foo", "bar", "baz"));
         choiceBoxB.getItems().addAll(List.of("baz", "bar", "foo"));
+
         comboBoxA.getItems().addAll(List.of("foo", "bar", "baz"));
         comboBoxB.getItems().addAll(List.of("baz", "bar", "foo"));
+
         datePickerA.setValue(LocalDate.now());
         textAreaA.setText((LOREM_IPSUM + "\n").repeat(42));
+        listViewA.getItems().addAll(List.of("foo", "bar", "baz"));
 
-        /* RichTextFX */
-        styleClassedTextArea.focusedProperty().addListener(
-                (obs, oldVal, newVal) -> styleClassedTextAreaPane.pseudoClassStateChanged(FOCUSED, newVal)
-        );
-        styleClassedTextArea.replaceText(0, 0, (LOREM_IPSUM + "\n").repeat(42));
-        styleClassedTextArea.setWrapText(false);
-        styleClassedTextArea.showParagraphAtTop(0);
+        initStyleClassedTextArea();
+        initCodeArea();
 
-        codeArea.focusedProperty().addListener(
-                (obs, oldVal, newVal) -> codeAreaPane.pseudoClassStateChanged(FOCUSED, newVal)
-        );
+        initTreeViewA();
+        initTableViewA();
+        initTreeTableViewA();
+    }
+
+    private void initCodeArea() {
+        RichTextFXHelper.addFocusedStateListener(codeArea, codeAreaPane);
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         codeArea.replaceText(0, 0, (LOREM_IPSUM + "\n").repeat(42));
         codeArea.showParagraphAtTop(0);
+    }
 
-        /* list view */
-        listViewA.getItems().addAll(List.of("foo", "bar", "baz"));
+    private void initStyleClassedTextArea() {
+        RichTextFXHelper.addFocusedStateListener(styleClassedTextArea, styleClassedTextAreaPane);
+        styleClassedTextArea.setWrapText(false);
+        styleClassedTextArea.setEditable(true);
 
-        // tree view
-        TreeItem<Book> treeViewARoot = new TreeItem<>(createBook());
-        treeViewARoot.setExpanded(true);
-        List<TreeItem<Book>> treeViewAItems = createBooks(10).stream()
+        styleClassedTextArea.replaceText(0, 0, (LOREM_IPSUM + "\n").repeat(42));
+        styleClassedTextArea.showParagraphAtTop(0);
+
+        RichTextFXContextMenu contextMenu = new RichTextFXContextMenu(
+                Messages.getInstance(),
+                new ContextMenuPolicy(false, true)
+        );
+        styleClassedTextArea.setContextMenu(contextMenu);
+    }
+
+    private void initTreeViewA() {
+        TreeItem<Book> root = new TreeItem<>(createBook());
+        root.setExpanded(true);
+
+        List<TreeItem<Book>> items = createBooks(10).stream()
                 .map(TreeItem::new)
                 .collect(Collectors.toList());
-        treeViewARoot.getChildren().addAll(treeViewAItems);
-        treeViewA.setRoot(treeViewARoot);
+        root.getChildren().addAll(items);
+        treeViewA.setRoot(root);
+    }
 
-        // table view
-        treeViewARoot.getChildren().addAll(treeViewAItems);
+    private void initTableViewA() {
         tableColAC0.setCellValueFactory(new PropertyValueFactory<>("isbn"));
         tableColAC0.setText("ISBN");
         tableColAC1.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -92,8 +112,9 @@ public class PreviewController extends Controller {
         tableColAC2.setCellValueFactory(new PropertyValueFactory<>("title"));
         tableColAC2.setText("Title");
         tableViewA.setItems(FXCollections.observableArrayList(createBooks(10)));
+    }
 
-        // tree table view
+    private void initTreeTableViewA() {
         TreeItem<Book> treeTableViewARoot = new TreeItem<>(createBook());
         treeTableViewARoot.setExpanded(true);
         List<TreeItem<Book>> treeTableViewAItems = createBooks(10).stream()

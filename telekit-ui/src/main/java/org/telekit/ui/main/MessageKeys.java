@@ -1,8 +1,9 @@
 package org.telekit.ui.main;
 
 import org.telekit.base.i18n.BaseMessageKeys;
+import org.telekit.controls.i18n.ControlsMessageKeys;
 
-public interface MessageKeys extends BaseMessageKeys {
+public interface MessageKeys extends BaseMessageKeys, ControlsMessageKeys {
 
     String MAIN_ABOUT = "main.About";
     String MAIN_PLUGIN_MANAGER = "main.PluginManager";

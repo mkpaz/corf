@@ -10,7 +10,7 @@ import org.telekit.base.Environment;
 import org.telekit.base.IconCache;
 import org.telekit.base.LauncherDefaults;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.i18n.MessagesBundleProvider;
+import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.example.ExamplePlugin;
@@ -40,7 +40,7 @@ public class Launcher extends Application implements LauncherDefaults {
         ExamplePlugin plugin = new ExamplePlugin();
 
         Messages.getInstance().load(
-                MessagesBundleProvider.getBundle(preferences.getLocale()), Messages.class.getName()
+                BaseMessagesBundleProvider.getBundle(preferences.getLocale()), Messages.class.getName()
         );
         Messages.getInstance().load(
                 plugin.getBundle(preferences.getLocale()), Launcher.class.getName()

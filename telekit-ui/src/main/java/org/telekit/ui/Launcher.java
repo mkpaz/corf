@@ -12,12 +12,13 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.*;
 import org.telekit.base.EventBus.Listener;
+import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.i18n.MessagesBundleProvider;
 import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.CommonUtils;
+import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.PluginContainer;
 import org.telekit.ui.main.MainController;
@@ -174,8 +175,12 @@ public class Launcher extends Application implements LauncherDefaults {
 
         // load resource bundles
         Messages.getInstance().load(
-                MessagesBundleProvider.getBundle(preferences.getLocale()),
-                Messages.class.getName()
+                ControlsMessagesBundleProvider.getBundle(preferences.getLocale()),
+                ControlsMessagesBundleProvider.class.getName()
+        );
+        Messages.getInstance().load(
+                BaseMessagesBundleProvider.getBundle(preferences.getLocale()),
+                BaseMessagesBundleProvider.class.getName()
         );
         Messages.getInstance().load(
                 ResourceBundle.getBundle(I18N_RESOURCES_PATH, preferences.getLocale(), Launcher.class.getModule()),

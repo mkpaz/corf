@@ -29,12 +29,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.fxmisc.flowless</groupId>
             <artifactId>flowless</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.fxmisc.richtext</groupId>
-            <artifactId>richtextfx</artifactId>
+            <groupId>org.fxmisc.undo</groupId>
+            <artifactId>undofx</artifactId>
         </dependency>
     </dependencies>
 

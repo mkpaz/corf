@@ -12,8 +12,9 @@ module telekit.ui {
     requires org.apache.httpcomponents.httpclient;
     requires org.jetbrains.annotations;
     requires j2html;
-    requires flowless;
     requires org.fxmisc.richtext;
+    requires flowless;
+    requires undofx;
     // end of non modular dependencies
 
     exports org.telekit.ui.domain;
