@@ -7,7 +7,9 @@ module telekit.controls {
 
     requires org.fxmisc.richtext;
     requires flowless;
+    requires reactfx;
     requires undofx;
+    requires wellbehavedfx;
 
     exports org.telekit.controls;
     exports org.telekit.controls.i18n;

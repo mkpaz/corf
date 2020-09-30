@@ -33,18 +33,22 @@
         <dep.commons-net.version>3.7</dep.commons-net.version>
         <dep.hsqldb.version>2.5.1</dep.hsqldb.version>
         <dep.httpcomponents.version>4.5.12</dep.httpcomponents.version>
-        <dep.flowless.version>0.6.1</dep.flowless.version>
         <dep.ipaddress.version>5.3.2</dep.ipaddress.version>
         <dep.j2html.version>1.4.0</dep.j2html.version>
         <dep.jsoup.version>1.13.1</dep.jsoup.version>
         <dep.jackson.version>2.11.2</dep.jackson.version>
         <dep.javax-inject.version>1.1.0</dep.javax-inject.version>
         <dep.jetbrains-annotations.version>17.0.0</dep.jetbrains-annotations.version>
-        <dep.richtextfx.version>0.10.5</dep.richtextfx.version>
         <dep.semantic-version.version>2.1.0</dep.semantic-version.version>
         <dep.slf4j.version>1.8.0-beta4</dep.slf4j.version>
         <dep.system-tray.version>3.17</dep.system-tray.version>
+
+        <dep.flowless.version>0.6.1</dep.flowless.version>
+        <dep.reactfx.version>2.0-M5</dep.reactfx.version>
+        <dep.richtextfx.version>0.10.5</dep.richtextfx.version>
         <dep.undofx.version>2.1.0</dep.undofx.version>
+        <dep.wellbehavedfx.version>0.3.3</dep.wellbehavedfx.version>
+
         <test.assertj.version>3.17.2</test.assertj.version>
         <test.junit.version>5.7.0</test.junit.version>
 
@@ -269,6 +273,16 @@
                 <groupId>org.fxmisc.flowless</groupId>
                 <artifactId>flowless</artifactId>
                 <version>${dep.flowless.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reactfx</groupId>
+                <artifactId>reactfx</artifactId>
+                <version>${dep.reactfx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fxmisc.wellbehaved</groupId>
+                <artifactId>wellbehavedfx</artifactId>
+                <version>${dep.wellbehavedfx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.fxmisc.undo</groupId>

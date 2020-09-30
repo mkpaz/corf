@@ -6,16 +6,19 @@ module telekit.ui {
 
     requires telekit.base;
 
-    // non modular dependencies
+    // not modularized dependencies
     requires org.apache.commons.lang3;
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpclient;
     requires org.jetbrains.annotations;
     requires j2html;
+
     requires org.fxmisc.richtext;
     requires flowless;
+    requires reactfx;
     requires undofx;
-    // end of non modular dependencies
+    requires wellbehavedfx;
+    // end of ot modularized dependencies
 
     exports org.telekit.ui.domain;
     opens org.telekit.ui.domain;
