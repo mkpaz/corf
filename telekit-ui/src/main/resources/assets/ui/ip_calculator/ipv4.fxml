@@ -113,10 +113,13 @@
                      </children>
                   </StackPane>
                </graphic></Button>
-            <Hyperlink onAction="#showFormatConverter" text="%tools.ip-calc.IPFormatConverter" visited="true">
+            <Hyperlink contentDisplay="RIGHT" onAction="#showFormatConverter" text="%tools.ip-calc.IPFormatConverter" visited="true">
                <tooltip>
                   <Tooltip text="Convert IP in HEX, DEC and other formats" />
                </tooltip>
+               <graphic>
+                  <FontAwesomeIconView glyphName="CARET_DOWN" />
+               </graphic>
             </Hyperlink>
          </children>
          <GridPane.margin>

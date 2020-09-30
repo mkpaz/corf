@@ -89,6 +89,10 @@
     -fx-underline: false;
 }
 
+.hyperlink:hover .glyph-icon {
+    -fx-fill: -fx-accent;
+}
+
 /* no bold fonts in any tables */
 .table-view .column-header,
 .table-view .filler,

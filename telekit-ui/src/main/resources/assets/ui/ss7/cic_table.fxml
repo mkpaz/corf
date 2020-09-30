@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fontawesomefx.fa.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -53,7 +54,10 @@
       </HBox>
       <Label text="%Search" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
       <TextField fx:id="tfCicSearch" alignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-      <Hyperlink onAction="#showInBrowser" text="%tools.ss7.OpenFullTable" visited="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
+      <Hyperlink contentDisplay="RIGHT" onAction="#showInBrowser" text="%tools.ss7.OpenFullTable" visited="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
+         <graphic>
+            <FontAwesomeIconView glyphName="CARET_DOWN" />
+         </graphic></Hyperlink>
       <Label fx:id="lbFirstCic" minWidth="40.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets top="20.0" />
