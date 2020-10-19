@@ -5,7 +5,6 @@ import org.telekit.base.feather.Key;
 
 import javax.inject.Provider;
 
-@SuppressWarnings("unused")
 public final class ApplicationContext {
 
     private ApplicationContext() {}

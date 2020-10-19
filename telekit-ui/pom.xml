@@ -639,6 +639,7 @@
             <groupId>org.fxmisc.wellbehaved</groupId>
             <artifactId>wellbehavedfx</artifactId>
         </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.assertj</groupId>

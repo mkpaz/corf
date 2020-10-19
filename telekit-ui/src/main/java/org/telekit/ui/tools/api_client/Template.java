@@ -1,19 +1,20 @@
 package org.telekit.ui.tools.api_client;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import org.telekit.base.domain.NamedBean;
+import org.jetbrains.annotations.NotNull;
+import org.telekit.base.domain.Entity;
 
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 
-@JacksonXmlRootElement
-public class Template extends NamedBean<Template> {
+public class Template extends Entity<Template, UUID> {
 
     public static final String CONTENT_TYPE_JSON = "application/json";
     public static final String CONTENT_TYPE_SOAP = "application/soap+xml";
     public static final String CONTENT_TYPE_OTHER = "other";
 
+    private String name;
     private String uri;
     private HTTPMethod method = HTTPMethod.POST;
     private String contentType = CONTENT_TYPE_JSON;
@@ -26,10 +27,6 @@ public class Template extends NamedBean<Template> {
     private @JacksonXmlCData String description;
 
     public Template() {}
-
-    public Template(String id) {
-        super(id);
-    }
 
     public Template(Template template) {
         this.setId(template.getId());
@@ -52,6 +49,14 @@ public class Template extends NamedBean<Template> {
         this.description = template.getDescription();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUri() {
         return uri;
     }
@@ -60,11 +65,11 @@ public class Template extends NamedBean<Template> {
         this.uri = uri;
     }
 
-    public HTTPMethod getMethod() {
+    public Template.HTTPMethod getMethod() {
         return method;
     }
 
-    public void setMethod(HTTPMethod method) {
+    public void setMethod(Template.HTTPMethod method) {
         this.method = method;
     }
 
@@ -139,6 +144,12 @@ public class Template extends NamedBean<Template> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public int compareTo(@NotNull Template that) {
+        if (this == that) return 0;
+        return String.valueOf(name).compareTo(String.valueOf(that.getName()));
     }
 
     @Override

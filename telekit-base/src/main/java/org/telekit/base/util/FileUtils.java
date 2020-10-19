@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Properties;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;

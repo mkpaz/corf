@@ -1,19 +1,14 @@
 package org.telekit.base;
 
-import javafx.scene.image.Image;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.preferences.Proxy;
 import org.telekit.base.plugin.Plugin;
 
 import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;

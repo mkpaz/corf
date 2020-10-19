@@ -1,7 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -30,11 +28,10 @@ public final class PlaceholderReplacer {
      * </ul>
      *
      * @param fmt The format string.  Any character in the format string that
-     *            follows a backslash is treated literally.  Any
-     *            <code>%(key)</code> is replaced by its corresponding value
-     *            in the <code>values</code> map.  If the key does not exist
-     *            in the <code>values</code> map, then it is left unsubstituted.
-     *
+     * follows a backslash is treated literally.  Any
+     * <code>%(key)</code> is replaced by its corresponding value
+     * in the <code>values</code> map.  If the key does not exist
+     * in the <code>values</code> map, then it is left unsubstituted.
      * @param values Key-value pairs to be used in the substitutions.
      *
      * @return The formatted string.
@@ -42,9 +39,9 @@ public final class PlaceholderReplacer {
     public static String format(String fmt, Map<String, String> values) {
         if (isBlank(fmt)) return "";
         return EXPRESSION.matcher(fmt).replaceAll(match ->
-                match.group(1) != null ?
-                        match.group(1) :
-                        values.getOrDefault(match.group(3), match.group(2))
+                                                          match.group(1) != null ?
+                                                                  match.group(1) :
+                                                                  values.getOrDefault(match.group(3), match.group(2))
         );
     }
 

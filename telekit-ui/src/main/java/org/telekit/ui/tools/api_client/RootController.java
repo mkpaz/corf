@@ -34,7 +34,6 @@ import org.telekit.base.EventBus.Listener;
 import org.telekit.base.IconCache;
 import org.telekit.base.UILoader;
 import org.telekit.base.domain.AuthPrincipal;
-import org.telekit.base.domain.NamedBean;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
@@ -175,6 +174,7 @@ public class RootController extends Controller {
 
         // load data
         templateRepository = new TemplateRepository(xmlMapper);
+        templateRepository.reloadAll();
         reloadTemplates(null);
     }
 
@@ -223,8 +223,8 @@ public class RootController extends Controller {
 
     private void reloadTemplates(Template selectedTemplate) {
         List<Template> templates = templateRepository.getAll();
-        templates.sort(NamedBean::compareTo);
-        // don't use setItems(), there're binding that watches items changes
+        templates.sort(Template::compareTo);
+        // don't use setItems(), there is binding that watches items changes
         cmbTemplate.getItems().clear();
         cmbTemplate.getItems().addAll(templates);
 
@@ -306,8 +306,11 @@ public class RootController extends Controller {
                 .build();
         Optional<ButtonType> confirmation = dialog.showAndWait();
         if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
-            templateRepository.delete(new Template(template.getId()));
-            reloadTemplates(null);
+            templateRepository.beginTransaction(false).rollbackOnException(() -> {
+                templateRepository.removeById(template.getId());
+                templateRepository.saveAll();
+                reloadTemplates(null);
+            });
         }
     }
 
@@ -338,12 +341,11 @@ public class RootController extends Controller {
                 .showOpenDialog(rootPane.getScene().getWindow());
 
         if (inputFile != null) {
-            try {
-                templateRepository.loadFromXML(Files.readString(inputFile.toPath()));
+            templateRepository.beginTransaction(false).rollbackOnException(() -> {
+                templateRepository.importFromFile(inputFile);
+                templateRepository.saveAll();
                 reloadTemplates(null);
-            } catch (IOException e) {
-                throw new TelekitException(Messages.get(MSG_UNABLE_TO_IMPORT_DATA), e);
-            }
+            });
         }
     }
 
@@ -355,29 +357,29 @@ public class RootController extends Controller {
                 .showSaveDialog(rootPane.getScene().getWindow());
 
         if (outputFile != null) {
-            templateRepository.getAsXML(template.getId()).ifPresent(
-                    xml -> {
-                        try {
-                            Files.writeString(outputFile.toPath(), xml);
-                        } catch (Exception e) {
-                            throw new TelekitException(Messages.get(MGG_UNABLE_TO_EXPORT_DATA), e);
-                        }
-                    });
+            templateRepository.exportToFile(List.of(template), outputFile);
         }
     }
 
     @Listener
     private void updateTemplate(TemplateUpdateEvent event) {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
+        Template updatedTemplate = event.getTemplate();
+
         switch (event.getAction()) {
             case NEW:
             case DUPLICATE:
-                Template template = event.getTemplate();
-                template.setId(UUID.randomUUID().toString());
-                templateRepository.create(template);
-                selectedTemplate = template;
+                updatedTemplate.setId(UUID.randomUUID());
+                templateRepository.beginTransaction(false).rollbackOnException(() -> {
+                    templateRepository.add(updatedTemplate);
+                    templateRepository.saveAll();
+                });
+                selectedTemplate = updatedTemplate;
             case EDIT:
-                templateRepository.update(event.getTemplate());
+                templateRepository.beginTransaction(updatedTemplate).rollbackOnException(() -> {
+                    templateRepository.update(updatedTemplate);
+                    templateRepository.saveAll();
+                });
                 break;
         }
 
@@ -415,8 +417,14 @@ public class RootController extends Controller {
     @Listener
     private void addParam(ParamUpdateEvent event) {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
-        selectedTemplate.addParam(event.getParam());
-        templateRepository.update(selectedTemplate);
+        if (selectedTemplate == null) return;
+
+        Template updatedTemplate = selectedTemplate.deepCopy();
+        updatedTemplate.addParam(event.getParam());
+        templateRepository.update(updatedTemplate);
+
+        templateRepository.beginTransaction(selectedTemplate)
+                .rollbackOnException(() -> templateRepository.saveAll());
 
         tblParams.getItems().add(event.getParam());
         tblParams.getItems().sort(Param.COMPARATOR);
@@ -425,12 +433,18 @@ public class RootController extends Controller {
     @FXML
     public void removeParam() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
+        if (selectedTemplate == null) return;
+
+        Template updatedTemplate = selectedTemplate.deepCopy();
         Param param = tblParams.getSelectionModel().getSelectedItem();
-        if (param != null) {
-            selectedTemplate.removeParam(param);
-            templateRepository.update(selectedTemplate);
-            tblParams.getItems().remove(param);
-        }
+        if (param == null) return;
+        updatedTemplate.removeParam(param);
+        templateRepository.update(updatedTemplate);
+
+        templateRepository.beginTransaction(selectedTemplate)
+                .rollbackOnException(() -> templateRepository.saveAll());
+
+        tblParams.getItems().remove(param);
     }
 
     @FXML

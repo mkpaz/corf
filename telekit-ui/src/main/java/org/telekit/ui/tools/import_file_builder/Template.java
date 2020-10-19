@@ -2,16 +2,19 @@ package org.telekit.ui.tools.import_file_builder;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Encoding;
+import org.telekit.base.domain.Entity;
 import org.telekit.base.domain.LineSeparator;
-import org.telekit.base.domain.NamedBean;
 
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 
 @JacksonXmlRootElement
-public class Template extends NamedBean<Template> {
+public class Template extends Entity<Template, UUID> {
 
+    private String name;
     private @JacksonXmlCData String header;
     private @JacksonXmlCData String footer;
     private @JacksonXmlCData String pattern;
@@ -22,10 +25,6 @@ public class Template extends NamedBean<Template> {
     private LineSeparator lineSeparator = LineSeparator.UNIX;
 
     public Template() {}
-
-    public Template(String id) {
-        super(id);
-    }
 
     public Template(Template template) {
         this.setId(template.getId());
@@ -44,6 +43,14 @@ public class Template extends NamedBean<Template> {
             this.params = params;
         }
         this.description = template.getDescription();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getHeader() {
@@ -117,6 +124,12 @@ public class Template extends NamedBean<Template> {
 
     public void setLineSeparator(LineSeparator lineSeparator) {
         this.lineSeparator = lineSeparator;
+    }
+
+    @Override
+    public int compareTo(@NotNull Template that) {
+        if (this == that) return 0;
+        return String.valueOf(name).compareTo(String.valueOf(that.getName()));
     }
 
     @Override
