@@ -1,6 +1,6 @@
 package org.telekit.ui.main;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,14 +62,14 @@ public class MainController extends Controller {
     public Timer memoryMonitoringTimer;
 
     private ApplicationPreferences preferences;
-    private XmlMapper xmlMapper;
+    private YAMLMapper yamlMapper;
     private PluginManager pluginManager;
 
     @Inject
-    public MainController(ApplicationPreferences preferences, PluginManager pluginManager, XmlMapper xmlMapper) {
+    public MainController(ApplicationPreferences preferences, PluginManager pluginManager, YAMLMapper yamlMapper) {
         this.preferences = preferences;
         this.pluginManager = pluginManager;
-        this.xmlMapper = xmlMapper;
+        this.yamlMapper = yamlMapper;
     }
 
     @FXML
@@ -365,14 +365,14 @@ public class MainController extends Controller {
                 primaryStage.setTitle(Environment.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
                 break;
             case PLUGINS_STATE_CHANGED:
-                List<PluginContainer> plugins = pluginManager.getPlugins(status ->
-                                                                                 EnumSet.of(Status.DISABLED, Status.UNINSTALLED).contains(status)
+                List<PluginContainer> plugins = pluginManager.getPlugins(
+                        status -> EnumSet.of(Status.DISABLED, Status.UNINSTALLED).contains(status)
                 );
                 plugins.forEach(container -> closeTabs(canonicalName(container.getPlugin())));
                 reloadPluginsMenu();
                 break;
             case PREFERENCES_CHANGED:
-                ApplicationPreferences.store(preferences, xmlMapper, ApplicationPreferences.CONFIG_PATH);
+                ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
                 break;
         }
     }

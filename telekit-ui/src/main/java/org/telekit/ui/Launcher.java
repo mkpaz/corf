@@ -26,6 +26,8 @@ import org.telekit.ui.main.Views;
 import org.telekit.ui.service.ExceptionHandler;
 import org.telekit.ui.service.PluginCleaner;
 import org.telekit.ui.service.PluginManager;
+import org.telekit.ui.tools.api_client.ACMigrationUtils;
+import org.telekit.ui.tools.import_file_builder.IFBMigrationUtils;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.awt.*;
@@ -186,6 +188,9 @@ public class Launcher extends Application implements LauncherDefaults {
                 ResourceBundle.getBundle(I18N_RESOURCES_PATH, preferences.getLocale(), Launcher.class.getModule()),
                 Launcher.class.getName()
         );
+
+        // migrate data between versions, if required
+        executeMigrationTasks();
     }
 
     private void setupLogging() {
@@ -297,6 +302,18 @@ public class Launcher extends Application implements LauncherDefaults {
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
+    }
+
+    @Deprecated
+    private void executeMigrationTasks() {
+        try {
+            if (Files.exists(ApplicationPreferences.CONFIG_PATH_OLD)) {
+                Files.delete(ApplicationPreferences.CONFIG_PATH_OLD);
+            }
+        } catch (IOException ignored) {}
+
+        ACMigrationUtils.migrateXmlConfigToYaml(applicationContext);
+        IFBMigrationUtils.migrateXmlConfigToYaml(applicationContext);
     }
 
     private void createUserResources() throws Exception {

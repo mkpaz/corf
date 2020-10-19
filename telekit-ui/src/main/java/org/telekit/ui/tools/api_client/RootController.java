@@ -1,6 +1,7 @@
 package org.telekit.ui.tools.api_client;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import fontawesomefx.fa.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -106,16 +107,19 @@ public class RootController extends Controller {
     private ParamModalController paramModalController = null;
     private TemplateRepository templateRepository;
 
-    private XmlMapper xmlMapper;
+    private YAMLMapper yamlMapper;
     private Executor executor;
     private ReadOnlyBooleanProperty ongoingProperty;
     private boolean passwordVisible = false;
     private ApplicationPreferences preferences;
 
     @Inject
-    public RootController(ApplicationPreferences preferences, XmlMapper xmlMapper) {
+    public RootController(ApplicationPreferences preferences,
+                          XmlMapper xmlMapper,
+                          YAMLMapper yamlMapper
+    ) {
         this.preferences = preferences;
-        this.xmlMapper = xmlMapper;
+        this.yamlMapper = yamlMapper;
     }
 
     @FXML
@@ -173,7 +177,7 @@ public class RootController extends Controller {
         updateExecutorBindings();
 
         // load data
-        templateRepository = new TemplateRepository(xmlMapper);
+        templateRepository = new TemplateRepository(yamlMapper);
         templateRepository.reloadAll();
         reloadTemplates(null);
     }
@@ -336,7 +340,7 @@ public class RootController extends Controller {
 
     private void doImportTemplate() {
         File inputFile = Dialogs.file()
-                .addFilter(Messages.get(FILE_DIALOG_XML), "*.xml")
+                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.xml")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
 
@@ -351,7 +355,7 @@ public class RootController extends Controller {
 
     private void doExportTemplate(Template template) {
         File outputFile = Dialogs.file()
-                .addFilter(Messages.get(FILE_DIALOG_XML), "*.xml")
+                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.xml")
                 .initialFilename(FileUtils.sanitizeFileName(template.getName()) + ".xml")
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());

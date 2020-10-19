@@ -1,6 +1,6 @@
 package org.telekit.ui.tools.import_file_builder;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -94,11 +94,11 @@ public class RootController extends Controller {
     private TemplateRepository templateRepository;
     private volatile boolean ongoing = false;
 
-    private XmlMapper xmlMapper;
+    private YAMLMapper yamlMapper;
 
     @Inject
-    public RootController(XmlMapper xmlMapper) {
-        this.xmlMapper = xmlMapper;
+    public RootController(YAMLMapper yamlMapper) {
+        this.yamlMapper = yamlMapper;
     }
 
     @FXML
@@ -146,7 +146,7 @@ public class RootController extends Controller {
         ));
 
         // load data
-        templateRepository = new TemplateRepository(xmlMapper);
+        templateRepository = new TemplateRepository(yamlMapper);
         templateRepository.reloadAll();
         reloadTemplates(null);
     }
@@ -273,7 +273,7 @@ public class RootController extends Controller {
 
     private void doImportTemplate() {
         File inputFile = Dialogs.file()
-                .addFilter(Messages.get(FILE_DIALOG_XML), "*.xml")
+                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.xml")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
 
@@ -288,7 +288,7 @@ public class RootController extends Controller {
 
     private void doExportTemplate(Template template) {
         File outputFile = Dialogs.file()
-                .addFilter(Messages.get(FILE_DIALOG_XML), "*.xml")
+                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.xml")
                 .initialFilename(FileUtils.sanitizeFileName(template.getName()) + ".xml")
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());

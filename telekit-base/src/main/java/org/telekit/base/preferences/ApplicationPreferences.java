@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.Environment;
@@ -22,7 +23,9 @@ import static org.telekit.base.Environment.DATA_DIR;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationPreferences {
 
-    public static final Path CONFIG_PATH = DATA_DIR.resolve("preferences.xml");
+    @Deprecated
+    public static final Path CONFIG_PATH_OLD = DATA_DIR.resolve("preferences.xml");
+    public static final Path CONFIG_PATH = DATA_DIR.resolve("preferences.yaml");
 
     private Language language = Language.EN;
     private boolean systemTray = false;
@@ -82,7 +85,7 @@ public class ApplicationPreferences {
                 '}';
     }
 
-    public static ApplicationPreferences load(XmlMapper mapper, Path path) {
+    public static ApplicationPreferences load(YAMLMapper mapper, Path path) {
         try {
             return mapper.readValue(CONFIG_PATH.toFile(), ApplicationPreferences.class);
         } catch (Exception e) {
@@ -90,7 +93,7 @@ public class ApplicationPreferences {
         }
     }
 
-    public static void store(ApplicationPreferences preferences, XmlMapper mapper, Path path) {
+    public static void save(ApplicationPreferences preferences, YAMLMapper mapper, Path path) {
         try {
             mapper.writeValue(CONFIG_PATH.toFile(), preferences);
         } catch (Exception e) {

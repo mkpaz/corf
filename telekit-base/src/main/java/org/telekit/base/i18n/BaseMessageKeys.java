@@ -21,5 +21,6 @@ public interface BaseMessageKeys {
 
     String FILE_DIALOG_TEXT = "file-dialog.text";
     String FILE_DIALOG_XML = "file-dialog.xml";
+    String FILE_DIALOG_YAML = "file-dialog.yaml";
     String FILE_DIALOG_ZIP = "file-dialog.zip";
 }
