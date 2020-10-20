@@ -63,18 +63,7 @@
                         </HBox>
                         <TextField fx:id="tfURI" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="%tools.api-client.ContentType" GridPane.rowIndex="3" />
-                        <ComboBox fx:id="cmbContentType" onAction="#onContentTypeChanged" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <items>
-                               <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="application/json" />
-                                  <String fx:value="application/soap+xml" />
-                                  <String fx:value="other" />
-                               </FXCollections>
-                           </items>
-                           <value>
-                              <String fx:value="application/json" />
-                           </value>
-                         </ComboBox>
+                        <ComboBox fx:id="cmbContentType" onAction="#onContentTypeChanged" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="%tools.api-client.HTTPHeaders" GridPane.rowIndex="4" />
                         <Label text="%tools.api-client.Body" GridPane.rowIndex="5" />
                         <TextArea fx:id="taHeaders" prefHeight="50.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="4" />

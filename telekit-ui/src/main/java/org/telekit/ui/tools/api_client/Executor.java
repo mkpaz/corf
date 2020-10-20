@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import org.telekit.base.domain.AuthPrincipal;
+import org.telekit.base.domain.HttpConstants.ContentType;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.preferences.Proxy;
 import org.telekit.base.util.PlaceholderReplacer;
@@ -62,9 +63,12 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         Map<String, String> replacements = new HashMap<>();
         Set<Param> params = nullToEmpty(template.getParams());
 
-        Map<String, String> headers = parseHeaders(template.getHeaders());
+        Map<String, String> headers = new HashMap<>();
+        // set default content-type header
         Entry<String, String> contentType = contentTypeHeader(template.getContentType());
         headers.put(contentType.getKey(), contentType.getValue());
+        // allow default headers to be overridden with user specified ones
+        headers.putAll(parseHeaders(template.getHeaders()));
 
         if (proxy != null) {
             http.setProxy(proxy.getUrl(), proxy.getPrincipal());
@@ -251,6 +255,9 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         }
     }
 
+    // Provides user an ability to include record index into template pattern
+    // _index0 - contains current table index, starting from 0
+    // _index1 - contains current table index, starting from 1
     private static void putIndexParams(Map<String, String> accumulator, int sequentialIndex) {
         accumulator.put("_index0", String.valueOf(sequentialIndex));
         accumulator.put("_index1", String.valueOf(sequentialIndex + 1));
@@ -263,30 +270,14 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         );
     }
 
-    private static Entry<String, String> contentTypeHeader(String contentType) {
-        Entry<String, String> defaultContentType = Map.entry(HttpClient.CONTENT_TYPE_HEADER, HttpClient.CONTENT_TYPE_TEXT);
-        if (isBlank(contentType)) return defaultContentType;
-
-        switch (contentType) {
-            case Template.CONTENT_TYPE_JSON:
-            case Template.CONTENT_TYPE_SOAP:
-                return Map.entry(HttpClient.CONTENT_TYPE_HEADER, contentType);
-            default:
-                return defaultContentType;
-        }
+    private static Entry<String, String> contentTypeHeader(ContentType contentType) {
+        return contentType != null ?
+                Map.entry(HttpClient.CONTENT_TYPE_HEADER, contentType.getMimeType()) :
+                Map.entry(HttpClient.CONTENT_TYPE_HEADER, ContentType.TEXT_PLAIN.getMimeType());
     }
 
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
-    private static String wrapBatchItems(String[] items, String batchWrapper, String contentType) {
-        String separator;
-        switch (contentType) {
-            case Template.CONTENT_TYPE_JSON:
-                separator = ",";
-                break;
-            default:
-                separator = "\n";
-        }
-
+    private static String wrapBatchItems(String[] items, String batchWrapper, ContentType contentType) {
+        String separator = contentType == ContentType.APPLICATION_JSON ? "," : "\n";
         return PlaceholderReplacer.format(
                 batchWrapper,
                 Map.of("batch", String.join(separator, items))

@@ -42,7 +42,6 @@ public class HttpClient {
             "Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; " +
             "Media Center PC 6.0; InfoPath.2)";
     public static final String CONTENT_TYPE_HEADER = HTTP.CONTENT_TYPE;
-    public static final String CONTENT_TYPE_TEXT = "text/plain; charset=utf-8";
 
     public static final int CONNECT_TIMEOUT = 5000;
     public static final int DATA_TIMEOUT = 5000;

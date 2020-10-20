@@ -8,17 +8,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.telekit.base.EventBus;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.domain.HttpConstants.ContentType;
+import org.telekit.base.domain.HttpConstants.Method;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.FXBindings;
+import org.telekit.base.i18n.Messages;
 import org.telekit.ui.tools.Action;
-import org.telekit.ui.tools.api_client.Template.HTTPMethod;
 
 import java.util.Set;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.trim;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.ui.main.MessageKeys.TOOLS_EDIT_TEMPLATE;
 import static org.telekit.ui.main.MessageKeys.TOOLS_NEW_TEMPLATE;
 
@@ -27,8 +28,8 @@ public class TemplateModalController extends Controller {
     public @FXML VBox rootPane;
     public @FXML TextField tfName;
     public @FXML TextField tfURI;
-    public @FXML ComboBox<HTTPMethod> cmbMethod;
-    public @FXML ComboBox<String> cmbContentType;
+    public @FXML ComboBox<Method> cmbMethod;
+    public @FXML ComboBox<ContentType> cmbContentType;
     public @FXML TextArea taHeaders;
     public @FXML TextArea taBody;
     public @FXML TextArea taBatchWrapper;
@@ -55,7 +56,7 @@ public class TemplateModalController extends Controller {
 
         spnBatchSize.valueProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue == null) return;
-            String contentType = cmbContentType.getSelectionModel().getSelectedItem();
+            ContentType contentType = cmbContentType.getSelectionModel().getSelectedItem();
             String batchWrapperText = taBatchWrapper.getText();
             if (newValue > 1 && isBlank(batchWrapperText)) {
                 taBatchWrapper.setText(getDefaultBatchWrapper(contentType));
@@ -68,13 +69,28 @@ public class TemplateModalController extends Controller {
                 Bindings.lessThan(IntegerProperty.integerProperty(spnBatchSize.getValueFactory().valueProperty()), 2)
         );
 
-        cmbMethod.getItems().addAll(HTTPMethod.values());
+        cmbContentType.setConverter(new StringConverter<>() {
+
+            @Override
+            public String toString(ContentType contentType) {
+                return contentType != null ? contentType.getMimeType() : "";
+            }
+
+            @Override
+            public ContentType fromString(String mimeType) {
+                return isNotEmpty(mimeType) ? ContentType.fromValue(mimeType) : null;
+            }
+        });
+
+        cmbMethod.getItems().addAll(Method.values());
+        cmbContentType.getItems().add(null);
+        cmbContentType.getItems().addAll(ContentType.values());
     }
 
     @FXML
     public void onContentTypeChanged() {
         if (spnBatchSize.getValue() > 1) {
-            String contentType = cmbContentType.getSelectionModel().getSelectedItem();
+            ContentType contentType = cmbContentType.getSelectionModel().getSelectedItem();
             taBatchWrapper.setText(getDefaultBatchWrapper(contentType));
         }
     }
@@ -105,7 +121,7 @@ public class TemplateModalController extends Controller {
 
     @FXML
     public void apply() {
-        String contentType = cmbContentType.getSelectionModel().getSelectedItem();
+        ContentType contentType = cmbContentType.getSelectionModel().getSelectedItem();
 
         template.setName(trim(tfName.getText()));
         template.setUri(trim(tfURI.getText()));
@@ -140,15 +156,14 @@ public class TemplateModalController extends Controller {
         );
     }
 
-    private String getDefaultBatchWrapper(String contentType) {
-        switch (contentType) {
-            case Template.CONTENT_TYPE_JSON:
-                return "[%(batch)]";
-            case Template.CONTENT_TYPE_SOAP:
-                return "<tagName>%(batch)</tagName>";
-            default:
-                return "%(batch)";
-        }
+    private String getDefaultBatchWrapper(ContentType contentType) {
+        String noWrapper = "%(batch)";
+        if (contentType == null) return noWrapper;
+        return switch (contentType) {
+            case APPLICATION_JSON -> "[" + noWrapper + "]";
+            case APPLICATION_SOAP_XML, TEXT_XML -> "<tagName>" + noWrapper + "</tagName>";
+            default -> noWrapper;
+        };
     }
 
     ///////////////////////////////////////////////////////////////////////////

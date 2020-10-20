@@ -1,8 +1,11 @@
 package org.telekit.ui.tools.api_client;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
+import org.telekit.base.domain.HttpConstants.ContentType;
+import org.telekit.base.domain.HttpConstants.Method;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -10,14 +13,10 @@ import java.util.UUID;
 
 public class Template extends Entity<Template, UUID> {
 
-    public static final String CONTENT_TYPE_JSON = "application/json";
-    public static final String CONTENT_TYPE_SOAP = "application/soap+xml";
-    public static final String CONTENT_TYPE_OTHER = "other";
-
     private String name;
     private String uri;
-    private HTTPMethod method = HTTPMethod.POST;
-    private String contentType = CONTENT_TYPE_JSON;
+    private Method method = Method.POST;
+    private ContentType contentType;
     private @JacksonXmlCData String headers;
     private @JacksonXmlCData String body;
     private Integer batchSize = 0;
@@ -65,11 +64,11 @@ public class Template extends Entity<Template, UUID> {
         this.uri = uri;
     }
 
-    public Template.HTTPMethod getMethod() {
+    public Method getMethod() {
         return method;
     }
 
-    public void setMethod(Template.HTTPMethod method) {
+    public void setMethod(Method method) {
         this.method = method;
     }
 
@@ -81,11 +80,11 @@ public class Template extends Entity<Template, UUID> {
         this.headers = headers;
     }
 
-    public String getContentType() {
+    public ContentType getContentType() {
         return contentType;
     }
 
-    public void setContentType(String contentType) {
+    public void setContentType(ContentType contentType) {
         this.contentType = contentType;
     }
 
@@ -171,9 +170,5 @@ public class Template extends Entity<Template, UUID> {
     @Override
     public Template deepCopy() {
         return new Template(this);
-    }
-
-    public enum HTTPMethod {
-        DELETE, GET, HEAD, PATCH, POST, PUT
     }
 }
