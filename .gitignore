@@ -1,8 +1,3 @@
-# Custom
-*.int.cmd
-*.int.bat
-*.int.sh
-
 # Created by https://www.gitignore.io/api/linux,maven,windows,eclipse,intellij+all
 
 ### Eclipse ###
@@ -186,3 +181,8 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/linux,maven,windows,eclipse,intellij+all
+
+*.local.cmd
+*.local.bat
+*.local.sh
+!.idea/runConfigurations

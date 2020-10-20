@@ -54,11 +54,17 @@
                             <executable>${java.home}/bin/java</executable>
                         </configuration>
                     </execution>
+                    <!--
+                        To run application in debug mode:
+                        - "mvn javafx:run@debug" - it start app and expose port (see below) for remote debugging
+                        - connect to app via IDEA run configuration = Remote (or alternative) using exactly the same
+                          agentlib option as below
+                    -->
                     <execution>
                         <id>debug</id>
                         <configuration>
                             <options>
-                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:9000</option>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:9090</option>
                             </options>
                             <mainClass>${bld.mainClass}</mainClass>
                             <executable>${java.home}/bin/java</executable>
