@@ -97,7 +97,12 @@ public class TemplateModalController extends Controller {
 
     public void setData(Action action, Template sourceTemplate, Set<String> usedTemplateNames) {
         this.action = action;
-        this.template = sourceTemplate == null ? new Template() : new Template(sourceTemplate);
+        if (sourceTemplate == null) {
+            this.template = new Template();
+            this.template.setContentType(ContentType.APPLICATION_JSON);
+        } else {
+            this.template = new Template(sourceTemplate);
+        }
         this.usedTemplateNames = usedTemplateNames;
 
         String titleKey = "";

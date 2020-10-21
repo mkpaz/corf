@@ -90,9 +90,12 @@ public class MainDependencyModule implements DependencyModule {
                 .disable(YAMLGenerator.Feature.SPLIT_LINES);
 
         return YAMLMapper.builder(yamlFactory)
+                // if we don't serialize null fields it also mean that while deserialization
+                // mapper will ignore missing properties
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .addModule(new StringTrimModule())
                 .build();
     }

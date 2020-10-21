@@ -21,7 +21,7 @@ public class Template extends Entity<Template, UUID> {
     private @JacksonXmlCData String body;
     private Integer batchSize = 0;
     private String batchWrapper;
-    private Integer waitTimeout = HttpClient.CONNECT_TIMEOUT / 1000;
+    private Integer waitTimeout = 5; // seconds
     private Set<Param> params;
     private @JacksonXmlCData String description;
 
