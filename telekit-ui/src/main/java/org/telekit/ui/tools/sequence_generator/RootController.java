@@ -9,12 +9,12 @@ import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import org.telekit.base.EventBus;
-import org.telekit.base.i18n.Messages;
 import org.telekit.base.Environment;
+import org.telekit.base.EventBus;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.*;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.base.util.SequenceGenerator;
@@ -220,7 +220,7 @@ public class RootController extends Controller {
 
             out.write(resultCache);
         } catch (Exception e) {
-            throw new TelekitException(Messages.get(MSG_UNABLE_TO_SAVE_FILE), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 

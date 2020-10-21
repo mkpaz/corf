@@ -3,6 +3,7 @@ package org.telekit.base.service;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
 import org.telekit.base.domain.TelekitException;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.EntityRepository;
 import org.telekit.base.service.Serializer;
 
@@ -11,6 +12,8 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.telekit.base.i18n.BaseMessageKeys.MSG_KEY_IS_NOT_UNIQUE;
 
 public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Serializable>
         implements EntityRepository<T, ID> {
@@ -132,7 +135,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
 
     protected void requireUniqueFields(T entity) {
         if (repository.containsKey(entity.getId())) {
-            throw new TelekitException(String.format("Object with key '%s' already exists", entity.getId()));
+            throw new TelekitException(Messages.get(MSG_KEY_IS_NOT_UNIQUE, "ID=" + entity.getId()));
         }
     }
 

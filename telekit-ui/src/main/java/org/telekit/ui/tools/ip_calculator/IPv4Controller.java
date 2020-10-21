@@ -209,7 +209,7 @@ public class IPv4Controller extends Controller {
                 out.write("\n");
             }
         } catch (Exception e) {
-            throw new TelekitException(Messages.get(MSG_UNABLE_TO_SAVE_FILE), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 

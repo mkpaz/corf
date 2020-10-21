@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_PARSE_CONFIG;
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_CONFIG;
+import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
+import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
 @Deprecated
 public class IFBMigrationUtils {
@@ -66,7 +66,7 @@ public class IFBMigrationUtils {
             try {
                 mapper.writeValue(outputStream, new Wrapper(templates));
             } catch (Exception e) {
-                throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_CONFIG), e);
+                throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
             }
         }
 
@@ -80,7 +80,7 @@ public class IFBMigrationUtils {
                     result.addAll(data.getTemplates());
                 }
             } catch (Exception e) {
-                throw new TelekitException(Messages.get(MGG_UNABLE_TO_PARSE_CONFIG), e);
+                throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
             }
 
             return result;

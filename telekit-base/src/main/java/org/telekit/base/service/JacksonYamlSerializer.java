@@ -28,7 +28,7 @@ public class JacksonYamlSerializer<T> implements Serializer<T> {
         try {
             mapper.writeValue(outputStream, value);
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(BaseMessageKeys.MSG_GENERIC_IO_ERROR));
+            throw new TelekitException(Messages.get(BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE));
         }
     }
 
@@ -37,7 +37,7 @@ public class JacksonYamlSerializer<T> implements Serializer<T> {
         try {
             return mapper.readValue(inputStream, typeRef);
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(BaseMessageKeys.MSG_GENERIC_IO_ERROR));
+            throw new TelekitException(Messages.get(BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE));
         }
     }
 }

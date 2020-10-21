@@ -5,13 +5,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import org.telekit.base.EventBus;
-import org.telekit.base.i18n.Messages;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.fx.FXBindings;
 import org.telekit.base.fx.IntegerStringConverter;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PasswordGenerator;
 import org.telekit.ui.Launcher;
@@ -159,7 +159,7 @@ public class RootController extends Controller {
 
             out.write(generatedPasswordsCache);
         } catch (Exception e) {
-            throw new TelekitException(Messages.get(MSG_UNABLE_TO_SAVE_FILE), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 

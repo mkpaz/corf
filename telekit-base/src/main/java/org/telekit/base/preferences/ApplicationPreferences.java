@@ -2,7 +2,6 @@ package org.telekit.base.preferences;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -11,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.Environment;
 import org.telekit.base.domain.TelekitException;
+import org.telekit.base.i18n.Messages;
 
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -18,6 +18,8 @@ import java.util.Locale;
 import java.util.Set;
 
 import static org.telekit.base.Environment.DATA_DIR;
+import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
+import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
 @JacksonXmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -89,7 +91,7 @@ public class ApplicationPreferences {
         try {
             return mapper.readValue(CONFIG_PATH.toFile(), ApplicationPreferences.class);
         } catch (Exception e) {
-            throw new TelekitException("Unable to parse preferences file", e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
         }
     }
 
@@ -97,7 +99,7 @@ public class ApplicationPreferences {
         try {
             mapper.writeValue(CONFIG_PATH.toFile(), preferences);
         } catch (Exception e) {
-            throw new TelekitException("Unable to save preferences", e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 }

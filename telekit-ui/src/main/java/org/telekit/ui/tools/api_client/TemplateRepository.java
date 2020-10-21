@@ -21,8 +21,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_PARSE_CONFIG;
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_CONFIG;
+import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
+import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
 public class TemplateRepository extends FileBasedRepository<Template, UUID> {
 
@@ -47,7 +47,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
             if (size() > 0) clear();
             load(inputStream, yamlSerializer);
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_PARSE_CONFIG), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
         }
     }
 
@@ -55,7 +55,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
         try (OutputStream outputStream = Files.newOutputStream(DATA_FILE_PATH)) {
             yamlSerializer.serialize(outputStream, getAll());
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_CONFIG), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 
@@ -69,7 +69,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
                 }
             }
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_PARSE_CONFIG), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
         }
     }
 
@@ -77,7 +77,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
         try (OutputStream outputStream = Files.newOutputStream(outputFile.toPath())) {
             yamlSerializer.serialize(outputStream, templates);
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_CONFIG), e);
+            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 }
