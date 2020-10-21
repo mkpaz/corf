@@ -273,7 +273,7 @@ public class RootController extends Controller {
 
     private void doImportTemplate() {
         File inputFile = Dialogs.file()
-                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.xml")
+                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.yaml", "*.yml")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
 
@@ -288,8 +288,8 @@ public class RootController extends Controller {
 
     private void doExportTemplate(Template template) {
         File outputFile = Dialogs.file()
-                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.xml")
-                .initialFilename(FileUtils.sanitizeFileName(template.getName()) + ".xml")
+                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.yaml", "*.yml")
+                .initialFilename(FileUtils.sanitizeFileName(template.getName()) + ".yaml")
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
 
