@@ -12,8 +12,8 @@ import java.io.OutputStream;
 
 public class JacksonXmlSerializer<T> implements Serializer<T> {
 
-    private XmlMapper mapper;
-    private TypeReference<T> typeRef;
+    private final XmlMapper mapper;
+    private final TypeReference<T> typeRef;
 
     public JacksonXmlSerializer(XmlMapper mapper, TypeReference<T> typeRef) {
         this.mapper = mapper;

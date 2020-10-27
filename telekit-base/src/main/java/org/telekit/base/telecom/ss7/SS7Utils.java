@@ -113,21 +113,14 @@ public final class SS7Utils {
 
     public static String formatPointCode(int spc, int length, SPCFormat format) {
         if (spc < 0 || !isOneOf(length, 14, 24) || format == null) return null;
-        switch (format) {
-            case DEC:
-                return String.valueOf(spc);
-            case HEX:
-                return Integer.toHexString(spc).toUpperCase();
-            case BIN:
-                return leftPad(Integer.toBinaryString(spc), length, "0");
-            case STRUCT_383:
-                return toStructInteger(spc, length, new int[]{3, 8, 3});
-            case STRUCT_86:
-                return toStructInteger(spc, length, new int[]{8, 6});
-            case STRUCT_888:
-                return toStructInteger(spc, length, new int[]{8, 8, 8});
-        }
-        return null;
+        return switch (format) {
+            case DEC -> String.valueOf(spc);
+            case HEX -> Integer.toHexString(spc).toUpperCase();
+            case BIN -> leftPad(Integer.toBinaryString(spc), length, "0");
+            case STRUCT_383 -> toStructInteger(spc, length, new int[] {3, 8, 3});
+            case STRUCT_86 -> toStructInteger(spc, length, new int[] {8, 6});
+            case STRUCT_888 -> toStructInteger(spc, length, new int[] {8, 8, 8});
+        };
     }
 
     public static List<Integer> getCICRange(int e1Num) {

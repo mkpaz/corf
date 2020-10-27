@@ -107,11 +107,11 @@ public class RootController extends Controller {
     private ParamModalController paramModalController = null;
     private TemplateRepository templateRepository;
 
-    private YAMLMapper yamlMapper;
+    private final YAMLMapper yamlMapper;
+    private final ApplicationPreferences preferences;
     private Executor executor;
     private ReadOnlyBooleanProperty ongoingProperty;
     private boolean passwordVisible = false;
-    private ApplicationPreferences preferences;
 
     @Inject
     public RootController(ApplicationPreferences preferences,
@@ -523,6 +523,7 @@ public class RootController extends Controller {
                 .content("")
                 .build();
 
+        @SuppressWarnings("StringBufferReplaceableByString")
         StringBuilder sb = new StringBuilder();
         sb.append(message);
         sb.append("\n\n");

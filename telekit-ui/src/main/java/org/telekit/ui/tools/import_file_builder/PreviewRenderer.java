@@ -131,7 +131,7 @@ public final class PreviewRenderer {
 
     private static class Row {
 
-        public List<Cell> cells;
+        public final List<Cell> cells;
 
         public Row(List<Cell> cells) {
             this.cells = cells;
@@ -140,7 +140,7 @@ public final class PreviewRenderer {
 
     private static class Cell {
 
-        public String content;
+        public final String content;
         public int colspan;
 
         public Cell(String content, int colspan) {
@@ -149,11 +149,12 @@ public final class PreviewRenderer {
         }
     }
 
-    private static final String CSS =
-            "body { overflow: auto; width: 100%; font-family: monospace; font-size: 11pt; }\n" +
-                    ".wrapper { display: inline-block; padding: 10px 20px; word-break: keep-all; }\n" +
-                    "table { border-collapse: collapse; }\n" +
-                    "th { font-weight: bold; min-width: 100px; }\n" +
-                    "td, th { text-align: left; padding: 4px 8px; border: 1px solid #9e9e9e; }\n" +
-                    ".placeholder { color: #e91e63; }\n";
+    private static final String CSS = """
+            body { overflow: auto; width: 100%; font-family: monospace; font-size: 11pt; }
+            .wrapper { display: inline-block; padding: 10px 20px; word-break: keep-all; }
+            table { border-collapse: collapse; }
+            th { font-weight: bold; min-width: 100px; }
+            td, th { text-align: left; padding: 4px 8px; border: 1px solid #9e9e9e; }
+            .placeholder { color: #e91e63; }
+            """;
 }

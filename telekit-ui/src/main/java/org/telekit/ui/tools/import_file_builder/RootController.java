@@ -89,12 +89,11 @@ public class RootController extends Controller {
     public @FXML CheckBox cbAppendFile;
     public @FXML CheckBox cbOpenAfterGeneration;
 
+    private final YAMLMapper yamlMapper;
     private TemplateModalController templateModalController = null;
     private ParamModalController paramModalController = null;
     private TemplateRepository templateRepository;
     private volatile boolean ongoing = false;
-
-    private YAMLMapper yamlMapper;
 
     @Inject
     public RootController(YAMLMapper yamlMapper) {
@@ -161,7 +160,7 @@ public class RootController extends Controller {
     private void reloadTemplates(Template selectedTemplate) {
         List<Template> templates = templateRepository.getAll();
         templates.sort(Template::compareTo);
-        // don't use setItems(), there're binding that watches items changes
+        // don't use setItems(), there is binding that watches items changes
         cmbTemplate.getItems().clear();
         cmbTemplate.getItems().addAll(templates);
 

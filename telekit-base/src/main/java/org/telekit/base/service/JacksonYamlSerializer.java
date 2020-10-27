@@ -12,8 +12,8 @@ import java.io.OutputStream;
 
 public class JacksonYamlSerializer<T> implements Serializer<T> {
 
-    private YAMLMapper mapper;
-    private TypeReference<T> typeRef;
+    private final YAMLMapper mapper;
+    private final TypeReference<T> typeRef;
 
     public JacksonYamlSerializer(YAMLMapper mapper, TypeReference<T> typeRef) {
         this.mapper = mapper;

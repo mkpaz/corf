@@ -106,18 +106,12 @@ public class RootController extends Controller {
         randomDict = createRandomCharsSequence();
         if (xkcdDict == null) loadXKCDDict();
 
-        int length = 12;
-        switch (passwordType) {
-            case TYPE_RANDOM:
-                length = spnRandomLength.getValue();
-                break;
-            case TYPE_KATAKANA:
-                length = spnKatakanaLength.getValue();
-                break;
-            case TYPE_XKCD:
-                length = spnXKCDWords.getValue();
-                break;
-        }
+        int length = switch (passwordType) {
+            case TYPE_RANDOM -> spnRandomLength.getValue();
+            case TYPE_KATAKANA -> spnKatakanaLength.getValue();
+            case TYPE_XKCD -> spnXKCDWords.getValue();
+            default -> 12;
+        };
         int passwordCount = spnPasswordsCount.getValue();
 
         GenerateTask task = new GenerateTask(passwordType, passwordCount, length);
@@ -170,16 +164,12 @@ public class RootController extends Controller {
 
     private void onPaneExpanded(String passwordType) {
         switch (passwordType) {
-            case TYPE_RANDOM:
-                lbRandomExample.setText(generatePassword(passwordType, 16));
-                break;
-            case TYPE_KATAKANA:
-                lbKatakanaExample.setText(generatePassword(passwordType, 12));
-                break;
-            case TYPE_XKCD:
+            case TYPE_RANDOM -> lbRandomExample.setText(generatePassword(passwordType, 16));
+            case TYPE_KATAKANA -> lbKatakanaExample.setText(generatePassword(passwordType, 12));
+            case TYPE_XKCD -> {
                 if (xkcdDict == null) loadXKCDDict();
                 lbXKCDExample.setText(generatePassword(passwordType, 2));
-                break;
+            }
         }
     }
 
@@ -188,13 +178,11 @@ public class RootController extends Controller {
     }
 
     private String generatePassword(String passwordType, int length) {
-        switch (passwordType) {
-            case TYPE_KATAKANA:
-                return PasswordGenerator.katakana(length);
-            case TYPE_XKCD:
-                return PasswordGenerator.onDict(length, "-", xkcdDict);
-        }
-        return PasswordGenerator.random(length, randomDict);
+        return switch (passwordType) {
+            case TYPE_KATAKANA -> PasswordGenerator.katakana(length);
+            case TYPE_XKCD -> PasswordGenerator.onDict(length, "-", xkcdDict);
+            default -> PasswordGenerator.random(length, randomDict);
+        };
     }
 
     private List<Character> createRandomCharsSequence() {

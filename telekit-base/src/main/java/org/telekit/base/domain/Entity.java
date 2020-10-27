@@ -47,10 +47,9 @@ public abstract class Entity<T extends Entity<T, ID>, ID> implements Comparable<
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Entity{");
-        sb.append("id=").append(id);
-        sb.append('}');
-        return sb.toString();
+        return "Entity{" +
+                "id=" + id +
+                '}';
     }
 
     public abstract T deepCopy();

@@ -39,11 +39,10 @@ public class RootController extends Controller {
         String lang = cmbLang.getSelectionModel().getSelectedItem();
         String text = trim(taText.getText());
 
-        Transliterator tr = null;
-        switch (lang) {
-            case "RU":
-                tr = new RUTransliterator();
-        }
+        Transliterator tr = switch (lang) {
+            case "RU" -> new RUTransliterator();
+            default -> null;
+        };
 
         if (tr != null) {
             taTransliteratedText.setText(tr.transliterate(text));

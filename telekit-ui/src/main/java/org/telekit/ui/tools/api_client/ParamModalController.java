@@ -58,13 +58,8 @@ public class ParamModalController extends Controller {
     public void onParamTypeChanged() {
         Type selectedType = cmbType.getSelectionModel().getSelectedItem();
         switch (selectedType) {
-            case PASSWORD:
-            case PASSWORD_BASE64:
-                spnLength.setDisable(false);
-                break;
-            default:
-                spnLength.setDisable(true);
-                break;
+            case PASSWORD, PASSWORD_BASE64 -> spnLength.setDisable(false);
+            default -> spnLength.setDisable(true);
         }
     }
 

@@ -9,7 +9,7 @@ public class PrefixTrie {
     private static final int MAX_CHILDREN = 10;
     private static final int MAX_BITMASK_VALUE = 2 ^ MAX_CHILDREN - 1;
 
-    private Node root;
+    private final Node root;
 
     public PrefixTrie() {
         this.root = new Node();

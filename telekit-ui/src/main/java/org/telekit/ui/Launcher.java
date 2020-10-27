@@ -68,7 +68,7 @@ public class Launcher extends Application implements LauncherDefaults {
     public static final String INDEX_CSS_PATH = "/assets/ui/index.css";
 
     private static int exitCode = 0;
-    private ApplicationContext applicationContext = ApplicationContext.getInstance();
+    private final ApplicationContext applicationContext = ApplicationContext.getInstance();
     private Logger logger;
     private ExceptionHandler exceptionHandler;
     private ApplicationPreferences preferences;

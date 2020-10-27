@@ -74,7 +74,7 @@ public final class Env {
 
     /* Locale */
 
-    public static Locale LOCALE = getLocaleFromEnv();
+    public static final Locale LOCALE = getLocaleFromEnv();
 
     private static Locale getLocaleFromEnv() {
         String localeStr = getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE");

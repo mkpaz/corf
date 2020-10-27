@@ -61,6 +61,7 @@ public class Key<T> {
     }
 
     @Override
+    @SuppressWarnings("EqualsReplaceableByObjectsCall")
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

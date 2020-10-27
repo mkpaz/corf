@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.ui.Controller;
 import org.telekit.base.plugin.Tool;
 
+@SuppressWarnings("ConstantConditions")
 public class DummyOneTool implements Tool {
 
     @Override

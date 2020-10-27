@@ -22,7 +22,7 @@ import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 
 public class PreferencesController extends Controller {
 
-    private ApplicationPreferences preferences;
+    private final ApplicationPreferences preferences;
 
     public @FXML VBox rootPane;
     public @FXML ComboBox<Language> cmbLanguage;

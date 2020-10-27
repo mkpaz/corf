@@ -160,9 +160,9 @@ public class PreviewController extends Controller {
 
     public static class Book {
 
-        private SimpleStringProperty isbn;
-        private SimpleStringProperty author;
-        private SimpleStringProperty title;
+        private final SimpleStringProperty isbn;
+        private final SimpleStringProperty author;
+        private final SimpleStringProperty title;
 
         public Book(String isbn, String author, String title) {
             this.isbn = new SimpleStringProperty(isbn);

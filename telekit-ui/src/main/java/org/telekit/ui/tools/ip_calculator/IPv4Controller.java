@@ -39,7 +39,6 @@ import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.StringUtils.splitEqually;
-import static org.telekit.base.telecom.net.IP4Subnet.NETMASKS;
 import static org.telekit.ui.main.MessageKeys.*;
 
 public class IPv4Controller extends Controller {
@@ -62,14 +61,14 @@ public class IPv4Controller extends Controller {
     public @FXML TableView<Subnet> tblNetmasks;
 
     private IPv4ConverterController formatsConverterController = null;
-    private static List<Subnet> netmasks = createSubnetsList();
+    private static final List<Subnet> NETMASKS = createSubnetsList();
 
     @FXML
     public void initialize() {
         tfIPAddress.setTextFormatter(TextFormatters.ipv4Decimal());
         cmbNetmask.setButtonCell(new NetmaskCell());
         cmbNetmask.setCellFactory(property -> new NetmaskCell());
-        cmbNetmask.setItems(observableArrayList(netmasks));
+        cmbNetmask.setItems(observableArrayList(NETMASKS));
         cmbNetmask.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             fillSplitSelectors();
             int index = cmbNetmask.getSelectionModel().getSelectedIndex();
@@ -281,7 +280,7 @@ public class IPv4Controller extends Controller {
     }
 
     private void fillNetmasksTable() {
-        tblNetmasks.setItems(observableArrayList(netmasks));
+        tblNetmasks.setItems(observableArrayList(NETMASKS));
         ObservableList<TableColumn<Subnet, ?>> columns = tblNetmasks.getColumns();
         for (TableColumn<Subnet, ?> column : columns) {
             if (isEmpty(column.getId())) continue;
@@ -328,7 +327,7 @@ public class IPv4Controller extends Controller {
     private static List<Subnet> createSubnetsList() {
         List<Subnet> result = new ArrayList<>();
         for (int prefixLength = 1; prefixLength <= 32; prefixLength++) {
-            result.add(new Subnet(new IP4Subnet(NETMASKS[prefixLength - 1] + "/" + prefixLength)));
+            result.add(new Subnet(new IP4Subnet(IP4Subnet.NETMASKS[prefixLength - 1] + "/" + prefixLength)));
         }
         Collections.reverse(result);
         return Collections.unmodifiableList(result);

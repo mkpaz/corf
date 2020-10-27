@@ -2,7 +2,7 @@ package org.telekit.ui.domain;
 
 public class ExceptionCaughtEvent {
 
-    private Throwable cause;
+    private final Throwable cause;
 
     public ExceptionCaughtEvent(Throwable cause) {
         this.cause = cause;

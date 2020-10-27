@@ -36,7 +36,7 @@ public class PreviewLauncher extends Application implements LauncherDefaults {
                 BaseMessagesBundleProvider.class.getName()
         );
         Messages.getInstance().load(
-                ResourceBundle.getBundle(Launcher.I18N_RESOURCES_PATH, Env.LOCALE, Launcher.class.getModule()),
+                ResourceBundle.getBundle(Launcher.I18N_RESOURCES_PATH, Objects.requireNonNull(Env.LOCALE), Launcher.class.getModule()),
                 Launcher.class.getName()
         );
 

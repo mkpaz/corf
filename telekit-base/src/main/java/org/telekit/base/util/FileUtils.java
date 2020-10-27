@@ -83,6 +83,7 @@ public final class FileUtils {
         try {
             if (!Files.exists(targetDirectory)) return;
 
+            //noinspection ResultOfMethodCallIgnored
             Files.walk(targetDirectory)
                     .sorted(Comparator.reverseOrder())
                     .map(Path::toFile)

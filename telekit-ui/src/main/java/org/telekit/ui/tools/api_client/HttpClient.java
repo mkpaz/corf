@@ -49,7 +49,7 @@ public class HttpClient {
     private final HttpClientBuilder httpBuilder;
     private final ResponseHandler<Response> handler = new SpecificResponseHandler();
     private final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-    private HttpClientContext localContext = HttpClientContext.create();
+    private final HttpClientContext localContext = HttpClientContext.create();
     private CloseableHttpClient client;
 
     public HttpClient(int connectTimeout, int responseTimeout) {
@@ -192,30 +192,16 @@ public class HttpClient {
         }
 
         public HttpRequestBase createHttpRequest() {
-            HttpRequestBase request;
+            HttpRequestBase request = switch (method) {
+                case HttpDelete.METHOD_NAME -> new HttpDelete();
+                case HttpGet.METHOD_NAME -> new HttpGet();
+                case HttpHead.METHOD_NAME -> new HttpHead();
+                case HttpPatch.METHOD_NAME -> new HttpPatch();
+                case HttpPost.METHOD_NAME -> new HttpPost();
+                case HttpPut.METHOD_NAME -> new HttpPut();
+                default -> throw new IllegalArgumentException("Unsupported HTTP method name");
+            };
 
-            switch (method) {
-                case HttpDelete.METHOD_NAME:
-                    request = new HttpDelete();
-                    break;
-                case HttpGet.METHOD_NAME:
-                    request = new HttpGet();
-                    break;
-                case HttpHead.METHOD_NAME:
-                    request = new HttpHead();
-                    break;
-                case HttpPatch.METHOD_NAME:
-                    request = new HttpPatch();
-                    break;
-                case HttpPost.METHOD_NAME:
-                    request = new HttpPost();
-                    break;
-                case HttpPut.METHOD_NAME:
-                    request = new HttpPut();
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unsupported HTTP method name");
-            }
             request.setURI(uri);
             request.setHeaders(mapHeaders(headers));
 

@@ -8,8 +8,8 @@ import java.util.*;
 
 public class Messages extends ResourceBundle {
 
-    private Map<String, String> resources = new HashMap<>();
-    private Set<String> loadedID = new HashSet<>();
+    private final Map<String, String> resources = new HashMap<>();
+    private final Set<String> loadedID = new HashSet<>();
 
     private Messages() {}
 

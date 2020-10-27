@@ -8,7 +8,7 @@ You'll need:
 * JDK11 to build `telekit-controls`. The reason is that this module contains custom FXML components for Scene Builder but Gluon at the moment only provides Scene Builder built with JDK11, so you can't load component compiled with higher JDK version into it.
 * Maven
 
-You can choose any OpenJDK vendor, but only that which bundles OpenJFX (e.g. Liberica JDK).
+You can choose any OpenJDK vendor, but only which bundles OpenJFX (e.g. Liberica JDK).
 
 Configure Maven Toolchains (`~/.m2/toolchains.xml`), only include installed JDK:
 
@@ -42,7 +42,7 @@ Configure Maven Toolchains (`~/.m2/toolchains.xml`), only include installed JDK:
 If you want to recompile native launchers you'll also need:
 
 * Golang
-* Resource Hacker application to embed icon into EXE file (Windows only)
+* Resource Hacker application to embed an icon into EXE file (Windows only)
 
 
 ## BUILD
@@ -69,9 +69,9 @@ Build main application:
 mvn clean verufy -P generate-docs,build-dependencies,build-runtime-image,<platform> -f telekit-ui/pom.xml
 ```
 
-Regarding to `<platform>`, you have to specify correct Maven profile ID (`win32`, `win64` or `linux64`).
+Regarding `<platform>`, you have to specify correct Maven profile ID (`win32`, `win64` or `linux64`).
 
-Successfully built app will be placed into `telekit-ui/target/dist` directory.
+Successfully built application will be placed into `telekit-ui/target/dist` directory.
 
 ### Native Launcher
 
@@ -80,7 +80,7 @@ Normally, you don't need to rebuild native launchers, but if you want to just us
 
 ## Running and Testing
 
-**Note:** Normally you shouldn't do it with command line but with IDE of your choice. 
+**Note:** Normally you shouldn't do it with command line but with an IDE of your choice. 
 
 It's not convenient to rebuild the whole app every time you want to inspect some GUI changes or runtime behavior. If you want to launch app for testing instead of building `telekit-ui` use:
 
