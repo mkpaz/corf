@@ -11,17 +11,17 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.telekit.base.IconCache;
-import org.telekit.base.UILoader;
+import org.telekit.base.ui.IconCache;
+import org.telekit.base.ui.UILoader;
 import org.telekit.base.domain.TelekitException;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.Dialogs;
-import org.telekit.base.fx.FXFormatters;
+import org.telekit.base.ui.Controller;
+import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.format.TextFormatters;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
-import org.telekit.base.util.net.IP4Address;
-import org.telekit.base.util.net.IP4Subnet;
+import org.telekit.base.telecom.net.IP4Address;
+import org.telekit.base.telecom.net.IP4Subnet;
 import org.telekit.ui.main.Views;
 
 import java.io.BufferedWriter;
@@ -37,9 +37,9 @@ import java.util.stream.Collectors;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.IconCache.ICON_APP;
+import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.StringUtils.splitEqually;
-import static org.telekit.base.util.net.IP4Subnet.NETMASKS;
+import static org.telekit.base.telecom.net.IP4Subnet.NETMASKS;
 import static org.telekit.ui.main.MessageKeys.*;
 
 public class IPv4Controller extends Controller {
@@ -66,7 +66,7 @@ public class IPv4Controller extends Controller {
 
     @FXML
     public void initialize() {
-        tfIPAddress.setTextFormatter(FXFormatters.ipv4Decimal());
+        tfIPAddress.setTextFormatter(TextFormatters.ipv4Decimal());
         cmbNetmask.setButtonCell(new NetmaskCell());
         cmbNetmask.setCellFactory(property -> new NetmaskCell());
         cmbNetmask.setItems(observableArrayList(netmasks));

@@ -8,10 +8,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.DesktopUtils;
-import org.telekit.base.util.telecom.SS7Utils;
+import org.telekit.base.telecom.ss7.SS7Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import static j2html.TagCreator.*;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.telekit.base.util.CollectionUtils.*;
-import static org.telekit.base.util.telecom.SS7Utils.*;
+import static org.telekit.base.telecom.ss7.SS7Utils.*;
 import static org.telekit.ui.main.MessageKeys.MSG_GENERIC_IO_ERROR;
 
 public class CICTableController extends Controller {

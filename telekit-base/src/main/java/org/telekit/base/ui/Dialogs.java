@@ -1,4 +1,4 @@
-package org.telekit.base.fx;
+package org.telekit.base.ui;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,9 +11,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.telekit.base.IconCache;
 
-import static org.telekit.base.IconCache.ICON_APP;
+import static org.telekit.base.ui.IconCache.ICON_APP;
 
 public final class Dialogs {
 

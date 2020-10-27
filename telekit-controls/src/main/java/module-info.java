@@ -12,8 +12,10 @@ module telekit.controls {
     requires wellbehavedfx;
 
     exports org.telekit.controls;
+    exports org.telekit.controls.format;
     exports org.telekit.controls.i18n;
     exports org.telekit.controls.richtextfx;
+    exports org.telekit.controls.util;
 
     exports fontawesomefx;
     opens fontawesomefx;

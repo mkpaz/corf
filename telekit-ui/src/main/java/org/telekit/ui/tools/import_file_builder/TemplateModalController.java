@@ -11,8 +11,8 @@ import org.telekit.base.EventBus;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.domain.Encoding;
 import org.telekit.base.domain.LineSeparator;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.FXBindings;
+import org.telekit.base.ui.Controller;
+import org.telekit.controls.util.ExtraBindings;
 import org.telekit.ui.tools.Action;
 
 import java.util.Set;
@@ -48,9 +48,9 @@ public class TemplateModalController extends Controller {
         cmbLineSeparator.getItems().setAll(LineSeparator.values());
 
         btnApply.disableProperty().bind(
-                FXBindings.isBlank(tfName.textProperty())
+                ExtraBindings.isBlank(tfName.textProperty())
                         .or(isNameNotUnique
-                                    .or(FXBindings.isBlank(taPattern.textProperty()))
+                                    .or(ExtraBindings.isBlank(taPattern.textProperty()))
                         )
         );
     }

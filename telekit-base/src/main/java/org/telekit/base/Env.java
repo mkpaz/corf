@@ -12,8 +12,8 @@ import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.telekit.base.LauncherDefaults.PREF_HEIGHT;
-import static org.telekit.base.LauncherDefaults.PREF_WIDTH;
+import static org.telekit.base.ui.LauncherDefaults.PREF_HEIGHT;
+import static org.telekit.base.ui.LauncherDefaults.PREF_WIDTH;
 import static org.telekit.base.util.CommonUtils.*;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 

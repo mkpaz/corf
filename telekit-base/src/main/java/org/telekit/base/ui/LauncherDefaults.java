@@ -1,4 +1,4 @@
-package org.telekit.base;
+package org.telekit.base.ui;
 
 public interface LauncherDefaults {
 

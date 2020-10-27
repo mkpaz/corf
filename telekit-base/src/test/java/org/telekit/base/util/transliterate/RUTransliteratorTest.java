@@ -2,8 +2,8 @@ package org.telekit.base.util.transliterate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.telekit.base.util.tramsliterate.RUTransliterator;
-import org.telekit.base.util.tramsliterate.Transliterator;
+import org.telekit.base.service.RUTransliterator;
+import org.telekit.base.service.Transliterator;
 
 @SuppressWarnings("SpellCheckingInspection")
 class RUTransliteratorTest {

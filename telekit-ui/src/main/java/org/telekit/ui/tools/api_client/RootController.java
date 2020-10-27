@@ -32,14 +32,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.IconCache;
-import org.telekit.base.UILoader;
+import org.telekit.base.ui.IconCache;
+import org.telekit.base.ui.UILoader;
 import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.Dialogs;
-import org.telekit.base.fx.FXBindings;
+import org.telekit.base.ui.Controller;
+import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.util.ExtraBindings;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.CSVUtils;
@@ -62,7 +62,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.IconCache.ICON_APP;
+import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.ui.main.MessageKeys.*;
 import static org.telekit.ui.tools.Action.NEW;
 
@@ -196,7 +196,7 @@ public class RootController extends Controller {
         btnStart.disableProperty().unbind();
         btnStart.disableProperty().bind(or(
                 cmbTemplate.valueProperty().isNull(),
-                FXBindings.isBlank(taCsv.textProperty()),
+                ExtraBindings.isBlank(taCsv.textProperty()),
                 ongoingProperty
         ));
 

@@ -6,7 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.domain.LineSeparator;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ui.Controller;
 
 import java.util.Arrays;
 import java.util.Base64;

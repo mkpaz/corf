@@ -5,7 +5,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 import org.telekit.base.Env;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.util.DesktopUtils;
 
 import java.net.URI;

@@ -25,9 +25,6 @@ module telekit.ui {
     exports org.telekit.ui;
     opens org.telekit.ui;
 
-    exports org.telekit.ui.service;
-    opens org.telekit.ui.service;
-
     exports org.telekit.ui.test;
     opens org.telekit.ui.test;
 

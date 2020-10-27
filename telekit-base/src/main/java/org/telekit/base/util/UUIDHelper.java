@@ -1,4 +1,4 @@
-package org.telekit.base.test;
+package org.telekit.base.util;
 
 import java.util.Arrays;
 import java.util.Collection;

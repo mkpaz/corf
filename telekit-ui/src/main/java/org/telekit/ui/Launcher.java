@@ -22,12 +22,14 @@ import org.telekit.base.plugin.internal.PluginCleaner;
 import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.ui.IconCache;
+import org.telekit.base.ui.LauncherDefaults;
+import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.CommonUtils;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.main.MainController;
 import org.telekit.ui.main.Views;
-import org.telekit.ui.service.ExceptionHandler;
 import org.telekit.ui.tools.api_client.ACMigrationUtils;
 import org.telekit.ui.tools.import_file_builder.IFBMigrationUtils;
 
@@ -49,7 +51,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.telekit.base.Env.*;
-import static org.telekit.base.IconCache.ICON_APP;
+import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.MessageKeys.QUIT;
 

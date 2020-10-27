@@ -12,8 +12,8 @@ import javafx.util.StringConverter;
 import org.telekit.base.EventBus;
 import org.telekit.base.domain.HttpConstants.ContentType;
 import org.telekit.base.domain.HttpConstants.Method;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.FXBindings;
+import org.telekit.base.ui.Controller;
+import org.telekit.controls.util.ExtraBindings;
 import org.telekit.base.i18n.Messages;
 import org.telekit.ui.tools.Action;
 
@@ -48,9 +48,9 @@ public class TemplateModalController extends Controller {
         BooleanBinding isNameNotUnique = isNameNotUnique(tfName.textProperty());
 
         btnApply.disableProperty().bind(
-                FXBindings.isBlank(tfName.textProperty())
+                ExtraBindings.isBlank(tfName.textProperty())
                         .or(isNameNotUnique
-                                    .or(FXBindings.isBlank(tfURI.textProperty()))
+                                    .or(ExtraBindings.isBlank(tfURI.textProperty()))
                         )
         );
 

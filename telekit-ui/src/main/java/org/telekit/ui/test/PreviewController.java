@@ -11,7 +11,7 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.StyleClassedTextArea;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.i18n.Messages;
 import org.telekit.controls.ContextMenuPolicy;
 import org.telekit.controls.richtextfx.RichTextFXContextMenu;

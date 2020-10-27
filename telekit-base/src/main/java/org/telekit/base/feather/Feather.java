@@ -16,8 +16,6 @@
  */
 package org.telekit.base.feather;
 
-import org.telekit.base.Provides;
-
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Qualifier;

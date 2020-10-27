@@ -2,7 +2,7 @@ package org.telekit.base.plugin;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.i18n.Messages;
 
 public interface Tool extends Extension {

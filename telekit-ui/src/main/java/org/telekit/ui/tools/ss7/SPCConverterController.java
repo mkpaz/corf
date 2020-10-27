@@ -3,12 +3,12 @@ package org.telekit.ui.tools.ss7;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.FXBindings;
+import org.telekit.base.ui.Controller;
+import org.telekit.controls.util.ExtraBindings;
 import org.telekit.base.util.TextBuilder;
 
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.util.telecom.SS7Utils.*;
+import static org.telekit.base.telecom.ss7.SS7Utils.*;
 import static org.telekit.ui.main.MessageKeys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
 
 public class SPCConverterController extends Controller {
@@ -35,7 +35,7 @@ public class SPCConverterController extends Controller {
         cmbFormat.getItems().setAll(FORMATS_14_BIT);
         cmbFormat.getSelectionModel().selectFirst();
 
-        btnConvert.disableProperty().bind(FXBindings.isBlank(tfSpc.textProperty()));
+        btnConvert.disableProperty().bind(ExtraBindings.isBlank(tfSpc.textProperty()));
     }
 
     @FXML

@@ -7,8 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import org.telekit.base.EventBus;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.FXBindings;
+import org.telekit.base.ui.Controller;
+import org.telekit.controls.util.ExtraBindings;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.ui.tools.import_file_builder.Param.Type;
 
@@ -47,7 +47,7 @@ public class ParamModalController extends Controller {
 
         btnApply.disableProperty().bind(
                 Bindings.or(
-                        FXBindings.isBlank(tfName.textProperty()),
+                        ExtraBindings.isBlank(tfName.textProperty()),
                         isNameNotUnique
                 ));
 

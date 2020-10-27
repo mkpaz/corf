@@ -2,8 +2,8 @@ package org.telekit.example.tools;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.UILoader;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ui.UILoader;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Tool;
 import org.telekit.example.ExamplePlugin;

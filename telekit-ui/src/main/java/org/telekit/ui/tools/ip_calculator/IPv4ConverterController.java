@@ -6,9 +6,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.FXFormatters;
-import org.telekit.base.util.net.IP4Address;
+import org.telekit.base.ui.Controller;
+import org.telekit.controls.format.TextFormatters;
+import org.telekit.base.telecom.net.IP4Address;
 
 import java.util.function.Function;
 
@@ -28,7 +28,7 @@ public class IPv4ConverterController extends Controller {
 
     @FXML
     public void initialize() {
-        tfIPCanonical.setTextFormatter(FXFormatters.ipv4Decimal());
+        tfIPCanonical.setTextFormatter(TextFormatters.ipv4Decimal());
         tfIPCanonical.textProperty().addListener(
                 (observable, oldValue, newValue) -> updateAll(parseIP(newValue, -1))
         );

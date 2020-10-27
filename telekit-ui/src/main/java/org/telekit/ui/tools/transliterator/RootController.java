@@ -4,10 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import org.telekit.base.fx.Controller;
-import org.telekit.base.fx.FXBindings;
-import org.telekit.base.util.tramsliterate.RUTransliterator;
-import org.telekit.base.util.tramsliterate.Transliterator;
+import org.telekit.base.ui.Controller;
+import org.telekit.controls.util.ExtraBindings;
+import org.telekit.base.service.RUTransliterator;
+import org.telekit.base.service.Transliterator;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class RootController extends Controller {
         cmbLang.getSelectionModel().selectFirst();
 
         btnTransliterate.disableProperty().bind(
-                FXBindings.isBlank(taText.textProperty())
+                ExtraBindings.isBlank(taText.textProperty())
         );
     }
 

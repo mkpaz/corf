@@ -1,6 +1,7 @@
 package org.telekit.ui.tools.sequence_generator;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,12 +14,16 @@ import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
-import org.telekit.base.fx.*;
 import org.telekit.base.i18n.Messages;
+import org.telekit.base.ui.Controller;
+import org.telekit.base.ui.Dialogs;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.base.util.SequenceGenerator;
 import org.telekit.base.util.SequenceGenerator.Item;
+import org.telekit.controls.format.DoubleStringConverter;
+import org.telekit.controls.format.IntegerStringConverter;
+import org.telekit.controls.util.ExtraBindings;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 
 import java.io.BufferedWriter;
@@ -132,16 +137,15 @@ public class RootController extends Controller {
         toggleSpinners(boxC, false);
         toggleSpinners(boxD, false);
 
+        BooleanProperty[] selectedCheckboxes = {
+                cbA.selectedProperty(), cbB.selectedProperty(), cbC.selectedProperty(), cbD.selectedProperty()
+        };
         btnGenerate.disableProperty().bind(Bindings.or(
-                FXBindings.isBlank(tfPattern.textProperty()),
-                Bindings.not(
-                        FXBindings.or(
-                                cbA.selectedProperty(), cbB.selectedProperty(),
-                                cbC.selectedProperty(), cbD.selectedProperty()
-                        ))
+                ExtraBindings.isBlank(tfPattern.textProperty()),
+                Bindings.not(ExtraBindings.or(selectedCheckboxes))
         ));
 
-        btnSaveToFile.disableProperty().bind(FXBindings.isBlank(taResult.textProperty()));
+        btnSaveToFile.disableProperty().bind(ExtraBindings.isBlank(taResult.textProperty()));
     }
 
     private void toggleSpinners(HBox parentPane, boolean enabled) {

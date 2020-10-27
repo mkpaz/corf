@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.telekit.base.ApplicationContext;
 import org.telekit.base.Env;
-import org.telekit.base.IconCache;
-import org.telekit.base.LauncherDefaults;
+import org.telekit.base.ui.IconCache;
+import org.telekit.base.ui.LauncherDefaults;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.plugin.Tool;
@@ -21,7 +21,7 @@ import org.telekit.example.tools.HelloTool;
 import java.io.InputStream;
 import java.util.Objects;
 
-import static org.telekit.base.IconCache.ICON_APP;
+import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.example.ExamplePlugin.ASSETS_PATH;
 
 public class Launcher extends Application implements LauncherDefaults {

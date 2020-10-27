@@ -1,4 +1,4 @@
-package org.telekit.base;
+package org.telekit.base.ui;
 
 import javafx.scene.image.Image;
 

@@ -2,7 +2,7 @@ package org.telekit.base.plugin.internal.internal;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.plugin.Tool;
 
 public class BarExtension implements Tool {

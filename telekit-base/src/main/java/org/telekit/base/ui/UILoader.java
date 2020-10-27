@@ -1,8 +1,9 @@
-package org.telekit.base;
+package org.telekit.base.ui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import org.telekit.base.fx.Controller;
+import org.telekit.base.ApplicationContext;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.plugin.Plugin;
 
 import java.net.URL;

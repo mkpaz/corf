@@ -2,7 +2,7 @@ package org.telekit.ui;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.telekit.base.Provides;
+import org.telekit.base.feather.Provides;
 import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
