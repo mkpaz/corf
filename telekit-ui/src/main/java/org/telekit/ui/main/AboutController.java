@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.util.DesktopUtils;
 
@@ -18,8 +18,8 @@ public class AboutController extends Controller {
 
     @FXML
     public void initialize() {
-        lbTitle.setText(Environment.APP_NAME);
-        lbVersion.setText("v." + System.getProperty("application.version"));
+        lbTitle.setText(Env.APP_NAME);
+        lbVersion.setText("v." + Env.getAppVersion());
     }
 
     @FXML

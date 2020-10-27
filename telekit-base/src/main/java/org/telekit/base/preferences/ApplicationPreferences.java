@@ -8,7 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 
@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import static org.telekit.base.Environment.DATA_DIR;
+import static org.telekit.base.Env.DATA_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
@@ -74,7 +74,7 @@ public class ApplicationPreferences {
     @JsonIgnore
     public @NotNull Locale getLocale() {
         // env variable is only needed to simplify app testing
-        return Environment.LOCALE != null ? Environment.LOCALE : language.getLocale();
+        return Env.LOCALE != null ? Env.LOCALE : language.getLocale();
     }
 
     @Override

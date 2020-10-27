@@ -1,5 +1,6 @@
 package org.telekit.ui;
 
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -16,16 +17,17 @@ import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.Plugin;
+import org.telekit.base.plugin.internal.PluginBox;
+import org.telekit.base.plugin.internal.PluginCleaner;
+import org.telekit.base.plugin.internal.PluginException;
+import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.CommonUtils;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
-import org.telekit.ui.domain.PluginContainer;
 import org.telekit.ui.main.MainController;
 import org.telekit.ui.main.Views;
 import org.telekit.ui.service.ExceptionHandler;
-import org.telekit.ui.service.PluginCleaner;
-import org.telekit.ui.service.PluginManager;
 import org.telekit.ui.tools.api_client.ACMigrationUtils;
 import org.telekit.ui.tools.import_file_builder.IFBMigrationUtils;
 
@@ -46,7 +48,7 @@ import java.util.*;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import static org.telekit.base.Environment.*;
+import static org.telekit.base.Env.*;
 import static org.telekit.base.IconCache.ICON_APP;
 import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.MessageKeys.QUIT;
@@ -68,6 +70,7 @@ public class Launcher extends Application implements LauncherDefaults {
     private Logger logger;
     private ExceptionHandler exceptionHandler;
     private ApplicationPreferences preferences;
+    private PluginManager pluginManager;
 
     public static void main(String[] args) {
         launch(args);
@@ -115,7 +118,7 @@ public class Launcher extends Application implements LauncherDefaults {
         scene.getStylesheets().add(getResource(THEMES_DIR_PATH + "base.css").toExternalForm());
 
         // show primary stage
-        primaryStage.setTitle(Environment.APP_NAME);
+        primaryStage.setTitle(Env.APP_NAME);
         primaryStage.setScene(scene);
         primaryStage.show();
         Platform.runLater(() -> {
@@ -126,6 +129,16 @@ public class Launcher extends Application implements LauncherDefaults {
         // create tray icon (won't work in some Linux DE)
         if (preferences.isSystemTray()) {
             createTrayIcon(primaryStage);
+        }
+    }
+
+    @Override
+    public void stop() {
+        try {
+            pluginManager.stopAllPlugins();
+        } catch (PluginException ignored) {
+            // even if some plugin wasn't stopped, it shouldn't
+            // prevent application from shutting down
         }
     }
 
@@ -158,22 +171,34 @@ public class Launcher extends Application implements LauncherDefaults {
         PluginCleaner cleaner = new PluginCleaner();
         cleaner.executeAllSilently();
 
-        // collect DI modules
+        // create app preferences, they will be required later
+        createApplicationPreferences();
+
+        // find and load all plugins (but don't start them)
+        pluginManager = new PluginManager(preferences);
+        pluginManager.loadAllPlugins();
+
+        // collect all modules and initialize application context
         List<DependencyModule> modules = new ArrayList<>();
-        PluginManager pluginManager = new PluginManager();
-        modules.add(new MainDependencyModule(pluginManager));
-        for (PluginContainer container : pluginManager.getAllPlugins()) {
+        modules.add(new MainDependencyModule(preferences, pluginManager));
+        for (PluginBox container : pluginManager.getAllPlugins()) {
             Plugin plugin = container.getPlugin();
             modules.addAll(plugin.getModules());
         }
-
-        // configure application context
         applicationContext.configure(modules);
-        preferences = applicationContext.getBean(ApplicationPreferences.class);
 
-        // load plugins
-        pluginManager.loadPlugins(preferences.getDisabledPlugins());
-        pluginManager.setStatus(preferences.getDisabledPlugins(), PluginContainer.Status.DISABLED);
+        // start plugins
+        try {
+            // TODO: notify user if some plugins weren't started
+
+            // NOTE: plugins should be started BEFORE MainController initialization
+            //       because it queries extensions to build-up menu bar
+            pluginManager.startAllPlugins();
+
+        } catch (PluginException ignored) {
+            // even if some plugin wasn't started, it shouldn't prevent application
+            // from loading because it may work without plugins
+        }
 
         // load resource bundles
         Messages.getInstance().load(
@@ -301,6 +326,17 @@ public class Launcher extends Application implements LauncherDefaults {
             }
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    private void createApplicationPreferences() {
+        YAMLMapper yamlMapper = Mappers.createYamlMapper();
+
+        if (Files.exists(ApplicationPreferences.CONFIG_PATH)) {
+            preferences = ApplicationPreferences.load(yamlMapper, ApplicationPreferences.CONFIG_PATH);
+        } else {
+            preferences = new ApplicationPreferences();
+            ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
         }
     }
 

@@ -14,11 +14,10 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.LauncherDefaults.PREF_HEIGHT;
 import static org.telekit.base.LauncherDefaults.PREF_WIDTH;
-import static org.telekit.base.util.CommonUtils.defaultPath;
-import static org.telekit.base.util.CommonUtils.getPropertyOrEnv;
+import static org.telekit.base.util.CommonUtils.*;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 
-public final class Environment {
+public final class Env {
 
     public static final String APP_NAME = "Telekit";
     public static final int TEXTAREA_ROW_LIMIT = 1000;
@@ -39,8 +38,16 @@ public final class Environment {
     public static final Path OS_TEMP_DIR = Paths.get(System.getProperty("java.io.tmpdir"));
     public static final Path APP_TEMP_DIR = OS_TEMP_DIR.resolve("telekit");
 
-    public static Path getPluginResourcesDir(Class<? extends Plugin> clazz) {
-        return DATA_DIR.resolve(clazz.getPackageName());
+    public static Path getPluginDataDir(Class<? extends Plugin> pluginClass) {
+        return DATA_DIR.resolve(className(pluginClass));
+    }
+
+    public static Path getPluginDocsDir(Class<? extends Plugin> pluginClass) {
+        return getPluginDataDir(pluginClass).resolve(Plugin.PLUGIN_DOCS_DIR_NAME);
+    }
+
+    public static String getAppVersion() {
+        return System.getProperty("application.version");
     }
 
     /* Screen Size */

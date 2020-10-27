@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.telekit.base.domain.FooEntity;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.service.FileBasedRepository.Transaction;
 import org.telekit.base.test.UUIDHelper;

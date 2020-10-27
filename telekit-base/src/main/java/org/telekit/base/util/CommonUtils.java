@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 
 public final class CommonUtils {
 
@@ -26,8 +25,20 @@ public final class CommonUtils {
         return strPath != null ? Paths.get(strPath) : defaultPath;
     }
 
-    public static String canonicalName(@NotNull Object object) {
-        Objects.requireNonNull(object);
+    public static String className(@NotNull Class<?> cls) {
+        return cls.getCanonicalName();
+    }
+
+    public static String objectClassName(@NotNull Object object) {
         return object.getClass().getCanonicalName();
+    }
+
+    /** Catches and ignores any raised exceptions */
+    public static void hush(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.IconCache;
@@ -18,16 +18,16 @@ import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
+import org.telekit.base.plugin.internal.ExtensionBox;
+import org.telekit.base.plugin.internal.PluginManager;
+import org.telekit.base.plugin.internal.PluginState;
+import org.telekit.base.plugin.internal.PluginStateChangedEvent;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.ui.Launcher;
 import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.CloseEvent;
-import org.telekit.ui.domain.PluginContainer;
-import org.telekit.ui.domain.PluginContainer.Status;
-import org.telekit.ui.service.PluginManager;
 
 import javax.inject.Inject;
 import java.nio.file.Files;
@@ -35,9 +35,11 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.IconCache.ICON_APP;
-import static org.telekit.base.util.CommonUtils.canonicalName;
+import static org.telekit.base.util.CommonUtils.className;
+import static org.telekit.base.util.CommonUtils.objectClassName;
 import static org.telekit.ui.main.MessageKeys.*;
 
 public class MainController extends Controller {
@@ -46,6 +48,8 @@ public class MainController extends Controller {
     private static final int MINUTE = 1000 * 60;
 
     public @FXML TabPane tpaneTools;
+    public Stage primaryStage;
+    public Timer memoryMonitoringTimer;
 
     // menu bar
     public @FXML MenuBar menuBar;
@@ -58,12 +62,9 @@ public class MainController extends Controller {
     public @FXML HBox hboxProgressIndicator;
 
     public final Set<String> activeTasks = ConcurrentHashMap.newKeySet();
-    public Stage primaryStage;
-    public Timer memoryMonitoringTimer;
-
-    private ApplicationPreferences preferences;
-    private YAMLMapper yamlMapper;
-    private PluginManager pluginManager;
+    private final ApplicationPreferences preferences;
+    private final YAMLMapper yamlMapper;
+    private final PluginManager pluginManager;
 
     @Inject
     public MainController(ApplicationPreferences preferences, PluginManager pluginManager, YAMLMapper yamlMapper) {
@@ -76,6 +77,7 @@ public class MainController extends Controller {
     public void initialize() {
         EventBus.getInstance().subscribe(ProgressIndicatorEvent.class, this::toggleProgressIndicator);
         EventBus.getInstance().subscribe(ApplicationEvent.class, this::onApplicationEvent);
+        EventBus.getInstance().subscribe(PluginStateChangedEvent.class, this::onPluginStateChangedEvent);
 
         reloadPluginsMenu();
 
@@ -83,8 +85,8 @@ public class MainController extends Controller {
     }
 
     private void reloadPluginsMenu() {
-        List<PluginContainer> loadedPlugins = pluginManager.getPlugins(EnumSet.of(Status.ENABLED));
-        if (loadedPlugins.isEmpty()) {
+        Collection<ExtensionBox> extraTools = pluginManager.getExtensionsOfType(Tool.class);
+        if (extraTools.isEmpty()) {
             menuPlugins.setVisible(false);
             return;
         }
@@ -92,27 +94,33 @@ public class MainController extends Controller {
         menuPlugins.setVisible(true);
         menuPlugins.getItems().clear();
 
-        for (PluginContainer container : loadedPlugins) {
-            Plugin plugin = container.getPlugin();
-            List<Tool> tools = new ArrayList<>(plugin.getTools());
-            tools.sort(Comparator.comparing(Tool::getName));
+        SortedMap<String, Menu> menuGroups = new TreeMap<>();
+        for (ExtensionBox extension : extraTools) {
+            Tool tool = (Tool) extension.getExtension();
 
-            if (tools.size() == 1) {
-                MenuItem item = new MenuItem(plugin.getMetadata().getName());
-                item.setUserData(new PluginToolID(plugin.getClass(), tools.get(0).getName()));
-                item.setOnAction(this::openPlugin);
-                menuPlugins.getItems().add(item);
-            }
+            MenuItem menuItem = new MenuItem(tool.getName());
+            menuItem.setUserData(extension);
+            menuItem.setOnAction(this::openPlugin);
 
-            if (tools.size() > 1) {
-                Menu menu = new Menu(plugin.getMetadata().getName());
-                for (Tool tool : tools) {
-                    MenuItem item = new MenuItem(tool.getName());
-                    item.setUserData(new PluginToolID(plugin.getClass(), tool.getName()));
-                    item.setOnAction(this::openPlugin);
-                    menu.getItems().add(item);
+            String groupName = tool.getGroupName();
+            if (isNotBlank(groupName)) {
+                Menu groupItem = menuGroups.get(groupName);
+                if (groupItem == null) {
+                    groupItem = new Menu(groupName);
+                    menuGroups.put(groupName, groupItem);
+                    menuPlugins.getItems().add(groupItem);
                 }
-                menuPlugins.getItems().add(menu);
+                groupItem.getItems().add(menuItem);
+            } else {
+                menuPlugins.getItems().add(menuItem);
+            }
+        }
+
+        // sort menu items
+        menuPlugins.getItems().sort(Comparator.comparing(MenuItem::getText));
+        for (MenuItem menu : menuPlugins.getItems()) {
+            if (menu instanceof Menu) {
+                ((Menu) menu).getItems().sort(Comparator.comparing(MenuItem::getText));
             }
         }
     }
@@ -190,10 +198,10 @@ public class MainController extends Controller {
         }
 
         Controller controller = UILoader.load(resource.getLocation(), Messages.getInstance());
-        addTab(tabName, controller.getParent(), canonicalName(controller));
+        addTab(tabName, controller.getParent(), objectClassName(controller));
     }
 
-    private void addTab(String tabName, Parent parent, String userData) {
+    private void addTab(String tabName, Parent parent, String canonicalClassName) {
         ObservableList<Tab> tabs = tpaneTools.getTabs();
 
         // select appropriate tab if tool has been already opened
@@ -207,56 +215,44 @@ public class MainController extends Controller {
 
         Tab tab = new Tab(tabName);
         tab.setContent(parent);
-        tab.setUserData(userData);
+        // tab user data contains canonical either Controllers or Plugins class name
+        // it's necessary to find and close tab if corresponding tool or plugin got disabled
+        tab.setUserData(canonicalClassName);
         tabs.add(tab);
         tpaneTools.getSelectionModel().selectLast();
 
         updateMemoryUsage();
     }
 
-    private void closeTabs(String userData) {
+    private void closeTabs(String canonicalClassName) {
         ObservableList<Tab> tabs = tpaneTools.getTabs();
-        if (userData == null || tabs.isEmpty()) return;
+        if (canonicalClassName == null || tabs.isEmpty()) return;
 
         List<Tab> tabsToRemove = new ArrayList<>();
         for (Tab tab : tabs) {
-            if (tab.getUserData() != null && tab.getUserData().equals(userData)) {
+            if (tab.getUserData() != null && tab.getUserData().equals(canonicalClassName)) {
                 tabsToRemove.add(tab);
             }
         }
 
-        // there're no good way to close tab in JavaFX
+        // there is no good way to close tab in JavaFX
         // the downside of this method is that  tab.getOnClosed() method won't be called,
-        // but still it can be done manually
+        // but it can be done manually
         tabs.removeAll(tabsToRemove);
     }
 
     @FXML
     public void openPlugin(ActionEvent event) {
         MenuItem source = (MenuItem) event.getSource();
-        PluginToolID id = (PluginToolID) source.getUserData();
-        Objects.requireNonNull(id);
+        ExtensionBox extensionBox = (ExtensionBox) source.getUserData();
+        Objects.requireNonNull(extensionBox);
 
-        PluginContainer container = pluginManager.find(id.getPluginClass());
-        Objects.requireNonNull(container);
-        Plugin plugin = container.getPlugin();
-
-        // load plugin i18n resources lazily on first start
-        ResourceBundle bundle = plugin.getBundle(preferences.getLocale());
-        if (bundle != null) {
-            Messages.getInstance().load(bundle, plugin.getClass().getName());
-        }
-
-        Tool tool = plugin.getTools().stream()
-                .filter(elem -> elem.getName().equals(id.getToolName()))
-                .findFirst()
-                .orElse(null);
+        Tool tool = (Tool) extensionBox.getExtension();
         Objects.requireNonNull(tool);
-
         Controller controller = tool.createController();
 
         if (!tool.isModal()) {
-            addTab(tool.getName(), controller.getParent(), canonicalName(plugin));
+            addTab(tool.getName(), controller.getParent(), className(extensionBox.getPluginClass()));
         } else {
             Stage modalWindow = Dialogs.modal(controller.getParent())
                     .owner(primaryStage, true)
@@ -331,18 +327,18 @@ public class MainController extends Controller {
 
     @FXML
     public void showHelp() {
-        Path docPath = Environment.DOCS_DIR.resolve("ru/index.html");
+        Path docPath = Env.DOCS_DIR.resolve("ru/index.html");
         DesktopUtils.openQuietly(docPath.toFile());
     }
 
     @FXML
     public void openDataDir() {
-        DesktopUtils.openQuietly(Environment.DATA_DIR.toFile());
+        DesktopUtils.openQuietly(Env.DATA_DIR.toFile());
     }
 
     @FXML
     public void openPluginsDir() {
-        Path pluginsDir = Environment.PLUGINS_DIR;
+        Path pluginsDir = Env.PLUGINS_DIR;
         if (Files.exists(pluginsDir)) {
             DesktopUtils.openQuietly(pluginsDir.toFile());
         }
@@ -361,43 +357,19 @@ public class MainController extends Controller {
     @Listener
     private void onApplicationEvent(ApplicationEvent event) {
         switch (event.getType()) {
-            case RESTART_REQUIRED:
-                primaryStage.setTitle(Environment.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
-                break;
-            case PLUGINS_STATE_CHANGED:
-                List<PluginContainer> plugins = pluginManager.getPlugins(
-                        status -> EnumSet.of(Status.DISABLED, Status.UNINSTALLED).contains(status)
-                );
-                plugins.forEach(container -> closeTabs(canonicalName(container.getPlugin())));
-                reloadPluginsMenu();
-                break;
-            case PREFERENCES_CHANGED:
-                ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
-                break;
+            case RESTART_REQUIRED -> primaryStage.setTitle(Env.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
+            case PREFERENCES_CHANGED -> ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
         }
+    }
+
+    @Listener
+    private void onPluginStateChangedEvent(PluginStateChangedEvent event) {
+        if (event.getPluginState() == PluginState.STOPPED) {
+            closeTabs(className(event.getPluginClass()));
+        }
+        reloadPluginsMenu();
     }
 
     @Override
-    public void reset() { /* not yet implemented */ }
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    private static class PluginToolID {
-
-        private final Class<? extends Plugin> pluginClass;
-        private final String toolName;
-
-        public PluginToolID(Class<? extends Plugin> pluginClass, String toolName) {
-            this.pluginClass = pluginClass;
-            this.toolName = toolName;
-        }
-
-        public Class<? extends Plugin> getPluginClass() {
-            return pluginClass;
-        }
-
-        public String getToolName() {
-            return toolName;
-        }
-    }
+    public void reset() {}
 }

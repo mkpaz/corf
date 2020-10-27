@@ -21,4 +21,17 @@ public interface BaseMessageKeys {
     String FILE_DIALOG_XML = "file-dialog.xml";
     String FILE_DIALOG_YAML = "file-dialog.yaml";
     String FILE_DIALOG_ZIP = "file-dialog.zip";
+
+    String PLUGIN_MSG_ALREADY_INSTALLED = "plugin.msg.already-installed";
+    String PLUGIN_MSG_ERROR_WHILE_START = "plugin.msg.error-while-start";
+    String PLUGIN_MSG_ERROR_WHILE_STOP = "plugin.msg.error-while-stop";
+    String PLUGIN_MSG_HIGHER_PLATFORM_VERSION_REQUIRED = "plugin.msg.higher-platform-version-required";
+    String PLUGIN_MSG_PREFIX_INSTALLATION_FAILED = "plugin.msg-prefix.installation-failed";
+    String PLUGIN_MSG_INVALID_METADATA = "plugin.msg.invalid-metadata";
+    String PLUGIN_MSG_INVALID_NAME = "plugin.msg.invalid-name";
+    String PLUGIN_MSG_INVALID_VERSION = "plugin.msg.invalid-version";
+    String PLUGIN_MSG_ONLY_ONE_PLUGIN_PER_DIR_ALLOWED = "plugin.msg.only-one-plugin-per-dir-allowed";
+    String PLUGIN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS = "plugin.msg.path-does-not-contain-plugins";
+    String PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STARTED = "plugin.msg.some-plugins-were-not-started";
+    String PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STOPPED = "plugin.msg.some-plugins-were-not-stopped";
 }

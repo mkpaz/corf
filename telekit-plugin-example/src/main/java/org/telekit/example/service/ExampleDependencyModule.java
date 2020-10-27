@@ -9,7 +9,7 @@ public class ExampleDependencyModule implements DependencyModule {
 
     @Provides
     @Singleton
-    public FooService fooService() {
-        return new FooService();
+    public HelloService fooService() {
+        return new HelloService();
     }
 }

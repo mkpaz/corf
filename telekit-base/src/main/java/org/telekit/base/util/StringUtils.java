@@ -18,6 +18,7 @@ public final class StringUtils {
         return isNotBlank(str) ? str : "";
     }
 
+
     public static List<String> splitEqually(String text, int size) {
         List<String> result = new ArrayList<>((text.length() + size - 1) / size);
         for (int start = 0; start < text.length(); start += size) {

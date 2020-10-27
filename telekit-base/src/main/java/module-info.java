@@ -1,4 +1,8 @@
+import org.telekit.base.plugin.Plugin;
+
 module telekit.base {
+
+    uses Plugin;
 
     // modularized dependencies
     requires transitive telekit.controls;
@@ -50,6 +54,7 @@ module telekit.base {
     exports org.telekit.base.i18n;
     exports org.telekit.base.preferences;
     exports org.telekit.base.plugin;
+    exports org.telekit.base.plugin.internal to telekit.ui;
     exports org.telekit.base.service;
     exports org.telekit.base.util;
     exports org.telekit.base.util.net;

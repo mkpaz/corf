@@ -10,28 +10,26 @@ import java.util.ResourceBundle;
 
 public interface Plugin {
 
-    String PLUGIN_RESOURCES_DIR = "resources";
+    String PLUGIN_DATA_DIR_NAME = "data";
+    String PLUGIN_DOCS_DIR_NAME = "docs";
+    String PLUGIN_DOCS_INDEX_FILE_PREFIX = "index";
 
     String METADATA_NAME = "metadata.name";
     String METADATA_AUTHOR = "metadata.author";
     String METADATA_VERSION = "metadata.version";
     String METADATA_DESCRIPTION = "metadata.description";
     String METADATA_HOMEPAGE = "metadata.homepage";
-    String METADATA_REQUIRES_VERSION = "metadata.requires.version";
+    String METADATA_PLATFORM_VERSION = "metadata.platform-version";
 
     Metadata getMetadata();
 
     List<? extends DependencyModule> getModules();
 
-    List<Tool> getTools();
-
     ResourceBundle getBundle(Locale locale);
 
-    void onLoad();
+    void start();
 
-    void openDocs();
-
-    boolean providesDocs();
+    void stop();
 
     @Nullable
     default URL getLocation() {

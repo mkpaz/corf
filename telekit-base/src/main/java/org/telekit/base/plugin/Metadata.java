@@ -7,7 +7,7 @@ public class Metadata {
     private String version;
     private String description;
     private String homePage;
-    private String requiredVersion;
+    private String platformVersion;
 
     public String getName() {
         return name;
@@ -49,12 +49,12 @@ public class Metadata {
         this.homePage = homePage;
     }
 
-    public String getRequiredVersion() {
-        return requiredVersion;
+    public String getPlatformVersion() {
+        return platformVersion;
     }
 
-    public void setRequiredVersion(String requiredVersion) {
-        this.requiredVersion = requiredVersion;
+    public void setPlatformVersion(String platformVersion) {
+        this.platformVersion = platformVersion;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Metadata {
                 ", version='" + version + '\'' +
                 ", description='" + description + '\'' +
                 ", homePage='" + homePage + '\'' +
-                ", requiredVersion='" + requiredVersion + '\'' +
+                ", platformVersion='" + platformVersion + '\'' +
                 '}';
     }
 }

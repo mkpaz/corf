@@ -29,7 +29,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.IconCache;
@@ -321,7 +321,7 @@ public class RootController extends Controller {
     public void showPreview() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
         if (selectedTemplate != null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            File outputFile = Environment.APP_TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
+            File outputFile = Env.APP_TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
             String html = PreviewRenderer.render(selectedTemplate);
             try {
                 Files.writeString(outputFile.toPath(), html);

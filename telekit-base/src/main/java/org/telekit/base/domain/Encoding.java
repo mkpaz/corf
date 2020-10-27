@@ -16,7 +16,7 @@ public enum Encoding {
         this.canonicalName = canonicalName;
     }
 
-    public Charset getCanonicalName() {
+    public Charset getCharset() {
         return canonicalName;
     }
 

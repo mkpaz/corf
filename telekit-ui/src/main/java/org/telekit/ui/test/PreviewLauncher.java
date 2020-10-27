@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.LauncherDefaults;
 import org.telekit.base.UILoader;
 import org.telekit.base.fx.Controller;
@@ -28,15 +28,15 @@ public class PreviewLauncher extends Application implements LauncherDefaults {
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
 
         Messages.getInstance().load(
-                ControlsMessagesBundleProvider.getBundle(Environment.LOCALE),
+                ControlsMessagesBundleProvider.getBundle(Env.LOCALE),
                 ControlsMessagesBundleProvider.class.getName()
         );
         Messages.getInstance().load(
-                BaseMessagesBundleProvider.getBundle(Environment.LOCALE),
+                BaseMessagesBundleProvider.getBundle(Env.LOCALE),
                 BaseMessagesBundleProvider.class.getName()
         );
         Messages.getInstance().load(
-                ResourceBundle.getBundle(Launcher.I18N_RESOURCES_PATH, Environment.LOCALE, Launcher.class.getModule()),
+                ResourceBundle.getBundle(Launcher.I18N_RESOURCES_PATH, Env.LOCALE, Launcher.class.getModule()),
                 Launcher.class.getName()
         );
 

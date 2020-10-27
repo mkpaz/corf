@@ -11,19 +11,9 @@ public interface MessageKeys extends BaseMessageKeys, ControlsMessageKeys {
     String MAIN_MSG_ERROR_OCCURRED = "main.msg.error-occurred";
     String MAIN_TRAY_OPEN = "main.tray.Open";
 
-    String PLUGMAN_MSG_INSTALL_SUCCESS = "plugin-manager.msg.install-success";
-    String PLUGMAN_MSG_UNINSTALL_CONFIRM = "plugin-manager.msg.uninstall-confirm";
-    String PLUGMAN_MSG_UNINSTALL_SUCCESS = "plugin-manager.msg.uninstall-success";
-    String PLUGMAN_MSG_INSTALL_FAILED = "plugin-manager.msg.installation-failed";
-    String PLUGMAN_MSG_FILE_IS_NOT_ZIP_ARCHIVE = "plugin-manager.msg.file-is-not-zip-archive";
-    String PLUGMAN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS = "plugin-manager.msg.path-does-not-contain-plugins";
-    String PLUGMAN_MSG_ONLY_ONE_PLUGIN_PER_DIR_ALLOWED = "plugin-manager.msg.only-one-plugin-per-dir-allowed";
-    String PLUGMAN_MSG_MISSING_PLUGIN_METADATA = "plugin-manager.msg.missing-plugin-metadata";
-    String PLUGMAN_MSG_INVALID_PLUGIN_NAME = "plugin-manager.msg.invalid-plugin-name";
-    String PLUGMAN_MSG_INVALID_PLUGIN_VERSION = "plugin-manager.msg.invalid-plugin-version";
-    String PLUGMAN_MSG_REQUIRE_HIGHER_VERSION = "plugin-manager.msg.require-higher-version";
-    String PLUGMAN_MSG_PLUGIN_ALREADY_INSTALLED = "plugin-manager.msg.plugin-already-installed";
-    String PLUGMAN_MSG_PLUGIN_SAME_NAME_ALREADY_INSTALLED = "plugin-manager.msg.plugin-same-name-already-installed";
+    String PLUGIN_MANAGER_MSG_INSTALL_SUCCESS = "plugin-manager.msg.install-success";
+    String PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM = "plugin-manager.msg.uninstall-confirm";
+    String PLUGIN_MANAGER_MSG_UNINSTALL_SUCCESS = "plugin-manager.msg.uninstall-success";
 
     String TOOLS_APICLIENT = "tools.APIClient";
     String TOOLS_BASE64 = "tools.Base64Encoder";

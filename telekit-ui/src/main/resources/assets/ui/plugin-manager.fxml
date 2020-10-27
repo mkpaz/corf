@@ -37,7 +37,7 @@
          </children>
       </HBox>
       <Label text="%plugin-manager.InstalledPlugins" />
-      <TextArea fx:id="taPluginDetails" editable="false" prefWidth="250.0" styleClass="monospaced" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextArea fx:id="taPluginDetails" editable="false" prefWidth="250.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <HBox fx:id="panePluginControls" alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
             <Button fx:id="btnPluginEnable" mnemonicParsing="false" onAction="#enablePlugin" text="%Enable" />

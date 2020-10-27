@@ -1,9 +1,6 @@
 package org.telekit.base.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.BaseMessageKeys;

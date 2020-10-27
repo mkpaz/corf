@@ -19,7 +19,7 @@ public final class DesktopUtils {
                     throw new RuntimeException(e);
                 }
             }
-            // linux hangs if Desktop methods is run in FX thread
+            // linux hangs if Desktop method is run in FX thread
             if (SystemUtils.IS_OS_LINUX) {
                 new Thread(() -> {
                     try {

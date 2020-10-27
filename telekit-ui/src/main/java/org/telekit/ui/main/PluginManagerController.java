@@ -3,50 +3,52 @@ package org.telekit.ui.main;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.EventBus;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.domain.TelekitException;
 import org.telekit.base.fx.Controller;
 import org.telekit.base.fx.Dialogs;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
+import org.telekit.base.plugin.internal.PluginBox;
+import org.telekit.base.plugin.internal.PluginException;
+import org.telekit.base.plugin.internal.PluginManager;
+import org.telekit.base.plugin.internal.PluginState;
 import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.ApplicationEvent.Type;
-import org.telekit.ui.domain.PluginContainer;
-import org.telekit.ui.domain.PluginContainer.Status;
-import org.telekit.ui.service.PluginManager;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
 import static org.apache.commons.lang3.StringUtils.rightPad;
-import static org.telekit.base.util.CommonUtils.canonicalName;
-import static org.telekit.ui.domain.ApplicationEvent.Type.PLUGINS_STATE_CHANGED;
+import static org.telekit.base.plugin.internal.PluginState.*;
+import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 import static org.telekit.ui.main.MessageKeys.*;
 
 public class PluginManagerController extends Controller {
 
     public @FXML GridPane rootPane;
-    public @FXML ListView<PluginContainer> listPlugins;
+    public @FXML ListView<PluginListItem> listPlugins;
     public @FXML Button btnUninstall;
     public @FXML TextArea taPluginDetails;
     public @FXML HBox panePluginControls;
@@ -54,8 +56,9 @@ public class PluginManagerController extends Controller {
     public @FXML Button btnPluginDisable;
     public @FXML Hyperlink lnkPluginDocs;
 
-    private ApplicationPreferences preferences;
-    private PluginManager pluginManager;
+    private final ApplicationPreferences preferences;
+    private final PluginManager pluginManager;
+    private final ObservableList<PluginListItem> pluginListItems = FXCollections.observableArrayList();
 
     @Inject
     public PluginManagerController(ApplicationPreferences preferences, PluginManager pluginManager) {
@@ -65,60 +68,60 @@ public class PluginManagerController extends Controller {
 
     @FXML
     public void initialize() {
-        listPlugins.setCellFactory(lv -> new ListViewCell(PluginContainer::selectedProperty));
+        listPlugins.setItems(new FilteredList<>(pluginListItems, item ->
+                item != null && item.getPluginBox().getState() != UNINSTALLED
+        ));
+        listPlugins.setCellFactory(lv -> new PluginListCell(PluginListItem::selectedProperty));
         listPlugins.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) updatePluginDetails(newValue);
+            if (newValue != null) updatePluginDetails(newValue.getPluginBox());
         });
 
-        panePluginControls.visibleProperty().bind(
-                Bindings.isNotEmpty(listPlugins.getItems())
-        );
+        panePluginControls.visibleProperty()
+                .bind(Bindings.isNotEmpty(pluginListItems));
 
-        btnPluginEnable.disableProperty().bind(hasStatus(
-                listPlugins.getSelectionModel().selectedItemProperty(),
-                EnumSet.of(Status.ENABLED, Status.INACTIVE, Status.UNINSTALLED)
-        ));
+        // unclickable Enable button for plugins in state ...
+        btnPluginEnable.disableProperty()
+                .bind(hasPluginState(EnumSet.of(STARTED, INSTALLED, FAILED)));
 
-        btnPluginDisable.disableProperty().bind(hasStatus(
-                listPlugins.getSelectionModel().selectedItemProperty(),
-                EnumSet.of(Status.DISABLED, Status.INACTIVE, Status.UNINSTALLED)
-        ));
+        // unclickable Disable button for plugins in state ...
+        btnPluginDisable.disableProperty()
+                .bind(hasPluginState(EnumSet.of(DISABLED, INSTALLED)));
 
-        btnUninstall.disableProperty().bind(Bindings.or(
-                Bindings.isEmpty(listPlugins.getItems()),
-                hasStatus(listPlugins.getSelectionModel().selectedItemProperty(),
-                          EnumSet.of(Status.INACTIVE, Status.UNINSTALLED)
-                )
-        ));
+        // unclickable Uninstall button
+        btnUninstall.disableProperty()
+                .bind(Bindings.isEmpty(pluginListItems));
 
         updatePluginsList(0);
     }
 
-    public BooleanBinding hasStatus(ReadOnlyObjectProperty<PluginContainer> property, Set<Status> statuses) {
+    public BooleanBinding hasPluginState(Set<PluginState> allowedStatus) {
+        ReadOnlyObjectProperty<PluginListItem> selectedItemProperty = listPlugins.getSelectionModel().selectedItemProperty();
         return Bindings.createBooleanBinding(
-                () -> property != null && property.get() != null && statuses.contains(property.get().getStatus()),
-                property
+                () -> selectedItemProperty != null && selectedItemProperty.get() != null &&
+                        allowedStatus.contains(selectedItemProperty.get().getPluginBox().getState()),
+                selectedItemProperty
         );
     }
 
     private void updatePluginsList(int defaultSelectedIndex) {
         taPluginDetails.clear();
-        ObservableList<PluginContainer> plugins = FXCollections.observableArrayList(
-                pluginManager.getPlugins(status -> status != Status.UNINSTALLED)
-        );
-        listPlugins.getItems().clear();
-        listPlugins.getItems().addAll(plugins);
 
-        if (plugins.size() > 0) {
+        // plugins list utilizes FilteredList to hide some rows
+        // don't create new, flush current one instead
+        pluginListItems.clear();
+        pluginManager.getAllPlugins()
+                .forEach(pluginBox -> pluginListItems.add(new PluginListItem(pluginBox)));
+
+        if (!pluginListItems.isEmpty()) {
             listPlugins.getSelectionModel().select(defaultSelectedIndex);
         }
     }
 
-    private void updatePluginDetails(PluginContainer container) {
-        Plugin plugin = container.getPlugin();
+    private void updatePluginDetails(PluginBox pluginBox) {
+        Plugin plugin = pluginBox.getPlugin();
         Metadata metadata = plugin.getMetadata();
 
-        lnkPluginDocs.setVisible(plugin.providesDocs());
+        lnkPluginDocs.setVisible(pluginBox.doesPluginProvideDocs());
 
         final int padding = 10;
 
@@ -127,38 +130,35 @@ public class PluginManagerController extends Controller {
         tb.appendLine(rightPad("Version:", padding), metadata.getVersion());
         tb.appendLine(rightPad("Author:", padding), metadata.getAuthor());
         tb.appendLine(rightPad("Homepage:", padding), metadata.getHomePage());
-        tb.appendLine(rightPad("Status:", padding), container.getStatus().name());
+        tb.appendLine(rightPad("Status:", padding), pluginBox.getState().name());
 
         tb.newLine();
         tb.appendLine("Description:");
         tb.appendLine(metadata.getDescription());
 
-        if (EnumSet.of(Status.ENABLED, Status.DISABLED).contains(container.getStatus())) {
+        // don't display resources info for plugins in installation state
+        // it's an intermediate state, some resources may reside in temp dirs, some may be already deleted
+        if (pluginBox.getState() != INSTALLED && pluginBox.getState() != UNINSTALLED) {
             tb.newLine();
             tb.appendLine("Resources:");
-            appendPluginResources(plugin, tb);
+            appendPluginResources(pluginBox, tb);
         }
 
         taPluginDetails.setText(tb.toString());
     }
 
-    private void appendPluginResources(Plugin plugin, TextBuilder tb) {
-        try {
-            URL location = plugin.getLocation();
-            if (location != null) {
-                final Path pluginsDir = Environment.PLUGINS_DIR;
-                tb.appendLine(
-                        pluginsDir.getParent().relativize(Paths.get(location.toURI())).toString()
-                );
-            }
+    private void appendPluginResources(PluginBox pluginBox, TextBuilder tb) {
+        Path pluginJarPath = pluginBox.getPluginJarPath();
+        if (pluginJarPath != null) {
+            tb.appendLine(Env.PLUGINS_DIR.getParent().relativize(pluginJarPath).toString());
+        }
 
-            final Path dataDir = Environment.getPluginResourcesDir(plugin.getClass());
-            if (Files.exists(dataDir)) {
-                Files.walk(dataDir)
-                        .filter(path -> !path.equals(dataDir))
-                        .forEach(path -> tb.appendLine(dataDir.getParent().getParent().relativize(path).toString()));
-            }
-        } catch (Exception ignored) {
+        Path pluginDocsPath = Env.getPluginDocsDir(pluginBox.getPluginClass());
+        for (Path path : pluginBox.getPluginDataPaths()) {
+            // don't show docs files
+            if (path.startsWith(pluginDocsPath)) continue;
+
+            tb.appendLine(Env.DATA_DIR.getParent().relativize(path).toString());
         }
     }
 
@@ -171,29 +171,33 @@ public class PluginManagerController extends Controller {
 
         if (zipFile == null) return;
 
-        pluginManager.installFromZip(zipFile.toPath());
+        pluginManager.installPlugin(zipFile.toPath());
 
         updatePluginsList(0);
         Dialogs.info()
                 .title(Messages.get(INFO))
-                .content(Messages.get(PLUGMAN_MSG_INSTALL_SUCCESS))
+                .content(Messages.get(PLUGIN_MANAGER_MSG_INSTALL_SUCCESS))
                 .build()
                 .showAndWait();
+
         EventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
     }
 
     @FXML
     public void uninstallPlugin() {
-        PluginContainer container = listPlugins.getSelectionModel().getSelectedItem();
-        if (container == null) return;
+        PluginListItem selectedListItem = listPlugins.getSelectionModel().getSelectedItem();
+        if (selectedListItem == null) return;
 
-        Plugin plugin = container.getPlugin();
+        PluginBox pluginBox = selectedListItem.getPluginBox();
+        Plugin plugin = pluginBox.getPlugin();
+        PluginState originalPluginState = pluginBox.getState();
+
         boolean deleteResources = false;
 
-        if (container.hasResources()) {
+        if (pluginBox.hasStoredData()) {
             Alert dialog = Dialogs.confirm()
                     .title(Messages.get(CONFIRMATION))
-                    .content(Messages.get(PLUGMAN_MSG_UNINSTALL_CONFIRM))
+                    .content(Messages.get(PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM))
                     .setButtonTypes(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
                     .build();
             Optional<ButtonType> confirmation = dialog.showAndWait();
@@ -204,18 +208,19 @@ public class PluginManagerController extends Controller {
             deleteResources = confirmation.get().equals(ButtonType.YES);
         }
 
-        pluginManager.uninstall(plugin.getClass(), deleteResources);
-        preferences.getDisabledPlugins().remove(canonicalName(plugin));
+        pluginManager.uninstallPlugin(plugin.getClass(), deleteResources);
 
         updatePluginsList(0);
         Dialogs.info()
                 .title(Messages.get(INFO))
-                .content(Messages.get(PLUGMAN_MSG_UNINSTALL_SUCCESS))
+                .content(Messages.get(PLUGIN_MANAGER_MSG_UNINSTALL_SUCCESS))
                 .build()
                 .showAndWait();
 
-        EventBus.getInstance().publish(new ApplicationEvent(Type.PLUGINS_STATE_CHANGED));
-        EventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
+        if (originalPluginState == DISABLED) {
+            preferences.getDisabledPlugins().remove(className(pluginBox.getPluginClass()));
+            EventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
+        }
         EventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
     }
 
@@ -226,68 +231,92 @@ public class PluginManagerController extends Controller {
 
     @FXML
     public void openDocs() {
-        PluginContainer container = listPlugins.getSelectionModel().getSelectedItem();
-        if (container == null) return;
-        container.getPlugin().openDocs();
+        PluginListItem selectedListItem = listPlugins.getSelectionModel().getSelectedItem();
+        if (selectedListItem == null) return;
+
+        PluginBox pluginBox = selectedListItem.getPluginBox();
+        pluginBox.getPluginDocsIndex(preferences.getLocale())
+                .ifPresent(path -> DesktopUtils.openQuietly(path.toFile()));
     }
 
     @FXML
     public void enablePlugin() {
-        changePluginStatus(Status.ENABLED);
+        togglePlugin(true);
     }
 
     @FXML
     public void disablePlugin() {
-        changePluginStatus(Status.DISABLED);
+        togglePlugin(false);
     }
 
-    private void changePluginStatus(Status status) {
-        PluginContainer container = listPlugins.getSelectionModel().getSelectedItem();
+    private void togglePlugin(boolean enable) {
+        PluginListItem selectedListItem = listPlugins.getSelectionModel().getSelectedItem();
         int selectedIndex = listPlugins.getSelectionModel().getSelectedIndex();
-        if (container == null) return;
+        if (selectedListItem == null) return;
 
-        Plugin plugin = container.getPlugin();
-        String canonicalName = canonicalName(plugin);
-        pluginManager.setStatus(Set.of(canonicalName), status);
+        PluginBox pluginBox = selectedListItem.getPluginBox();
 
-        if (status == Status.ENABLED) {
-            preferences.getDisabledPlugins().remove(canonicalName);
-        }
-
-        if (status == Status.DISABLED) {
-            preferences.getDisabledPlugins().add(canonicalName);
+        try {
+            if (enable) {
+                pluginManager.enablePlugin(pluginBox.getPluginClass());
+                preferences.getDisabledPlugins().remove(className(pluginBox.getPluginClass()));
+            } else {
+                pluginManager.disablePlugin(pluginBox.getPluginClass());
+                preferences.getDisabledPlugins().add(className(pluginBox.getPluginClass()));
+            }
+        } catch (PluginException e) {
+            throw new TelekitException(e.getMessage(), e);
         }
 
         updatePluginsList(selectedIndex);
-
-        EventBus.getInstance().publish(new ApplicationEvent(PLUGINS_STATE_CHANGED));
         EventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
     }
 
     @Override
     public void reset() {}
 
-    private static class ListViewCell extends CheckBoxListCell<PluginContainer> {
+    ///////////////////////////////////////////////////////////////////////////
 
-        public ListViewCell(Callback<PluginContainer, ObservableValue<Boolean>> getSelectedProperty) {
+    public static class PluginListItem {
+
+        private final PluginBox pluginBox;
+        private final SimpleBooleanProperty selected = new SimpleBooleanProperty();
+
+        public PluginListItem(PluginBox pluginBox) {
+            this.pluginBox = pluginBox;
+        }
+
+        public PluginBox getPluginBox() {
+            return pluginBox;
+        }
+
+        public SimpleBooleanProperty selectedProperty() {
+            return selected;
+        }
+    }
+
+    public static class PluginListCell extends CheckBoxListCell<PluginListItem> {
+
+        public PluginListCell(Callback<PluginListItem, ObservableValue<Boolean>> getSelectedProperty) {
             super(getSelectedProperty);
         }
 
         @Override
-        public void updateItem(PluginContainer container, boolean empty) {
-            super.updateItem(container, empty);
+        public void updateItem(PluginListItem listItem, boolean empty) {
+            super.updateItem(listItem, empty);
 
-            if (container == null) {
+            if (listItem == null) {
                 setText(null);
             } else {
-                Plugin plugin = container.getPlugin();
+                PluginBox pluginBox = listItem.getPluginBox();
+                Plugin plugin = pluginBox.getPlugin();
                 Metadata metadata = plugin.getMetadata();
 
-                setText(String.format(" %s; v.%s", metadata.getName(), metadata.getVersion()));
+                setText(String.format("%s; v%s", metadata.getName(), metadata.getVersion()));
 
                 CheckBox cb = (CheckBox) getGraphic();
                 cb.setDisable(true);
-                cb.setSelected(container.getStatus() == Status.ENABLED);
+                cb.setSelected(pluginBox.getState() == STARTED);
             }
         }
     }

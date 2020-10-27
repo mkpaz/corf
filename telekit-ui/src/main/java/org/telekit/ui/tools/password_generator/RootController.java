@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.telekit.base.Environment.TEXTAREA_ROW_LIMIT;
+import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
 import static org.telekit.ui.main.MessageKeys.*;
 
 public class RootController extends Controller {

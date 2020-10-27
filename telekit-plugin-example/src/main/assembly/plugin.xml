@@ -20,9 +20,16 @@
         </fileSet>
         <fileSet>
             <directory>build</directory>
-            <outputDirectory>resources</outputDirectory>
+            <outputDirectory>data</outputDirectory>
             <includes>
                 <include>**/*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/docs</directory>
+            <outputDirectory>docs</outputDirectory>
+            <includes>
+                <include>*.txt</include>
             </includes>
         </fileSet>
     </fileSets>

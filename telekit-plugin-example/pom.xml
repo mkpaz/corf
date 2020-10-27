@@ -15,8 +15,8 @@
         <plugin.author>John Doe</plugin.author>
         <plugin.description>Telekit plugin example</plugin.description>
         <plugin.homepage>http://example.org</plugin.homepage>
-        <!-- required version MUST follow semantic versioning scheme -->
-        <plugin.requires.version>${project.version}</plugin.requires.version>
+        <!-- required version must follow semantic versioning scheme -->
+        <plugin.platform-version>${project.version}</plugin.platform-version>
 
         <bld.basePackage>org.telekit.example</bld.basePackage>
         <bld.mainClass>${bld.basePackage}.demo.Launcher</bld.mainClass>

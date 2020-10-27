@@ -9,7 +9,7 @@ import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
@@ -82,7 +82,7 @@ public class RootController extends Controller {
 
     @FXML
     public void initialize() {
-        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, Environment.TEXTAREA_ROW_LIMIT));
+        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, Env.TEXTAREA_ROW_LIMIT));
 
         startA.setEditable(true);
 

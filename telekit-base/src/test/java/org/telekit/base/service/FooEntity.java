@@ -1,6 +1,7 @@
-package org.telekit.base.domain;
+package org.telekit.base.service;
 
 import org.jetbrains.annotations.NotNull;
+import org.telekit.base.domain.Entity;
 
 import java.util.Comparator;
 import java.util.UUID;

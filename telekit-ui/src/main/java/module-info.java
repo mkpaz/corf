@@ -1,8 +1,4 @@
-import org.telekit.base.plugin.Plugin;
-
 module telekit.ui {
-
-    uses Plugin;
 
     requires telekit.base;
 

@@ -3,7 +3,7 @@ package org.telekit.ui.tools.api_client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.Environment;
+import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.FileBasedRepository;
@@ -26,7 +26,7 @@ import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_F
 
 public class TemplateRepository extends FileBasedRepository<Template, UUID> {
 
-    public static final Path DATA_FILE_PATH = Environment.DATA_DIR.resolve("api-client.templates.yaml");
+    public static final Path DATA_FILE_PATH = Env.DATA_DIR.resolve("api-client.templates.yaml");
     private final Serializer<Collection<Template>> yamlSerializer;
 
     public TemplateRepository(YAMLMapper yamlMapper) {

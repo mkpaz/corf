@@ -3,7 +3,7 @@ package org.telekit.ui.domain;
 public class ApplicationEvent {
 
     private final Type type;
-    private Object userDta;
+    private Object userData;
 
     public ApplicationEvent(Type type) {
         this.type = type;
@@ -13,12 +13,12 @@ public class ApplicationEvent {
         return type;
     }
 
-    public Object getUserDta() {
-        return userDta;
+    public Object getUserData() {
+        return userData;
     }
 
-    public void setUserDta(Object userDta) {
-        this.userDta = userDta;
+    public void setUserData(Object userData) {
+        this.userData = userData;
     }
 
     public enum Type {

@@ -1,6 +1,5 @@
 package org.telekit.ui.tools.api_client;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
