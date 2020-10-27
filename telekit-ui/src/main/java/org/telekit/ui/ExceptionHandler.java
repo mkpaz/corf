@@ -5,11 +5,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.i18n.Messages;
 import org.telekit.base.domain.TelekitException;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Dialogs;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 
@@ -26,9 +27,11 @@ public class ExceptionHandler {
 
     private static final Logger LOGGER = Logger.getLogger(ExceptionHandler.class.getName());
 
+    private final Stage primaryStage;
     private ExceptionDialog exceptionDialog;
 
-    public ExceptionHandler() {
+    public ExceptionHandler(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         EventBus.getInstance().subscribe(ExceptionCaughtEvent.class, this::handleExceptionEvent);
     }
 
@@ -81,7 +84,7 @@ public class ExceptionHandler {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    private static class ExceptionDialog {
+    private class ExceptionDialog {
 
         private final Alert dialog;
         private final TextArea taStackTrace;
@@ -90,6 +93,7 @@ public class ExceptionHandler {
             dialog = Dialogs.error()
                     .title("Error")
                     .header(null)
+                    .owner(primaryStage)
                     .build();
 
             taStackTrace = new TextArea();

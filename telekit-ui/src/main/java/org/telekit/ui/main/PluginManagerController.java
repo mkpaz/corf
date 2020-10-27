@@ -177,6 +177,7 @@ public class PluginManagerController extends Controller {
         Dialogs.info()
                 .title(Messages.get(INFO))
                 .content(Messages.get(PLUGIN_MANAGER_MSG_INSTALL_SUCCESS))
+                .owner(rootPane.getScene().getWindow())
                 .build()
                 .showAndWait();
 
@@ -199,6 +200,7 @@ public class PluginManagerController extends Controller {
                     .title(Messages.get(CONFIRMATION))
                     .content(Messages.get(PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM))
                     .setButtonTypes(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
+                    .owner(rootPane.getScene().getWindow())
                     .build();
             Optional<ButtonType> confirmation = dialog.showAndWait();
             if (confirmation.isEmpty() || confirmation.get().equals(ButtonType.CANCEL)) {
@@ -214,6 +216,7 @@ public class PluginManagerController extends Controller {
         Dialogs.info()
                 .title(Messages.get(INFO))
                 .content(Messages.get(PLUGIN_MANAGER_MSG_UNINSTALL_SUCCESS))
+                .owner(rootPane.getScene().getWindow())
                 .build()
                 .showAndWait();
 

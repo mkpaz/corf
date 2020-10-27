@@ -180,6 +180,7 @@ public class RootController extends Controller {
             Dialogs.warning()
                     .title(Messages.get(WARNING))
                     .content(Messages.get(TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_SEQUENCE_SIZE))
+                    .owner(rootPane.getScene().getWindow())
                     .build()
                     .showAndWait();
         }

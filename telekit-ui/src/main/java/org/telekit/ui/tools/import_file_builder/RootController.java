@@ -239,6 +239,7 @@ public class RootController extends Controller {
         Alert dialog = Dialogs.confirm()
                 .title(Messages.get(CONFIRMATION))
                 .content(Messages.get(TOOLS_MSG_DELETE_TEMPLATE, template.getName()))
+                .owner(rootPane.getScene().getWindow())
                 .build();
         Optional<ButtonType> confirmation = dialog.showAndWait();
         if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
@@ -265,6 +266,7 @@ public class RootController extends Controller {
             Dialogs.info()
                     .title(Messages.get(INFO))
                     .content(Messages.get(TOOLS_MSG_YOU_HAVE_NO_TEMPLATES_TO_PREVIEW))
+                    .owner(rootPane.getScene().getWindow())
                     .build()
                     .showAndWait();
         }
@@ -448,6 +450,7 @@ public class RootController extends Controller {
                 Platform.runLater(() -> Dialogs.info()
                         .title(Messages.get(INFO))
                         .content(Messages.get(MSG_TASK_COMPLETED))
+                        .owner(rootPane.getScene().getWindow())
                         .build()
                         .showAndWait());
             }
@@ -462,6 +465,7 @@ public class RootController extends Controller {
         Alert dialog = Dialogs.confirm()
                 .title(Messages.get(WARNING))
                 .content("")
+                .owner(rootPane.getScene().getWindow())
                 .build();
         StringBuilder message = new StringBuilder();
         message.append(Messages.get(TOOLS_MSG_VALIDATION_HEAD_0) + ":\n");

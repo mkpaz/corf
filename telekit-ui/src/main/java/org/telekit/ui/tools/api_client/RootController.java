@@ -307,6 +307,7 @@ public class RootController extends Controller {
         Alert dialog = Dialogs.confirm()
                 .title(Messages.get(CONFIRMATION))
                 .content(Messages.get(TOOLS_MSG_DELETE_TEMPLATE, template.getName()))
+                .owner(rootPane.getScene().getWindow())
                 .build();
         Optional<ButtonType> confirmation = dialog.showAndWait();
         if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
@@ -333,6 +334,7 @@ public class RootController extends Controller {
             Dialogs.info()
                     .title(Messages.get(INFO))
                     .content(Messages.get(TOOLS_MSG_YOU_HAVE_NO_TEMPLATES_TO_PREVIEW))
+                    .owner(rootPane.getScene().getWindow())
                     .build()
                     .showAndWait();
         }
@@ -521,6 +523,7 @@ public class RootController extends Controller {
         Alert dialog = Dialogs.info()
                 .title(Messages.get(INFO))
                 .content("")
+                .owner(rootPane.getScene().getWindow())
                 .build();
 
         @SuppressWarnings("StringBufferReplaceableByString")
@@ -550,6 +553,7 @@ public class RootController extends Controller {
         // some warning need to be shown
         Alert dialog = Dialogs.confirm()
                 .title(Messages.get(WARNING))
+                .owner(rootPane.getScene().getWindow())
                 .content("")
                 .build();
         StringBuilder message = new StringBuilder();

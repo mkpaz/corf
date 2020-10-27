@@ -82,7 +82,7 @@ public class Launcher extends Application implements LauncherDefaults {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // set exception handler first
-        exceptionHandler = new ExceptionHandler();
+        exceptionHandler = new ExceptionHandler(primaryStage);
         Thread.currentThread().setUncaughtExceptionHandler(
                 (thread, throwable) -> exceptionHandler.showErrorDialog(throwable)
         );

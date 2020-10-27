@@ -79,7 +79,7 @@ public final class Dialogs {
             return this;
         }
 
-        public AlertBuilder owner(Stage owner) {
+        public AlertBuilder owner(Window owner) {
             alert.initOwner(owner);
             return this;
         }
@@ -148,6 +148,7 @@ public final class Dialogs {
             if (inheritStyles && owner.getScene() != null) {
                 scene.getStylesheets().addAll(owner.getScene().getStylesheets());
             }
+
             stage.initOwner(owner);
             return this;
         }

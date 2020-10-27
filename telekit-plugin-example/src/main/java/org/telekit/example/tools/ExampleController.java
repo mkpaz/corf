@@ -1,13 +1,14 @@
 package org.telekit.example.tools;
 
 import javafx.fxml.FXML;
-import org.telekit.base.i18n.Messages;
+import javafx.scene.layout.GridPane;
 import org.telekit.base.Env;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
 import org.telekit.base.ui.Dialogs;
 import org.telekit.base.util.FileUtils;
-import org.telekit.example.MessageKeys;
 import org.telekit.example.ExamplePlugin;
+import org.telekit.example.MessageKeys;
 import org.telekit.example.service.HelloService;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import static org.telekit.example.ExamplePlugin.SAMPLE_PROPERTIES_FILE_NAME;
 
 public class ExampleController extends Controller {
 
+    public @FXML GridPane rootPane;
     private final HelloService helloService;
 
     @Inject
@@ -45,6 +47,7 @@ public class ExampleController extends Controller {
         Dialogs.info()
                 .title(Messages.get(MessageKeys.INFO))
                 .content(helloService.hello())
+                .owner(rootPane.getScene().getWindow())
                 .build()
                 .showAndWait();
     }
