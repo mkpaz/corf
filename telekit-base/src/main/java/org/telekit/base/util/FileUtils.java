@@ -81,6 +81,8 @@ public final class FileUtils {
 
     public static void deleteFolder(Path targetDirectory) {
         try {
+            if (!Files.exists(targetDirectory)) return;
+
             Files.walk(targetDirectory)
                     .sorted(Comparator.reverseOrder())
                     .map(Path::toFile)

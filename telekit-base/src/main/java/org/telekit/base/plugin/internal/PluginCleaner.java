@@ -3,7 +3,6 @@ package org.telekit.base.plugin.internal;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.Env;
-import org.telekit.base.util.FileUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +14,8 @@ import java.util.logging.Logger;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
+import static org.telekit.base.util.FileUtils.deleteFile;
+import static org.telekit.base.util.FileUtils.deleteFolder;
 
 public class PluginCleaner {
 
@@ -93,7 +94,7 @@ public class PluginCleaner {
         }
     }
 
-    private void execute(String[] args) throws IOException {
+    private void execute(String[] args) {
         String action = args[0];
         if (args.length <= 1) return;
 
@@ -101,11 +102,11 @@ public class PluginCleaner {
         switch (action) {
             case TASK_RMDIR -> {
                 LOGGER.info("Deleting directory: " + pathToDelete);
-                if (Files.exists(pathToDelete)) FileUtils.deleteFolder(pathToDelete);
+                deleteFolder(pathToDelete);
             }
             case TASK_RM -> {
                 LOGGER.info("Deleting file: " + pathToDelete);
-                Files.deleteIfExists(pathToDelete);
+                deleteFile(pathToDelete);
             }
         }
     }
