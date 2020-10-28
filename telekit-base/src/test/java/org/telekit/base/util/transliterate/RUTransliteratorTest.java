@@ -69,6 +69,64 @@ class RUTransliteratorTest {
         Assertions.assertThat(tr.transliterate("Вилючинск")).isEqualTo("Vilyuchinsk");
         Assertions.assertThat(tr.transliterate("Ярославль")).isEqualTo("Yaroslavl");
         Assertions.assertThat(tr.transliterate("Бурянск")).isEqualTo("Buryansk");
+
+        Assertions.assertThat(tr.transliterate("АЛИКОВО")).isEqualTo("ALIKOVO");
+        Assertions.assertThat(tr.transliterate("ПОГАНКИНО")).isEqualTo("POGANKINO");
+        Assertions.assertThat(tr.transliterate("БОЛОТИН")).isEqualTo("BOLOTIN");
+        Assertions.assertThat(tr.transliterate("КОЛБАСИН")).isEqualTo("KOLBASIN");
+        Assertions.assertThat(tr.transliterate("ВОРОНИН")).isEqualTo("VORONIN");
+        Assertions.assertThat(tr.transliterate("ПРИВАЛИН")).isEqualTo("PRIVALIN");
+        Assertions.assertThat(tr.transliterate("ГАЛКИН")).isEqualTo("GALKIN");
+        Assertions.assertThat(tr.transliterate("ЛУГОВОЙ")).isEqualTo("LUGOVOY");
+        Assertions.assertThat(tr.transliterate("ДРОВЯНОЕ")).isEqualTo("DROVYANOYE");
+        Assertions.assertThat(tr.transliterate("ПОДГОРСК")).isEqualTo("PODGORSK");
+        Assertions.assertThat(tr.transliterate("БЕЛКИН")).isEqualTo("BELKIN");
+        Assertions.assertThat(tr.transliterate("ЁЛКИНО")).isEqualTo("YOLKINO");
+        Assertions.assertThat(tr.transliterate("ОЗЁРСК")).isEqualTo("OZYORSK");
+        Assertions.assertThat(tr.transliterate("ЖИРОВ")).isEqualTo("ZHIROV");
+        Assertions.assertThat(tr.transliterate("ПРИВОЛЖСКОЕ")).isEqualTo("PRIVOLZHSKOYE");
+        Assertions.assertThat(tr.transliterate("ЗОРИН")).isEqualTo("ZORIN");
+        Assertions.assertThat(tr.transliterate("ОБОЗОВ")).isEqualTo("OBOZOV");
+        Assertions.assertThat(tr.transliterate("ИРКУТСК")).isEqualTo("IRKUTSK");
+        Assertions.assertThat(tr.transliterate("ВЛАДИВОСТОК")).isEqualTo("VLADIVOSTOK");
+        Assertions.assertThat(tr.transliterate("ЙОШКАР-ОЛА")).isEqualTo("YOSHKAR-OLA");
+        Assertions.assertThat(tr.transliterate("БИЙСК")).isEqualTo("BIYSK");
+        Assertions.assertThat(tr.transliterate("КИРОВ")).isEqualTo("KIROV");
+        Assertions.assertThat(tr.transliterate("ГАЛКИН")).isEqualTo("GALKIN");
+        Assertions.assertThat(tr.transliterate("ЛАПИНСК")).isEqualTo("LAPINSK");
+        Assertions.assertThat(tr.transliterate("КОМСОМОЛЬСК")).isEqualTo("KOMSOMOLSK");
+        Assertions.assertThat(tr.transliterate("МИЧУРИН")).isEqualTo("MICHURIN");
+        Assertions.assertThat(tr.transliterate("КОЛЫМА")).isEqualTo("KOLYMA");
+        Assertions.assertThat(tr.transliterate("НАЛЬЧИК")).isEqualTo("NALCHIK");
+        Assertions.assertThat(tr.transliterate("САВИНО")).isEqualTo("SAVINO");
+        Assertions.assertThat(tr.transliterate("ОХА")).isEqualTo("OKHA");
+        Assertions.assertThat(tr.transliterate("ГРОЗНЫЙ")).isEqualTo("GROZNY");
+        Assertions.assertThat(tr.transliterate("ПЕТРОГРАД")).isEqualTo("PETROGRAD");
+        Assertions.assertThat(tr.transliterate("СТАВРОПОЛЬ")).isEqualTo("STAVROPOL");
+        Assertions.assertThat(tr.transliterate("РОДНИКОВОЕ")).isEqualTo("RODNIKOVOYE");
+        Assertions.assertThat(tr.transliterate("ВЫСОКОГОРСК")).isEqualTo("VYSOKOGORSK");
+        Assertions.assertThat(tr.transliterate("СТУПИНО")).isEqualTo("STUPINO");
+        Assertions.assertThat(tr.transliterate("БИРСК")).isEqualTo("BIRSK");
+        Assertions.assertThat(tr.transliterate("ТАВРИЧАНКА")).isEqualTo("TAVRICHANKA");
+        Assertions.assertThat(tr.transliterate("РОСТОВ")).isEqualTo("ROSTOV");
+        Assertions.assertThat(tr.transliterate("УЛЕТАЙСК")).isEqualTo("ULETAYSK");
+        Assertions.assertThat(tr.transliterate("ШУШЕНСКОЕ")).isEqualTo("SHUSHENSKOYE");
+        Assertions.assertThat(tr.transliterate("ФЁДОРОВКА")).isEqualTo("FYODOROVKA");
+        Assertions.assertThat(tr.transliterate("УФА")).isEqualTo("UFA");
+        Assertions.assertThat(tr.transliterate("ХАБАРОВСК")).isEqualTo("KHABAROVSK");
+        Assertions.assertThat(tr.transliterate("ОХА")).isEqualTo("OKHA");
+        Assertions.assertThat(tr.transliterate("ЦАРСКОЕ")).isEqualTo("TSARSKOYE");
+        Assertions.assertThat(tr.transliterate("ЧЕРЕМШАНЫ")).isEqualTo("CHEREMSHANY");
+        Assertions.assertThat(tr.transliterate("ЗАРЕЧЕНСК")).isEqualTo("ZARECHENSK");
+        Assertions.assertThat(tr.transliterate("ШАДРИН")).isEqualTo("SHADRIN");
+        Assertions.assertThat(tr.transliterate("МОРШАНСК")).isEqualTo("MORSHANSK");
+        Assertions.assertThat(tr.transliterate("ЩУКИНО")).isEqualTo("SHCHUKINO");
+        Assertions.assertThat(tr.transliterate("ЭЛИСТА")).isEqualTo("ELISTA");
+        Assertions.assertThat(tr.transliterate("ТЕТРАЭДРАЛЬНЫЙ")).isEqualTo("TETRAEDRALNY");
+        Assertions.assertThat(tr.transliterate("ЮЖНЫЙ")).isEqualTo("YUZHNY");
+        Assertions.assertThat(tr.transliterate("ВИЛЮЧИНСК")).isEqualTo("VILYUCHINSK");
+        Assertions.assertThat(tr.transliterate("ЯРОСЛАВЛЬ")).isEqualTo("YAROSLAVL");
+        Assertions.assertThat(tr.transliterate("БУРЯНСК")).isEqualTo("BURYANSK");
     }
 
     @Test
@@ -87,6 +145,21 @@ class RUTransliteratorTest {
         Assertions.assertThat(tr.transliterate("Ильинский")).isEqualTo("Ilyinsky");
         Assertions.assertThat(tr.transliterate("Синий")).isEqualTo("Siny");
         Assertions.assertThat(tr.transliterate("Набережные Челны")).isEqualTo("Naberezhnye Chelny");
+
+        Assertions.assertThat(tr.transliterate("ЗАРЕЦКИЙ")).isEqualTo("ZARETSKY");
+        Assertions.assertThat(tr.transliterate("РОЩИНСКИЙ")).isEqualTo("ROSHCHINSKY");
+        Assertions.assertThat(tr.transliterate("ПОДЪЯРСКИЙ")).isEqualTo("PODYARSKY");
+        Assertions.assertThat(tr.transliterate("ЕЛЬЦИН")).isEqualTo("YELTSIN");
+        Assertions.assertThat(tr.transliterate("РАЗДОЛЬНОЕ")).isEqualTo("RAZDOLNOYE");
+        Assertions.assertThat(tr.transliterate("ЮРЬЕВ")).isEqualTo("YURYEV");
+        Assertions.assertThat(tr.transliterate("ПОДЪЕЗДНОЙ")).isEqualTo("PODYEZDNOY");
+        Assertions.assertThat(tr.transliterate("МУСИЙКЪОНГИЙКОТЕ")).isEqualTo("MUSIYKYONGIYKOTE");
+        Assertions.assertThat(tr.transliterate("УСОЛЬЕ")).isEqualTo("USOLYE");
+        Assertions.assertThat(tr.transliterate("ВЫХУХОЛЬ")).isEqualTo("VYKHUKHOL");
+        Assertions.assertThat(tr.transliterate("ДАЛЬНЕГОРСК")).isEqualTo("DALNEGORSK");
+        Assertions.assertThat(tr.transliterate("ИЛЬИНСКИЙ")).isEqualTo("ILYINSKY");
+        Assertions.assertThat(tr.transliterate("СИНИЙ")).isEqualTo("SINY");
+        Assertions.assertThat(tr.transliterate("НАБЕРЕЖНЫЕ ЧЕЛНЫ")).isEqualTo("NABEREZHNYE CHELNY");
     }
 
     @Test
@@ -109,5 +182,22 @@ class RUTransliteratorTest {
     public void testLoremIpsum() {
         String loremIpsum = "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"";
         Assertions.assertThat(tr.transliterate(loremIpsum)).isEqualTo(loremIpsum);
+    }
+
+    @Test
+    public void testUpperCase() {
+        Assertions.assertThat(tr.transliterate("ЖЕЛЕЗНОДОРОЖНИК")).isEqualTo("ZHELEZNODOROZHNIK");
+        Assertions.assertThat(tr.transliterate("РУКИ ВВЕРХ")).isEqualTo("RUKI VVERKH");
+        Assertions.assertThat(tr.transliterate("ВПЕРЁД К ПОБЕДЕ")).isEqualTo("VPERYOD K POBEDE");
+        Assertions.assertThat(tr.transliterate("ЁПРСТ Х ЁКЛМН")).isEqualTo("YOPRST KH YOKLMN");
+        Assertions.assertThat(tr.transliterate("ЕЛЬЦИН - ПЕРВЫЙ ПРЕЗИДЕНТ РОССИИ")).isEqualTo("YELTSIN - PERVY PREZIDENT ROSSII");
+    }
+
+    @Test
+    public void testMixedCase() {
+        Assertions.assertThat(tr.transliterate("НеСтойПодСтрелой")).isEqualTo("NeStoyPodStreloy");
+        Assertions.assertThat(tr.transliterate("неВлезайУбъет")).isEqualTo("neVlezayUbyet");
+        Assertions.assertThat(tr.transliterate("ЕльцинПервыйПрезидентРоссии")).isEqualTo("YeltsinPervyyPrezidentRossii");
+        Assertions.assertThat(tr.transliterate("ЧеБуРашКа")).isEqualTo("CheBuRashKa");
     }
 }

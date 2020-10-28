@@ -7,7 +7,7 @@ public class RUTransliterator implements Transliterator {
 
     private static final Map<Character, String> ABC = new HashMap<>();
 
-     static {
+    static {
         ABC.put('А', "A");
         ABC.put('а', "a");
         ABC.put('Б', "B");
@@ -63,9 +63,11 @@ public class RUTransliterator implements Transliterator {
         ABC.put('Щ', "Shch");
         ABC.put('щ', "shch");
         ABC.put('ъ', "y");
+        ABC.put('Ъ', "y");
         ABC.put('Ы', "Y");
         ABC.put('ы', "y");
         ABC.put('ь', "y");
+        ABC.put('Ь', "Y");
         ABC.put('Э', "E");
         ABC.put('э', "e");
         ABC.put('Ю', "Yu");
@@ -115,8 +117,9 @@ public class RUTransliterator implements Transliterator {
         return result.toString();
     }
 
-    private void transliterateWord(List<Character> word, StringBuilder accumulator) {
+    private void transliterateWord(List<Character> word, StringBuilder textAccumulator) {
         int wordLength = word.size();
+
         for (int index = 0; index < wordLength; index++) {
             Character current = word.get(index);
             Character prev = index > 0 ? word.get(index - 1) : null;
@@ -124,11 +127,12 @@ public class RUTransliterator implements Transliterator {
             boolean startOfWord = index == 0;
             boolean endOfWord = index == wordLength - 1;
 
-            // these two can't be uppercase
-            if (current == 'Ъ') current = 'ъ';
-            if (current == 'Ь') current = 'ь';
+            boolean putAsUppercase = Character.isUpperCase(current) &&
+                    (endOfWord || (next != null && Character.isUpperCase(next)));
 
-            /* EXCEPTIONS (transliteration depends on position or siblings) */
+            /*
+             * EXCEPTIONS (transliteration depends on position or adjacent chars)
+             */
 
             // Е (е) = Ye (ye), when:
             // - in the beginning of words (Ельцин = Yeltsin)
@@ -136,50 +140,67 @@ public class RUTransliterator implements Transliterator {
             // - after ь (Юрьев = Yuryev; ь omitted)
             // - after ъ (Подъездной = Podyezdnoy)
             // - ые endings = -ye (Набережные Челны = Naberezhnye Chelny)
-            if (current == 'Е' && (startOfWord || isVowel(prev) || equals(prev, 'ъ') || equals(prev, 'ь'))) {
-                accumulator.append("Ye");
-                continue;
-            }
-            if (current == 'е' && !equals(prev, 'ы') && (startOfWord || isVowel(prev) || equals(prev, 'ъ') || equals(prev, 'ь'))) {
-                accumulator.append("ye");
+            if (equalsIgnoreCase(current, 'е') && !equalsIgnoreCase(prev, 'ы') &&
+                    (startOfWord || isVowel(prev) || equalsIgnoreCase(prev, 'ъ') || equalsIgnoreCase(prev, 'ь'))) {
+                if (current == 'Е' && putAsUppercase) textAccumulator.append("YE");
+                if (current == 'Е' && !putAsUppercase) textAccumulator.append("Ye");
+                if (current == 'е') textAccumulator.append("ye");
                 continue;
             }
 
             // Omitted, when:
-            //
             // - followed by an iotated vowel (Усолье = Usolye)
             // - at the end of words (Выхухоль = Vykhukhol)
             // - followed by a consonant (Дальнегорск = Dalnegorsk)
-            if (current == 'ь' && (endOfWord || isIotatedVowel(next) || isConsonant(next))) {
+            if (equalsIgnoreCase(current, 'ь') && (endOfWord || isIotatedVowel(next) || isConsonant(next))) {
                 continue;
             }
 
             // Omitted, when:
             //  - followed by an iotated vowel (Подъярский = Podyarsky)
-            if (current == 'ъ' && !endOfWord && isIotatedVowel(next)) {
+            if (equalsIgnoreCase(current, 'ъ') && !endOfWord && isIotatedVowel(next)) {
                 continue;
             }
 
             // -ый ending  = -y  (Красный = Krasny)
-            if (current == 'й' && endOfWord && equals(prev, 'ы')) {
+            if (equalsIgnoreCase(current, 'й') && endOfWord && equalsIgnoreCase(prev, 'ы')) {
                 continue;
             }
 
-            // -ий endings = -y  (Великий = Veliky)
-            if (current == 'й' && endOfWord && equals(prev, 'и')) {
-                accumulator
-                        .deleteCharAt(accumulator.length() - 1)
-                        .append('y');
+            // Following Wikipedia rules:
+            // –ий endings	= -y    In names of people and adjectives of Russian origin.
+            //                      Синий = Siny; Великий = Veliky
+            //              = -iy   Noun or of non-Russian origin
+            //                      Рыркайпий = Ryrkaypiy
+            //
+            // There is now to find out origin of the word without dictionary
+            // (and I don't know such dictionary), so let's just stick to the first option.
+            if (equalsIgnoreCase(current, 'й') && endOfWord && equalsIgnoreCase(prev, 'и')) {
+                textAccumulator.deleteCharAt(textAccumulator.length() - 1);
+                if (putAsUppercase) {
+                    textAccumulator.append('Y');
+                } else {
+                    textAccumulator.append('y');
+                }
+
                 continue;
             }
 
             /* DIRECT TRANSLITERATION */
             if (ABC.containsKey(current)) {
-                accumulator.append(ABC.get(current));
+                if (putAsUppercase) {
+                    textAccumulator.append(ABC.get(current).toUpperCase());
+                } else {
+                    textAccumulator.append(ABC.get(current));
+                }
             } else {
-                accumulator.append(current);
+                textAccumulator.append(current);
             }
         }
+    }
+
+    private static void appendCaseSensitive(Character character, Character nextCharacter, StringBuilder accumulator) {
+
     }
 
     private static boolean isLetter(Character symbol) {
@@ -188,6 +209,10 @@ public class RUTransliterator implements Transliterator {
 
     private boolean equals(Character ch1, Character ch2) {
         return ch1 != null && ch1.equals(ch2);
+    }
+
+    private boolean equalsIgnoreCase(Character ch1, Character ch2) {
+        return ch1 != null && ch2 != null && Objects.equals(Character.toLowerCase(ch1), Character.toLowerCase(ch2));
     }
 
     private static boolean isConsonant(Character letter) {
