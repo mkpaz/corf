@@ -25,6 +25,12 @@ public interface MessageKeys extends BaseMessageKeys, ControlsMessageKeys {
     String TOOLS_SPCCONV = "tools.SPCConverter";
     String TOOLS_TRANSLIT = "tools.Transliterator";
 
+    String TOOLS_COMMA = "tools.comma";
+    String TOOLS_COLON = "tools.colon";
+    String TOOLS_PIPE = "tools.pipe";
+    String TOOLS_SEMICOLON = "tools.semicolon";
+    String TOOLS_TAB = "tools.tab";
+
     String TOOLS_ADD_PARAM = "tools.AddParam";
     String TOOLS_NEW_TEMPLATE = "tools.NewTemplate";
     String TOOLS_EDIT_TEMPLATE = "tools.EditTemplate";

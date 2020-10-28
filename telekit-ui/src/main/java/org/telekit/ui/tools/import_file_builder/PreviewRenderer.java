@@ -22,9 +22,13 @@ public final class PreviewRenderer {
     public static String render(Template template) {
         Tag<?> templateHTML;
         if (isNotBlank(template.getDelimiter())) {
-            List<Row> theadRows = splitHeaderToTable(template.getHeader(), template.getDelimiter());
-            List<Row> tbodyRows = splitTextToTable(template.getPattern(), template.getDelimiter());
-            tbodyRows.addAll(splitTextToTable(template.getFooter(), template.getDelimiter()));
+            String delimiter = template.getDelimiter();
+            if ("\\t".equals(delimiter)) delimiter = "\t";
+            if ("\\s".equals(delimiter)) delimiter = "\s";
+
+            List<Row> theadRows = splitHeaderToTable(template.getHeader(), delimiter);
+            List<Row> tbodyRows = splitTextToTable(template.getPattern(), delimiter);
+            tbodyRows.addAll(splitTextToTable(template.getFooter(), delimiter));
 
             Tag<?> head = thead(
                     each(theadRows, row -> tr(
@@ -124,6 +128,7 @@ public final class PreviewRenderer {
 
     private static String[] splitLineToCells(String line, String delimiter) {
         line = StringUtils.defaultString(line, "").trim();
+
         if (line.startsWith(delimiter)) line = line.substring(line.indexOf(delimiter) + 1);
         if (line.endsWith(delimiter)) line = line.substring(0, line.lastIndexOf(delimiter));
         return line.split(Pattern.quote(delimiter), -1);

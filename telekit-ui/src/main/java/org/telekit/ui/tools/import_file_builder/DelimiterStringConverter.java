@@ -1,29 +1,33 @@
 package org.telekit.ui.tools.import_file_builder;
 
 import javafx.util.StringConverter;
+import org.telekit.base.i18n.Messages;
 
 import java.util.Map;
 
+import static org.telekit.ui.main.MessageKeys.*;
+
 public class DelimiterStringConverter extends StringConverter<String> {
 
-    private static final Map<String, String> DICT = Map.of(
-            ",", "comma",
-            ":", "colon",
-            "|", "pipe",
-            ";", "semicolon",
-            "_", "space or TAB"
+    public static final Map<String, String> VALUES = Map.of(
+            ",", TOOLS_COMMA,
+            ":", TOOLS_COLON,
+            "|", TOOLS_PIPE,
+            ";", TOOLS_SEMICOLON,
+            "\\t", TOOLS_TAB
     );
 
+    private static final String SEPARATOR = " - ";
+
     @Override
-    public String toString(String str) {
-        if (str == null || str.isEmpty()) return "";
-        return String.format("%s ( %s )", DICT.getOrDefault(str, "unknown"), str);
+    public String toString(String punctuationMark) {
+        if (punctuationMark == null || punctuationMark.isEmpty() || !VALUES.containsKey(punctuationMark)) return "";
+        return punctuationMark + SEPARATOR + Messages.get(VALUES.get(punctuationMark));
     }
 
     @Override
-    public String fromString(String str) {
-        if (str == null || str.isEmpty()) return "";
-        int pos = str.indexOf("(");
-        return str.substring(pos + 2, pos + 3);
+    public String fromString(String comboBoxValue) {
+        if (comboBoxValue == null || comboBoxValue.isEmpty()) return "";
+        return comboBoxValue.split(SEPARATOR)[0];
     }
 }

@@ -67,7 +67,7 @@
                                            <String fx:value=":" />
                                            <String fx:value="|" />
                                            <String fx:value=";" />
-                                           <String fx:value="_" />
+                                           <String fx:value="\t" />
                                        </FXCollections>
                                    </items>
                                    <value>
