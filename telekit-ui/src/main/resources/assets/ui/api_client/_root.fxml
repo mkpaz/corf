@@ -55,7 +55,7 @@
                       <RowConstraints vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <Label text="%tools.Template" GridPane.columnSpan="2" />
+                        <Label styleClass="caption" text="%tools.Template" GridPane.columnSpan="2" />
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                            <children>
                               <ComboBox fx:id="cmbTemplate" maxWidth="1.7976931348623157E308" onAction="#displaySelectedTemplateParams" HBox.hgrow="ALWAYS" />
@@ -108,16 +108,25 @@
                                           </FontAwesomeIconView>
                                        </children>
                                     </StackPane>
-                                    <Label text="%Username">
-                                       <padding>
-                                          <Insets left="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label text="%Password" textAlignment="RIGHT" GridPane.rowIndex="1">
+                                    <HBox alignment="CENTER_LEFT" spacing="3.0">
+                                       <children>
+                                          <Label text="%Username">
+                                             <padding>
+                                                <Insets left="10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text=":" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets left="10.0" />
                                        </GridPane.margin>
-                                    </Label>
+                                       <children>
+                                          <Label text="%Password" textAlignment="RIGHT" />
+                                          <Label text=":" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </GridPane>
                            </content>
@@ -127,7 +136,7 @@
                         </TitledPane>
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1">
                            <children>
-                              <Label text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
+                              <Label styleClass="caption" text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
                               <MenuButton mnemonicParsing="false" styleClass="btn-flat-dropdown">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
@@ -171,7 +180,7 @@
                               </ContextMenu>
                            </contextMenu>
                         </TableView>
-                        <Label text="%Parameters" GridPane.rowIndex="3">
+                        <Label styleClass="caption" text="%Parameters" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets top="5.0" />
                            </GridPane.margin></Label>
@@ -191,7 +200,7 @@
                      <items>
                         <VBox minWidth="400.0" spacing="5.0">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" text="%tools.api-client.CompletedRequests" />
+                              <Label maxWidth="1.7976931348623157E308" styleClass="caption" text="%tools.api-client.CompletedRequests" />
                               <TableView fx:id="tblLog" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="tcolLogIndex" editable="false" maxWidth="70.0" minWidth="70.0" prefWidth="-1.0" sortable="false" style="-fx-alignment: CENTER;" text="#" />
@@ -218,7 +227,7 @@
                         </VBox>
                         <VBox minWidth="300.0" spacing="5.0">
                            <children>
-                              <Label text="%Details" />
+                              <Label styleClass="caption" text="%Details" />
                               <TextArea fx:id="taRequestDetails" editable="false" styleClass="monospaced" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>

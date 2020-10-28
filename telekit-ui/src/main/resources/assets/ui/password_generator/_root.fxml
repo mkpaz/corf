@@ -48,7 +48,7 @@
                         <CheckBox fx:id="cbRandomDigits" mnemonicParsing="false" selected="true" text="123456" />
                         <CheckBox fx:id="cbRandomSpecialChars" mnemonicParsing="false" text="\$#@*_" />
                         <CheckBox fx:id="cbRandomExcludeSimilar" mnemonicParsing="false" text="%tools.password-generator.exclude-similar-chars" wrapText="true" />
-                        <FlowPane hgap="10.0">
+                        <FlowPane hgap="5.0">
                            <children>
                               <Label text="%Example">
                                  <font>
@@ -79,7 +79,7 @@
                               <Label text="%tools.characters" />
                            </children>
                         </FlowPane>
-                        <FlowPane hgap="10.0">
+                        <FlowPane hgap="5.0">
                            <children>
                               <Label text="%Example">
                                  <font>
@@ -110,7 +110,7 @@
                               <Label text="%tools.words" />
                            </children>
                         </FlowPane>
-                        <FlowPane hgap="10.0">
+                        <FlowPane hgap="5.0">
                            <children>
                               <Label text="%Example">
                                  <font>
@@ -134,8 +134,8 @@
         </panes>
       </Accordion>
       <TextArea fx:id="taGeneratedPasswords" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label text="%Settings" />
-      <Label text="%Passwords" GridPane.columnIndex="1" />
+      <Label styleClass="caption" text="%Settings" />
+      <Label styleClass="caption" text="%Passwords" GridPane.columnIndex="1" />
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
          <children>
             <Button mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="%Generate">

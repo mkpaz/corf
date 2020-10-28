@@ -38,13 +38,13 @@
    <children>
       <TextField fx:id="tfIPAddress" alignment="CENTER" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="200.0" styleClass="monospaced" GridPane.rowIndex="1" />
       <ComboBox fx:id="cmbNetmask" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label text="%tools.IPAddress" />
-      <Label text="%Details" GridPane.rowIndex="3">
+      <Label styleClass="caption" text="%tools.IPAddress" />
+      <Label styleClass="caption" text="%Details" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin>
       </Label>
-      <Label text="%tools.ip-calc.bit-usage" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
+      <Label styleClass="caption" text="%tools.ip-calc.bit-usage" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
       <TableView fx:id="tblSplit" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <columns>
             <TableColumn editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="#">
@@ -69,7 +69,7 @@
             <Insets top="5.0" />
          </GridPane.margin>
       </Label>
-      <Label text="%tools.Netmask" GridPane.columnIndex="1" />
+      <Label styleClass="caption" text="%tools.Netmask" GridPane.columnIndex="1" />
       <TextField fx:id="tfBitUsage" alignment="CENTER" editable="false" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="400.0" styleClass="monospaced" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets />
@@ -81,12 +81,13 @@
             <Label text="%tools.ip-calc.split-to.1" />
             <ComboBox fx:id="cmbSplitHosts" prefWidth="100.0" />
             <Label text="%tools.ip-calc.split-to.2" />
+            <Label text=":" />
          </children>
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin>
       </HBox>
-      <Label text="%tools.Netmask" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+      <Label styleClass="caption" text="%tools.Netmask" GridPane.columnIndex="2" GridPane.rowIndex="6" />
       <TableView fx:id="tblNetmasks" prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
         <columns>
           <TableColumn fx:id="tcPrefixLength" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" text="%Prefix">

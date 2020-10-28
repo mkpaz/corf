@@ -36,7 +36,7 @@
             <Button mnemonicParsing="false" onAction="#close" text="%Close" />
          </children>
       </HBox>
-      <Label text="%plugin-manager.InstalledPlugins" />
+      <Label styleClass="caption" text="%plugin-manager.InstalledPlugins" />
       <TextArea fx:id="taPluginDetails" editable="false" prefWidth="250.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <HBox fx:id="panePluginControls" alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>

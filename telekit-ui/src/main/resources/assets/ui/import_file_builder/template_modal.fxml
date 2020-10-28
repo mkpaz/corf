@@ -31,32 +31,53 @@
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints vgrow="NEVER" />
+                      <RowConstraints maxHeight="80.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="80.0" vgrow="NEVER" />
                       <RowConstraints vgrow="NEVER" />
-                        <RowConstraints vgrow="NEVER" />
-                      <RowConstraints vgrow="NEVER" />
-                        <RowConstraints vgrow="NEVER" />
+                        <RowConstraints maxHeight="200.0" vgrow="ALWAYS" />
                         <RowConstraints vgrow="NEVER" />
                         <RowConstraints vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                        <HBox alignment="CENTER_LEFT" spacing="3.0">
                            <children>
                               <Label text="%Name" />
                               <Label styleClass="lbl-mandatory" text="*" />
+                              <Label text=":" />
                            </children>
                         </HBox>
-                        <Label text="%Header" GridPane.rowIndex="1" />
-                        <Label text="%Footer" GridPane.rowIndex="2" />
-                        <Label text="%Delimiter" GridPane.rowIndex="3" />
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.rowIndex="4">
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
                            <children>
-                              <Label text="%Pattern" />
-                              <Label styleClass="lbl-mandatory" text="*" />
+                              <Label text="%Header" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="2">
+                           <children>
+                              <Label text="%Footer" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="3">
+                           <children>
+                              <Label text="%Delimiter" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
+                        <HBox GridPane.rowIndex="4">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="3.0">
+                                 <children>
+                                    <Label text="%Pattern" />
+                                    <Label styleClass="lbl-mandatory" text="*" />
+                                    <Label text=":" />
+                                 </children>
+                              </HBox>
                            </children>
                         </HBox>
                         <TextField fx:id="tfName" GridPane.columnIndex="1" />
-                        <TextArea fx:id="taHeader" prefHeight="50.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextArea fx:id="taFooter" prefHeight="50.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextArea fx:id="taHeader" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextArea fx:id="taFooter" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                                <ComboBox fx:id="cmbDelimiter" prefWidth="200.0">
@@ -77,8 +98,13 @@
                               <Label styleClass="text-sm" text="%tools.import-file-builder.applied-to-preview-only" />
                            </children>
                         </HBox>
-                        <TextArea fx:id="taPattern" prefHeight="100.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label text="%FileFormat" GridPane.rowIndex="5" />
+                        <TextArea fx:id="taPattern" maxHeight="1.7976931348623157E308" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="5">
+                           <children>
+                              <Label text="%FileFormat" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <children>
                               <ComboBox fx:id="cmbEncoding" prefWidth="120.0">

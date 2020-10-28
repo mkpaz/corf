@@ -19,6 +19,11 @@
 }
 
 @font-face {
+    font-family: "Open Sans SemiBold";
+    src: url('OpenSans-SemiBold.ttf');
+}
+
+@font-face {
     font-family: "Fira Mono";
     src: url('FiraMono.ttf');
 }

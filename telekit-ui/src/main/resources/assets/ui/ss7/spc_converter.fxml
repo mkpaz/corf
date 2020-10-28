@@ -43,13 +43,13 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin></TextArea>
-      <Label text="%Result" GridPane.rowIndex="4">
+      <Label styleClass="caption" text="%Result" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="%tools.ss7.PointCode" />
-      <HBox spacing="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+      <Label styleClass="caption" text="%tools.ss7.PointCode" />
+      <HBox spacing="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
          <children>
             <Label text="%Length" />
             <Label text=":" />
@@ -58,7 +58,10 @@
                   <ToggleGroup fx:id="toggleType" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rb24bit" mnemonicParsing="false" text="24 bit" toggleGroup="$toggleType" />
+            <RadioButton fx:id="rb24bit" mnemonicParsing="false" text="24 bit" toggleGroup="$toggleType">
+               <padding>
+                  <Insets left="5.0" />
+               </padding></RadioButton>
          </children>
          <GridPane.margin>
             <Insets top="5.0" />

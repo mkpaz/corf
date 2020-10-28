@@ -23,14 +23,25 @@
       <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <HBox alignment="CENTER_LEFT" spacing="5.0">
+      <HBox alignment="CENTER_LEFT" spacing="3.0">
          <children>
             <Label text="%Name" />
             <Label styleClass="lbl-mandatory" text="*" />
+            <Label text=":" />
          </children>
       </HBox>
-      <Label text="%Length" GridPane.rowIndex="2" />
-      <Label text="%Type" GridPane.rowIndex="1" />
+      <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="2">
+         <children>
+            <Label text="%Length" />
+            <Label text=":" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
+         <children>
+            <Label text="%Type" />
+            <Label text=":" />
+         </children>
+      </HBox>
       <TextField fx:id="tfName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
       <ComboBox fx:id="cmbType" maxWidth="1.7976931348623157E308" onAction="#onParamTypeChanged" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
       <Spinner fx:id="spnLength" initialValue="16" max="32" maxWidth="1.7976931348623157E308" min="8" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />

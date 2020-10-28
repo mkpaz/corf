@@ -40,19 +40,26 @@
                       <RowConstraints vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                        <HBox alignment="CENTER_LEFT" spacing="3.0">
                            <children>
                               <Label text="%Name" />
                               <Label styleClass="lbl-mandatory" text="*" />
+                              <Label text=":" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
                            <children>
                               <Label text="URI" />
                               <Label styleClass="lbl-mandatory" text="*" />
+                              <Label text=":" />
                            </children>
                         </HBox>
-                        <Label text="%tools.api-client.HTTPMethod" GridPane.rowIndex="2" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="2">
+                           <children>
+                              <Label text="%tools.api-client.HTTPMethod" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
                         <TextField fx:id="tfName" GridPane.columnIndex="1" />
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
@@ -60,17 +67,47 @@
                            </children>
                         </HBox>
                         <TextField fx:id="tfURI" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="%tools.api-client.ContentType" GridPane.rowIndex="3" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="3">
+                           <children>
+                              <Label text="%tools.api-client.ContentType" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
                         <ComboBox fx:id="cmbContentType" onAction="#onContentTypeChanged" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="%tools.api-client.HTTPHeaders" GridPane.rowIndex="4" />
-                        <Label text="%tools.api-client.Body" GridPane.rowIndex="5" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="4">
+                           <children>
+                              <Label text="%tools.api-client.HTTPHeaders" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="5">
+                           <children>
+                              <Label text="%tools.api-client.Body" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
                         <TextArea fx:id="taHeaders" prefHeight="50.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextArea fx:id="taBody" prefHeight="100.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label text="%tools.api-client.BatchSize" GridPane.rowIndex="6" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="6">
+                           <children>
+                              <Label text="%tools.api-client.BatchSize" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
                         <Spinner fx:id="spnBatchSize" amountToStepBy="5" initialValue="0" max="100" min="0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label text="%tools.api-client.BatchWrapper" GridPane.rowIndex="7" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="7">
+                           <children>
+                              <Label text="%tools.api-client.BatchWrapper" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
                         <TextArea fx:id="taBatchWrapper" prefHeight="40.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Label text="%tools.api-client.WaitTimeout" GridPane.rowIndex="8" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="8">
+                           <children>
+                              <Label text="%tools.api-client.WaitTimeout" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
                         <Spinner fx:id="spnWaitTimeout" amountToStepBy="1" initialValue="3" max="100" min="1" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                      </children>
                      <padding>

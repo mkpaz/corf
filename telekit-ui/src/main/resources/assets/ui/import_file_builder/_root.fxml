@@ -44,7 +44,7 @@
     <RowConstraints valignment="CENTER" vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <Label text="%tools.Template" GridPane.columnSpan="2" />
+      <Label styleClass="caption" text="%tools.Template" GridPane.columnSpan="2" />
       <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
          <children>
             <ComboBox fx:id="cmbTemplate" maxWidth="1.7976931348623157E308" onAction="#displaySelectedTemplateParams" HBox.hgrow="ALWAYS" />
@@ -68,7 +68,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="2">
          <children>
-            <Label text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
+            <Label styleClass="caption" text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
             <MenuButton maxHeight="5.0" minWidth="5.0" mnemonicParsing="false" prefHeight="5.0" styleClass="btn-flat-dropdown">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
@@ -141,7 +141,7 @@
             <Insets top="5.0" />
          </GridPane.margin>
       </FlowPane>
-      <Label text="%Parameters" GridPane.rowIndex="2">
+      <Label styleClass="caption" text="%Parameters" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin></Label>

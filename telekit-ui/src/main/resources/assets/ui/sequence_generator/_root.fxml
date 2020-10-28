@@ -34,9 +34,9 @@
     <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <Label text="%Pattern" />
+      <Label styleClass="caption" text="%Pattern" />
       <TextField fx:id="tfPattern" alignment="CENTER" text="\%(A)" GridPane.rowIndex="1" />
-      <Label text="%Parameters" GridPane.rowIndex="2">
+      <Label styleClass="caption" text="%Parameters" GridPane.rowIndex="2">
          <padding>
             <Insets top="10.0" />
          </padding></Label>
@@ -74,7 +74,7 @@
       </HBox>
       <HBox spacing="5.0" GridPane.columnIndex="1">
          <children>
-            <Label maxWidth="1.7976931348623157E308" text="%Result" HBox.hgrow="ALWAYS" />
+            <Label maxWidth="1.7976931348623157E308" styleClass="caption" text="%Result" HBox.hgrow="ALWAYS" />
             <Label fx:id="lbLinesCount" text="0" />
             <Label text="%tools.lines">
                <HBox.margin>

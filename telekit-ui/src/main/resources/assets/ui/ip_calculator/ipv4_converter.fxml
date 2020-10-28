@@ -11,64 +11,92 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="rootPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ip_calculator.IPv4ConverterController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="NEVER" minWidth="80.0" />
-    <ColumnConstraints hgrow="NEVER" prefWidth="400.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints vgrow="NEVER" />
-    <RowConstraints vgrow="SOMETIMES" />
-    <RowConstraints vgrow="SOMETIMES" />
-    <RowConstraints vgrow="SOMETIMES" />
-    <RowConstraints vgrow="SOMETIMES" />
-    <RowConstraints vgrow="SOMETIMES" />
-    <RowConstraints vgrow="SOMETIMES" />
-  </rowConstraints>
+
+<HBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ip_calculator.IPv4ConverterController">
    <children>
-      <Label text="%tools.IPAddress">
-         <padding>
-            <Insets right="20.0" />
-         </padding>
-      </Label>
-      <TextField fx:id="tfIPCanonical" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" />
-      <TextField fx:id="tfIPBinary" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></TextField>
-      <TextField fx:id="tfIPHex" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></TextField>
-      <TextField fx:id="tfIPInteger" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></TextField>
-      <Label text="Binary" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></Label>
-      <Label text="Hex" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></Label>
-      <Label text="Integer" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></Label>
-      <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
+      <HBox>
          <children>
-            <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="%Close" />
+            <GridPane fx:id="rootPane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" minWidth="80.0" />
+                <ColumnConstraints hgrow="NEVER" prefWidth="400.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0">
+                     <children>
+                        <Label text="%tools.IPAddress" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <TextField fx:id="tfIPCanonical" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfIPBinary" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="tfIPHex" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="tfIPInteger" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Binary" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Hex" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <children>
+                        <Label text="Integer" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
+                     <children>
+                        <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
+                        <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="%Close" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <CheckBox fx:id="cbIPBinaryDotted" mnemonicParsing="false" onAction="#switchBinaryFormat" text="%tools.ip-calc.dotted" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="cbIPHexDotted" mnemonicParsing="false" onAction="#switchHexFormat" text="%tools.ip-calc.dotted" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
          </children>
-         <GridPane.margin>
-            <Insets top="5.0" />
-         </GridPane.margin>
       </HBox>
-      <CheckBox fx:id="cbIPBinaryDotted" mnemonicParsing="false" onAction="#switchBinaryFormat" text="%tools.ip-calc.dotted" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <CheckBox fx:id="cbIPHexDotted" mnemonicParsing="false" onAction="#switchHexFormat" text="%tools.ip-calc.dotted" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
-</GridPane>
+</HBox>
