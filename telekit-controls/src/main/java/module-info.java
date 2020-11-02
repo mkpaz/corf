@@ -5,6 +5,7 @@ module telekit.controls {
     requires javafx.controls;
     requires javafx.fxml;
 
+    requires transitive org.controlsfx.controls;
     requires org.fxmisc.richtext;
     requires flowless;
     requires reactfx;

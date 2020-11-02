@@ -31,6 +31,7 @@
         <dep.commons-dbutils.version>1.7</dep.commons-dbutils.version>
         <dep.commons-lang.version>3.11</dep.commons-lang.version>
         <dep.commons-net.version>3.7</dep.commons-net.version>
+        <dep.controlsfx.version>11.0.2</dep.controlsfx.version>
         <dep.hsqldb.version>2.5.1</dep.hsqldb.version>
         <dep.httpcomponents.version>4.5.12</dep.httpcomponents.version>
         <dep.ipaddress.version>5.3.2</dep.ipaddress.version>
@@ -288,6 +289,23 @@
                 <groupId>org.fxmisc.undo</groupId>
                 <artifactId>undofx</artifactId>
                 <version>${dep.undofx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.controlsfx</groupId>
+                <artifactId>controlsfx</artifactId>
+                <version>${dep.controlsfx.version}</version>
+                <!--
+                    JavaFX is supposed to be provided by JDK, because OpenJFX team doesn't
+                    distribute it for x32 platform. So, we have to exclude JavaFX from any
+                    third-party dependency to avoid "module X read module Y from both..."
+                    errors.
+                -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.openjfx</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Various -->

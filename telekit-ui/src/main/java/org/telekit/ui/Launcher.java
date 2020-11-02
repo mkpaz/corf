@@ -176,6 +176,10 @@ public class Launcher extends Application implements LauncherDefaults {
         // create app preferences, they will be required later
         createApplicationPreferences();
 
+        // set default locale, after that any component can just call Locale.getDefault()
+        // env variable has a priority (for testing purposes)
+        Locale.setDefault(preferences.getLocale());
+
         // find and load all plugins (but don't start them)
         pluginManager = new PluginManager(preferences);
         pluginManager.loadAllPlugins();
