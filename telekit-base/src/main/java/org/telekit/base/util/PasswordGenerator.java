@@ -8,6 +8,7 @@ import static org.apache.commons.lang3.StringUtils.capitalize;
 public class PasswordGenerator {
 
     private static final Random RANDOM = new Random();
+    private static final int DEFAULT_PASSWORD_LENGTH = 12;
 
     // @formatter:off
     public static final List<Character> ASCII_LOWER = List.of(
@@ -52,6 +53,10 @@ public class PasswordGenerator {
         return result.toString();
     }
 
+    public static String random() {
+        return random(DEFAULT_PASSWORD_LENGTH, ASCII_LOWER_UPPER_DIGITS);
+    }
+
     public static String katakana(int length) {
         if (length <= 0) return "";
 
@@ -62,6 +67,10 @@ public class PasswordGenerator {
         }
 
         return result.substring(0, length);
+    }
+
+    public static String katakana() {
+        return katakana(DEFAULT_PASSWORD_LENGTH);
     }
 
     public static String onDict(int wordsCount, String separator, List<String> dict) {
@@ -80,6 +89,7 @@ public class PasswordGenerator {
         return result.toString();
     }
 
+    // TODO: [0.9] move to string utils
     private static String capitalizeFirstLetter(String str) {
         return capitalize(str);
     }

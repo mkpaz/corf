@@ -150,7 +150,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
 
         private void begin(boolean deepCopy) {
             resetPreviousBackup();
-            // TODO create deep copy before transaction (Kryo?)
+            // TODO: create deep copy before transaction (Kryo?)
             backupCollection = new HashMap<>(repository);
             backupEntity = null;
             type = TYPE_COLLECTION;

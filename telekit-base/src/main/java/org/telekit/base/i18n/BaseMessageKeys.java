@@ -16,6 +16,11 @@ public interface BaseMessageKeys {
     String MGG_UNABLE_TO_EXTRACT_FILE = "msg.unable-to-extract-file";
     String MGG_UNABLE_TO_LOAD_DATA_FROM_FILE = "msg.unable-to-load-data-from-file";
     String MGG_UNABLE_TO_SAVE_DATA_TO_FILE = "msg.unable-to-save-data-to-file";
+    String MGG_CRYPTO_GENERIC_ERROR = "msg.crypto.generic-error";
+    String MGG_CRYPTO_KEY_IS_NOT_PRESENT = "msg.crypto.key-is-not-present";
+    String MGG_CRYPTO_KEY_VAULT_IS_LOCKED = "msg.crypto.key-vault-is-locked";
+    String MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA = "msg.crypto.unable-to-encrypt-data";
+    String MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA = "msg.crypto.unable-to-decrypt-data";
 
     String FILE_DIALOG_TEXT = "file-dialog.text";
     String FILE_DIALOG_XML = "file-dialog.xml";

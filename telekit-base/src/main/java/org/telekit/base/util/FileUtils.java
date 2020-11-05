@@ -50,6 +50,30 @@ public final class FileUtils {
                 .collect(Collectors.toList());
     }
 
+    public static Path createTempFile() {
+        return createTempFile(null, null);
+    }
+
+    public static Path createTempFile(String prefix, String suffix) {
+        try {
+            return Files.createTempFile(prefix, suffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    public static Path createTempDir() {
+        return createTempDir(null);
+    }
+
+    public static Path createTempDir(String prefix) {
+        try {
+            return Files.createTempDirectory(prefix);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
     public static void copyFile(Path source, Path destination, StandardCopyOption option) {
         try {
             Files.copy(source, destination, option);

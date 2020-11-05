@@ -1,18 +1,20 @@
-package org.telekit.base.plugin.internal.internal;
+package org.telekit.base.plugin.internal;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.telekit.base.BaseSetup;
 import org.telekit.base.plugin.Extension;
 import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
-import org.telekit.base.plugin.internal.PluginLoader;
 
 import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(BaseSetup.class)
 class PluginLoaderTest {
 
     @Test

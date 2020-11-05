@@ -1,12 +1,12 @@
-package org.telekit.base.plugin.internal.internal;
+package org.telekit.base.plugin.internal;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.telekit.base.BaseSetup;
 import org.telekit.base.plugin.*;
-import org.telekit.base.plugin.internal.PluginBox;
-import org.telekit.base.plugin.internal.PluginState;
 
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(BaseSetup.class)
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 class PluginBoxTest {
 

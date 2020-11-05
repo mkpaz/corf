@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Messages extends ResourceBundle {
 
@@ -49,7 +50,17 @@ public class Messages extends ResourceBundle {
         return MessageFormat.format(pattern, args);
     }
 
+    public static String concat(String... keys) {
+        return concat(" ".toCharArray(), keys);
+    }
+
+    public static String concat(char[] separator, String... keys) {
+        return Arrays.stream(keys)
+                .map(key -> getInstance().getString(key))
+                .collect(Collectors.joining(new String(separator)));
+    }
+
     public void print(PrintStream out) {
-        resources.forEach((key, value) -> out.println(key + "=" + value));
+        getInstance().resources.forEach((key, value) -> out.println(key + "=" + value));
     }
 }

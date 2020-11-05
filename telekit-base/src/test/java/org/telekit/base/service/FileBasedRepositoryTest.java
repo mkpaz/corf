@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.telekit.base.BaseSetup;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.service.FileBasedRepository.Transaction;
 import org.telekit.base.util.UUIDHelper;
@@ -16,7 +18,9 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.telekit.base.TestUtils.loadResourceBundle;
 
+@ExtendWith(BaseSetup.class)
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class FileBasedRepositoryTest {
@@ -24,6 +28,7 @@ public class FileBasedRepositoryTest {
     public final FooFileBasedRepository fooRepository;
 
     public FileBasedRepositoryTest() {
+        loadResourceBundle();
         this.fooRepository = new FooFileBasedRepository();
     }
 

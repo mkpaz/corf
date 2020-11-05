@@ -14,6 +14,7 @@ module telekit.ui {
     requires reactfx;
     requires undofx;
     requires wellbehavedfx;
+    requires org.apache.commons.codec;
     // end of ot modularized dependencies
 
     exports org.telekit.ui.domain;

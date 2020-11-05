@@ -10,7 +10,7 @@ import org.telekit.base.ApplicationContext;
 import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.service.JacksonYamlSerializer;
+import org.telekit.base.service.impl.JacksonYamlSerializer;
 import org.telekit.base.service.Serializer;
 
 import java.io.InputStream;

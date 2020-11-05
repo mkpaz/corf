@@ -1,4 +1,4 @@
-package org.telekit.ui;
+package org.telekit.base.util;
 
 import com.ctc.wstx.api.WstxInputProperties;
 import com.ctc.wstx.stax.WstxInputFactory;
@@ -33,6 +33,7 @@ public class Mappers {
         return XmlMapper.builder(new XmlFactory(inputFactory, outputFactory))
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER)
                 .addModule(new StringTrimModule())
                 .build();
     }
@@ -48,6 +49,7 @@ public class Mappers {
                 .serializationInclusion(JsonInclude.Include.NON_NULL)
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .addModule(new StringTrimModule())
                 .build();

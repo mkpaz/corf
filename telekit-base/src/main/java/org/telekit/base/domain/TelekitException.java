@@ -10,7 +10,7 @@ public class TelekitException extends RuntimeException {
         super(message, cause);
     }
 
-    public static void fire(String reason) {
-        throw new TelekitException(reason);
+    public static void fire(String message) {
+        throw new TelekitException(message);
     }
 }

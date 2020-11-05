@@ -56,6 +56,10 @@
     -fx-font-size: 1.1em; /* slightly increase font size, because Fira glyphs lower than Open Sans */
 }
 
+.glyph-icon.error {
+    -fx-fill: red;
+}
+
 .text-center {
     -fx-alignment: CENTER;
 }

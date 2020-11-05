@@ -1,10 +1,15 @@
 package org.telekit.base.util;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.trim;
 
 public final class StringUtils {
 
@@ -18,7 +23,6 @@ public final class StringUtils {
         return isNotBlank(str) ? str : "";
     }
 
-
     public static List<String> splitEqually(String text, int size) {
         List<String> result = new ArrayList<>((text.length() + size - 1) / size);
         for (int start = 0; start < text.length(); start += size) {
@@ -30,5 +34,23 @@ public final class StringUtils {
     public static boolean trimEquals(String s1, String s2) {
         if (s1 == null || s2 == null) return false;
         return trim(s1).equals(trim(s2));
+    }
+
+    public static byte[] charsToBytes(char[] chars) {
+        final ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(CharBuffer.wrap(chars));
+        return Arrays.copyOf(byteBuffer.array(), byteBuffer.limit());
+    }
+
+    public static char[] bytesToChars(byte[] bytes) {
+        final CharBuffer charBuffer = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(bytes));
+        return Arrays.copyOf(charBuffer.array(), charBuffer.limit());
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder result = new StringBuilder();
+        for (byte temp : bytes) {
+            result.append(String.format("%02x", temp));
+        }
+        return result.toString();
     }
 }

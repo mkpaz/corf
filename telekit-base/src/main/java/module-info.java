@@ -55,6 +55,7 @@ module telekit.base {
     exports org.telekit.base.plugin;
     exports org.telekit.base.plugin.internal to telekit.ui;
     exports org.telekit.base.service;
+    exports org.telekit.base.service.impl;
     exports org.telekit.base.telecom.net;
     exports org.telekit.base.telecom.ss7;
     exports org.telekit.base.ui;

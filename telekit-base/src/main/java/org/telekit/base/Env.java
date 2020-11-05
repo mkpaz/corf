@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.telekit.base.service.Encryptor.Algorithm;
 import static org.telekit.base.ui.LauncherDefaults.PREF_HEIGHT;
 import static org.telekit.base.ui.LauncherDefaults.PREF_WIDTH;
 import static org.telekit.base.util.CommonUtils.*;
@@ -21,9 +22,11 @@ public final class Env {
 
     public static final String APP_NAME = "Telekit";
     public static final int TEXTAREA_ROW_LIMIT = 1000;
+    public static final Algorithm DEFAULT_ENCRYPTION_ALG = Algorithm.AES_GCM;
 
     /* Application Paths */
 
+    // TODO: [0.9] rename APP_DIR to ROOT_DIR and backup env value  with 'user.home'
     public static final Path APP_DIR = Paths.get(
             getPropertyOrEnv("telekit.app.dir", "TELEKIT_APP_DIR")
     );
@@ -74,6 +77,7 @@ public final class Env {
 
     /* Locale */
 
+    // TODO: [0.9] inspect all locale sources and refactor its extraction to more readable fashion
     public static final Locale LOCALE = getLocaleFromEnv();
 
     private static Locale getLocaleFromEnv() {

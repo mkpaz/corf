@@ -32,19 +32,23 @@ public class ApplicationPreferences {
     private Language language = Language.EN;
     private boolean systemTray = false;
     private Proxy proxy;
+    private Security security = new Security();
 
     @JacksonXmlElementWrapper(localName = "disabledPlugins")
     @JacksonXmlProperty(localName = "item")
     private Set<String> disabledPlugins = new HashSet<>();
 
+    // indicates that preferences changes has been made
+    private boolean dirty = false;
+
     public ApplicationPreferences() {}
 
-    public Language getLanguage() {
+    public @NotNull Language getLanguage() {
         return language;
     }
 
     public void setLanguage(Language language) {
-        this.language = language;
+        this.language = language != null ? language : Language.EN;
     }
 
     public boolean isSystemTray() {
@@ -63,6 +67,14 @@ public class ApplicationPreferences {
         this.proxy = proxy;
     }
 
+    public @NotNull Security getSecurity() {
+        return security;
+    }
+
+    public void setSecurity(Security security) {
+        this.security = security != null ? security : new Security();
+    }
+
     public @NotNull Set<String> getDisabledPlugins() {
         return disabledPlugins;
     }
@@ -77,12 +89,26 @@ public class ApplicationPreferences {
         return Env.LOCALE != null ? Env.LOCALE : language.getLocale();
     }
 
+    @JsonIgnore
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    public void setDirty() {
+        this.dirty = true;
+    }
+
+    public void resetDirty() {
+        this.dirty = false;
+    }
+
     @Override
     public String toString() {
         return "UserPreferences{" +
                 "language=" + language +
                 ", systemTray=" + systemTray +
                 ", proxy=" + proxy +
+                ", security=" + security +
                 ", disabledPlugins=" + disabledPlugins +
                 '}';
     }

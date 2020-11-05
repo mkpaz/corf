@@ -11,8 +11,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.*;
+import org.telekit.base.ApplicationContext;
+import org.telekit.base.Env;
+import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
+import org.telekit.base.domain.SecuredData;
 import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.DependencyModule;
@@ -22,10 +25,15 @@ import org.telekit.base.plugin.internal.PluginCleaner;
 import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.preferences.PKCS12Vault;
+import org.telekit.base.preferences.Security;
+import org.telekit.base.preferences.Vault;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.LauncherDefaults;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.CommonUtils;
+import org.telekit.base.util.Mappers;
+import org.telekit.base.util.PasswordGenerator;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.main.MainController;
@@ -44,6 +52,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.*;
@@ -51,7 +60,10 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static org.telekit.base.Env.*;
+import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
+import static org.telekit.base.service.Encryptor.generateKey;
 import static org.telekit.base.ui.IconCache.ICON_APP;
+import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.MessageKeys.QUIT;
 
@@ -82,9 +94,9 @@ public class Launcher extends Application implements LauncherDefaults {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // set exception handler first
-        exceptionHandler = new ExceptionHandler(primaryStage);
+        this.exceptionHandler = new ExceptionHandler(primaryStage);
         Thread.currentThread().setUncaughtExceptionHandler(
-                (thread, throwable) -> exceptionHandler.showErrorDialog(throwable)
+                (thread, throwable) -> this.exceptionHandler.showErrorDialog(throwable)
         );
 
         // initialize application and set class-level variables
@@ -129,7 +141,7 @@ public class Launcher extends Application implements LauncherDefaults {
         });
 
         // create tray icon (won't work in some Linux DE)
-        if (preferences.isSystemTray()) {
+        if (this.preferences.isSystemTray()) {
             createTrayIcon(primaryStage);
         }
     }
@@ -137,10 +149,9 @@ public class Launcher extends Application implements LauncherDefaults {
     @Override
     public void stop() {
         try {
-            pluginManager.stopAllPlugins();
+            this.pluginManager.stopAllPlugins();
         } catch (PluginException ignored) {
-            // even if some plugin wasn't stopped, it shouldn't
-            // prevent application from shutting down
+            // even if some plugin wasn't stopped, it shouldn't prevent application from shutting down
         }
     }
 
@@ -164,9 +175,9 @@ public class Launcher extends Application implements LauncherDefaults {
 
     // ATTENTION: code order matters, some of these methods initialize class level variables
     private void initialize() throws Exception {
-        setupLogging(); // initializes logger variable
+        this.logger = setupLogging(); // initializes logger variable
         logEnvironmentInfo();
-        loadApplicationProperties(); // load properties from application.properties file
+        loadApplicationProperties();  // load properties from application.properties file
         createUserResources();
 
         // cleanup previously uninstalled plugins
@@ -174,32 +185,44 @@ public class Launcher extends Application implements LauncherDefaults {
         cleaner.executeAllSilently();
 
         // create app preferences, they will be required later
-        createApplicationPreferences();
+        YAMLMapper yamlMapper = Mappers.createYamlMapper();
+        this.preferences = loadApplicationPreferences(yamlMapper);
+
+        // load master key vault
+        Vault vault = loadKeyVault();
+
+        // save preferences if changes were made
+        if (this.preferences.isDirty()) {
+            ApplicationPreferences.save(this.preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
+            preferences.resetDirty();
+        }
 
         // set default locale, after that any component can just call Locale.getDefault()
-        // env variable has a priority (for testing purposes)
         Locale.setDefault(preferences.getLocale());
 
         // find and load all plugins (but don't start them)
-        pluginManager = new PluginManager(preferences);
-        pluginManager.loadAllPlugins();
+        this.pluginManager = new PluginManager(this.preferences);
+        this.pluginManager.loadAllPlugins();
 
         // collect all modules and initialize application context
         List<DependencyModule> modules = new ArrayList<>();
-        modules.add(new MainDependencyModule(preferences, pluginManager));
-        for (PluginBox container : pluginManager.getAllPlugins()) {
+        modules.add(new MainDependencyModule(
+                this.preferences,
+                this.pluginManager,
+                vault
+        ));
+        for (PluginBox container : this.pluginManager.getAllPlugins()) {
             Plugin plugin = container.getPlugin();
             modules.addAll(plugin.getModules());
         }
-        applicationContext.configure(modules);
+        this.applicationContext.configure(modules);
 
         // start plugins
         try {
             // TODO: notify user if some plugins weren't started
-
             // NOTE: plugins should be started BEFORE MainController initialization
             //       because it queries extensions to build-up menu bar
-            pluginManager.startAllPlugins();
+            this.pluginManager.startAllPlugins();
 
         } catch (PluginException ignored) {
             // even if some plugin wasn't started, it shouldn't prevent application
@@ -208,15 +231,15 @@ public class Launcher extends Application implements LauncherDefaults {
 
         // load resource bundles
         Messages.getInstance().load(
-                ControlsMessagesBundleProvider.getBundle(preferences.getLocale()),
+                ControlsMessagesBundleProvider.getBundle(Locale.getDefault()),
                 ControlsMessagesBundleProvider.class.getName()
         );
         Messages.getInstance().load(
-                BaseMessagesBundleProvider.getBundle(preferences.getLocale()),
+                BaseMessagesBundleProvider.getBundle(Locale.getDefault()),
                 BaseMessagesBundleProvider.class.getName()
         );
         Messages.getInstance().load(
-                ResourceBundle.getBundle(I18N_RESOURCES_PATH, preferences.getLocale(), Launcher.class.getModule()),
+                ResourceBundle.getBundle(I18N_RESOURCES_PATH, Locale.getDefault(), Launcher.class.getModule()),
                 Launcher.class.getName()
         );
 
@@ -224,7 +247,7 @@ public class Launcher extends Application implements LauncherDefaults {
         executeMigrationTasks();
     }
 
-    private void setupLogging() {
+    private Logger setupLogging() {
         try {
             LogManager logManager = LogManager.getLogManager();
             Path configPath = DATA_DIR.resolve(LOG_CONFIG_FILE_NAME);
@@ -242,43 +265,45 @@ public class Launcher extends Application implements LauncherDefaults {
                         new ByteArrayInputStream(String.join("\n", configData).getBytes())
                 );
             }
-
-            logger = Logger.getLogger(this.getClass().getName());
-
         } catch (IOException e) {
+            // TODO: configure logger programmatically if error occurred (or read 100% valid config from classpath)
             e.printStackTrace();
         }
+
+        return Logger.getLogger(this.getClass().getName());
     }
 
     private void logEnvironmentInfo() {
+        Logger log = this.logger;
         try {
-            logger.info("OS=" + System.getProperty("os.name"));
-            logger.info("OS arch=" + System.getProperty("os.arch"));
-            Screen.getScreens().forEach(screen -> logger.info(
+            log.info("OS=" + System.getProperty("os.name"));
+            log.info("OS arch=" + System.getProperty("os.arch"));
+            Screen.getScreens().forEach(screen -> log.info(
                     "Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi()
             ));
 
-            logger.info("Supported locales:");
+            log.info("Supported locales:");
             Locale[] locales = SimpleDateFormat.getAvailableLocales();
             for (Locale locale : locales) {
-                logger.info(locale.toString() + " / " + locale.getDisplayName());
+                log.info(locale.toString() + " / " + locale.getDisplayName());
             }
 
-            logger.info("Supported SSL/TLS ciphers:");
+            log.info("Supported SSL/TLS ciphers:");
             SSLServerSocketFactory sslSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
             String[] ciphers = sslSocketFactory.getDefaultCipherSuites();
             for (String cipherSuite : ciphers) {
-                logger.info(cipherSuite);
+                log.info(cipherSuite);
             }
-        } catch (Throwable ignored) { }
+        } catch (Throwable ignored) {}
     }
 
     // - JavaFX doesn't support system tray at all
-    // - AWT system tray support is outdated and it may not work in KDE and Gnome3+
+    // - AWT system tray support is pretty outdated and it may not work in KDE and Gnome3+
     // - dorkbox.SystemTray library is the best option but it's not JDK11 compliant
     //   because it relies on JDK internal API (com.sun.*)
-    // You may choose whatever you like :)
+    // Don't hesitate to choose whatever you like :)
     private void createTrayIcon(Stage primaryStage) {
+        // TODO: [0.9] move to desktop utils
         String xdgCurrentDesktop = System.getenv("XDG_CURRENT_DESKTOP");
         boolean badTraySupport = xdgCurrentDesktop != null && (
                 xdgCurrentDesktop.toLowerCase().contains("kde") |
@@ -335,15 +360,40 @@ public class Launcher extends Application implements LauncherDefaults {
         }
     }
 
-    private void createApplicationPreferences() {
-        YAMLMapper yamlMapper = Mappers.createYamlMapper();
-
+    private ApplicationPreferences loadApplicationPreferences(YAMLMapper yamlMapper) {
         if (Files.exists(ApplicationPreferences.CONFIG_PATH)) {
-            preferences = ApplicationPreferences.load(yamlMapper, ApplicationPreferences.CONFIG_PATH);
+            // application can't work without preferences, don't make attempts to recover
+            return ApplicationPreferences.load(yamlMapper, ApplicationPreferences.CONFIG_PATH);
         } else {
-            preferences = new ApplicationPreferences();
-            ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
+            ApplicationPreferences preferences = new ApplicationPreferences();
+            preferences.setDirty();
+            return preferences;
         }
+    }
+
+    private Vault loadKeyVault() {
+        Security security = this.preferences.getSecurity();
+        Path vaultFilePath = security.getVaultFilePath();
+
+        Vault vault = new PKCS12Vault(vaultFilePath);
+        if (!Files.exists(vaultFilePath)) {
+            Key key = generateKey(DEFAULT_ENCRYPTION_ALG);
+
+            // if vault file is deleted, create a new one and update password in security preferences
+            security.setVaultPassword(SecuredData.fromString(
+                    PasswordGenerator.random(16, ASCII_LOWER_UPPER_DIGITS)
+            ));
+            byte[] vaultPassword = security.getDerivedVaultPassword();
+
+            vault.unlock(vaultPassword);
+            vault.putKey(MASTER_KEY_ALIAS, vaultPassword, key);
+            vault.save(vaultPassword);
+
+            // vault password was updated
+            this.preferences.setDirty();
+        }
+
+        return vault;
     }
 
     @Deprecated
@@ -354,8 +404,8 @@ public class Launcher extends Application implements LauncherDefaults {
             }
         } catch (IOException ignored) {}
 
-        ACMigrationUtils.migrateXmlConfigToYaml(applicationContext);
-        IFBMigrationUtils.migrateXmlConfigToYaml(applicationContext);
+        ACMigrationUtils.migrateXmlConfigToYaml(this.applicationContext);
+        IFBMigrationUtils.migrateXmlConfigToYaml(this.applicationContext);
     }
 
     private void createUserResources() throws Exception {

@@ -1,6 +1,9 @@
 package org.telekit.ui.main;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import fontawesomefx.fa.FontAwesomeIcon;
+import fontawesomefx.fa.FontAwesomeIconView;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,11 +15,7 @@ import javafx.stage.Stage;
 import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.ui.IconCache;
-import org.telekit.base.ui.UILoader;
 import org.telekit.base.domain.ProgressIndicatorEvent;
-import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.plugin.internal.ExtensionBox;
@@ -24,6 +23,12 @@ import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.plugin.internal.PluginState;
 import org.telekit.base.plugin.internal.PluginStateChangedEvent;
 import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.preferences.Security;
+import org.telekit.base.preferences.Vault;
+import org.telekit.base.ui.Controller;
+import org.telekit.base.ui.Dialogs;
+import org.telekit.base.ui.IconCache;
+import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.ui.Launcher;
 import org.telekit.ui.domain.ApplicationEvent;
@@ -47,6 +52,10 @@ public class MainController extends Controller {
     private static final int MB = 1024 * 1024;
     private static final int MINUTE = 1000 * 60;
 
+    private static final int VAULT_LOCKED = 0;
+    private static final int VAULT_UNLOCKED = 1;
+    private static final int VAULT_UNLOCK_FAILED = -1;
+
     public @FXML TabPane tpaneTools;
     public Stage primaryStage;
     public Timer memoryMonitoringTimer;
@@ -57,19 +66,26 @@ public class MainController extends Controller {
     public @FXML CheckMenuItem cmAlwaysOnTop;
 
     // status bar
+    public @FXML FontAwesomeIconView vaultStatusIcon;
     public @FXML ProgressBar pbarMemory;
     public @FXML Text txMemory;
     public @FXML HBox hboxProgressIndicator;
 
-    public final Set<String> activeTasks = ConcurrentHashMap.newKeySet();
+    private final Set<String> activeTasks = ConcurrentHashMap.newKeySet();
     private final ApplicationPreferences preferences;
     private final YAMLMapper yamlMapper;
     private final PluginManager pluginManager;
+    private final Vault vault;
+    private final SimpleIntegerProperty vaultState = new SimpleIntegerProperty(VAULT_LOCKED);
 
     @Inject
-    public MainController(ApplicationPreferences preferences, PluginManager pluginManager, YAMLMapper yamlMapper) {
+    public MainController(ApplicationPreferences preferences,
+                          PluginManager pluginManager,
+                          Vault vault,
+                          YAMLMapper yamlMapper) {
         this.preferences = preferences;
         this.pluginManager = pluginManager;
+        this.vault = vault;
         this.yamlMapper = yamlMapper;
     }
 
@@ -82,6 +98,31 @@ public class MainController extends Controller {
         reloadPluginsMenu();
 
         memoryMonitoringTimer = startMemoryUsageMonitoring();
+
+        vaultState.addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) return;
+            vaultStatusIcon.getStyleClass().removeIf(style -> style.equals("error"));
+
+            if (newValue.intValue() == VAULT_LOCKED) {
+                vaultStatusIcon.setIcon(FontAwesomeIcon.LOCK);
+            }
+            if (newValue.intValue() == VAULT_UNLOCKED) {
+                vaultStatusIcon.setIcon(FontAwesomeIcon.UNLOCK);
+            }
+            if (newValue.intValue() == VAULT_UNLOCK_FAILED) {
+                vaultStatusIcon.setIcon(FontAwesomeIcon.LOCK);
+                vaultStatusIcon.getStyleClass().add("error");
+            }
+        });
+
+        try {
+            Security security = preferences.getSecurity();
+            if (security.isAutoUnlock() && !vault.isUnlocked()) vault.unlock(security.getDerivedVaultPassword());
+            if (vault.isUnlocked()) vaultState.set(VAULT_UNLOCKED); // also handles newly created vault
+        } catch (Exception e) {
+            System.out.println(3);
+            vaultState.set(VAULT_UNLOCK_FAILED);
+        }
     }
 
     private void reloadPluginsMenu() {
@@ -358,7 +399,10 @@ public class MainController extends Controller {
     private void onApplicationEvent(ApplicationEvent event) {
         switch (event.getType()) {
             case RESTART_REQUIRED -> primaryStage.setTitle(Env.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
-            case PREFERENCES_CHANGED -> ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
+            case PREFERENCES_CHANGED -> {
+                ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
+                preferences.resetDirty();
+            }
         }
     }
 

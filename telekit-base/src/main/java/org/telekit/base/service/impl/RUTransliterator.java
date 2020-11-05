@@ -1,4 +1,6 @@
-package org.telekit.base.service;
+package org.telekit.base.service.impl;
+
+import org.telekit.base.service.Transliterator;
 
 import java.util.*;
 

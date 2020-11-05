@@ -6,7 +6,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import org.telekit.base.ui.Controller;
 import org.telekit.controls.util.ExtraBindings;
-import org.telekit.base.service.RUTransliterator;
+import org.telekit.base.service.impl.RUTransliterator;
 import org.telekit.base.service.Transliterator;
 
 import java.util.List;
