@@ -51,7 +51,7 @@ module telekit.base {
     exports org.telekit.base.domain;
     exports org.telekit.base.feather;
     exports org.telekit.base.i18n;
-    exports org.telekit.base.preferences;
+    exports org.telekit.base.preferences to telekit.ui, com.fasterxml.jackson.databind;
     exports org.telekit.base.plugin;
     exports org.telekit.base.plugin.internal to telekit.ui;
     exports org.telekit.base.service;

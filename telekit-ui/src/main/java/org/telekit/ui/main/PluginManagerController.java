@@ -268,6 +268,7 @@ public class PluginManagerController extends Controller {
                 preferences.getDisabledPlugins().add(className(pluginBox.getPluginClass()));
             }
         } catch (PluginException e) {
+            // PluginException already contains internationalized message
             throw new TelekitException(e.getMessage(), e);
         }
 

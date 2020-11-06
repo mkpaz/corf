@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IconCache {
+public final class IconCache {
 
     public static final String ICON_APP = "ICON_APP";
 

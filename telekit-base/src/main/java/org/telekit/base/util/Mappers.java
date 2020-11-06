@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import static org.apache.commons.lang3.StringUtils.trim;
 
-public class Mappers {
+public final class Mappers {
 
     public static XmlMapper createXmlMapper() {
         XMLInputFactory inputFactory = new WstxInputFactory();

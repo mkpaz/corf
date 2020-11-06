@@ -25,17 +25,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
-import org.telekit.base.ui.IconCache;
-import org.telekit.base.ui.UILoader;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
 import org.telekit.base.ui.Dialogs;
-import org.telekit.controls.util.ExtraBindings;
-import org.telekit.base.i18n.Messages;
-import org.telekit.base.util.CSVUtils;
+import org.telekit.base.ui.IconCache;
+import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
+import org.telekit.base.util.TextBuilder;
+import org.telekit.controls.util.ExtraBindings;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 import org.telekit.ui.main.Views;
 import org.telekit.ui.tools.Action;
@@ -55,8 +55,14 @@ import java.util.concurrent.CompletableFuture;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.ui.IconCache.ICON_APP;
+import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
+import static org.telekit.base.util.CSVUtils.textToTable;
+import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.ui.main.MessageKeys.*;
 import static org.telekit.ui.tools.Action.NEW;
+import static org.telekit.ui.tools.api_client.Executor.MAX_CSV_SIZE;
+import static org.telekit.ui.tools.import_file_builder.Generator.Warning;
+import static org.telekit.ui.tools.import_file_builder.Generator.validate;
 
 public class RootController extends Controller {
 
@@ -153,7 +159,7 @@ public class RootController extends Controller {
     private void countCsvLines() {
         // avoid binding this directly to the label text property
         // if csv text size is big enough, it will lead to extensive memory usage on multiple subsequent edits
-        int count = CSVUtils.countNotBlankLines(taCsv.getText().trim());
+        int count = countNotBlankLines(taCsv.getText().trim());
         lbListLineCount.setText(String.valueOf(count));
     }
 
@@ -406,7 +412,7 @@ public class RootController extends Controller {
         if (cmbTemplate.getSelectionModel().isEmpty() || StringUtils.isBlank(taCsv.getText())) return;
 
         Template template = cmbTemplate.getSelectionModel().getSelectedItem();
-        String[][] csv = CSVUtils.splitToTable(taCsv.getText());
+        String[][] csv = textToTable(taCsv.getText(), COMMA_OR_SEMICOLON);
 
         // validate
         boolean inputValid = validateInputData(template, csv);
@@ -458,7 +464,7 @@ public class RootController extends Controller {
     }
 
     private boolean validateInputData(Template template, String[][] csv) {
-        List<Generator.Warning> warnings = Generator.validate(template, csv);
+        List<Warning> warnings = validate(template, csv);
         if (warnings.isEmpty()) return true;
 
         // some warning need to be shown
@@ -467,24 +473,21 @@ public class RootController extends Controller {
                 .content("")
                 .owner(rootPane.getScene().getWindow())
                 .build();
-        StringBuilder message = new StringBuilder();
-        message.append(Messages.get(TOOLS_MSG_VALIDATION_HEAD_0) + ":\n");
 
-        if (warnings.contains(Generator.Warning.BLANK_LINES))
-            message.append("- " + Messages.get(TOOLS_MSG_VALIDATION_BLANK_LINES) + ";\n");
-        if (warnings.contains(Generator.Warning.MIXED_CSV_SIZE))
-            message.append("- " + Messages.get(TOOLS_MSG_VALIDATION_MIXED_CSV) + ";\n");
-        if (warnings.contains(Generator.Warning.UNRESOLVED_PLACEHOLDERS))
-            message.append("- " + Messages.get(TOOLS_MSG_VALIDATION_UNRESOLVED_PLACEHOLDERS) + ";\n");
-        if (warnings.contains(Generator.Warning.CSV_THRESHOLD_EXCEEDED))
-            message.append("- " + Messages.get(TOOLS_MSG_VALIDATION_CSV_THRESHOLD_EXCEEDED, Generator.MAX_CSV_SIZE) + ";\n");
+        TextBuilder text = new TextBuilder();
+        text.appendLine(Messages.get(TOOLS_MSG_VALIDATION_HEAD));
+        if (warnings.contains(Warning.BLANK_PARAM_VALUES))
+            text.appendLine(Messages.get(TOOLS_MSG_VALIDATION_BLANK_PARAM_VALUES));
+        if (warnings.contains(Warning.MIXED_CSV_SIZE))
+            text.appendLine(Messages.get(TOOLS_MSG_VALIDATION_MIXED_CSV));
+        if (warnings.contains(Warning.UNRESOLVED_PLACEHOLDERS))
+            text.appendLine(Messages.get(TOOLS_MSG_VALIDATION_UNRESOLVED_PLACEHOLDERS));
+        if (warnings.contains(Warning.CSV_THRESHOLD_EXCEEDED))
+            text.appendLine(Messages.get(TOOLS_MSG_VALIDATION_CSV_THRESHOLD_EXCEEDED, MAX_CSV_SIZE));
+        text.newLine();
+        text.append(Messages.get(TOOLS_MSG_VALIDATION_TAIL));
 
-        message.append("\n");
-        message.append(Messages.get(TOOLS_MSG_VALIDATION_TAIL_0) + ".\n");
-        message.append("\n");
-        message.append(Messages.get(TOOLS_MSG_VALIDATION_TAIL_1) + ".\n");
-
-        Label label = new Label(message.toString());
+        Label label = new Label(text.toString());
         label.setWrapText(true);
         dialog.getDialogPane().setContent(label);
 
@@ -514,8 +517,8 @@ public class RootController extends Controller {
             return;
         }
 
-        String[][] curColumns = CSVUtils.splitToTable(curText);
-        String[][] newColumns = CSVUtils.splitToTable(clipboardContent);
+        String[][] curColumns = textToTable(curText, COMMA_OR_SEMICOLON);
+        String[][] newColumns = textToTable(clipboardContent, COMMA_OR_SEMICOLON);
         StringBuilder sb = new StringBuilder();
         for (int rowIndex = 0; rowIndex < curColumns.length; rowIndex++) {
             String[] curRow = curColumns[rowIndex];

@@ -31,8 +31,7 @@ public interface Plugin {
 
     void stop();
 
-    @Nullable
-    default URL getLocation() {
+    default @Nullable URL getLocation() {
         CodeSource codeSource = getClass().getProtectionDomain().getCodeSource();
         return codeSource != null ? codeSource.getLocation() : null;
     }

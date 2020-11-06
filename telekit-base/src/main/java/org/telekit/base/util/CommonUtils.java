@@ -1,42 +1,51 @@
 package org.telekit.base.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+import java.util.Properties;
 
 public final class CommonUtils {
 
-    private static final String OS = System.getProperty("os.name").toLowerCase();
-
-    public static boolean isWindows() {
-        return OS.contains("win");
-    }
-
-    public static boolean isUnix() {
-        return OS.contains("nix") || OS.contains("nux") || OS.indexOf("aix") > 0;
-    }
-
-    public static String getPropertyOrEnv(String propertyKey, String envKey) {
+    public static @Nullable String getPropertyOrEnv(String propertyKey, String envKey) {
         return System.getProperty(propertyKey, System.getenv(envKey));
     }
 
-    public static Path defaultPath(String strPath, Path defaultPath) {
-        return strPath != null ? Paths.get(strPath) : defaultPath;
+    public static @NotNull Properties loadProperties(File file) {
+        return loadProperties(file, StandardCharsets.UTF_8);
     }
 
-    public static String className(@NotNull Class<?> cls) {
-        return cls.getCanonicalName();
+    public static @NotNull Properties loadProperties(File file, Charset charset) {
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), charset)) {
+            Properties properties = new Properties();
+            properties.load(reader);
+            return properties;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static String objectClassName(@NotNull Object object) {
-        return object.getClass().getCanonicalName();
+    public static @NotNull String className(Class<?> cls) {
+        return Objects.requireNonNull(cls).getCanonicalName();
     }
 
-    /** Catches and ignores any raised exceptions */
+    public static @NotNull String objectClassName(Object object) {
+        return Objects.requireNonNull(object).getClass().getCanonicalName();
+    }
+
+    /**
+     * Catches and ignores any raised exceptions.
+     */
     public static void hush(Runnable runnable) {
         try {
-            runnable.run();
+            Objects.requireNonNull(runnable).run();
         } catch (Throwable e) {
             e.printStackTrace();
         }

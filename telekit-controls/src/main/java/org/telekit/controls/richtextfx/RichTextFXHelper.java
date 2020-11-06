@@ -4,7 +4,7 @@ import javafx.css.PseudoClass;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.GenericStyledArea;
 
-public class RichTextFXHelper {
+public final class RichTextFXHelper {
 
     private static final PseudoClass FOCUSED = PseudoClass.getPseudoClass("focused");
 

@@ -1,34 +1,35 @@
 package org.telekit.base.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.LineSeparator;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public final class CSVUtils {
 
-    public static final String CSV_DELIMITER = "[,;]";
+    public static final String COMMA_OR_SEMICOLON = "[,;]";
 
-    public static int countNotBlankLines(String text) {
-        int count = 0;
-        if (isNotBlank(text)) {
-            String csvNoEmptyLines = text.replaceAll("(?m)^[ \t]*\r?\n", "");
-            count = csvNoEmptyLines.split(LineSeparator.LINE_SPLIT_PATTERN, -1).length;
-        }
-        return count;
-    }
+    /**
+     * Splits CSV text to matrix by using specified separator.
+     * Warning: this method does not respect CSV quotes.
+     */
+    public static @NotNull String[][] textToTable(String text, String valueSeparator) {
+        Objects.requireNonNull(text);
+        Objects.requireNonNull(valueSeparator);
 
-    public static String[][] splitToTable(String text) {
-        String[] lines = text.split(LineSeparator.LINE_SPLIT_PATTERN);
-        String[][] result = new String[lines.length][];
+        if (text.isBlank() || valueSeparator.isBlank()) return new String[][] {};
+
+        String[] rows = text.split(LineSeparator.LINE_SPLIT_PATTERN);
+        String[][] table = new String[rows.length][];
         int nonEmptyRows = 0;
-        for (String line : lines) {
-            if (isBlank(line)) continue;
-            result[nonEmptyRows] = line.split(CSV_DELIMITER);
+        for (String row : rows) {
+            if (isBlank(row)) continue;
+            table[nonEmptyRows] = row.split(valueSeparator);
             nonEmptyRows++;
         }
-        return Arrays.copyOfRange(result, 0, nonEmptyRows);
+        return Arrays.copyOfRange(table, 0, nonEmptyRows);
     }
 }

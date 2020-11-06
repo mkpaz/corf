@@ -15,7 +15,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(BaseSetup.class)
-class PluginLoaderTest {
+public class PluginLoaderTest {
 
     @Test
     @DisplayName("verify that loader ignores abstract classes and interfaces")

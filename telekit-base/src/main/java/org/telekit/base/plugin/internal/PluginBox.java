@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.telekit.base.plugin.Plugin.PLUGIN_DOCS_INDEX_FILE_PREFIX;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.findFilesByPrefix;
-import static org.telekit.base.util.FileUtils.isDirEmpty;
+import static org.telekit.base.util.FileUtils.isFolderEmpty;
 
 public class PluginBox {
 
@@ -82,7 +82,7 @@ public class PluginBox {
 
     public boolean hasStoredData() {
         Path pluginDataDir = Env.getPluginDataDir(plugin.getClass());
-        return Files.exists(pluginDataDir) && isDirEmpty(pluginDataDir);
+        return Files.exists(pluginDataDir) && isFolderEmpty(pluginDataDir);
     }
 
     public @Nullable Path getPluginJarPath() {

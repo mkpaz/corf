@@ -5,8 +5,8 @@ import org.telekit.base.util.PlaceholderReplacer;
 
 import static j2html.TagCreator.*;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.telekit.base.util.CollectionUtils.ensureNotNull;
 import static org.telekit.base.util.CollectionUtils.isNotEmpty;
-import static org.telekit.base.util.CollectionUtils.nullToEmpty;
 
 public final class PreviewRenderer {
 
@@ -36,7 +36,7 @@ public final class PreviewRenderer {
                               th("LENGTH")
                       ),
                       tbody(
-                              each(nullToEmpty(template.getParams()), param ->
+                              each(ensureNotNull(template.getParams()), param ->
                                       tr(
                                               td(param.getName()),
                                               td(String.valueOf(param.getType())),
@@ -46,15 +46,16 @@ public final class PreviewRenderer {
                       )
                 );
 
-        String content =
-                div(attrs(".wrapper"),
-                    h3("Template: " + template.getName()),
-                    templateHTML,
-                    iff(isNotEmpty(template.getParams()), h3("Params:")),
-                    iff(isNotEmpty(template.getParams()), paramsHTML)
-                )
-                        .render()
-                        .replaceAll("(" + PlaceholderReplacer.PLACEHOLDER_PATTERN + ")", "<span class='placeholder'>$1</span>");
+        Tag<?> wrapperHTML = div(attrs(".wrapper"),
+                                 h3("Template: " + template.getName()),
+                                 templateHTML,
+                                 iff(isNotEmpty(template.getParams()), h3("Params:")),
+                                 iff(isNotEmpty(template.getParams()), paramsHTML)
+        );
+
+        String content = wrapperHTML
+                .render()
+                .replaceAll("(" + PlaceholderReplacer.PLACEHOLDER_PATTERN + ")", "<span class='placeholder'>$1</span>");
 
         return document(html(
                 head(style(CSS)),

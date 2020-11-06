@@ -3,7 +3,6 @@ package org.telekit.base.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.telekit.base.ApplicationContext;
-import org.telekit.base.ui.Controller;
 import org.telekit.base.plugin.Plugin;
 
 import java.net.URL;
@@ -23,11 +22,15 @@ public final class UILoader {
         return loadImpl(fxmlLocation, pluginClass, null);
     }
 
-    public static Controller load(URL fxmlLocation, Class<? extends Plugin> pluginClass, ResourceBundle resourceBundles) {
-        return loadImpl(fxmlLocation, pluginClass, resourceBundles);
+    public static Controller load(URL fxmlLocation,
+                                  Class<? extends Plugin> pluginClass,
+                                  ResourceBundle resourceBundle) {
+        return loadImpl(fxmlLocation, pluginClass, resourceBundle);
     }
 
-    private static Controller loadImpl(URL fxmlLocation, Class<?> clazz, ResourceBundle resourceBundle) {
+    private static Controller loadImpl(URL fxmlLocation,
+                                       Class<?> clazz,
+                                       ResourceBundle resourceBundle) {
         try {
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             loader.setControllerFactory(ApplicationContext.getInstance()::getBean);
@@ -39,13 +42,21 @@ public final class UILoader {
                 loader.setResources(resourceBundle);
             }
 
+            // TODO: implement controllers caching (or replace fxml with Java code)
+
+            // NOTE:
+            // The FXMLLoader is currently not designed to perform as a template provider that
+            // instantiates the same item over and over again. Rather it is meant to be a one-time-loader
+            // for large GUIs (or to serialize them).
+            // https://stackoverflow.com/a/11735301/7421700
+
             Parent parent = loader.load();
             Controller controller = loader.getController();
             controller.setParent(parent);
 
             return controller;
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 }

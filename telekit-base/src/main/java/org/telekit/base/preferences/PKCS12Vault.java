@@ -52,7 +52,7 @@ public class PKCS12Vault implements Vault {
     @Override
     public Optional<Key> getKey(String alias, byte[] password) {
         if (!loaded) {
-            VaultLockedException.fire();
+            throw new VaultLockedException();
         }
 
         Objects.requireNonNull(alias);
@@ -71,7 +71,7 @@ public class PKCS12Vault implements Vault {
     @Override
     public void putKey(String alias, byte[] password, Key key) {
         if (!loaded) {
-            VaultLockedException.fire();
+            throw new VaultLockedException();
         }
 
         Objects.requireNonNull(alias);
@@ -120,7 +120,7 @@ public class PKCS12Vault implements Vault {
     @Override
     public void save(byte[] password) {
         if (!loaded) {
-            VaultLockedException.fire();
+            throw new VaultLockedException();
         }
 
         Objects.requireNonNull(password);

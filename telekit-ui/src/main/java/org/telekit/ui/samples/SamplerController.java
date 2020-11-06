@@ -1,4 +1,4 @@
-package org.telekit.ui.test;
+package org.telekit.ui.samples;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PreviewController extends Controller {
+public class SamplerController extends Controller {
 
     public @FXML ChoiceBox<String> choiceBoxA;
     public @FXML ChoiceBox<String> choiceBoxB;

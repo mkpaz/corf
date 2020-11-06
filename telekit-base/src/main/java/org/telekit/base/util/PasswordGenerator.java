@@ -1,14 +1,18 @@
 package org.telekit.base.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.telekit.base.util.CollectionUtils.unmodifiableMerge;
 
-public class PasswordGenerator {
+public final class PasswordGenerator {
+
+    public static final int DEFAULT_PASSWORD_LENGTH = 12;
 
     private static final Random RANDOM = new Random();
-    private static final int DEFAULT_PASSWORD_LENGTH = 12;
 
     // @formatter:off
     public static final List<Character> ASCII_LOWER = List.of(
@@ -25,12 +29,13 @@ public class PasswordGenerator {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     );
 
+    // no brackets or another indistinguishable chars
     public static final List<Character> ASCII_SPECIAL_CHARS = List.of(
-            '=', '-', '!', '#', '$', '%', '&', '@', '*', '_', '~', '?' // no brackets or another indistinguishable chars
+            '=', '-', '!', '#', '$', '%', '&', '@', '*', '_', '~', '?'
     );
 
     public static final List<Character> CONSONANTS = List.of(
-            'K', 'S', 'T', 'N', 'H', 'M', 'Y', 'R', 'W', 'F', 'G', 'Z', 'D', 'B', 'P'
+            'k', 's', 't', 'n', 'h', 'm', 'y', 'r', 'w', 'f', 'g', 'z', 'd', 'b', 'p'
     );
 
     public static final List<Character> VOWELS = List.of(
@@ -38,48 +43,54 @@ public class PasswordGenerator {
     );
     // @formatter:on
 
-    public static final List<Character> ASCII_LOWER_DIGITS = CollectionUtils.unmodifiableMerge(ASCII_LOWER, ASCII_DIGITS);
-    public static final List<Character> ASCII_LOWER_UPPER_DIGITS = CollectionUtils.unmodifiableMerge(ASCII_LOWER, ASCII_UPPER, ASCII_DIGITS);
-    public static final List<Character> ASCII_ALL = CollectionUtils.unmodifiableMerge(ASCII_LOWER, ASCII_UPPER, ASCII_DIGITS, ASCII_SPECIAL_CHARS);
+    public static final List<Character> ASCII_LOWER_DIGITS = unmodifiableMerge(ASCII_LOWER, ASCII_DIGITS);
+    public static final List<Character> ASCII_LOWER_UPPER_DIGITS = unmodifiableMerge(ASCII_LOWER, ASCII_UPPER, ASCII_DIGITS);
+    public static final List<Character> ASCII_ALL = unmodifiableMerge(ASCII_LOWER, ASCII_UPPER, ASCII_DIGITS, ASCII_SPECIAL_CHARS);
 
-    public static String random(int length, List<Character> sequence) {
-        if (length <= 0 || sequence == null || sequence.isEmpty()) return "";
+    public static @NotNull String random(int length, List<Character> sequence) {
+        if (length <= 0) length = DEFAULT_PASSWORD_LENGTH;
+        if (sequence == null || sequence.isEmpty()) sequence = ASCII_LOWER_UPPER_DIGITS;
 
         StringBuilder result = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            result.append(sequence.get(RANDOM.nextInt(sequence.size())));
+            result.append(pickRandomFrom(sequence));
         }
 
         return result.toString();
     }
 
-    public static String random() {
+    public static @NotNull String random() {
         return random(DEFAULT_PASSWORD_LENGTH, ASCII_LOWER_UPPER_DIGITS);
     }
 
-    public static String katakana(int length) {
-        if (length <= 0) return "";
+    public static @NotNull String katakana(int length, boolean pascalCase) {
+        if (length <= 0) length = DEFAULT_PASSWORD_LENGTH;
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < length; i += 2) {
-            result.append(CONSONANTS.get(RANDOM.nextInt(CONSONANTS.size()))) // odd position
-                    .append(VOWELS.get(RANDOM.nextInt(VOWELS.size()))); // even position
+            char consonant = pickRandomFrom(CONSONANTS);
+            if (pascalCase) consonant = Character.toUpperCase(consonant);
+            result.append(consonant);              // odd pos
+            result.append(pickRandomFrom(VOWELS)); // even pos
         }
 
         return result.substring(0, length);
     }
 
-    public static String katakana() {
+    public static @NotNull String katakana(int length) {
+        return katakana(length, true);
+    }
+
+    public static @NotNull String katakana() {
         return katakana(DEFAULT_PASSWORD_LENGTH);
     }
 
-    public static String onDict(int wordsCount, String separator, List<String> dict) {
+    public static @NotNull String xkcd(int wordsCount, String separator, List<String> dict) {
         if (wordsCount <= 0 || dict == null || dict.isEmpty()) return "";
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < wordsCount; i++) {
-            String word = dict.get(RANDOM.nextInt(dict.size()));
-            result.append(word);
+            result.append(pickRandomFrom(dict));
 
             if (i + 1 < wordsCount) {
                 result.append(separator);
@@ -89,12 +100,7 @@ public class PasswordGenerator {
         return result.toString();
     }
 
-    // TODO: [0.9] move to string utils
-    private static String capitalizeFirstLetter(String str) {
-        return capitalize(str);
-    }
-
-    private static String capitalizeLastLetter(String str) {
-        return str.substring(0, str.length() - 1) + str.substring(str.length() - 1).toUpperCase();
+    public static @NotNull <T> T pickRandomFrom(List<T> list) {
+        return Objects.requireNonNull(list).get(RANDOM.nextInt(list.size()));
     }
 }

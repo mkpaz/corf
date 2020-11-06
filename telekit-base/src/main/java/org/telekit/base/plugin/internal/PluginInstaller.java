@@ -23,7 +23,6 @@ import static org.apache.commons.lang3.StringUtils.endsWithAny;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.telekit.base.Env.getPluginDataDir;
 import static org.telekit.base.Env.getPluginDocsDir;
-import static org.telekit.base.domain.TelekitException.fire;
 import static org.telekit.base.i18n.BaseMessageKeys.*;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileUtils.*;
@@ -197,10 +196,10 @@ public class PluginInstaller {
     }
 
     private static void fireInstallFailed(String reason) {
-        fire(Messages.get(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + Messages.get(reason));
+        throw new TelekitException(Messages.get(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + Messages.get(reason));
     }
 
     private static void fireInstallFailed(String reason, Object... args) {
-        fire(Messages.get(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + Messages.get(reason, args));
+        throw new TelekitException(Messages.get(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + Messages.get(reason, args));
     }
 }

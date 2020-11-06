@@ -9,11 +9,10 @@ public final class PlaceholderReplacer {
 
     public static final String PLACEHOLDER_CHARACTERS = "[a-zA-Z0-9_-]+";
     public static final String PLACEHOLDER_PATTERN = "\\%\\([a-zA-Z0-9_-]+\\)";
-
     public static final Pattern EXPRESSION = Pattern.compile(
-            "\\\\(.)" +                 // Treat any character after a backslash literally
+            "\\\\(.)" +                 // treat any character after a backslash literally
                     "|" +
-                    "(%\\(([^)]+)\\))"  // Look for %(keys) to replace
+                    "(%\\(([^)]+)\\))"  // look for %(keys) to replace
     );
 
     /**
@@ -38,11 +37,11 @@ public final class PlaceholderReplacer {
      */
     public static String format(String fmt, Map<String, String> values) {
         if (isBlank(fmt)) return "";
-        return EXPRESSION.matcher(fmt).replaceAll(match ->
-                                                          match.group(1) != null ?
-                                                                  match.group(1) :
-                                                                  values.getOrDefault(match.group(3), match.group(2))
-        );
+        return EXPRESSION.matcher(fmt)
+                .replaceAll(match -> match.group(1) != null ?
+                        match.group(1) :
+                        values.getOrDefault(match.group(3), match.group(2))
+                );
     }
 
     public static boolean containsPlaceholders(String fmt) {

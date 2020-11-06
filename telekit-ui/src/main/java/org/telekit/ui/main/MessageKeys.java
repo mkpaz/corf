@@ -37,13 +37,12 @@ public interface MessageKeys extends BaseMessageKeys, ControlsMessageKeys {
     String TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN = "tools.only-first-N-rows-will-be-shown";
     String TOOLS_MSG_DELETE_TEMPLATE = "tools.msg.delete-template";
     String TOOLS_MSG_YOU_HAVE_NO_TEMPLATES_TO_PREVIEW = "tools.msg.you-have-no-templates-to-preview";
-    String TOOLS_MSG_VALIDATION_HEAD_0 = "tools.msg.validation.head.0";
-    String TOOLS_MSG_VALIDATION_BLANK_LINES = "tools.msg.validation.blank-lines";
+    String TOOLS_MSG_VALIDATION_HEAD = "tools.msg.validation.head";
+    String TOOLS_MSG_VALIDATION_BLANK_PARAM_VALUES = "tools.msg.validation.blank-param-values";
     String TOOLS_MSG_VALIDATION_MIXED_CSV = "tools.msg.validation.mixed-csv";
     String TOOLS_MSG_VALIDATION_UNRESOLVED_PLACEHOLDERS = "tools.msg.validation.unresolved-placeholders";
     String TOOLS_MSG_VALIDATION_CSV_THRESHOLD_EXCEEDED = "tools.msg.validation.csv-threshold-exceeded";
-    String TOOLS_MSG_VALIDATION_TAIL_0 = "tools.msg.validation.tail.0";
-    String TOOLS_MSG_VALIDATION_TAIL_1 = "tools.msg.validation.tail.1";
+    String TOOLS_MSG_VALIDATION_TAIL = "tools.msg.validation.tail";
 
     String TOOLS_APICLIENT_TASK_REPORT = "tools.api-client.task-report";
     String TOOLS_IPCALC_TASK_REPORT = "tools.ip-calc.IPFormatConverter";

@@ -9,7 +9,7 @@ import org.telekit.base.util.Mappers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(BaseSetup.class)
-class SecuredDataTest {
+public class SecuredDataTest {
 
     @Test
     void testSerialization() throws Exception {

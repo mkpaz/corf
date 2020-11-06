@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.ApplicationContext;
@@ -29,9 +30,8 @@ import org.telekit.base.preferences.PKCS12Vault;
 import org.telekit.base.preferences.Security;
 import org.telekit.base.preferences.Vault;
 import org.telekit.base.ui.IconCache;
-import org.telekit.base.ui.LauncherDefaults;
+import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.ui.UILoader;
-import org.telekit.base.util.CommonUtils;
 import org.telekit.base.util.Mappers;
 import org.telekit.base.util.PasswordGenerator;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
@@ -63,11 +63,12 @@ import static org.telekit.base.Env.*;
 import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
 import static org.telekit.base.service.Encryptor.generateKey;
 import static org.telekit.base.ui.IconCache.ICON_APP;
+import static org.telekit.base.util.DesktopUtils.xdgCurrentDesktopMatches;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.MessageKeys.QUIT;
 
-public class Launcher extends Application implements LauncherDefaults {
+public class Launcher extends Application implements UIDefaults {
 
     public static final int RESTART_EXIT_CODE = 3;
 
@@ -118,8 +119,8 @@ public class Launcher extends Application implements LauncherDefaults {
         Dimension bounds = isScreenFits(PREF_WIDTH, PREF_HEIGHT) ?
                 new Dimension(PREF_WIDTH, PREF_HEIGHT) :
                 new Dimension(MIN_WIDTH, MIN_HEIGHT);
-        if (FORCE_WINDOW_SIZE != null) {
-            bounds = FORCE_WINDOW_SIZE;
+        if (FORCED_WINDOW_SIZE != null) {
+            bounds = FORCED_WINDOW_SIZE;
         } else {
             primaryStage.setMaximized(true);
         }
@@ -191,14 +192,27 @@ public class Launcher extends Application implements LauncherDefaults {
         // load master key vault
         Vault vault = loadKeyVault();
 
+        // set default locale and load resource bundles
+        // after that any component can just call Locale.getDefault()
+        Locale.setDefault(preferences.getLocale());
+        Messages.getInstance().load(
+                ControlsMessagesBundleProvider.getBundle(Locale.getDefault()),
+                ControlsMessagesBundleProvider.class.getName()
+        );
+        Messages.getInstance().load(
+                BaseMessagesBundleProvider.getBundle(Locale.getDefault()),
+                BaseMessagesBundleProvider.class.getName()
+        );
+        Messages.getInstance().load(
+                ResourceBundle.getBundle(I18N_RESOURCES_PATH, Locale.getDefault(), Launcher.class.getModule()),
+                Launcher.class.getName()
+        );
+
         // save preferences if changes were made
         if (this.preferences.isDirty()) {
             ApplicationPreferences.save(this.preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
             preferences.resetDirty();
         }
-
-        // set default locale, after that any component can just call Locale.getDefault()
-        Locale.setDefault(preferences.getLocale());
 
         // find and load all plugins (but don't start them)
         this.pluginManager = new PluginManager(this.preferences);
@@ -229,20 +243,6 @@ public class Launcher extends Application implements LauncherDefaults {
             // from loading because it may work without plugins
         }
 
-        // load resource bundles
-        Messages.getInstance().load(
-                ControlsMessagesBundleProvider.getBundle(Locale.getDefault()),
-                ControlsMessagesBundleProvider.class.getName()
-        );
-        Messages.getInstance().load(
-                BaseMessagesBundleProvider.getBundle(Locale.getDefault()),
-                BaseMessagesBundleProvider.class.getName()
-        );
-        Messages.getInstance().load(
-                ResourceBundle.getBundle(I18N_RESOURCES_PATH, Locale.getDefault(), Launcher.class.getModule()),
-                Launcher.class.getName()
-        );
-
         // migrate data between versions, if required
         executeMigrationTasks();
     }
@@ -255,7 +255,7 @@ public class Launcher extends Application implements LauncherDefaults {
                 String outputPath = APP_DIR.resolve(LOG_OUTPUT_FILE_NAME).toString();
 
                 // JUL can't handle Windows-style paths properly
-                if (CommonUtils.isWindows()) {
+                if (SystemUtils.IS_OS_WINDOWS) {
                     outputPath = outputPath.replace("\\", "/");
                 }
 
@@ -303,14 +303,9 @@ public class Launcher extends Application implements LauncherDefaults {
     //   because it relies on JDK internal API (com.sun.*)
     // Don't hesitate to choose whatever you like :)
     private void createTrayIcon(Stage primaryStage) {
-        // TODO: [0.9] move to desktop utils
-        String xdgCurrentDesktop = System.getenv("XDG_CURRENT_DESKTOP");
-        boolean badTraySupport = xdgCurrentDesktop != null && (
-                xdgCurrentDesktop.toLowerCase().contains("kde") |
-                        xdgCurrentDesktop.toLowerCase().contains("gnome")
-        );
+        boolean badTraySupport = SystemUtils.IS_OS_LINUX && xdgCurrentDesktopMatches("gnome", "kde");
 
-        if (SystemTray.isSupported() && badTraySupport) {
+        if (SystemTray.isSupported() && !badTraySupport) {
             Platform.setImplicitExit(false);
             primaryStage.setOnCloseRequest(t -> Platform.runLater(primaryStage::hide));
 
@@ -356,7 +351,7 @@ public class Launcher extends Application implements LauncherDefaults {
                 );
             }
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 

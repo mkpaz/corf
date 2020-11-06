@@ -1,81 +1,80 @@
 package org.telekit.base.util;
 
+import org.telekit.base.domain.LineSeparator;
+
+/**
+ * Just a convenient wrapper around StringBuilder.
+ */
 public class TextBuilder {
 
-    public static final String LINE_SEPARATOR = "\n";
-
-    private final StringBuilder sb;
-    private final String eol;
+    private final StringBuilder buf;
+    private final String lineSeparator;
 
     public TextBuilder() {
-        this(LINE_SEPARATOR);
+        this(LineSeparator.UNIX);
     }
 
-    public TextBuilder(String eol) {
-        this.sb = new StringBuilder();
-        this.eol = eol;
+    public TextBuilder(LineSeparator lineSeparator) {
+        this.buf = new StringBuilder();
+        this.lineSeparator = lineSeparator.getCharacters();
     }
 
     public TextBuilder append(String str) {
-        sb.append(str);
+        buf.append(str);
         return this;
     }
 
     public TextBuilder append(String... strings) {
         for (String str : strings) {
-            sb.append(str);
+            buf.append(str);
         }
         return this;
     }
 
     public TextBuilder appendIf(boolean condition, String str) {
-        if (condition) {
-            append(str);
-        }
+        if (condition) append(str);
         return this;
     }
 
     public TextBuilder appendLine(String str) {
-        sb.append(str);
+        buf.append(str);
         newLine();
-        return this;
-    }
-
-    public TextBuilder appendLineIf(boolean condition, String str) {
-        if (condition) {
-            appendLine(str);
-        }
         return this;
     }
 
     public TextBuilder appendLine(String... strings) {
         for (String str : strings) {
-            sb.append(str);
+            buf.append(str);
         }
         newLine();
         return this;
     }
 
+    public TextBuilder appendLineIf(boolean condition, String str) {
+        if (condition) appendLine(str);
+        return this;
+    }
+
     public TextBuilder appendLineIf(boolean condition, String... strings) {
-        if (condition) {
-            appendLine(strings);
-        }
+        if (condition) appendLine(strings);
         return this;
     }
 
     public TextBuilder newLine() {
-        sb.append(eol);
+        buf.append(lineSeparator);
         return this;
     }
 
     public TextBuilder newLineIf(boolean condition) {
-        if (condition) {
-            newLine();
-        }
+        if (condition) newLine();
         return this;
     }
 
+    public StringBuilder unwrap() {
+        return buf;
+    }
+
     public String toString() {
-        return sb.toString();
+        return buf.toString();
     }
 }

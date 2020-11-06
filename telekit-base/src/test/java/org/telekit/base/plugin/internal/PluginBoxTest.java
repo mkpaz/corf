@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(BaseSetup.class)
 @TestMethodOrder(MethodOrderer.DisplayName.class)
-class PluginBoxTest {
+public class PluginBoxTest {
 
     @Test
     @DisplayName("verify that plugin provides extensions of specified type")

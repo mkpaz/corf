@@ -20,9 +20,9 @@ public abstract class AbstractEncryptorTest {
 
     private static final int TEST_COLLECTION_SIZE = 20;
 
-    protected Algorithm alg;
-    protected Encryptor encryptor;
-    protected Key key;
+    protected final Algorithm alg;
+    protected final Encryptor encryptor;
+    protected final Key key;
 
     public AbstractEncryptorTest(Algorithm alg) {
         this.alg = alg;

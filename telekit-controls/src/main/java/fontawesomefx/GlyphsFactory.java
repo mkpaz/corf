@@ -45,8 +45,8 @@ public class GlyphsFactory {
         try {
             Field ttfPath = clazz.getField("TTF_PATH");
             path = (String) ttfPath.get(null);
-        } catch (IllegalAccessException | NoSuchFieldException ex) {
-            throw new RuntimeException(ex);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
         }
         return path;
     }
@@ -55,8 +55,8 @@ public class GlyphsFactory {
         try {
             Font.loadFont(GlyphsFactory.class
                     .getResource(pathToIconFont).openStream(), 10.0);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

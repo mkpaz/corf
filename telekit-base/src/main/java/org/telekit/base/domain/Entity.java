@@ -10,20 +10,20 @@ public abstract class Entity<T extends Entity<T, ID>, ID> implements Comparable<
 
     public Entity() {}
 
-    public Entity(@NotNull ID id) {
-        this.id = id;
+    public Entity(ID id) {
+        this.id = Objects.requireNonNull(id);
     }
 
-    public Entity(@NotNull T that) {
-        this.id = that.getId();
+    public Entity(T that) {
+        this.id = Objects.requireNonNull(that).getId();
     }
 
-    public ID getId() {
+    public @NotNull ID getId() {
         return id;
     }
 
-    public void setId(@NotNull ID id) {
-        this.id = id;
+    public void setId(ID id) {
+        this.id = Objects.requireNonNull(id);
     }
 
     @Override
@@ -41,6 +41,7 @@ public abstract class Entity<T extends Entity<T, ID>, ID> implements Comparable<
 
     @Override
     public int compareTo(@NotNull Entity that) {
+        Objects.requireNonNull(that);
         if (this == that) return 0;
         return String.valueOf(id).compareTo(String.valueOf(that.getId()));
     }

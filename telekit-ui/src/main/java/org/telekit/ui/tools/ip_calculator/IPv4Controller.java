@@ -129,19 +129,19 @@ public class IPv4Controller extends Controller {
         tb.appendLine("NETWORK:");
         tb.newLine();
         tb.appendLine(rightPad("Address:", padding),
-                      defaultString(subnet.getNetworkAddress(), EMPTY_DATA));
+                       defaultString(subnet.getNetworkAddress(), EMPTY_DATA));
         tb.appendLine(rightPad("Netmask:", padding),
-                      subnet.getNetmask().toString(), " / ", subnet.getNetmask().toHexString("."));
+                       subnet.getNetmask().toString(), " / ", subnet.getNetmask().toHexString("."));
         tb.appendLine(rightPad("Bitmask:", padding),
-                      String.valueOf(subnet.getPrefixLength()));
+                       String.valueOf(subnet.getPrefixLength()));
         tb.appendLine(rightPad("Hosts:", padding),
-                      subnet.getMinHost().toString(), " - ", subnet.getMaxHost().toString());
+                       subnet.getMinHost().toString(), " - ", subnet.getMaxHost().toString());
         tb.appendLine(rightPad("Available:", padding),
-                      formatCount(subnet.getNumberOfHosts()), " address(es)");
+                       formatCount(subnet.getNumberOfHosts()), " address(es)");
         tb.appendLine(rightPad("Broadcast:", padding),
-                      defaultString(subnet.getBroadcast(), EMPTY_DATA));
+                       defaultString(subnet.getBroadcast(), EMPTY_DATA));
         tb.appendLine(rightPad("Wildcard:", padding),
-                      subnet.getNetmask().reverseBytes().toString());
+                       subnet.getNetmask().reverseBytes().toString());
 
         tb.appendLine(rightPad("Remarks:", padding), "class " + subnet.getNetworkClass() + "-based;");
         List<String> remarks = new ArrayList<>();
@@ -156,11 +156,11 @@ public class IPv4Controller extends Controller {
         tb.appendLine("FORMATS:");
         tb.newLine();
         tb.appendLine(rightPad("Integer:", padding),
-                      String.valueOf(address.longValue()));
+                       String.valueOf(address.longValue()));
         tb.appendLine(rightPad("Binary:", padding),
-                      address.toBinaryString("."));
+                       address.toBinaryString("."));
         tb.appendLine(rightPad("Hex:", padding),
-                      address.toHexString("."));
+                       address.toHexString("."));
 
         taDetails.setText(tb.toString());
     }
@@ -306,7 +306,7 @@ public class IPv4Controller extends Controller {
     private String getBitsUsage(IP4Subnet subnet, int subnetBits) {
         String bitsUsage;
         if (subnet.getPrefixLength() < 31) {
-            bitsUsage = Objects.requireNonNull(subnet.getNetworkAddress()).toBinaryString().substring(0, subnet.getPrefixLength()) +
+            bitsUsage = Objects.requireNonNull(subnet.getHostAddress()).toBinaryString().substring(0, subnet.getPrefixLength()) +
                     "s".repeat(subnetBits) +
                     "h".repeat(subnet.getTrailingBitCount() - subnetBits);
         } else {

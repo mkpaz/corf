@@ -27,9 +27,7 @@ public class DefaultEncryptionService implements EncryptionService {
     public @NotNull byte[] encrypt(byte[] input) {
         Key key = keyProvider.getKey();
         if (key == null) {
-            throw new TelekitException(
-                    Messages.concat(MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA, MGG_CRYPTO_KEY_IS_NOT_PRESENT)
-            );
+            throw new TelekitException(Messages.concat(MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA, MGG_CRYPTO_KEY_IS_NOT_PRESENT));
         }
         return encryptor.encrypt(input, key);
     }
@@ -38,9 +36,7 @@ public class DefaultEncryptionService implements EncryptionService {
     public @NotNull byte[] decrypt(byte[] input) {
         Key key = keyProvider.getKey();
         if (key == null) {
-            throw new TelekitException(
-                    Messages.concat(MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA, MGG_CRYPTO_KEY_IS_NOT_PRESENT)
-            );
+            throw new TelekitException(Messages.concat(MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA, MGG_CRYPTO_KEY_IS_NOT_PRESENT));
         }
         return encryptor.decrypt(input, key);
     }

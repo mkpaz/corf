@@ -74,7 +74,7 @@
                     <execution>
                         <id>preview</id>
                         <configuration>
-                            <mainClass>org.telekit.ui.test.PreviewLauncher</mainClass>
+                            <mainClass>org.telekit.ui.samples.SamplerLauncher</mainClass>
                             <executable>${java.home}/bin/java</executable>
                         </configuration>
                     </execution>

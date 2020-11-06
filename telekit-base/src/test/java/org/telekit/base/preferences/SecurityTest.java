@@ -11,7 +11,7 @@ import org.telekit.base.util.Mappers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(BaseSetup.class)
-class SecurityTest {
+public class SecurityTest {
 
     @Test
     void testSerialization() throws JsonProcessingException {

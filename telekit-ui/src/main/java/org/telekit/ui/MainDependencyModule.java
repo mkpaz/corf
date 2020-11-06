@@ -21,7 +21,7 @@ import javax.inject.Singleton;
 
 import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
 
-public class MainDependencyModule implements DependencyModule {
+public final class MainDependencyModule implements DependencyModule {
 
     private final PluginManager pluginManager;
     private final ApplicationPreferences preferences;

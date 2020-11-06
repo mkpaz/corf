@@ -110,7 +110,6 @@ public class FileBasedRepositoryTest {
     public void add_InvalidEntityWithNullID_ExceptionThrown() {
         assertThatThrownBy(() -> {
             FooEntity invalidEntity = new FooEntity();
-            //noinspection ConstantConditions
             invalidEntity.setId(null);
             fooRepository.add(List.of(invalidEntity));
         }).isInstanceOf(NullPointerException.class);
@@ -180,7 +179,6 @@ public class FileBasedRepositoryTest {
     public void update_InvalidEntityWithNullID_ExceptionThrown() {
         assertThatThrownBy(() -> {
             FooEntity invalidEntity = new FooEntity();
-            //noinspection ConstantConditions
             invalidEntity.setId(null);
             fooRepository.update(invalidEntity);
         }).isInstanceOf(NullPointerException.class);

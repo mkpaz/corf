@@ -3,16 +3,10 @@ package org.telekit.base.util;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,106 +14,107 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public final class FileUtils {
 
-    public static File urlToFile(URL url) {
+    public static @NotNull File urlToFile(URL url) {
         try {
-            return new File(url.toURI());
+            return new File(Objects.requireNonNull(url).toURI());
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static String sanitizeFileName(String filename) {
+    public static @NotNull String sanitizeFileName(String filename) {
+        if (filename == null || filename.isBlank()) return "";
         return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
     }
 
-    public static Properties loadProperties(File file, Charset charset) {
-        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), charset)) {
-            Properties properties = new Properties();
-            properties.load(reader);
-            return properties;
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+    public static @NotNull Path ensureNotNull(String path, Path defaultValue) {
+        return path != null ? Paths.get(path) : Objects.requireNonNull(defaultValue);
     }
 
-    public static @NotNull List<Path> findFilesByPrefix(Path targetDir, String prefix) {
-        if (!Files.exists(targetDir) || !Files.isDirectory(targetDir)) return Collections.emptyList();
-        return Arrays.stream(targetDir.toFile().listFiles((dir, name) -> name.startsWith(prefix)))
+    public static @NotNull List<Path> findFilesByPrefix(Path folder, String prefix) {
+        if (!Files.exists(folder) || !Files.isDirectory(folder)) return Collections.emptyList();
+        return Arrays.stream(folder.toFile().listFiles((dir, name) -> name.startsWith(prefix)))
                 .filter(File::isFile)
                 .map(File::toPath)
                 .collect(Collectors.toList());
     }
 
-    public static Path createTempFile() {
+    public static @NotNull Path createTempFile() {
         return createTempFile(null, null);
     }
 
-    public static Path createTempFile(String prefix, String suffix) {
+    public static @NotNull Path createTempFile(String prefix, String suffix) {
         try {
             return Files.createTempFile(prefix, suffix);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static Path createTempDir() {
+    public static @NotNull Path createTempDir() {
         return createTempDir(null);
     }
 
-    public static Path createTempDir(String prefix) {
+    public static @NotNull Path createTempDir(String prefix) {
         try {
             return Files.createTempDirectory(prefix);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static void copyFile(Path source, Path destination, StandardCopyOption option) {
+    public static void copyFile(Path source, Path dest, StandardCopyOption option) {
+        Objects.requireNonNull(source);
+        Objects.requireNonNull(dest);
+
         try {
-            Files.copy(source, destination, option);
+            Files.copy(source, dest, option);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static void copyFolder(Path source, Path destination, boolean overwrite) {
+    public static void copyFolder(Path source, Path dest, boolean overwrite) {
+        Objects.requireNonNull(source);
+        Objects.requireNonNull(dest);
         try {
             Files.walk(source).forEach(entry -> {
-                Path target = destination.resolve(source.relativize(entry));
+                Path target = dest.resolve(source.relativize(entry));
                 if (!Files.exists(target) | overwrite) {
                     copyFile(entry, target, REPLACE_EXISTING);
                 }
             });
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static void deleteFile(Path targetFile) {
+    public static void deleteFile(Path file) {
+        if (file == null) return;
         try {
-            Files.deleteIfExists(targetFile);
+            Files.deleteIfExists(file);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static void deleteFolder(Path targetDirectory) {
+    public static void deleteFolder(Path folder) {
         try {
-            if (!Files.exists(targetDirectory)) return;
-
+            if (folder == null || !Files.exists(folder)) return;
             //noinspection ResultOfMethodCallIgnored
-            Files.walk(targetDirectory)
+            Files.walk(folder)
                     .sorted(Comparator.reverseOrder())
                     .map(Path::toFile)
                     .forEach(File::delete);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static boolean isDirEmpty(Path directory) {
-        try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(directory)) {
-            return !dirStream.iterator().hasNext();
+    public static boolean isFolderEmpty(Path folder) {
+        if (folder == null) return true;
+        try (DirectoryStream<Path> folderStream = Files.newDirectoryStream(folder)) {
+            return !folderStream.iterator().hasNext();
         } catch (Throwable ignored) {
             return false;
         }

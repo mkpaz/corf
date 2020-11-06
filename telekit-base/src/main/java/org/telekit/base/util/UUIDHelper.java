@@ -7,7 +7,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class UUIDHelper {
+/**
+ * This class provides utility methods to generate determinate (not random) UUIDs.
+ * It only supposed to be used for testing purposes.
+ */
+public final class UUIDHelper {
 
     private UUIDHelper() {}
 

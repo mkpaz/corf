@@ -4,6 +4,7 @@ import inet.ipaddr.AddressStringException;
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressString;
 import inet.ipaddr.ipv4.IPv4Address;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -49,6 +50,9 @@ public class IP4Subnet {
             "255.255.255.255"
     };
 
+    private static final int LINK_LOCAL_LEN = 31;
+    private static final int MAX_LEN = 32;
+
     private final IPv4Address ip;
 
     public IP4Subnet(String addr) {
@@ -69,13 +73,23 @@ public class IP4Subnet {
         this.ip = ip;
     }
 
-    public IP4Address getHostAddress() {
+    /**
+     * Returns the first address in this subnet.
+     */
+    public @NotNull IP4Address getHostAddress() {
         return new IP4Address(ip);
     }
 
-    @Nullable
-    public IP4Address getNetworkAddress() {
-        if (ip.getNetworkPrefixLength() == 31) return null;
+    /**
+     * Returns the network address of this subnet. Do not confuse with {@code getHostAddress()}.
+     * The host address can't be null, because any subnet has the first IP address. But network
+     * address can be null, because "/31" and "/32" aren't networks, they're peer-to-peer and host
+     * respectively.
+     */
+    public @Nullable IP4Address getNetworkAddress() {
+        if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN || ip.getNetworkPrefixLength() == MAX_LEN) {
+            return null;
+        }
         return new IP4Address(ip);
     }
 
@@ -84,33 +98,34 @@ public class IP4Subnet {
     }
 
     public int getTrailingBitCount() {
-        return 32 - ip.getPrefixLength();
+        return MAX_LEN - ip.getPrefixLength();
     }
 
-    public IP4Address getNetmask() {
+    public @NotNull IP4Address getNetmask() {
         return new IP4Address(ip.getNetwork().getNetworkMask(ip.getNetworkPrefixLength()));
     }
 
-    public IP4Address getMinHost() {
-        if (ip.getNetworkPrefixLength() == 31 || ip.getNetworkPrefixLength() == 32) {
+    public @NotNull IP4Address getMinHost() {
+        if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN || ip.getNetworkPrefixLength() == MAX_LEN) {
             return new IP4Address(ip);
         }
         return new IP4Address(ip.increment(1));
     }
 
-    public IP4Address getMaxHost() {
-        if (ip.getNetworkPrefixLength() == 31) return new IP4Address(ip.toMaxHost());
-        if (ip.getNetworkPrefixLength() == 32) return new IP4Address(ip);
+    public @NotNull IP4Address getMaxHost() {
+        if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN) return new IP4Address(ip.toMaxHost());
+        if (ip.getNetworkPrefixLength() == MAX_LEN) return new IP4Address(ip);
         return new IP4Address(ip.toMaxHost().increment(-1));
     }
 
-    @Nullable
-    public IP4Address getBroadcast() {
-        if (ip.getNetworkPrefixLength() == 31 || ip.getNetworkPrefixLength() == 32) return null;
+    public @Nullable IP4Address getBroadcast() {
+        if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN || ip.getNetworkPrefixLength() == MAX_LEN) {
+            return null;
+        }
         return new IP4Address(ip.toMaxHost());
     }
 
-    public String getNetworkClass() {
+    public @Nullable String getNetworkClass() {
         String binary = ip.toBinaryString();
         if (binary.startsWith("1111")) return "E";
         if (binary.startsWith("1110")) return "D";

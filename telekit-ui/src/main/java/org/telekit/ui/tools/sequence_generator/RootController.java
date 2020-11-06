@@ -10,17 +10,16 @@ import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
+import org.telekit.base.service.impl.SequenceGenerator;
+import org.telekit.base.service.impl.SequenceGenerator.Item;
 import org.telekit.base.ui.Controller;
 import org.telekit.base.ui.Dialogs;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
-import org.telekit.base.util.SequenceGenerator;
-import org.telekit.base.util.SequenceGenerator.Item;
 import org.telekit.controls.format.DoubleStringConverter;
 import org.telekit.controls.format.IntegerStringConverter;
 import org.telekit.controls.util.ExtraBindings;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.telekit.base.ui.UIDefaults.TEXTAREA_ROW_LIMIT;
 import static org.telekit.ui.main.MessageKeys.*;
 
 public class RootController extends Controller {
@@ -87,7 +87,7 @@ public class RootController extends Controller {
 
     @FXML
     public void initialize() {
-        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, Env.TEXTAREA_ROW_LIMIT));
+        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT));
 
         startA.setEditable(true);
 
@@ -244,7 +244,8 @@ public class RootController extends Controller {
 
         @Override
         protected Result call() {
-            List<Map<String, String>> sequence = SequenceGenerator.generate(items);
+            SequenceGenerator generator = new SequenceGenerator(items);
+            List<Map<String, String>> sequence = generator.generate();
 
             StringBuilder result = new StringBuilder();
             StringBuilder displayedResult = new StringBuilder();

@@ -243,14 +243,14 @@ public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
         try {
             method = CssParser.class.getDeclaredMethod("parseExpr", String.class, String.class);
             method.setAccessible(true);
-        } catch (NoSuchMethodException ex) {
-            throw new RuntimeException(ex);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
         try {
             ParsedValue parsedValue = (ParsedValue) method.invoke(CSS_PARSER, "", sizeString);
             return (Number) parsedValue.convert(getFont());
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            throw new RuntimeException("Method 'CssParser.parseExpr is not found", ex);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException("Method 'CssParser.parseExpr is not found", e);
         }
     }
 }

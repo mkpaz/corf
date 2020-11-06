@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
+import static org.telekit.base.ui.UIDefaults.TEXTAREA_ROW_LIMIT;
 import static org.telekit.ui.main.MessageKeys.*;
 
 public class RootController extends Controller {
@@ -32,7 +32,7 @@ public class RootController extends Controller {
     private static final String TYPE_RANDOM = "RANDOM";
     private static final String TYPE_KATAKANA = "KATAKANA";
     private static final String TYPE_XKCD = "XKCD";
-    private static final String XKCD_DICT_PATH = "/assets/dict/words_en.txt";
+    private static final String XKCD_DICT_PATH = "/assets/dict/words_en";
 
     private static final List<Character> SIMILAR_CHARS = List.of(
             'i', 'I', 'L', 'l', '1', '0', 'o', 'O'
@@ -180,7 +180,7 @@ public class RootController extends Controller {
     private String generatePassword(String passwordType, int length) {
         return switch (passwordType) {
             case TYPE_KATAKANA -> PasswordGenerator.katakana(length);
-            case TYPE_XKCD -> PasswordGenerator.onDict(length, "-", xkcdDict);
+            case TYPE_XKCD -> PasswordGenerator.xkcd(length, "-", xkcdDict);
             default -> PasswordGenerator.random(length, randomDict);
         };
     }

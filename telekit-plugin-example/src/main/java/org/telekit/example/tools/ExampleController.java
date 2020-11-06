@@ -6,14 +6,13 @@ import org.telekit.base.Env;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
 import org.telekit.base.ui.Dialogs;
-import org.telekit.base.util.FileUtils;
+import org.telekit.base.util.CommonUtils;
 import org.telekit.example.ExamplePlugin;
 import org.telekit.example.MessageKeys;
 import org.telekit.example.service.HelloService;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import static org.telekit.example.ExamplePlugin.SAMPLE_PROPERTIES_FILE_NAME;
@@ -39,7 +38,7 @@ public class ExampleController extends Controller {
 
     private Properties loadConfig() {
         File resource = Env.getPluginDataDir(ExamplePlugin.class).resolve(SAMPLE_PROPERTIES_FILE_NAME).toFile();
-        return FileUtils.loadProperties(resource, StandardCharsets.UTF_8);
+        return CommonUtils.loadProperties(resource);
     }
 
     @FXML

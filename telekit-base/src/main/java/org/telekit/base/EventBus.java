@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  * instances of {@link EventBus}.
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class EventBus {
+public final class EventBus {
 
     private EventBus() {}
 

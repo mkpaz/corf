@@ -40,8 +40,6 @@ public final class Dialogs {
         return new ModalBuilder(root);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-
     public static class AlertBuilder {
 
         private final Alert alert;

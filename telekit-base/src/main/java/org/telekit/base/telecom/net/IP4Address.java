@@ -18,7 +18,7 @@ public class IP4Address {
         try {
             this.ip = new IPAddressString(addr).toAddress(IPV4)
                     .toIPv4()
-                    .removePrefixLength();
+                    .withoutPrefixLength();
         } catch (AddressStringException e) {
             throw new IllegalArgumentException("Invalid IP address format [" + addr + "]");
         }

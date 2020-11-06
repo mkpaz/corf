@@ -92,6 +92,7 @@ public class RUTransliterator implements Transliterator {
             'е', 'ё', 'ю', 'я', 'Е', 'Ё', 'Ю', 'Я'
     );
 
+    @SuppressWarnings("unused")
     private static final List<Character> NON_IOTATED_VOWELS = Arrays.asList(
             'а', 'и', 'о', 'у', 'ы', 'Э', 'А', 'И', 'О', 'У', 'Ы', 'Э'
     );
@@ -201,16 +202,8 @@ public class RUTransliterator implements Transliterator {
         }
     }
 
-    private static void appendCaseSensitive(Character character, Character nextCharacter, StringBuilder accumulator) {
-
-    }
-
     private static boolean isLetter(Character symbol) {
         return symbol != null && ABC.containsKey(symbol);
-    }
-
-    private boolean equals(Character ch1, Character ch2) {
-        return ch1 != null && ch1.equals(ch2);
     }
 
     private boolean equalsIgnoreCase(Character ch1, Character ch2) {
@@ -227,9 +220,5 @@ public class RUTransliterator implements Transliterator {
 
     private static boolean isIotatedVowel(Character letter) {
         return letter != null && IOTATED_VOWELS.contains(letter);
-    }
-
-    private static boolean isNonIotatedVowel(Character letter) {
-        return letter != null && NON_IOTATED_VOWELS.contains(letter);
     }
 }

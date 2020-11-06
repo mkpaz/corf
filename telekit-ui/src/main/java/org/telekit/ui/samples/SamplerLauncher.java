@@ -1,15 +1,15 @@
-package org.telekit.ui.test;
+package org.telekit.ui.samples;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.telekit.base.Env;
-import org.telekit.base.ui.LauncherDefaults;
-import org.telekit.base.ui.UILoader;
-import org.telekit.base.ui.Controller;
 import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
+import org.telekit.base.ui.Controller;
+import org.telekit.base.ui.UIDefaults;
+import org.telekit.base.ui.UILoader;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.Launcher;
 
@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class PreviewLauncher extends Application implements LauncherDefaults {
+public class SamplerLauncher extends Application implements UIDefaults {
 
     public static void main(String[] args) {
         launch(args);
@@ -41,7 +41,7 @@ public class PreviewLauncher extends Application implements LauncherDefaults {
         );
 
         Controller controller = UILoader.load(
-                Launcher.getResource("/assets/test/preview.fxml"),
+                Launcher.getResource("/assets/samples/sampler.fxml"),
                 Messages.getInstance()
         );
 
@@ -57,6 +57,6 @@ public class PreviewLauncher extends Application implements LauncherDefaults {
     }
 
     private static InputStream getResourceAsStream(String resource) {
-        return Objects.requireNonNull(PreviewLauncher.class.getResourceAsStream(resource));
+        return Objects.requireNonNull(SamplerLauncher.class.getResourceAsStream(resource));
     }
 }
