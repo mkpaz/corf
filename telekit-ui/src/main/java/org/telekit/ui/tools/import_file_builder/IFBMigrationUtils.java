@@ -7,11 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.telekit.base.ApplicationContext;
-import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.service.impl.JacksonYamlSerializer;
 import org.telekit.base.service.Serializer;
+import org.telekit.base.service.impl.JacksonYamlSerializer;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,13 +20,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.telekit.base.Env.DATA_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
 @Deprecated
 public final class IFBMigrationUtils {
 
-    private static final Path DATA_FILE_PATH_OLD = Env.DATA_DIR.resolve("import-file-builder.templates.xml");
+    private static final Path DATA_FILE_PATH_OLD = DATA_DIR.resolve("import-file-builder.templates.xml");
 
     public static void migrateXmlConfigToYaml(ApplicationContext context) {
         // database file already converted

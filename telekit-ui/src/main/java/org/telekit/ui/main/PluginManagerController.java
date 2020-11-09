@@ -17,8 +17,6 @@ import javafx.util.Callback;
 import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.domain.TelekitException;
-import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
@@ -27,7 +25,8 @@ import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.plugin.internal.PluginState;
 import org.telekit.base.preferences.ApplicationPreferences;
-import org.telekit.base.util.DesktopUtils;
+import org.telekit.base.ui.Controller;
+import org.telekit.base.ui.Dialogs;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.ApplicationEvent.Type;
@@ -36,6 +35,7 @@ import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.EnumSet;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -121,7 +121,7 @@ public class PluginManagerController extends Controller {
         Plugin plugin = pluginBox.getPlugin();
         Metadata metadata = plugin.getMetadata();
 
-        lnkPluginDocs.setVisible(pluginBox.doesPluginProvideDocs());
+        lnkPluginDocs.setVisible(plugin.providesDocs());
 
         final int padding = 10;
 
@@ -131,6 +131,7 @@ public class PluginManagerController extends Controller {
         tb.appendLine(rightPad("Author:", padding), metadata.getAuthor());
         tb.appendLine(rightPad("Homepage:", padding), metadata.getHomePage());
         tb.appendLine(rightPad("Status:", padding), pluginBox.getState().name());
+        tb.appendLine(rightPad("Class:", padding), className(pluginBox.getPluginClass()));
 
         tb.newLine();
         tb.appendLine("Description:");
@@ -148,17 +149,13 @@ public class PluginManagerController extends Controller {
     }
 
     private void appendPluginResources(PluginBox pluginBox, TextBuilder tb) {
-        Path pluginJarPath = pluginBox.getPluginJarPath();
+        Path pluginDataDir = Env.getPluginDataDir(pluginBox.getPluginClass());
+        Path pluginJarPath = pluginBox.getJarPath();
         if (pluginJarPath != null) {
-            tb.appendLine(Env.PLUGINS_DIR.getParent().relativize(pluginJarPath).toString());
+            tb.appendLine(pluginDataDir.relativize(pluginJarPath).toString());
         }
-
-        Path pluginDocsPath = Env.getPluginDocsDir(pluginBox.getPluginClass());
-        for (Path path : pluginBox.getPluginDataPaths()) {
-            // don't show docs files
-            if (path.startsWith(pluginDocsPath)) continue;
-
-            tb.appendLine(Env.DATA_DIR.getParent().relativize(path).toString());
+        for (Path path : pluginBox.getConfigs()) {
+            tb.appendLine(pluginDataDir.relativize(path).toString());
         }
     }
 
@@ -195,7 +192,7 @@ public class PluginManagerController extends Controller {
 
         boolean deleteResources = false;
 
-        if (pluginBox.hasStoredData()) {
+        if (pluginBox.hasConfigs()) {
             Alert dialog = Dialogs.confirm()
                     .title(Messages.get(CONFIRMATION))
                     .content(Messages.get(PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM))
@@ -238,8 +235,9 @@ public class PluginManagerController extends Controller {
         if (selectedListItem == null) return;
 
         PluginBox pluginBox = selectedListItem.getPluginBox();
-        pluginBox.getPluginDocsIndex(preferences.getLocale())
-                .ifPresent(path -> DesktopUtils.openQuietly(path.toFile()));
+        if (pluginBox.getPlugin().providesDocs()) {
+            pluginBox.getPlugin().openDocs(Locale.getDefault());
+        }
     }
 
     @FXML

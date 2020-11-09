@@ -4,15 +4,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 import java.security.CodeSource;
-import java.util.List;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public interface Plugin {
-
-    String PLUGIN_DATA_DIR_NAME = "data";
-    String PLUGIN_DOCS_DIR_NAME = "docs";
-    String PLUGIN_DOCS_INDEX_FILE_PREFIX = "index";
 
     String METADATA_NAME = "metadata.name";
     String METADATA_AUTHOR = "metadata.author";
@@ -23,13 +19,17 @@ public interface Plugin {
 
     Metadata getMetadata();
 
-    List<? extends DependencyModule> getModules();
+    Collection<? extends DependencyModule> getModules();
 
     ResourceBundle getBundle(Locale locale);
 
     void start();
 
     void stop();
+
+    boolean providesDocs();
+
+    void openDocs(Locale locale);
 
     default @Nullable URL getLocation() {
         CodeSource codeSource = getClass().getProtectionDomain().getCodeSource();

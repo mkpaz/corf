@@ -54,6 +54,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
+import static org.telekit.base.Env.TEMP_DIR;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
 import static org.telekit.base.util.CSVUtils.textToTable;
@@ -260,7 +261,7 @@ public class RootController extends Controller {
     public void showPreview() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
         if (selectedTemplate != null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-            File outputFile = Env.APP_TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
+            File outputFile = TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
             String html = PreviewRenderer.render(selectedTemplate);
             try {
                 Files.writeString(outputFile.toPath(), html);

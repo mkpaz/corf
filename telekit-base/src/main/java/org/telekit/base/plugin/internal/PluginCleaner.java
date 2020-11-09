@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.util.FileUtils.deleteFile;
-import static org.telekit.base.util.FileUtils.deleteFolder;
+import static org.telekit.base.util.FileUtils.deleteDir;
 
 public class PluginCleaner {
 
@@ -102,7 +102,7 @@ public class PluginCleaner {
         switch (action) {
             case TASK_RMDIR -> {
                 LOGGER.info("Deleting directory: " + pathToDelete);
-                deleteFolder(pathToDelete);
+                deleteDir(pathToDelete);
             }
             case TASK_RM -> {
                 LOGGER.info("Deleting file: " + pathToDelete);

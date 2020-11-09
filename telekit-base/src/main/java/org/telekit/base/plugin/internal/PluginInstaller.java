@@ -1,6 +1,7 @@
 package org.telekit.base.plugin.internal;
 
 import de.skuzzle.semantic.Version;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
@@ -21,8 +22,7 @@ import static java.nio.file.Files.isRegularFile;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.apache.commons.lang3.StringUtils.endsWithAny;
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.telekit.base.Env.getPluginDataDir;
-import static org.telekit.base.Env.getPluginDocsDir;
+import static org.telekit.base.Env.*;
 import static org.telekit.base.i18n.BaseMessageKeys.*;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileUtils.*;
@@ -81,19 +81,34 @@ public class PluginInstaller {
         Plugin plugin = pluginBox.getPlugin();
         pluginBox.setState(PluginState.UNINSTALLED);
 
-        Path pluginJarPath = pluginBox.getPluginJarPath();
-        Objects.requireNonNull(pluginJarPath);
-        Path pluginDataPath = getPluginDataDir(plugin.getClass());
+        Path pluginDataDir = getPluginDataDir(plugin.getClass());
+        Path pluginJarPath = Objects.requireNonNull(pluginBox.getJarPath());
+        Path pluginLibPath = getPluginLibDir(plugin.getClass());
+        Path pluginConfigPath = getPluginConfigDir(plugin.getClass());
         Path pluginDocsPath = getPluginDocsDir(plugin.getClass());
         LOGGER.info(pluginClass + " code resides in " + pluginJarPath.toAbsolutePath());
-        LOGGER.info(pluginClass + " resources reside in " + pluginDataPath.toAbsolutePath());
-        LOGGER.info(pluginClass + " docs resides in " + pluginDocsPath.toAbsolutePath());
+        LOGGER.info(pluginClass + " configs reside in " + pluginConfigPath.toAbsolutePath());
+        LOGGER.info(pluginClass + " documentation resides in " + pluginDocsPath.toAbsolutePath());
 
         PluginCleaner cleaner = new PluginCleaner();
-        cleaner.appendTask(pluginJarPath);
 
-        if (Files.exists(pluginDocsPath)) hush(() -> FileUtils.deleteFolder(pluginDocsPath));
-        if (deleteResources) cleaner.appendTask(pluginDataPath);
+        // delete lib
+        if (pluginJarPath.startsWith(pluginLibPath)) {
+            cleaner.appendTask(pluginLibPath);
+        } else {
+            cleaner.appendTask(pluginJarPath);
+        }
+
+        // delete docs
+        hush(() -> FileUtils.deleteDir(pluginDocsPath));
+
+        // delete config
+        if (Files.exists(pluginConfigPath) && isDirEmpty(pluginConfigPath)) {
+            hush(() -> FileUtils.deleteDir(pluginDocsPath));
+        }
+        if (deleteResources) {
+            cleaner.appendTask(pluginDataDir);
+        }
 
         LOGGER.info("Uninstallation finished. Some resources will be deleted on next application startup");
     }
@@ -121,7 +136,7 @@ public class PluginInstaller {
         // bypass check, plugin has no version requirements
         if (isBlank(requiredPlatformVersion)) return true;
         if (!Version.isValidVersion(requiredPlatformVersion)) fireInstallFailed(PLUGIN_MSG_INVALID_METADATA);
-        return Version.parseVersion(Env.getAppVersion())
+        return Version.parseVersion(Objects.requireNonNull(Env.getAppVersion()))
                 .compareTo(Version.parseVersion(requiredPlatformVersion)) >= 0;
     }
 
@@ -143,31 +158,32 @@ public class PluginInstaller {
 
         URL location = plugin.getLocation();
         Path sourceJarPath = urlToFile(Objects.requireNonNull(location)).toPath();
-        Path sourceDataPath = installDir.resolve(Plugin.PLUGIN_DATA_DIR_NAME);
-        Path sourceDocsPath = installDir.resolve(Plugin.PLUGIN_DOCS_DIR_NAME);
+        Path sourceConfigPath = installDir.resolve(CONFIG_DIR_NAME);
+        Path sourceDocsPath = installDir.resolve(DOCS_DIR_NAME);
 
-        Path destJarPath = Env.PLUGINS_DIR.resolve(sourceJarPath.getFileName());
-        Path destDataPath = getPluginDataDir(plugin.getClass());
+        Path pluginDataDir = getPluginDataDir(plugin.getClass());
+        Path destLibPath = getPluginLibDir(plugin.getClass());
+        Path destConfigPath = getPluginConfigDir(plugin.getClass());
         Path destDocsPath = getPluginDocsDir(plugin.getClass());
 
         try {
-            // plugin JAR file goes to common plugins directory
-            LOGGER.info("Copying JAR file");
-            if (Files.exists(sourceJarPath)) copyFile(sourceJarPath, destJarPath, REPLACE_EXISTING);
+            // create plugin root directory first
+            createDirs(pluginDataDir);
 
-            // plugin data and docs are stored in the application data dir in sub-directory
-            // that corresponds to plugin class canonical name
+            LOGGER.info("Copying JAR file");
+            if (Files.exists(sourceJarPath)) {
+                createDir(destLibPath);
+                copyFile(sourceJarPath, destLibPath.resolve(sourceJarPath.getFileName()), REPLACE_EXISTING);
+            }
+
             LOGGER.info("Copying plugin resources");
-            if (Files.exists(sourceDataPath)) copyFolder(sourceDataPath, destDataPath, false);
-            if (Files.exists(sourceDocsPath)) copyFolder(sourceDocsPath, destDocsPath, false);
+            if (Files.exists(sourceConfigPath)) copyDir(sourceConfigPath, destConfigPath, false);
+            if (Files.exists(sourceDocsPath)) copyDir(sourceDocsPath, destDocsPath, false);
 
         } catch (Throwable t) {
             LOGGER.severe("Unable to copy plugin files to application directory");
-            hush(() -> {
-                deleteFile(destJarPath);
-                deleteFolder(destDataPath);
-                deleteFolder(destDocsPath);
-            });
+            LOGGER.severe(ExceptionUtils.getStackTrace(t));
+            hush(() -> deleteFile(pluginDataDir));
             fireInstallFailed(MSG_GENERIC_IO_ERROR);
         }
 

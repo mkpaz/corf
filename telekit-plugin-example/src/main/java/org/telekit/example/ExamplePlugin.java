@@ -4,6 +4,7 @@ import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
+import org.telekit.base.util.DesktopUtils;
 import org.telekit.example.service.ExampleDependencyModule;
 import org.telekit.example.tools.DummyOneTool;
 import org.telekit.example.tools.DummyTwoTool;
@@ -11,9 +12,14 @@ import org.telekit.example.tools.HelloTool;
 
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
+import static org.telekit.base.Env.DOCS_INDEX_FILE_NAME;
+import static org.telekit.base.Env.getPluginDocsDir;
 import static org.telekit.base.util.CommonUtils.className;
+import static org.telekit.base.util.CommonUtils.localizedFileName;
 
 @Includes({
         HelloTool.class,
@@ -69,5 +75,21 @@ public class ExamplePlugin implements Plugin {
     @Override
     public void stop() {
         System.out.println(className(ExamplePlugin.class) + " start() method called.");
+    }
+
+    @Override
+    public boolean providesDocs() {
+        return true;
+    }
+
+    @Override
+    public void openDocs(Locale locale) {
+        Path docsDir = getPluginDocsDir(ExamplePlugin.class);
+        Path localizedFilePath = docsDir.resolve(localizedFileName(DOCS_INDEX_FILE_NAME, ".txt"));
+        if (Files.exists(localizedFilePath)) {
+            DesktopUtils.openQuietly(localizedFilePath.toFile());
+        } else {
+            DesktopUtils.openQuietly(docsDir.resolve(DOCS_INDEX_FILE_NAME + ".txt").toFile());
+        }
     }
 }

@@ -42,6 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
+import static org.telekit.base.Env.DOCS_DIR;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.CommonUtils.objectClassName;
@@ -120,7 +121,6 @@ public class MainController extends Controller {
             if (security.isAutoUnlock() && !vault.isUnlocked()) vault.unlock(security.getDerivedVaultPassword());
             if (vault.isUnlocked()) vaultState.set(VAULT_UNLOCKED); // also handles newly created vault
         } catch (Exception e) {
-            System.out.println(3);
             vaultState.set(VAULT_UNLOCK_FAILED);
         }
     }
@@ -368,8 +368,8 @@ public class MainController extends Controller {
 
     @FXML
     public void showHelp() {
-        Path docPath = Env.DOCS_DIR.resolve("ru/index.html");
-        DesktopUtils.openQuietly(docPath.toFile());
+        Path docsPath = DOCS_DIR.resolve("ru/index.html");
+        DesktopUtils.openQuietly(docsPath.toFile());
     }
 
     @FXML

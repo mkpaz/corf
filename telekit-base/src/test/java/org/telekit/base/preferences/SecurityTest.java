@@ -24,8 +24,6 @@ public class SecurityTest {
         YAMLMapper mapper = Mappers.createYamlMapper();
         String yaml = mapper.writeValueAsString(securityOrig);
 
-        System.out.println(yaml);
-
         Security securityDest = mapper.readValue(yaml, Security.class);
         assertThat(securityDest.getVaultPassword().getData()).isEqualTo(dataOrig.getData());
     }

@@ -3,18 +3,20 @@ package org.telekit.base.plugin.internal;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.ApplicationContext;
-import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Extension;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.preferences.ApplicationPreferences;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.telekit.base.Env.PLUGINS_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.*;
 import static org.telekit.base.plugin.internal.PluginState.*;
 import static org.telekit.base.util.CommonUtils.className;
@@ -46,10 +48,19 @@ public class PluginManager {
      * and only started plugin can provide its extensions during application runtime.
      */
     public void loadAllPlugins() {
-        Set<Path> scanPath = Set.of(Env.PLUGINS_DIR);
+        LOGGER.info(String.format("Searching %s for plugins", PLUGINS_DIR));
+
+        Set<Path> scanPath;
+        try {
+            scanPath = Files.walk(PLUGINS_DIR)
+                    .filter(path -> Files.isRegularFile(path) && path.toString().toLowerCase().endsWith(".jar"))
+                    .collect(Collectors.toSet());
+        } catch (IOException e) {
+            LOGGER.severe("Error while scanning plugins directory.");
+            throw new RuntimeException(e);
+        }
         Iterable<Plugin> plugins = pluginLoader.load(scanPath);
 
-        LOGGER.info(String.format("Searching %s for plugins", scanPath));
         Set<String> disabledPlugins = preferences.getDisabledPlugins();
         for (Plugin plugin : plugins) {
             PluginState status = !disabledPlugins.contains(objectClassName(plugin)) ?

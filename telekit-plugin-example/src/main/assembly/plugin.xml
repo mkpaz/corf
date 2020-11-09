@@ -19,8 +19,8 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>build</directory>
-            <outputDirectory>data</outputDirectory>
+            <directory>build/config</directory>
+            <outputDirectory>config</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
@@ -29,7 +29,7 @@
             <directory>src/main/docs</directory>
             <outputDirectory>docs</outputDirectory>
             <includes>
-                <include>*.txt</include>
+                <include>**/*</include>
             </includes>
         </fileSet>
     </fileSets>

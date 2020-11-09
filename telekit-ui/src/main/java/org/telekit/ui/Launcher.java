@@ -64,6 +64,7 @@ import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
 import static org.telekit.base.service.Encryptor.generateKey;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.DesktopUtils.xdgCurrentDesktopMatches;
+import static org.telekit.base.util.FileUtils.createDir;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.ui.main.MessageKeys.QUIT;
@@ -93,7 +94,7 @@ public class Launcher extends Application implements UIDefaults {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         // set exception handler first
         this.exceptionHandler = new ExceptionHandler(primaryStage);
         Thread.currentThread().setUncaughtExceptionHandler(
@@ -175,7 +176,7 @@ public class Launcher extends Application implements UIDefaults {
     ///////////////////////////////////////////////////////////////////////////
 
     // ATTENTION: code order matters, some of these methods initialize class level variables
-    private void initialize() throws Exception {
+    private void initialize() {
         this.logger = setupLogging(); // initializes logger variable
         logEnvironmentInfo();
         loadApplicationProperties();  // load properties from application.properties file
@@ -252,7 +253,7 @@ public class Launcher extends Application implements UIDefaults {
             LogManager logManager = LogManager.getLogManager();
             Path configPath = DATA_DIR.resolve(LOG_CONFIG_FILE_NAME);
             if (Files.exists(configPath)) {
-                String outputPath = APP_DIR.resolve(LOG_OUTPUT_FILE_NAME).toString();
+                String outputPath = LOGS_DIR.resolve(LOG_OUTPUT_FILE_NAME).toString();
 
                 // JUL can't handle Windows-style paths properly
                 if (SystemUtils.IS_OS_WINDOWS) {
@@ -403,10 +404,12 @@ public class Launcher extends Application implements UIDefaults {
         IFBMigrationUtils.migrateXmlConfigToYaml(this.applicationContext);
     }
 
-    private void createUserResources() throws Exception {
-        if (!Files.exists(DATA_DIR)) Files.createDirectory(DATA_DIR);
-        if (!Files.exists(PLUGINS_DIR)) Files.createDirectory(PLUGINS_DIR);
-        if (!Files.exists(APP_TEMP_DIR)) Files.createDirectory(APP_TEMP_DIR);
+    private void createUserResources() {
+        createDir(DATA_DIR);
+        createDir(AUTOCOMPLETE_DIR);
+        createDir(CONFIG_DIR);
+        createDir(CACHE_DIR);
+        createDir(PLUGINS_DIR);
     }
 
     private static boolean isScreenFits(int width, int height) {

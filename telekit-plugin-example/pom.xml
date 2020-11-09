@@ -19,8 +19,11 @@
         <plugin.platform-version>${project.version}</plugin.platform-version>
 
         <bld.basePackage>org.telekit.example</bld.basePackage>
-        <bld.mainClass>${bld.basePackage}.demo.Launcher</bld.mainClass>
+        <bld.pluginClassName>${bld.basePackage}.ExamplePlugin</bld.pluginClassName>
+        <bld.launcherClassName>${bld.basePackage}.demo.Launcher</bld.launcherClassName>
         <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
+        <!-- this is where application will store plugin and its data after installation -->
+        <bld.pluginSubDir>data/plugins/${bld.pluginClassName}</bld.pluginSubDir>
     </properties>
 
     <build>
@@ -52,7 +55,7 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>${bld.mainClass}</mainClass>
+                    <mainClass>${bld.launcherClassName}</mainClass>
                     <executable>${java.home}/bin/java</executable>
                 </configuration>
             </plugin>
@@ -90,10 +93,11 @@
         </profile>
         <profile>
             <!-- installs plugin into telekit-ui build directory for testing -->
-            <id>install-to-ui</id>
+            <id>install</id>
             <properties>
-                <distribUnpackedDirectory>${bld.distribDirectory}/${project.artifactId}-${project.version}</distribUnpackedDirectory>
-                <uiBuildDirectory>${project.basedir}/../telekit-ui/target</uiBuildDirectory>
+                <install.sourceDir>${bld.distribDirectory}/${project.artifactId}-${project.version}</install.sourceDir>
+                <install.appDir>${project.basedir}/../telekit-ui/target</install.appDir>
+                <install.appPluginDir>${install.appDir}/${bld.pluginSubDir}</install.appPluginDir>
             </properties>
             <build>
                 <plugins>
@@ -109,13 +113,18 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <copy todir="${uiBuildDirectory}/plugins" overwrite="true" verbose="true">
-                                            <fileset dir="${distribUnpackedDirectory}">
+                                        <copy todir="${install.appPluginDir}/lib" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}">
                                                 <include name="*.jar"/>
                                             </fileset>
                                         </copy>
-                                        <copy todir="${uiBuildDirectory}/data/${bld.basePackage}" overwrite="true" verbose="true">
-                                            <fileset dir="${distribUnpackedDirectory}/resources">
+                                        <copy todir="${install.appPluginDir}/config" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}/config">
+                                                <include name="**/*"/>
+                                            </fileset>
+                                        </copy>
+                                        <copy todir="${install.appPluginDir}/docs" overwrite="true" verbose="true">
+                                            <fileset dir="${install.sourceDir}/docs">
                                                 <include name="**/*"/>
                                             </fileset>
                                         </copy>
@@ -136,16 +145,32 @@
                         <artifactId>maven-resources-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>copy-resources</id>
+                                <id>copy-config</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                    <outputDirectory>${project.build.directory}/data/${bld.basePackage}</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/${bld.pluginSubDir}/config</outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>build</directory>
+                                            <directory>build/config</directory>
+                                            <filtering>false</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-docs</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/${bld.pluginSubDir}/docs</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/main/docs</directory>
                                             <filtering>false</filtering>
                                         </resource>
                                     </resources>

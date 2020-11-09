@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.Env.DATA_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
@@ -27,7 +28,7 @@ public class ApplicationPreferences {
 
     @Deprecated
     public static final Path CONFIG_PATH_OLD = DATA_DIR.resolve("preferences.xml");
-    public static final Path CONFIG_PATH = DATA_DIR.resolve("preferences.yaml");
+    public static final Path CONFIG_PATH = CONFIG_DIR.resolve("preferences.yaml");
 
     private Language language = Language.EN;
     private boolean systemTray = false;

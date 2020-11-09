@@ -3,12 +3,11 @@ package org.telekit.ui.tools.import_file_builder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.FileBasedRepository;
-import org.telekit.base.service.impl.JacksonYamlSerializer;
 import org.telekit.base.service.Serializer;
+import org.telekit.base.service.impl.JacksonYamlSerializer;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,12 +20,13 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
 public class TemplateRepository extends FileBasedRepository<Template, UUID> {
 
-    public static final Path DATA_FILE_PATH = Env.DATA_DIR.resolve("import-file-builder.templates.yaml");
+    public static final Path DATA_FILE_PATH = CONFIG_DIR.resolve("import-file-builder.templates.yaml");
     private final Serializer<Collection<Template>> yamlSerializer;
 
     public TemplateRepository(YAMLMapper yamlMapper) {

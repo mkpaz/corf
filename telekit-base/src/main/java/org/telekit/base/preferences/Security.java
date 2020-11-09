@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.Env;
 import org.telekit.base.domain.SecuredData;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.preferences.Vault.VaultType;
 import static org.telekit.base.preferences.Vault.deriveFromPassword;
 
@@ -74,7 +74,7 @@ public class Security {
     @JsonIgnore
     public @NotNull Path getVaultFilePath() {
         Path tmpPath = Paths.get(vaultPath);
-        return tmpPath.isAbsolute() ? tmpPath : Env.DATA_DIR.resolve(tmpPath);
+        return tmpPath.isAbsolute() ? tmpPath : CONFIG_DIR.resolve(tmpPath);
     }
 
     @JsonIgnore

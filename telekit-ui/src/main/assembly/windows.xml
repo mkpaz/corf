@@ -18,21 +18,14 @@
 
         <!-- configurations & samples -->
         <fileSet>
-            <directory>build/conf</directory>
-            <outputDirectory>data</outputDirectory>
-            <includes>
-                <include>**/*</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>build/samples</directory>
-            <outputDirectory>data</outputDirectory>
+            <directory>build/config</directory>
+            <outputDirectory>data/config</outputDirectory>
             <includes>
                 <include>**/*</include>
             </includes>
         </fileSet>
 
-        <!-- docs -->
+        <!-- documentation -->
         <fileSet>
             <directory>${bld.docsTargetDirectory}</directory>
             <outputDirectory>docs</outputDirectory>
@@ -43,6 +36,12 @@
     </fileSets>
 
     <files>
+        <!-- configurations & samples -->
+        <file>
+            <source>build/logging.properties</source>
+            <outputDirectory>data</outputDirectory>
+        </file>
+
         <!-- launcher & resources -->
         <file>
             <source>build/native/${bld.platform}.exe</source>

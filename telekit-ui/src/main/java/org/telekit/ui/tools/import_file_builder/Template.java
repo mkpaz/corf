@@ -74,7 +74,7 @@ public class Template extends Entity<Template, UUID> {
     }
 
     public void setDelimiter(String delimiter) {
-        if (DelimiterStringConverter.VALUES.containsKey(delimiter)) {
+        if (delimiter != null && DelimiterStringConverter.VALUES.containsKey(delimiter)) {
             this.delimiter = delimiter;
         } else {
             this.delimiter = "";

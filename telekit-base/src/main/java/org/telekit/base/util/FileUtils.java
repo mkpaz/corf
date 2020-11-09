@@ -63,6 +63,26 @@ public final class FileUtils {
         }
     }
 
+    public static void createDir(Path path) {
+        try {
+            if (path != null && !Files.exists(path)) {
+                Files.createDirectory(path);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void createDirs(Path path) {
+        try {
+            if (path != null && !Files.exists(path)) {
+                Files.createDirectories(path);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void copyFile(Path source, Path dest, StandardCopyOption option) {
         Objects.requireNonNull(source);
         Objects.requireNonNull(dest);
@@ -74,7 +94,7 @@ public final class FileUtils {
         }
     }
 
-    public static void copyFolder(Path source, Path dest, boolean overwrite) {
+    public static void copyDir(Path source, Path dest, boolean overwrite) {
         Objects.requireNonNull(source);
         Objects.requireNonNull(dest);
         try {
@@ -98,11 +118,11 @@ public final class FileUtils {
         }
     }
 
-    public static void deleteFolder(Path folder) {
+    public static void deleteDir(Path path) {
         try {
-            if (folder == null || !Files.exists(folder)) return;
+            if (path == null || !Files.exists(path)) return;
             //noinspection ResultOfMethodCallIgnored
-            Files.walk(folder)
+            Files.walk(path)
                     .sorted(Comparator.reverseOrder())
                     .map(Path::toFile)
                     .forEach(File::delete);
@@ -111,9 +131,9 @@ public final class FileUtils {
         }
     }
 
-    public static boolean isFolderEmpty(Path folder) {
-        if (folder == null) return true;
-        try (DirectoryStream<Path> folderStream = Files.newDirectoryStream(folder)) {
+    public static boolean isDirEmpty(Path path) {
+        if (path == null) return true;
+        try (DirectoryStream<Path> folderStream = Files.newDirectoryStream(path)) {
             return !folderStream.iterator().hasNext();
         } catch (Throwable ignored) {
             return false;

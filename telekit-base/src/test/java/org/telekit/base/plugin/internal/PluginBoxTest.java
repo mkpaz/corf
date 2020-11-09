@@ -72,5 +72,13 @@ public class PluginBoxTest {
 
         @Override
         public void stop() {}
+
+        @Override
+        public boolean providesDocs() {
+            return false;
+        }
+
+        @Override
+        public void openDocs(Locale locale) {}
     }
 }

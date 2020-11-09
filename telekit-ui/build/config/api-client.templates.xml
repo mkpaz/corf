@@ -1,0 +1,26 @@
+<templates>
+  <template>
+    <id>718b5495-4511-4064-8923-560ec2127d23</id>
+    <name>Example</name>
+    <uri>https://jsonplaceholder.typicode.com/posts</uri>
+    <method>POST</method>
+    <contentType>application/json</contentType>
+    <headers/>
+    <body><![CDATA[{
+    "userId": %(_csv0),
+    "title": "%(title)",
+    "body": "quia et suscipit\nsuscipit"
+}]]></body>
+    <batchSize>0</batchSize>
+    <batchWrapper/>
+    <waitTimeout>5</waitTimeout>
+    <description/>
+    <params>
+      <params>
+        <name>title</name>
+        <type>CONSTANT</type>
+        <length>0</length>
+      </params>
+    </params>
+  </template>
+</templates>

@@ -2,11 +2,11 @@ package org.telekit.base.ui;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.Env;
 
 import java.awt.*;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.telekit.base.Env.getPropertyOrEnv;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 
 public interface UIDefaults {
@@ -21,10 +21,11 @@ public interface UIDefaults {
     int PREF_WIDTH = 1440 - MAX_TASKBAR_WIDTH;
     int PREF_HEIGHT = 900 - MAX_TASKBAR_HEIGHT;
 
+    // TODO: remember window size when closing application instead of this
     Dimension FORCED_WINDOW_SIZE = parseWindowsSize();
 
     private static @Nullable Dimension parseWindowsSize() {
-        String property = Env.FORCED_WINDOWS_SIZE;
+        String property = getPropertyOrEnv("telekit.window.size", "TELEKIT_WINDOW_SIZE");
         if (isEmpty(property)) return null;
 
         String[] bounds = property.split("x");

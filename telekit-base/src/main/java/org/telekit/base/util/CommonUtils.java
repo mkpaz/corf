@@ -1,7 +1,6 @@
 package org.telekit.base.util;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,14 +8,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 
-public final class CommonUtils {
+import static org.telekit.base.util.StringUtils.ensureNotNull;
 
-    public static @Nullable String getPropertyOrEnv(String propertyKey, String envKey) {
-        return System.getProperty(propertyKey, System.getenv(envKey));
-    }
+public final class CommonUtils {
 
     public static @NotNull Properties loadProperties(File file) {
         return loadProperties(file, StandardCharsets.UTF_8);
@@ -38,6 +36,20 @@ public final class CommonUtils {
 
     public static @NotNull String objectClassName(Object object) {
         return Objects.requireNonNull(object).getClass().getCanonicalName();
+    }
+
+    public static @NotNull String localizedFileName(String fileName, String fileExtension) {
+        return localizedFileName(fileName, fileExtension, Locale.getDefault());
+    }
+
+    /**
+     * Returns file name that corresponds most common practice to name i18n resources,
+     * region tag is not included. Example: {@code config.txt > config_en.txt}.
+     * If locale is null, then just plain file name returned.
+     */
+    public static @NotNull String localizedFileName(String fileName, String fileExtension, Locale locale) {
+        if (locale == null) return fileName + fileExtension;
+        return ensureNotNull(fileName) + "_" + locale.getLanguage() + ensureNotNull(fileExtension);
     }
 
     /**
