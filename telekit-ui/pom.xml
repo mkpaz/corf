@@ -72,7 +72,7 @@
                     </execution>
                     <!-- Preview -->
                     <execution>
-                        <id>preview</id>
+                        <id>sampler</id>
                         <configuration>
                             <mainClass>org.telekit.ui.samples.SamplerLauncher</mainClass>
                             <executable>${java.home}/bin/java</executable>

@@ -6,11 +6,15 @@
  https://github.com/openjdk/jfx/blob/master/modules/javafx.controls/src/main/resources/com/sun/javafx/scene/control/skin/modena/modena.css
 */
 
-/* TODO: [0.9] define error color (also use it in index.css) */
 .root {
-    /* color palette is Material UI, default color - Indigo:400 */
+    /* color palette is from Material UI */
+    -fx-color-primary: #5c6bc0;
+    -fx-color-success: #66bb6a;
+    -fx-color-warning: #ffa726;
+    -fx-color-error: #ef5350;
+
     -fx-base: #f2f2f2;
-    -fx-accent: #5c6bc0;
+    -fx-accent: -fx-color-primary;
     -fx-focus-color: #7986cb;
     -fx-faint-focus-color: #7986cb22;
     -fx-default-button: -fx-accent;
@@ -56,32 +60,34 @@
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab:top {
-    -fx-background-insets: 0 1 0 0, 1 2 1 0, 2 3 2 0; /* top, right, bottom, left */
+/*  -fx-background-insets: 0 1 0 0, 1 2 1 0, 2 3 2 0; */
+    -fx-background-insets: 0 1 0 0, 0 2 1 0, 0 3 2 0; /* top, right, bottom, left */
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab:top:selected {
-    -fx-background-insets: 0 1 0 0, 1 2 0 0, 2 3 0 0;
+/*  -fx-background-insets: 0 1 1 0, 0 2 0 0, 2 3 0 0; */
+    -fx-background-insets: 0 1 0 0, 0 2 0 0, 0 3 0 0;
 }
 
 /* reduce tab border insets, default TabPane supposed to be used only for OUTER tabs,
    more specifically it's parent must have a border */
 .tab-pane > .tab-header-area > .headers-region > .tab:bottom {
-    -fx-background-insets: 0 0 0 1, 1 0 1 2, 2 0 2 3; /* bottom, left, top, right */
+    -fx-background-insets: 0 0 0 1, 0 0 1 2, 0 0 2 3; /* bottom, left, top, right */
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:bottom:selected {
-    -fx-background-insets: 0 0 0 1, 1 0 0 2, 2 0 0 3;
+    -fx-background-insets: 0 0 0 1, 0 0 0 2, 0 0 0 3;
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:left {
-    -fx-background-insets: 0 0 0 1, 1 0 1 2, 2 0 2 3; /* left, top, right, bottom */
+    -fx-background-insets: 0 0 0 1, 0 0 1 2, 0 0 2 3; /* left, top, right, bottom */
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:left:selected {
-    -fx-background-insets: 0 0 0 1, 1 0 0 2, 2 0 0 3;
+    -fx-background-insets: 0 0 0 1, 0 0 0 2, 0 0 0 3;
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:right {
-    -fx-background-insets: 0 1 0 0, 1 2 1 0, 2 3 2 0; /* right, bottom, left, top */
+    -fx-background-insets: 0 1 0 0, 0 2 1 0, 0 3 2 0; /* right, bottom, left, top */
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:right:selected {
-    -fx-background-insets: 0 1 0 0, 1 2 0 0, 2 3 0 0;
+    -fx-background-insets: 0 1 0 0, 0 2 0 0, 0 3 0 0;
 }
 
 /* remove focus border and underline */
@@ -127,6 +133,11 @@
 /* fix default button hover color which somehow incorrectly calculates by ladder() */
 .button:default:hover {
     -fx-text-fill: -fx-light-text-color; /* white */
+}
+
+/* Glyph Fonts */
+.glyph-icon {
+    -fx-fill: -fx-text-base-color;
 }
 
 /* RichTextFX */

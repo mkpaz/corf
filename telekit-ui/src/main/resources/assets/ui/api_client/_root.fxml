@@ -191,7 +191,7 @@
                   </GridPane>
                </content>
                <graphic>
-                  <FontAwesomeIconView fill="#2196f3" glyphName="CUBE" />
+                  <FontAwesomeIconView glyphName="CUBE" />
                </graphic>
             </Tab>
             <Tab closable="false" text="%Log">
@@ -238,7 +238,7 @@
                   </SplitPane>
                </content>
                <graphic>
-                  <FontAwesomeIconView fill="#2196f3" glyphName="BAR_CHART" />
+                  <FontAwesomeIconView glyphName="BAR_CHART" />
                </graphic>
             </Tab>
          </tabs>
@@ -252,7 +252,7 @@
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
-                        <FontAwesomeIconView fill="#4caf50" glyphName="PLAY" />
+                        <FontAwesomeIconView glyphName="PLAY" />
                      </children>
                   </StackPane>
                </graphic></Button>
@@ -260,7 +260,7 @@
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
-                        <FontAwesomeIconView fill="#f44336" glyphName="STOP" />
+                        <FontAwesomeIconView glyphName="STOP" />
                      </children>
                   </StackPane>
                </graphic></Button>

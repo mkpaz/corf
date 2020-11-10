@@ -360,7 +360,7 @@ public class IPv4Controller extends Controller {
         }
 
         public String getNetworkAddress() {
-            return defaultString(String.valueOf(ip4Subnet), EMPTY_DATA);
+            return defaultString(ip4Subnet.getNetworkAddress(), EMPTY_DATA);
         }
 
         public String getPrefixLength() {

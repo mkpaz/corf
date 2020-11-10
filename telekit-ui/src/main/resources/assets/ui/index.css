@@ -57,7 +57,7 @@
 }
 
 .glyph-icon.error {
-    -fx-fill: red;
+    -fx-fill: -fx-color-error;
 }
 
 .text-center {

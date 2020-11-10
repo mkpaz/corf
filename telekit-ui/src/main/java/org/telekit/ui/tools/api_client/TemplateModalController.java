@@ -12,12 +12,13 @@ import javafx.util.StringConverter;
 import org.telekit.base.EventBus;
 import org.telekit.base.domain.HttpConstants.ContentType;
 import org.telekit.base.domain.HttpConstants.Method;
+import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
 import org.telekit.controls.util.ExtraBindings;
-import org.telekit.base.i18n.Messages;
 import org.telekit.ui.tools.Action;
 
 import java.util.Set;
+import java.util.UUID;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.ui.main.MessageKeys.TOOLS_EDIT_TEMPLATE;
@@ -106,8 +107,13 @@ public class TemplateModalController extends Controller {
         this.usedTemplateNames = usedTemplateNames;
 
         String titleKey = "";
-        if (action == Action.NEW || action == Action.DUPLICATE) titleKey = TOOLS_NEW_TEMPLATE;
-        if (action == Action.EDIT) titleKey = TOOLS_EDIT_TEMPLATE;
+        if (action == Action.NEW || action == Action.DUPLICATE) {
+            this.template.setId(UUID.randomUUID());
+            titleKey = TOOLS_NEW_TEMPLATE;
+        }
+        if (action == Action.EDIT) {
+            titleKey = TOOLS_EDIT_TEMPLATE;
+        }
 
         ((Stage) rootPane.getScene().getWindow()).setTitle(Messages.get(titleKey));
         tfName.setText(template.getName());

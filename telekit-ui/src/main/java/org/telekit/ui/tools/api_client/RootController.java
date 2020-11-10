@@ -375,7 +375,6 @@ public class RootController extends Controller {
         switch (event.getAction()) {
             case NEW:
             case DUPLICATE:
-                updatedTemplate.setId(UUID.randomUUID());
                 templateRepository.beginTransaction(false).rollbackOnException(() -> {
                     templateRepository.add(updatedTemplate);
                     templateRepository.saveAll();
