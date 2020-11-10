@@ -21,7 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.Clipboard;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.domain.AuthPrincipal;
+import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
@@ -56,8 +57,10 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import static org.apache.commons.lang3.StringUtils.*;
@@ -161,11 +164,17 @@ public class RootController extends Controller {
 
         tblLog.getSortOrder().add(tcolLogIndex);
         tblLog.setRowFactory(tv -> new LogTableRow());
+        tblLog.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         tblLog.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> displayRequestDetails(newValue));
         tcolLogIndex.setCellValueFactory(new PropertyValueFactory<>("processedRange"));
         tcolLogStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tcolLogRequestLine.setCellValueFactory(new PropertyValueFactory<>("userData"));
+        tblLog.setOnKeyPressed(event -> {
+            if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(event)) {
+                copyLogsTableToClipboard();
+            }
+        });
 
         cbLogDisplayErrorsOnly.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && tblLog.getItems() instanceof FilteredList) {
@@ -180,6 +189,27 @@ public class RootController extends Controller {
         templateRepository = new TemplateRepository(yamlMapper);
         templateRepository.reloadAll();
         reloadTemplates(null);
+    }
+
+    private void copyLogsTableToClipboard() {
+        List<CompletedRequest> selectedRows = tblLog.getSelectionModel().getSelectedItems();
+        if (selectedRows == null || selectedRows.isEmpty()) return;
+
+        StringBuilder sb = new StringBuilder();
+        String separator = " | ";
+        for (CompletedRequest row : selectedRows) {
+            sb.append(row.getProcessedRange())
+                    .append(separator)
+                    .append(row.getStatus())
+                    .append(separator)
+                    .append(row.getUserData())
+                    .append(LineSeparator.UNIX.getCharacters());
+        }
+
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(sb.toString());
+        clipboard.setContent(content);
     }
 
     private void displayRequestDetails(CompletedRequest request) {

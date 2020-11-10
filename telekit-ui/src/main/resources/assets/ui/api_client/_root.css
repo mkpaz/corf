@@ -22,15 +22,15 @@
 }
 
 #tblLog .table-row-cell:failed .table-cell {
-    -fx-text-fill: red;
+    -fx-text-fill: -fx-color-error;
 }
 
 #tblLog .table-row-cell:forwarded .table-cell {
-    -fx-text-fill: orange;
+    -fx-text-fill: -fx-color-warning;
 }
 
 #tblLog .table-row-cell:selected .table-cell {
-    -fx-text-fill: white;
+    -fx-text-fill: -fx-light-text-color;
 }
 
 .split-pane > .split-pane-divider {
