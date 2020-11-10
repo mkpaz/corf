@@ -211,7 +211,7 @@ public class Launcher extends Application implements UIDefaults {
 
         // save preferences if changes were made
         if (this.preferences.isDirty()) {
-            ApplicationPreferences.save(this.preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
+            ApplicationPreferences.save(this.preferences, yamlMapper);
             preferences.resetDirty();
         }
 
@@ -359,7 +359,7 @@ public class Launcher extends Application implements UIDefaults {
     private ApplicationPreferences loadApplicationPreferences(YAMLMapper yamlMapper) {
         if (Files.exists(ApplicationPreferences.CONFIG_PATH)) {
             // application can't work without preferences, don't make attempts to recover
-            return ApplicationPreferences.load(yamlMapper, ApplicationPreferences.CONFIG_PATH);
+            return ApplicationPreferences.load(yamlMapper);
         } else {
             ApplicationPreferences preferences = new ApplicationPreferences();
             preferences.setDirty();

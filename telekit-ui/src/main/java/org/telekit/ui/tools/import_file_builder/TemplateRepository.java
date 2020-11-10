@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
+import static org.telekit.base.util.CommonUtils.hush;
+import static org.telekit.base.util.FileUtils.*;
 
 public class TemplateRepository extends FileBasedRepository<Template, UUID> {
 
@@ -52,10 +55,16 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
     }
 
     public void saveAll() {
+        Path backup = backupFile(DATA_FILE_PATH);
         try (OutputStream outputStream = Files.newOutputStream(DATA_FILE_PATH)) {
             yamlSerializer.serialize(outputStream, getAll());
         } catch (IOException e) {
+            if (backup != null) {
+                copyFile(backup, DATA_FILE_PATH, StandardCopyOption.REPLACE_EXISTING);
+            }
             throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+        } finally {
+            if (backup != null) hush(() -> deleteFile(backup));
         }
     }
 

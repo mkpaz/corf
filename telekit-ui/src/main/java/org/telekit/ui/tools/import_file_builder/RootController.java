@@ -48,8 +48,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -312,19 +314,17 @@ public class RootController extends Controller {
         Template updatedTemplate = event.getTemplate();
 
         switch (event.getAction()) {
-            case NEW:
-            case DUPLICATE:
+            case NEW, DUPLICATE -> {
                 templateRepository.beginTransaction(false).rollbackOnException(() -> {
                     templateRepository.add(updatedTemplate);
                     templateRepository.saveAll();
                 });
                 selectedTemplate = updatedTemplate;
-            case EDIT:
-                templateRepository.beginTransaction(updatedTemplate).rollbackOnException(() -> {
-                    templateRepository.update(updatedTemplate);
-                    templateRepository.saveAll();
-                });
-                break;
+            }
+            case EDIT -> templateRepository.beginTransaction(updatedTemplate).rollbackOnException(() -> {
+                templateRepository.update(updatedTemplate);
+                templateRepository.saveAll();
+            });
         }
 
         reloadTemplates(selectedTemplate);

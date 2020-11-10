@@ -61,7 +61,7 @@ public class TemplateModalController extends Controller {
         if (sourceTemplate == null) {
             this.template = new Template();
         } else {
-            new Template(sourceTemplate);
+            this.template = new Template(sourceTemplate);
         }
         this.usedTemplateNames = usedTemplateNames;
 

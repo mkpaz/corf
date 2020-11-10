@@ -1,6 +1,7 @@
 package org.telekit.base.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.telekit.base.Env.TEMP_DIR;
 
 public final class FileUtils {
 
@@ -37,6 +39,25 @@ public final class FileUtils {
                 .filter(File::isFile)
                 .map(File::toPath)
                 .collect(Collectors.toList());
+    }
+
+    public static @NotNull Path createTempFilePath() {
+        return createTempPath(null, ".tmp");
+    }
+
+    public static @NotNull Path createTempDirPath() {
+        return createTempPath("tmp-", null);
+    }
+
+    /*
+     * This method does not create nor empty temp file nor directory,
+     * but only returns its path.
+     */
+    public static @NotNull Path createTempPath(String prefix, String suffix) {
+        String filename = UUID.randomUUID().toString().replace("-", "");
+        prefix = StringUtils.ensureNotNull(prefix, "");
+        suffix = StringUtils.ensureNotNull(suffix, "");
+        return TEMP_DIR.resolve(prefix + filename + suffix);
     }
 
     public static @NotNull Path createTempFile() {
@@ -137,6 +158,23 @@ public final class FileUtils {
             return !folderStream.iterator().hasNext();
         } catch (Throwable ignored) {
             return false;
+        }
+    }
+
+    /**
+     * Creates a copy of a file in the temp directory.
+     *
+     * @return a path to temp file or null if copying has failed.
+     */
+    public static @Nullable Path backupFile(Path source) {
+        if (source == null || !Files.exists(source) || !Files.isRegularFile(source)) return null;
+
+        Path tmp = createTempFilePath();
+        try {
+            copyFile(source, tmp, REPLACE_EXISTING);
+            return tmp;
+        } catch (Exception e) {
+            return null;
         }
     }
 }

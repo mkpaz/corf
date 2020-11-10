@@ -400,7 +400,7 @@ public class MainController extends Controller {
         switch (event.getType()) {
             case RESTART_REQUIRED -> primaryStage.setTitle(Env.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
             case PREFERENCES_CHANGED -> {
-                ApplicationPreferences.save(preferences, yamlMapper, ApplicationPreferences.CONFIG_PATH);
+                ApplicationPreferences.save(preferences, yamlMapper);
                 preferences.resetDirty();
             }
         }

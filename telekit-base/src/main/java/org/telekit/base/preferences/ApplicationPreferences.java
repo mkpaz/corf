@@ -13,14 +13,18 @@ import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.Env.DATA_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
+import static org.telekit.base.util.CommonUtils.hush;
+import static org.telekit.base.util.FileUtils.*;
 
 @JacksonXmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -114,19 +118,35 @@ public class ApplicationPreferences {
                 '}';
     }
 
+    public static ApplicationPreferences load(YAMLMapper mapper) {
+        return load(mapper, CONFIG_PATH);
+    }
+
     public static ApplicationPreferences load(YAMLMapper mapper, Path path) {
+        Objects.requireNonNull(mapper);
+        Objects.requireNonNull(path);
         try {
-            return mapper.readValue(CONFIG_PATH.toFile(), ApplicationPreferences.class);
+            return mapper.readValue(path.toFile(), ApplicationPreferences.class);
         } catch (Exception e) {
             throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
         }
     }
 
+    public static void save(ApplicationPreferences preferences, YAMLMapper mapper) {
+        save(preferences, mapper, CONFIG_PATH);
+    }
+
     public static void save(ApplicationPreferences preferences, YAMLMapper mapper, Path path) {
+        Path backup = backupFile(path);
         try {
-            mapper.writeValue(CONFIG_PATH.toFile(), preferences);
+            mapper.writeValue(path.toFile(), preferences);
         } catch (Exception e) {
+            if (backup != null) {
+                copyFile(backup, path, StandardCopyOption.REPLACE_EXISTING);
+            }
             throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+        } finally {
+            if (backup != null) hush(() -> deleteFile(backup));
         }
     }
 }

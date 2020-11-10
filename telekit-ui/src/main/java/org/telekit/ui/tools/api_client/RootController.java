@@ -403,19 +403,17 @@ public class RootController extends Controller {
         Template updatedTemplate = event.getTemplate();
 
         switch (event.getAction()) {
-            case NEW:
-            case DUPLICATE:
+            case NEW, DUPLICATE -> {
                 templateRepository.beginTransaction(false).rollbackOnException(() -> {
                     templateRepository.add(updatedTemplate);
                     templateRepository.saveAll();
                 });
                 selectedTemplate = updatedTemplate;
-            case EDIT:
-                templateRepository.beginTransaction(updatedTemplate).rollbackOnException(() -> {
-                    templateRepository.update(updatedTemplate);
-                    templateRepository.saveAll();
-                });
-                break;
+            }
+            case EDIT -> templateRepository.beginTransaction(updatedTemplate).rollbackOnException(() -> {
+                templateRepository.update(updatedTemplate);
+                templateRepository.saveAll();
+            });
         }
 
         reloadTemplates(selectedTemplate);
