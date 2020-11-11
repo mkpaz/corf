@@ -2,21 +2,27 @@ package org.telekit.base;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.util.DesktopUtils;
 
+import java.awt.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.service.Encryptor.Algorithm;
+import static org.telekit.base.ui.UIDefaults.PREF_HEIGHT;
+import static org.telekit.base.ui.UIDefaults.PREF_WIDTH;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.ensureNotNull;
 import static org.telekit.base.util.FileUtils.urlToFile;
+import static org.telekit.base.util.NumberUtils.ensureRange;
 
 public final class Env {
 
@@ -148,6 +154,27 @@ public final class Env {
             }
         }
         return null;
+    }
+
+    public static final Dimension FORCED_WINDOW_SIZE = parseWindowsSize();
+
+    private static @Nullable Dimension parseWindowsSize() {
+        String property = getPropertyOrEnv("telekit.window.size", "TELEKIT_WINDOW_SIZE");
+        if (isEmpty(property)) return null;
+
+        String[] bounds = property.split("x");
+        if (bounds.length != 2 || !NumberUtils.isDigits(bounds[0]) || !NumberUtils.isDigits(bounds[1])) {
+            return null;
+        }
+
+        int userWidth = Integer.parseInt(bounds[0]);
+        int userHeight = Integer.parseInt(bounds[1]);
+
+        // be sensible
+        userWidth = ensureRange(userWidth, 256, 4096, PREF_WIDTH);
+        userHeight = ensureRange(userHeight, 256, 4096, PREF_HEIGHT);
+
+        return new Dimension(userWidth, userHeight);
     }
 
     // TODO: Find a better way to provide app version. This way it can be manipulated at runtime.

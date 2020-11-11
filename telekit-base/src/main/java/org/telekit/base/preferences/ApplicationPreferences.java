@@ -11,28 +11,28 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
+import org.telekit.base.ui.UIDefaults;
 
+import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.prefs.Preferences;
 
 import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.Env.DATA_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
+import static org.telekit.base.ui.UIDefaults.WINDOW_MAXIMIZED;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileUtils.*;
 
 @JacksonXmlRootElement
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationPreferences {
-
-    @Deprecated
-    public static final Path CONFIG_PATH_OLD = DATA_DIR.resolve("preferences.xml");
-    public static final Path CONFIG_PATH = CONFIG_DIR.resolve("preferences.yaml");
 
     private Language language = Language.EN;
     private boolean systemTray = false;
@@ -117,6 +117,51 @@ public class ApplicationPreferences {
                 ", disabledPlugins=" + disabledPlugins +
                 '}';
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    private Preferences systemPreferences = Preferences.userRoot().node(Env.APP_NAME);
+    private static final String WINDOW_WIDTH = "windowWidth";
+    private static final String WINDOW_HEIGHT = "windowHeight";
+
+    @JsonIgnore
+    public @Nullable Dimension getMainWindowSize() {
+        try {
+            Objects.requireNonNull(systemPreferences);
+            int width = systemPreferences.getInt(WINDOW_WIDTH, (int) WINDOW_MAXIMIZED.getWidth());
+            int height = systemPreferences.getInt(WINDOW_HEIGHT, (int) WINDOW_MAXIMIZED.getHeight());
+            return new Dimension(width, height);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void setMainWindowSize(Dimension dimension) {
+        try {
+            Objects.requireNonNull(systemPreferences);
+            Objects.requireNonNull(dimension);
+
+            int width = Math.max((int) dimension.getWidth(), UIDefaults.MIN_WIDTH);
+            int height = Math.max((int) dimension.getHeight(), UIDefaults.MIN_HEIGHT);
+
+            if (WINDOW_MAXIMIZED.equals(dimension)) {
+                width = (int) WINDOW_MAXIMIZED.getWidth();
+                height = (int) WINDOW_MAXIMIZED.getHeight();
+            }
+
+            systemPreferences.putInt(WINDOW_WIDTH, width);
+            systemPreferences.putInt(WINDOW_HEIGHT, height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    @Deprecated
+    public static final Path CONFIG_PATH_OLD = DATA_DIR.resolve("preferences.xml");
+    public static final Path CONFIG_PATH = CONFIG_DIR.resolve("preferences.yaml");
 
     public static ApplicationPreferences load(YAMLMapper mapper) {
         return load(mapper, CONFIG_PATH);

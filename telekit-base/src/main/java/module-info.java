@@ -11,6 +11,7 @@ module telekit.base {
     requires transitive java.inject;
     requires transitive java.sql;
     requires transitive java.xml;
+    requires transitive java.prefs;
 
     requires transitive javafx.controls;
     requires transitive javafx.fxml;

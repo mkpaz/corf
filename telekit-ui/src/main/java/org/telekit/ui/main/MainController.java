@@ -25,10 +25,7 @@ import org.telekit.base.plugin.internal.PluginStateChangedEvent;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.Security;
 import org.telekit.base.preferences.Vault;
-import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
-import org.telekit.base.ui.IconCache;
-import org.telekit.base.ui.UILoader;
+import org.telekit.base.ui.*;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.ui.Launcher;
 import org.telekit.ui.domain.ApplicationEvent;
@@ -363,7 +360,9 @@ public class MainController extends Controller {
 
     @FXML
     public void restartApplication() {
-        EventBus.getInstance().publish(new CloseEvent(Launcher.RESTART_EXIT_CODE));
+        CloseEvent event = new CloseEvent(Launcher.RESTART_EXIT_CODE);
+        event.setWindowSize(UIDefaults.getWindowSize(primaryStage));
+        EventBus.getInstance().publish(event);
     }
 
     @FXML

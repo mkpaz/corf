@@ -114,27 +114,35 @@ public class Launcher extends Application implements UIDefaults {
 
         // handle application close events
         EventBus.getInstance().subscribe(CloseEvent.class, this::close);
-        primaryStage.setOnCloseRequest(t -> Platform.exit());
+        primaryStage.setOnCloseRequest(t -> {
+            if (this.preferences != null) {
+                this.preferences.setMainWindowSize(UIDefaults.getWindowSize(primaryStage));
+            }
+            Platform.exit();
+        });
 
-        // set main window size
-        Dimension bounds = isScreenFits(PREF_WIDTH, PREF_HEIGHT) ?
+        Dimension prefWindowSize = isScreenFits(PREF_WIDTH, PREF_HEIGHT) ?
                 new Dimension(PREF_WIDTH, PREF_HEIGHT) :
                 new Dimension(MIN_WIDTH, MIN_HEIGHT);
-        if (FORCED_WINDOW_SIZE != null) {
-            bounds = FORCED_WINDOW_SIZE;
-        } else {
-            primaryStage.setMaximized(true);
-        }
-        primaryStage.setMinWidth(MIN_WIDTH);
-        primaryStage.setMinHeight(MIN_HEIGHT);
+        Dimension storedWindowSize = this.preferences.getMainWindowSize(); // previous window size
 
-        // create scene and apply (TBD: user selected) theme to it
-        Scene scene = new Scene(controller.getParent(), bounds.getWidth(), bounds.getHeight());
+        // use last closed window size if possible
+        if (storedWindowSize != null) prefWindowSize = storedWindowSize;
+        // override stored window size if it was forced via env variable
+        if (FORCED_WINDOW_SIZE != null) prefWindowSize = FORCED_WINDOW_SIZE;
+        // if special dimension value (0, 0) is used, maximize the stage
+        if (WINDOW_MAXIMIZED.equals(prefWindowSize)) primaryStage.setMaximized(true);
+
+        Scene scene = new Scene(controller.getParent(), prefWindowSize.getWidth(), prefWindowSize.getHeight());
+
+        // apply theme
         scene.getStylesheets().add(getResource(INDEX_CSS_PATH).toExternalForm());
         scene.getStylesheets().add(getResource(THEMES_DIR_PATH + "base.css").toExternalForm());
 
         // show primary stage
         primaryStage.setTitle(Env.APP_NAME);
+        primaryStage.setMinWidth(MIN_WIDTH);
+        primaryStage.setMinHeight(MIN_HEIGHT);
         primaryStage.setScene(scene);
         primaryStage.show();
         Platform.runLater(() -> {
@@ -170,6 +178,9 @@ public class Launcher extends Application implements UIDefaults {
     @Listener
     public void close(CloseEvent event) {
         exitCode = event.getExitCode();
+        if (this.preferences != null && event.getWindowSize() != null) {
+            this.preferences.setMainWindowSize(event.getWindowSize());
+        }
         Platform.exit();
     }
 
