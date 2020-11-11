@@ -3,6 +3,7 @@ package org.telekit.base.i18n;
 public interface BaseMessageKeys {
 
     String CONFIRMATION = "Confirmation";
+    String ERROR = "Error";
     String INFO = "Info";
     String PREFERENCES = "Preferences";
     String STATUS = "Status";

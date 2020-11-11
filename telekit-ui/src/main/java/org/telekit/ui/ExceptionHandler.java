@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
+import static org.telekit.base.i18n.BaseMessageKeys.ERROR;
 import static org.telekit.base.util.CollectionUtils.getLast;
 import static org.telekit.ui.main.MessageKeys.MAIN_MSG_ERROR_OCCURRED;
 
@@ -40,7 +41,7 @@ public final class ExceptionHandler {
         showErrorDialog(event.getCause());
     }
 
-    public void showErrorDialog(Throwable throwable) {
+    public synchronized void showErrorDialog(Throwable throwable) {
         LOGGER.severe(ExceptionUtils.getStackTrace(throwable));
 
         Platform.runLater(() -> {
@@ -57,7 +58,10 @@ public final class ExceptionHandler {
                     getStackTrace(cause)
             );
 
-            exceptionDialog.showAndWait();
+            // this check is necessary to prevent from OOM on recurring errors
+            if (!exceptionDialog.isShowing()) {
+                exceptionDialog.showAndWait();
+            }
         });
     }
 
@@ -86,12 +90,14 @@ public final class ExceptionHandler {
 
     private class ExceptionDialog {
 
+        private static final int DIALOG_WIDTH = 440;
+
         private final Alert dialog;
         private final TextArea taStackTrace;
 
         public ExceptionDialog() {
             dialog = Dialogs.error()
-                    .title("Error")
+                    .title(Messages.get(ERROR))
                     .header(null)
                     .owner(primaryStage)
                     .build();
@@ -109,15 +115,22 @@ public final class ExceptionHandler {
             expandableContent.add(taStackTrace, 0, 1);
 
             dialog.getDialogPane().setExpandableContent(expandableContent);
-            dialog.getDialogPane().setMaxWidth(Launcher.MIN_WIDTH / 2.0);
+            dialog.getDialogPane().setPrefWidth(DIALOG_WIDTH);
+            dialog.getDialogPane().setMaxWidth(DIALOG_WIDTH);
+            dialog.setResizable(false);
+        }
+
+        public boolean isShowing() {
+            return dialog.isShowing();
         }
 
         public void setHeaderText(String text) {
-            this.dialog.setHeaderText(text);
+            dialog.setHeaderText(text);
         }
 
         public void setStackTrace(String text) {
-            this.taStackTrace.setText(text);
+            dialog.getDialogPane().setExpanded(false);
+            taStackTrace.setText(text);
         }
 
         public void showAndWait() {
