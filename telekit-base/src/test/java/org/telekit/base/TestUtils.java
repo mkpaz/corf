@@ -14,7 +14,7 @@ public class TestUtils {
 
     public static void loadResourceBundle() {
         Messages.getInstance().load(
-                BaseMessagesBundleProvider.getBundle(Locale.getDefault()),
+                BaseMessagesBundleProvider.getBundle(Locale.ENGLISH),
                 BaseMessagesBundleProvider.class.getName()
         );
     }

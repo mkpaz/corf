@@ -234,7 +234,7 @@ public class PluginManager {
             pluginBox.setState(STARTED);
 
             // if started, load resource bundle
-            ResourceBundle bundle = pluginBox.getPlugin().getBundle(preferences.getLocale());
+            ResourceBundle bundle = pluginBox.getPlugin().getBundle(Locale.getDefault());
             if (bundle != null) {
                 Messages.getInstance().load(bundle, className(pluginBox.getPluginClass()));
             }

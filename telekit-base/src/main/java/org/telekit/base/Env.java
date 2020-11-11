@@ -137,7 +137,6 @@ public final class Env {
         return System.getProperty(propertyKey, System.getenv(envKey));
     }
 
-    // TODO: [0.9] Inspect all locale sources and refactor its extraction to more readable fashion
     public static final @Nullable Locale LOCALE = getLocaleFromEnv();
 
     public static @Nullable Locale getLocaleFromEnv() {
