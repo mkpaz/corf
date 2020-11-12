@@ -47,6 +47,8 @@ public final class Dialogs {
         public AlertBuilder(AlertType type) {
             this.alert = new Alert(type);
             this.alert.setHeaderText(null);
+            this.alert.getDialogPane().setMaxWidth(UIDefaults.DIALOG_MAX_WIDTH);
+            this.alert.getDialogPane().setMaxHeight(UIDefaults.DIALOG_MAX_HEIGHT);
 
             Image appIcon = IconCache.get(ICON_APP);
             if (appIcon != null) icon(appIcon);

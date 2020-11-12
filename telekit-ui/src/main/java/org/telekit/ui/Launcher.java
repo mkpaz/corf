@@ -121,9 +121,9 @@ public class Launcher extends Application implements UIDefaults {
             Platform.exit();
         });
 
-        Dimension prefWindowSize = isScreenFits(PREF_WIDTH, PREF_HEIGHT) ?
-                new Dimension(PREF_WIDTH, PREF_HEIGHT) :
-                new Dimension(MIN_WIDTH, MIN_HEIGHT);
+        Dimension prefWindowSize = isScreenFits(WINDOW_PREF_WIDTH, WINDOW_PREF_HEIGHT) ?
+                new Dimension(WINDOW_PREF_WIDTH, WINDOW_PREF_HEIGHT) :
+                new Dimension(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);
         Dimension storedWindowSize = this.preferences.getMainWindowSize(); // previous window size
 
         // use last closed window size if possible
@@ -141,8 +141,8 @@ public class Launcher extends Application implements UIDefaults {
 
         // show primary stage
         primaryStage.setTitle(Env.APP_NAME);
-        primaryStage.setMinWidth(MIN_WIDTH);
-        primaryStage.setMinHeight(MIN_HEIGHT);
+        primaryStage.setMinWidth(WINDOW_MIN_WIDTH);
+        primaryStage.setMinHeight(WINDOW_MIN_HEIGHT);
         primaryStage.setScene(scene);
         primaryStage.show();
         Platform.runLater(() -> {

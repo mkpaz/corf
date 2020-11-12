@@ -53,7 +53,7 @@ public class Launcher extends Application implements UIDefaults {
 
         primaryStage.setTitle(Env.APP_NAME);
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(controller.getParent(), PREF_WIDTH, PREF_HEIGHT));
+        primaryStage.setScene(new Scene(controller.getParent(), WINDOW_PREF_WIDTH, WINDOW_PREF_HEIGHT));
         primaryStage.getIcons().add(IconCache.get(ICON_APP));
         primaryStage.setOnCloseRequest(t -> Platform.exit());
         primaryStage.show();

@@ -142,8 +142,8 @@ public class ApplicationPreferences {
             Objects.requireNonNull(systemPreferences);
             Objects.requireNonNull(dimension);
 
-            int width = Math.max((int) dimension.getWidth(), UIDefaults.MIN_WIDTH);
-            int height = Math.max((int) dimension.getHeight(), UIDefaults.MIN_HEIGHT);
+            int width = Math.max((int) dimension.getWidth(), UIDefaults.WINDOW_MIN_WIDTH);
+            int height = Math.max((int) dimension.getHeight(), UIDefaults.WINDOW_MIN_HEIGHT);
 
             if (WINDOW_MAXIMIZED.equals(dimension)) {
                 width = (int) WINDOW_MAXIMIZED.getWidth();

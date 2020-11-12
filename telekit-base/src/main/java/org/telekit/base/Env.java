@@ -17,8 +17,8 @@ import java.util.Locale;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.service.Encryptor.Algorithm;
-import static org.telekit.base.ui.UIDefaults.PREF_HEIGHT;
-import static org.telekit.base.ui.UIDefaults.PREF_WIDTH;
+import static org.telekit.base.ui.UIDefaults.WINDOW_PREF_HEIGHT;
+import static org.telekit.base.ui.UIDefaults.WINDOW_PREF_WIDTH;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.ensureNotNull;
 import static org.telekit.base.util.FileUtils.urlToFile;
@@ -171,8 +171,8 @@ public final class Env {
         int userHeight = Integer.parseInt(bounds[1]);
 
         // be sensible
-        userWidth = ensureRange(userWidth, 256, 4096, PREF_WIDTH);
-        userHeight = ensureRange(userHeight, 256, 4096, PREF_HEIGHT);
+        userWidth = ensureRange(userWidth, 256, 4096, WINDOW_PREF_WIDTH);
+        userHeight = ensureRange(userHeight, 256, 4096, WINDOW_PREF_HEIGHT);
 
         return new Dimension(userWidth, userHeight);
     }
