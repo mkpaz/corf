@@ -8,15 +8,15 @@
 
 .root {
     /* color palette is from Material UI */
-    -fx-color-primary: #5c6bc0;
-    -fx-color-success: #66bb6a;
-    -fx-color-warning: #ffa726;
-    -fx-color-error: #ef5350;
+    -fx-color-primary: #1976D2; /* blue 700         */
+    -fx-color-success: #388E3C; /* green 700        */
+    -fx-color-warning: #FF3D00; /* deep-orange A400 */
+    -fx-color-error: #FF1744;   /* red A400         */
 
     -fx-base: #f2f2f2;
     -fx-accent: -fx-color-primary;
-    -fx-focus-color: #7986cb;
-    -fx-faint-focus-color: #7986cb22;
+    -fx-focus-color: -fx-color-primary;
+    -fx-faint-focus-color: #2979FF22;
     -fx-default-button: -fx-accent;
     -fx-body-color: linear-gradient(
         to bottom,
@@ -130,8 +130,9 @@
     -fx-cell-size: 2.6em;
 }
 
-/* fix default button hover color which somehow incorrectly calculates by ladder() */
-.button:default:hover {
+/* fix button hover color which somehow incorrectly calculates by ladder() */
+.button:default:hover,
+.pagination:focused .toggle-button:selected:hover {
     -fx-text-fill: -fx-light-text-color; /* white */
 }
 

@@ -26,7 +26,6 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
@@ -51,11 +50,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.samples.SamplerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.samples.SamplerController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -93,13 +93,12 @@
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints vgrow="NEVER" />
-                      <RowConstraints maxHeight="200.0" minHeight="200.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="250.0" minHeight="250.0" vgrow="SOMETIMES" />
                       <RowConstraints vgrow="SOMETIMES" />
-                        <RowConstraints vgrow="SOMETIMES" />
-                      <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints maxHeight="200.0" minHeight="200.0" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <DialogPane contentText="Content" expanded="true" headerText="Dialog Pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+                        <DialogPane contentText="Content" expanded="true" headerText="Dialog Pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
                             <expandableContent>
                               <AnchorPane />
                             </expandableContent>
@@ -137,7 +136,7 @@
                                           <Label text="Tab Pane" BorderPane.alignment="CENTER" />
                                        </center>
                                        <padding>
-                                          <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+                                          <Insets bottom="10.0" top="10.0" />
                                        </padding>
                                     </BorderPane>
                               </content>
@@ -226,8 +225,7 @@
                               </ToolBar>
                            </children>
                         </VBox>
-                        <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
-                        <VBox spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <children>
                               <Label text="Button Bar" />
                               <ButtonBar buttonOrder="U+L_HE+FBIX_NCYOA_R" VBox.vgrow="NEVER">
@@ -342,7 +340,6 @@
                            <children>
                               <DatePicker fx:id="datePickerA" editable="false" promptText="Date Picker" showWeekNumbers="true" />
                               <ColorPicker promptText="Color Picker" />
-                              <Pagination maxPageIndicatorCount="5" />
                            </children></HBox>
                         <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
@@ -383,20 +380,25 @@
                      </rowConstraints>
                      <children>
                         <ListView fx:id="listViewA" prefHeight="200.0" prefWidth="200.0" />
-                        <TableView fx:id="tableViewA" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" GridPane.columnIndex="1">
-                          <columns>
-                              <TableColumn fx:id="tableColAC0" prefWidth="75.0" text="C0" />
-                              <TableColumn prefWidth="75.0" text="C12">
-                                 <columns>
-                                  <TableColumn fx:id="tableColAC1" prefWidth="75.0" text="C1" />
-                                  <TableColumn fx:id="tableColAC2" prefWidth="75.0" text="C2" />
-                                 </columns>
-                              </TableColumn>
-                          </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
+                        <VBox GridPane.columnIndex="1">
+                           <children>
+                              <TableView fx:id="tableViewA" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="tableColAC0" prefWidth="75.0" text="C0" />
+                                    <TableColumn prefWidth="75.0" text="C12">
+                                       <columns>
+                                        <TableColumn fx:id="tableColAC1" prefWidth="75.0" text="C1" />
+                                        <TableColumn fx:id="tableColAC2" prefWidth="75.0" text="C2" />
+                                       </columns>
+                                    </TableColumn>
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <Pagination maxPageIndicatorCount="5" />
+                           </children>
+                        </VBox>
                         <TreeView fx:id="treeViewA" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                         <TreeTableView fx:id="treeTableViewA" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                           <columns>
@@ -413,6 +415,21 @@
                      </padding>
                   </GridPane>
                </content>
+            </Tab>
+            <Tab text="Typography">
+              <content>
+                  <VBox spacing="20.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Eat some more of these soft French buns and drink some tea." />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-success" text="Eat some more of these soft French buns and drink some tea." />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-warning" text="Eat some more of these soft French buns and drink some tea." />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-error" text="Eat some more of these soft French buns and drink some tea." />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+              </content>
             </Tab>
         </tabs>
       </TabPane>
