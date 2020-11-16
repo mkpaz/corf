@@ -12,8 +12,8 @@ import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.UIDefaults;
+import org.telekit.controls.domain.Dimension;
 
-import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
@@ -120,7 +120,7 @@ public class ApplicationPreferences {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    private Preferences systemPreferences = Preferences.userRoot().node(Env.APP_NAME);
+    private final Preferences systemPreferences = Preferences.userRoot().node(Env.APP_NAME);
     private static final String WINDOW_WIDTH = "windowWidth";
     private static final String WINDOW_HEIGHT = "windowHeight";
 
@@ -142,8 +142,8 @@ public class ApplicationPreferences {
             Objects.requireNonNull(systemPreferences);
             Objects.requireNonNull(dimension);
 
-            int width = Math.max((int) dimension.getWidth(), UIDefaults.WINDOW_MIN_WIDTH);
-            int height = Math.max((int) dimension.getHeight(), UIDefaults.WINDOW_MIN_HEIGHT);
+            int width = Math.max((int) dimension.getWidth(), (int) UIDefaults.MAIN_WINDOW_MIN_SIZE.getWidth());
+            int height = Math.max((int) dimension.getHeight(), (int) UIDefaults.MAIN_WINDOW_MIN_SIZE.getHeight());
 
             if (WINDOW_MAXIMIZED.equals(dimension)) {
                 width = (int) WINDOW_MAXIMIZED.getWidth();

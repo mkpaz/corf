@@ -6,13 +6,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.telekit.controls.domain.Dimension;
 
 import static org.telekit.base.ui.IconCache.ICON_APP;
+import static org.telekit.base.ui.UIDefaults.DIALOG_MAX_SIZE;
 
 public final class Dialogs {
 
@@ -47,8 +50,8 @@ public final class Dialogs {
         public AlertBuilder(AlertType type) {
             this.alert = new Alert(type);
             this.alert.setHeaderText(null);
-            this.alert.getDialogPane().setMaxWidth(UIDefaults.DIALOG_MAX_WIDTH);
-            this.alert.getDialogPane().setMaxHeight(UIDefaults.DIALOG_MAX_HEIGHT);
+            this.alert.getDialogPane().setMaxWidth(DIALOG_MAX_SIZE.getWidth());
+            this.alert.getDialogPane().setMaxHeight(DIALOG_MAX_SIZE.getHeight());
 
             Image appIcon = IconCache.get(ICON_APP);
             if (appIcon != null) icon(appIcon);
@@ -131,6 +134,7 @@ public final class Dialogs {
             stage = new Stage();
             scene = new Scene(root);
             stage.setScene(scene);
+            root.getStyleClass().add("application-modal");
             stage.initModality(Modality.WINDOW_MODAL);
         }
 
@@ -150,6 +154,13 @@ public final class Dialogs {
             }
 
             stage.initOwner(owner);
+            return this;
+        }
+
+        public ModalBuilder maxSize(Dimension dimension) {
+            Pane root = (Pane) scene.getRoot();
+            root.setMaxWidth(dimension.getWidth());
+            root.setMaxHeight(dimension.getHeight());
             return this;
         }
 

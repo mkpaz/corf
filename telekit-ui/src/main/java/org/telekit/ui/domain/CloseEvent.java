@@ -1,6 +1,6 @@
 package org.telekit.ui.domain;
 
-import java.awt.*;
+import org.telekit.controls.domain.Dimension;
 
 public class CloseEvent {
 

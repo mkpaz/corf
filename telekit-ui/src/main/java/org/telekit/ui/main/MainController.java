@@ -3,20 +3,27 @@ package org.telekit.ui.main;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import fontawesomefx.fa.FontAwesomeIcon;
 import fontawesomefx.fa.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.telekit.base.Env;
 import org.telekit.base.EventBus;
 import org.telekit.base.EventBus.Listener;
 import org.telekit.base.domain.ProgressIndicatorEvent;
+import org.telekit.base.i18n.BaseMessageKeys;
 import org.telekit.base.i18n.Messages;
+import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.plugin.internal.ExtensionBox;
 import org.telekit.base.plugin.internal.PluginManager;
@@ -26,40 +33,47 @@ import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.Security;
 import org.telekit.base.preferences.Vault;
 import org.telekit.base.ui.*;
+import org.telekit.base.util.CollectionUtils;
 import org.telekit.base.util.DesktopUtils;
+import org.telekit.controls.domain.Dimension;
 import org.telekit.ui.Launcher;
 import org.telekit.ui.domain.ApplicationEvent;
+import org.telekit.ui.domain.BuiltinTool;
 import org.telekit.ui.domain.CloseEvent;
+import org.telekit.ui.domain.FXMLView;
 
 import javax.inject.Inject;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Env.DOCS_DIR;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.CommonUtils.className;
-import static org.telekit.base.util.CommonUtils.objectClassName;
-import static org.telekit.ui.main.MessageKeys.*;
+import static org.telekit.base.util.Formatter.byteCountToDisplaySize;
+import static org.telekit.ui.MessageKeys.*;
 
 public class MainController extends Controller {
-
-    private static final int MB = 1024 * 1024;
-    private static final int MINUTE = 1000 * 60;
 
     private static final int VAULT_LOCKED = 0;
     private static final int VAULT_UNLOCKED = 1;
     private static final int VAULT_UNLOCK_FAILED = -1;
 
-    public @FXML TabPane tpaneTools;
-    public Stage primaryStage;
-    public Timer memoryMonitoringTimer;
+    public @FXML StackPane paneContent;
+    public @FXML ScrollPane paneWelcome;
+    public @FXML VBox paneWelcomeToolsMenu;
+    public @FXML TabPane tabPaneTools;
+
+    // welcome screen
+    public @FXML Text welcomeAppName;
+    public @FXML Text welcomeAppVersion;
 
     // menu bar
     public @FXML MenuBar menuBar;
+    public @FXML Menu menuTools;
     public @FXML Menu menuPlugins;
     public @FXML CheckMenuItem cmAlwaysOnTop;
 
@@ -68,7 +82,9 @@ public class MainController extends Controller {
     public @FXML ProgressBar pbarMemory;
     public @FXML Text txMemory;
     public @FXML HBox hboxProgressIndicator;
+    public Timer memoryMonitoringTimer;
 
+    private Stage primaryStage;
     private final Set<String> activeTasks = ConcurrentHashMap.newKeySet();
     private final ApplicationPreferences preferences;
     private final YAMLMapper yamlMapper;
@@ -89,30 +105,43 @@ public class MainController extends Controller {
 
     @FXML
     public void initialize() {
+        // subscriber to events
         EventBus.getInstance().subscribe(ProgressIndicatorEvent.class, this::toggleProgressIndicator);
         EventBus.getInstance().subscribe(ApplicationEvent.class, this::onApplicationEvent);
         EventBus.getInstance().subscribe(PluginStateChangedEvent.class, this::onPluginStateChangedEvent);
 
+        // load menus
+        reloadToolsMenu();
         reloadPluginsMenu();
 
-        memoryMonitoringTimer = startMemoryUsageMonitoring();
+        // setup and bring welcome screen to the front
+        welcomeAppName.setText(Env.APP_NAME);
+        welcomeAppVersion.setText(Messages.get(BaseMessageKeys.VERSION).toLowerCase() + " " + Env.getAppVersion());
+        paneWelcome.toFront();
 
-        vaultState.addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) return;
-            vaultStatusIcon.getStyleClass().removeIf(style -> style.equals("error"));
-
-            if (newValue.intValue() == VAULT_LOCKED) {
-                vaultStatusIcon.setIcon(FontAwesomeIcon.LOCK);
-            }
-            if (newValue.intValue() == VAULT_UNLOCKED) {
-                vaultStatusIcon.setIcon(FontAwesomeIcon.UNLOCK);
-            }
-            if (newValue.intValue() == VAULT_UNLOCK_FAILED) {
-                vaultStatusIcon.setIcon(FontAwesomeIcon.LOCK);
-                vaultStatusIcon.getStyleClass().add("error");
+        // hide welcome screen if at least one tab opened
+        tabPaneTools.getTabs().addListener((ListChangeListener<Tab>) tab -> {
+            List<?> tabs = tabPaneTools.getTabs();
+            if (CollectionUtils.isEmpty(tabs)) {
+                paneWelcome.toFront();
+            } else {
+                tabPaneTools.toFront();
             }
         });
 
+        // setup memory monitoring timer
+        memoryMonitoringTimer = startMemoryUsageMonitoring();
+
+        // change vault icon when vault state changed
+        vaultState.addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) return;
+            vaultStatusIcon.getStyleClass().removeIf(style -> style.equals("error"));
+            if (newValue.intValue() != VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesomeIcon.LOCK);
+            if (newValue.intValue() == VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesomeIcon.UNLOCK);
+            if (newValue.intValue() == VAULT_UNLOCK_FAILED) vaultStatusIcon.getStyleClass().add("error");
+        });
+
+        // unlock vault
         try {
             Security security = preferences.getSecurity();
             if (security.isAutoUnlock() && !vault.isUnlocked()) vault.unlock(security.getDerivedVaultPassword());
@@ -122,45 +151,21 @@ public class MainController extends Controller {
         }
     }
 
+    private void reloadToolsMenu() {
+        ToolsMenuHelper helper = ToolsMenuHelper.createForBuiltinTools();
+        menuTools.getItems().setAll(helper.createTopMenu(this::openTool));
+        paneWelcomeToolsMenu.getChildren().setAll(helper.createWelcomeMenu(this::openTool));
+    }
+
     private void reloadPluginsMenu() {
-        Collection<ExtensionBox> extraTools = pluginManager.getExtensionsOfType(Tool.class);
-        if (extraTools.isEmpty()) {
+        Collection<ExtensionBox> extensionBoxes = pluginManager.getExtensionsOfType(Tool.class);
+        if (extensionBoxes.isEmpty()) {
             menuPlugins.setVisible(false);
             return;
         }
-
+        ToolsMenuHelper helper = ToolsMenuHelper.createForExtensions(extensionBoxes);
+        menuPlugins.getItems().setAll(helper.createTopMenu(this::openTool));
         menuPlugins.setVisible(true);
-        menuPlugins.getItems().clear();
-
-        SortedMap<String, Menu> menuGroups = new TreeMap<>();
-        for (ExtensionBox extension : extraTools) {
-            Tool tool = (Tool) extension.getExtension();
-
-            MenuItem menuItem = new MenuItem(tool.getName());
-            menuItem.setUserData(extension);
-            menuItem.setOnAction(this::openPlugin);
-
-            String groupName = tool.getGroupName();
-            if (isNotBlank(groupName)) {
-                Menu groupItem = menuGroups.get(groupName);
-                if (groupItem == null) {
-                    groupItem = new Menu(groupName);
-                    menuGroups.put(groupName, groupItem);
-                    menuPlugins.getItems().add(groupItem);
-                }
-                groupItem.getItems().add(menuItem);
-            } else {
-                menuPlugins.getItems().add(menuItem);
-            }
-        }
-
-        // sort menu items
-        menuPlugins.getItems().sort(Comparator.comparing(MenuItem::getText));
-        for (MenuItem menu : menuPlugins.getItems()) {
-            if (menu instanceof Menu) {
-                ((Menu) menu).getItems().sort(Comparator.comparing(MenuItem::getText));
-            }
-        }
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -174,7 +179,7 @@ public class MainController extends Controller {
             public void run() {
                 updateMemoryUsage();
             }
-        }, 0, MINUTE);
+        }, 0, TimeUnit.MINUTES.toMillis(1));
         return timer;
     }
 
@@ -183,127 +188,85 @@ public class MainController extends Controller {
         long totalMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
         long usedMemory = totalMemory - freeMemory;
-        double usedMemoryPercentage = ((usedMemory * 1.0) / totalMemory) * 100;
+        double usedMemoryPercentage = ((double) usedMemory / (double) totalMemory) * 100;
+        // a positive value between 0 and 1 indicates the percentage of progress where 0 is 0% and is 100%
         pbarMemory.setProgress(usedMemoryPercentage / 100);
-        txMemory.setText(usedMemory / MB + " MB / " + totalMemory / MB + "MB");
+        txMemory.setText(
+                byteCountToDisplaySize(usedMemory, 1) + " / " + byteCountToDisplaySize(totalMemory, 1)
+        );
     }
 
     @FXML
     public void openTool(ActionEvent event) {
-        MenuItem source = (MenuItem) event.getSource();
-        Views resource;
-        String tabName;
+        Object userData = null;
+        if (event.getSource() == null) return;
+        if (event.getSource() instanceof MenuItem) userData = ((MenuItem) event.getSource()).getUserData();
+        if (event.getSource() instanceof Node) userData = ((Node) event.getSource()).getUserData();
+        if (!(userData instanceof Tool)) return;
 
-        switch (source.getId()) {
-            case "apiClient":
-                resource = Views.API_CLIENT;
-                tabName = Messages.get(TOOLS_APICLIENT);
-                break;
-            case "base64Encoder":
-                resource = Views.BASE64_ENCODER;
-                tabName = Messages.get(TOOLS_BASE64);
-                break;
-            case "importFileBuilder":
-                resource = Views.IMPORT_FILE_BUILDER;
-                tabName = Messages.get(TOOLS_FILEBUILD);
-                break;
-            case "ipCalculator":
-                resource = Views.IP_V4_CALCULATOR;
-                tabName = Messages.get(TOOLS_IPCALC);
-                break;
-            case "passwordGenerator":
-                resource = Views.PASSWORD_GENERATOR;
-                tabName = Messages.get(TOOLS_PASSGEN);
-                break;
-            case "sequenceGenerator":
-                resource = Views.SEQUENCE_GENERATOR;
-                tabName = Messages.get(TOOLS_SEQGEN);
-                break;
-            case "ss7CICTable":
-                resource = Views.SS7_CIC_TABLE;
-                tabName = Messages.get(TOOLS_CICTABLE);
-                break;
-            case "ss7SPCConverter":
-                resource = Views.SS7_SPC_CONVERTER;
-                tabName = Messages.get(TOOLS_SPCCONV);
-                break;
-            case "transliterator":
-                resource = Views.TRANSLITERATOR;
-                tabName = Messages.get(TOOLS_TRANSLIT);
-                break;
-            default:
-                return;
+        Tool tool = (Tool) userData;
+        Controller controller = Objects.requireNonNull(tool.createController());
+
+        // when builtin tool or plugin is disabled, this is used to find and close all related tabs
+        String tabUserData = null;
+        if (userData instanceof BuiltinTool) {
+            tabUserData = ((BuiltinTool) tool).name();
+        } else {
+            Optional<Class<? extends Plugin>> pluginClass = pluginManager.whatPluginProvides(tool.getClass());
+            if (pluginClass.isPresent()) tabUserData = className(pluginClass.get());
         }
 
-        Controller controller = UILoader.load(resource.getLocation(), Messages.getInstance());
-        addTab(tabName, controller.getParent(), objectClassName(controller));
+        if (!tool.isModal()) {
+            openTab(tool.getName(), controller.getParent(), tabUserData);
+        } else {
+            openModal(tool.getName(), controller);
+        }
     }
 
-    private void addTab(String tabName, Parent parent, String canonicalClassName) {
-        ObservableList<Tab> tabs = tpaneTools.getTabs();
+    private void openTab(String tabName, Parent parent, String tabUserData) {
+        ObservableList<Tab> tabs = tabPaneTools.getTabs();
+        tabName = Objects.requireNonNull(tabName).trim();
 
         // select appropriate tab if tool has been already opened
         for (int tabIndex = 0; tabIndex < tabs.size(); tabIndex++) {
             Tab tab = tabs.get(tabIndex);
-            if (tabName.equals(trim(tab.getText()))) {
-                tpaneTools.getSelectionModel().select(tabIndex);
+            if (tabName.equals(tab.getText())) {
+                tabPaneTools.getSelectionModel().select(tabIndex);
                 return;
             }
         }
 
         Tab tab = new Tab(tabName);
         tab.setContent(parent);
-        // tab user data contains canonical either Controllers or Plugins class name
-        // it's necessary to find and close tab if corresponding tool or plugin got disabled
-        tab.setUserData(canonicalClassName);
+        tab.setUserData(tabUserData);
         tabs.add(tab);
-        tpaneTools.getSelectionModel().selectLast();
-
-        updateMemoryUsage();
+        tabPaneTools.getSelectionModel().selectLast();
     }
 
-    private void closeTabs(String canonicalClassName) {
-        ObservableList<Tab> tabs = tpaneTools.getTabs();
-        if (canonicalClassName == null || tabs.isEmpty()) return;
-
-        List<Tab> tabsToRemove = new ArrayList<>();
-        for (Tab tab : tabs) {
-            if (tab.getUserData() != null && tab.getUserData().equals(canonicalClassName)) {
-                tabsToRemove.add(tab);
-            }
-        }
-
-        // there is no good way to close tab in JavaFX
-        // the downside of this method is that  tab.getOnClosed() method won't be called,
-        // but it can be done manually
-        tabs.removeAll(tabsToRemove);
+    private void openModal(String windowTitle, Controller controller) {
+        Stage modalWindow = Dialogs.modal(controller.getParent())
+                .owner(primaryStage, true)
+                .title(windowTitle)
+                .icon(IconCache.get(ICON_APP))
+                .maxSize(Dimension.of(primaryStage).subtract(UIDefaults.WINDOW_DELTA))
+                .resizable(false)
+                .build();
+        controller.setStage(modalWindow);
+        modalWindow.showAndWait();
     }
 
-    @FXML
-    public void openPlugin(ActionEvent event) {
-        MenuItem source = (MenuItem) event.getSource();
-        ExtensionBox extensionBox = (ExtensionBox) source.getUserData();
-        Objects.requireNonNull(extensionBox);
+    private void closeTabs(String tabUserDara) {
+        final List<Tab> tabs = tabPaneTools.getTabs();
+        if (tabUserDara == null || tabs.isEmpty()) return;
 
-        Tool tool = (Tool) extensionBox.getExtension();
-        Objects.requireNonNull(tool);
-        Controller controller = tool.createController();
+        // don't remove tabs in loop, it will cause ConcurrentModificationException
+        List<Tab> tabsToRemove = tabs.stream()
+                .filter(tab -> tab.getUserData() != null && tab.getUserData().equals(tabUserDara))
+                .collect(Collectors.toList());
 
-        if (!tool.isModal()) {
-            addTab(tool.getName(), controller.getParent(), className(extensionBox.getPluginClass()));
-        } else {
-            Stage modalWindow = Dialogs.modal(controller.getParent())
-                    .owner(primaryStage, true)
-                    .title(tool.getName())
-                    .icon(IconCache.get(ICON_APP))
-                    .resizable(false)
-                    .build();
-            controller.setStage(modalWindow);
-
-            modalWindow.setMaxWidth(primaryStage.getWidth() - 50);
-            modalWindow.setMaxHeight(primaryStage.getHeight() - 50);
-            modalWindow.showAndWait();
-        }
+        // there is no good way to close tab in JavaFX, the downside of this one is that
+        // tab.getOnClosed() won't be called, but it can be done manually
+        Platform.runLater(() -> tabPaneTools.getTabs().removeAll(tabsToRemove));
     }
 
     @FXML
@@ -312,7 +275,7 @@ public class MainController extends Controller {
     }
 
     @FXML
-    public void showOnTop() {
+    public void setOnTop() {
         primaryStage.setAlwaysOnTop(cmAlwaysOnTop.isSelected());
     }
 
@@ -324,7 +287,7 @@ public class MainController extends Controller {
 
     @FXML
     public void showAboutDialog() {
-        Controller controller = UILoader.load(Views.ABOUT.getLocation(), Messages.getInstance());
+        Controller controller = UILoader.load(FXMLView.ABOUT.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage, true)
                 .title(Messages.get(MAIN_ABOUT))
@@ -336,7 +299,7 @@ public class MainController extends Controller {
 
     @FXML
     public void showPreferences() {
-        Controller controller = UILoader.load(Views.PREFERENCES.getLocation(), Messages.getInstance());
+        Controller controller = UILoader.load(FXMLView.PREFERENCES.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage, true)
                 .title(Messages.get(PREFERENCES))
@@ -348,7 +311,7 @@ public class MainController extends Controller {
 
     @FXML
     public void showPluginManager() {
-        Controller controller = UILoader.load(Views.PLUGIN_MANAGER.getLocation(), Messages.getInstance());
+        Controller controller = UILoader.load(FXMLView.PLUGIN_MANAGER.getLocation(), Messages.getInstance());
         Dialogs.modal(controller.getParent())
                 .owner(primaryStage, true)
                 .title(Messages.get(MAIN_PLUGIN_MANAGER))
@@ -384,6 +347,8 @@ public class MainController extends Controller {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+
     @Listener
     private synchronized void toggleProgressIndicator(ProgressIndicatorEvent event) {
         if (event.isActive()) {
@@ -412,7 +377,4 @@ public class MainController extends Controller {
         }
         reloadPluginsMenu();
     }
-
-    @Override
-    public void reset() {}
 }

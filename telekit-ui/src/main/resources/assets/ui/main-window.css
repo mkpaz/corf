@@ -1,13 +1,38 @@
 #pbarMemory > .track {
     -fx-background-insets: 0;
     -fx-background-radius: 0;
-   -fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
 #lbInProgress {
     -fx-text-fill: #0096C9;
 }
 
-#tpaneTools > .tab-content-area > * {
+#tabPaneTools > .tab-content-area > * {
     -fx-padding: 10 10 10 15;
+}
+
+#paneWelcome,
+#tabPaneTools {
+    -fx-background-color: -fx-base;
+}
+
+#welcomeAppName {
+    -fx-font-size: 2em;
+}
+
+#paneWelcome .glyph-icon {
+    -glyph-size: 18px;
+}
+
+#paneWelcome .header {
+    -fx-font-size: 1.5em;
+}
+
+#paneWelcomeToolsMenu .label {
+    -fx-padding: 0 0 0 5;
+}
+
+#paneWelcomeToolsMenu .nested {
+    -fx-border-insets: 0 0 0 2em;
 }

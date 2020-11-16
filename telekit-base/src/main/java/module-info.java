@@ -49,6 +49,7 @@ module telekit.base {
 
     // exports
     exports org.telekit.base;
+    exports org.telekit.base.collect;
     exports org.telekit.base.domain;
     exports org.telekit.base.feather;
     exports org.telekit.base.i18n;

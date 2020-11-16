@@ -87,7 +87,4 @@ public class PreferencesController extends Controller {
     public void cancel() {
         rootPane.getScene().getWindow().hide();
     }
-
-    @Override
-    public void reset() {}
 }

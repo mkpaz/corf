@@ -13,6 +13,7 @@ module telekit.controls {
     requires wellbehavedfx;
 
     exports org.telekit.controls;
+    exports org.telekit.controls.domain;
     exports org.telekit.controls.format;
     exports org.telekit.controls.i18n;
     exports org.telekit.controls.richtextfx;

@@ -7,16 +7,17 @@ import java.util.UUID;
 
 public abstract class Controller {
 
-    protected String id = UUID.randomUUID().toString();
+    // used to identify the source of the events, notifications or tasks
+    protected final String id = UUID.randomUUID().toString();
+
+    // parent node (root pane) for this controller
     protected Parent parent;
+
+    // primary or modal window stage
     protected Stage stage;
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Parent getParent() {
@@ -35,5 +36,14 @@ public abstract class Controller {
         this.stage = stage;
     }
 
-    public abstract void reset();
+    /**
+     * Used to initialize controls after controller construction.
+     * If method will be automatically called by FXMLLoader.
+     */
+    public void initialize() {}
+
+    /**
+     * Resets all controls to their default state.
+     */
+    public void reset() {}
 }

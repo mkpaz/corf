@@ -6,9 +6,10 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.plugin.Plugin;
+import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.util.DesktopUtils;
+import org.telekit.controls.domain.Dimension;
 
-import java.awt.*;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,8 +18,6 @@ import java.util.Locale;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.service.Encryptor.Algorithm;
-import static org.telekit.base.ui.UIDefaults.WINDOW_PREF_HEIGHT;
-import static org.telekit.base.ui.UIDefaults.WINDOW_PREF_WIDTH;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.ensureNotNull;
 import static org.telekit.base.util.FileUtils.urlToFile;
@@ -171,8 +170,8 @@ public final class Env {
         int userHeight = Integer.parseInt(bounds[1]);
 
         // be sensible
-        userWidth = ensureRange(userWidth, 256, 4096, WINDOW_PREF_WIDTH);
-        userHeight = ensureRange(userHeight, 256, 4096, WINDOW_PREF_HEIGHT);
+        userWidth = ensureRange(userWidth, 256, 4096, (int) UIDefaults.MAIN_WINDOW_PREF_SIZE.getWidth());
+        userHeight = ensureRange(userHeight, 256, 4096, (int) UIDefaults.MAIN_WINDOW_PREF_SIZE.getHeight());
 
         return new Dimension(userWidth, userHeight);
     }

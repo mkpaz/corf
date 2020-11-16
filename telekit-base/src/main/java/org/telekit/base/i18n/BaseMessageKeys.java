@@ -8,6 +8,7 @@ public interface BaseMessageKeys {
     String PREFERENCES = "Preferences";
     String STATUS = "Status";
     String QUIT = "Quit";
+    String VERSION = "Version";
     String WARNING = "Warning";
 
     String MSG_GENERIC_IO_ERROR = "msg.generic-io-error";

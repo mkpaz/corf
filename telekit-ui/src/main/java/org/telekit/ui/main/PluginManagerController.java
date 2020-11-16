@@ -43,7 +43,7 @@ import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.telekit.base.plugin.internal.PluginState.*;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
-import static org.telekit.ui.main.MessageKeys.*;
+import static org.telekit.ui.MessageKeys.*;
 
 public class PluginManagerController extends Controller {
 
@@ -273,9 +273,6 @@ public class PluginManagerController extends Controller {
         updatePluginsList(selectedIndex);
         EventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
     }
-
-    @Override
-    public void reset() {}
 
     ///////////////////////////////////////////////////////////////////////////
 

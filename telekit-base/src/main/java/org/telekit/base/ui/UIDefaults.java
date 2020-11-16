@@ -1,31 +1,36 @@
 package org.telekit.base.ui;
 
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
+import org.telekit.controls.domain.Dimension;
 
 public interface UIDefaults {
 
     int TEXTAREA_ROW_LIMIT = 1000;
 
-    int MAX_TASKBAR_WIDTH = 160;
-    int MAX_TASKBAR_HEIGHT = 80;
+    // the size of any window should be less than its parent size by that value
+    int WINDOW_DELTA = 200;
 
-    int WINDOW_MIN_WIDTH = 1024 - MAX_TASKBAR_WIDTH;
-    int WINDOW_MIN_HEIGHT = 768 - MAX_TASKBAR_HEIGHT;
-    int WINDOW_PREF_WIDTH = 1440 - MAX_TASKBAR_WIDTH;
-    int WINDOW_PREF_HEIGHT = 900 - MAX_TASKBAR_HEIGHT;
+    // the parent of main window is OS screen, so it should be less than standard screen resolution size
+    Dimension MAIN_WINDOW_MIN_SIZE = Dimension.of(1024 - WINDOW_DELTA, 768 - WINDOW_DELTA);
+    Dimension MAIN_WINDOW_PREF_SIZE = Dimension.of(1440 - WINDOW_DELTA, 900 - WINDOW_DELTA);
 
-    int DIALOG_MAX_WIDTH = 500;
-    int DIALOG_MAX_HEIGHT = WINDOW_MIN_HEIGHT - 200;
+    // max dialog (alert) size
+    Dimension DIALOG_MAX_SIZE = Dimension.of(500, MAIN_WINDOW_MIN_SIZE.getHeight() - WINDOW_DELTA);
 
-    // it's not immutable, so be careful
-    Dimension WINDOW_MAXIMIZED = new Dimension(0, 0);
+    // special value that means window is maximized
+    Dimension WINDOW_MAXIMIZED = Dimension.of(0, 0);
+
+    default boolean isScreenFits(Dimension dimension) {
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        return screenBounds.getWidth() > dimension.getWidth() && screenBounds.getHeight() > dimension.getHeight();
+    }
 
     static @NotNull Dimension getWindowSize(Stage stage) {
         return stage != null && !stage.isMaximized() ?
-                new Dimension((int) stage.getWidth(), (int) stage.getHeight()) :
+                new Dimension(stage.getWidth(), stage.getHeight()) :
                 WINDOW_MAXIMIZED;
     }
 }

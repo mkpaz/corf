@@ -96,8 +96,22 @@
     -fx-underline: false;
 }
 
-.hyperlink:hover .glyph-icon {
-    -fx-fill: -fx-accent;
+.hyperlink:hover {
+    -fx-underline: true;
+}
+
+/* disable visited state, hyperlinks are always the same color */
+.hyperlink,
+.hyperlink:armed,
+.hyperlink .glyph-icon,
+.hyperlink:visited,
+.hyperlink:hover:visited {
+    -fx-text-fill: derive(-fx-text-background-color, 20%);
+}
+
+.hyperlink:hover .glyph-icon,
+.hyperlink:hover:visited .glyph-icon {
+    -fx-fill: derive(-fx-text-background-color, 20%);
 }
 
 /* no bold fonts in any tables */

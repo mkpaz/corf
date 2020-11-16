@@ -9,7 +9,7 @@ import org.telekit.base.util.TextBuilder;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.telecom.ss7.SS7Utils.*;
-import static org.telekit.ui.main.MessageKeys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
+import static org.telekit.ui.MessageKeys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
 
 public class SPCConverterController extends Controller {
 

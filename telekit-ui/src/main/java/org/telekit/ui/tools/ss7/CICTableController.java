@@ -23,7 +23,7 @@ import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.telekit.base.Env.TEMP_DIR;
 import static org.telekit.base.telecom.ss7.SS7Utils.*;
 import static org.telekit.base.util.CollectionUtils.*;
-import static org.telekit.ui.main.MessageKeys.MSG_GENERIC_IO_ERROR;
+import static org.telekit.ui.MessageKeys.MSG_GENERIC_IO_ERROR;
 
 public class CICTableController extends Controller {
 

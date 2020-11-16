@@ -22,7 +22,7 @@ import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 import static org.telekit.base.i18n.BaseMessageKeys.ERROR;
 import static org.telekit.base.util.CollectionUtils.getLast;
-import static org.telekit.ui.main.MessageKeys.MAIN_MSG_ERROR_OCCURRED;
+import static org.telekit.ui.MessageKeys.MAIN_MSG_ERROR_OCCURRED;
 
 public final class ExceptionHandler {
 

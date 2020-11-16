@@ -11,21 +11,64 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.main.MainController">
    <center>
-      <AnchorPane BorderPane.alignment="CENTER">
+      <StackPane fx:id="paneContent" BorderPane.alignment="CENTER">
          <children>
-            <TabPane fx:id="tpaneTools" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TabPane fx:id="tabPaneTools" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" />
+            <ScrollPane fx:id="paneWelcome" fitToHeight="true" fitToWidth="true">
+               <content>
+                  <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                     <children>
+                        <ImageView pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/telekit.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="welcomeAppName" strokeType="OUTSIDE" strokeWidth="0.0" text="Telekit" />
+                        <Text fx:id="welcomeAppVersion" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 0.0.0" />
+                        <VBox alignment="TOP_CENTER" fillWidth="false" spacing="5.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox minWidth="300.0" VBox.vgrow="NEVER">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="header">
+                                       <children>
+                                          <FontAwesomeIconView glyphName="BRIEFCASE" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%Tools">
+                                    </Text>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="paneWelcomeToolsMenu" minWidth="300.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin></VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
-      </AnchorPane>
+      </StackPane>
    </center>
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
@@ -47,27 +90,11 @@
                      </graphic></MenuItem>
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="%Tools">
-            <items>
-               <MenuItem fx:id="apiClient" mnemonicParsing="false" onAction="#openTool" text="%tools.APIClient" />
-               <MenuItem fx:id="base64Encoder" mnemonicParsing="false" onAction="#openTool" text="%tools.Base64Encoder" />
-               <MenuItem fx:id="importFileBuilder" mnemonicParsing="false" onAction="#openTool" text="%tools.ImportFileBuilder" />
-               <MenuItem fx:id="ipCalculator" mnemonicParsing="false" onAction="#openTool" text="%tools.IPCalculator" />
-               <MenuItem fx:id="passwordGenerator" mnemonicParsing="false" onAction="#openTool" text="%tools.PasswordGenerator" />
-               <MenuItem fx:id="sequenceGenerator" mnemonicParsing="false" onAction="#openTool" text="%tools.SequenceGenerator" />
-                  <Menu mnemonicParsing="false" text="SS7">
-                    <items>
-                      <MenuItem fx:id="ss7CICTable" mnemonicParsing="false" onAction="#openTool" text="%tools.CICTable" />
-                      <MenuItem fx:id="ss7SPCConverter" mnemonicParsing="false" onAction="#openTool" text="%tools.SPCConverter" />
-                    </items>
-                  </Menu>
-               <MenuItem fx:id="transliterator" mnemonicParsing="false" onAction="#openTool" text="%tools.Transliterator" />
-            </items>
-          </Menu>
+          <Menu fx:id="menuTools" mnemonicParsing="false" text="%Tools" />
             <Menu fx:id="menuPlugins" mnemonicParsing="false" text="%Plugins" />
             <Menu mnemonicParsing="false" text="%Window">
               <items>
-                  <CheckMenuItem fx:id="cmAlwaysOnTop" mnemonicParsing="false" onAction="#showOnTop" text="%main.SetAlwaysOnTop" />
+                  <CheckMenuItem fx:id="cmAlwaysOnTop" mnemonicParsing="false" onAction="#setOnTop" text="%main.SetAlwaysOnTop" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="%Help">
@@ -75,7 +102,8 @@
                   <MenuItem mnemonicParsing="false" onAction="#showHelp" text="%Documentation">
                      <graphic>
                         <FontAwesomeIconView glyphName="BOOK" />
-                     </graphic></MenuItem>
+                     </graphic>
+                  </MenuItem>
               <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="%main.About" />
             </items>
           </Menu>

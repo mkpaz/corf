@@ -33,27 +33,27 @@ module telekit.ui {
     exports org.telekit.ui.tools;
     opens org.telekit.ui.tools;
 
-    exports org.telekit.ui.tools.api_client;
-    opens org.telekit.ui.tools.api_client;
+    exports org.telekit.ui.tools.apiclient;
+    opens org.telekit.ui.tools.apiclient;
 
-    exports org.telekit.ui.tools.base64_encoder;
-    opens org.telekit.ui.tools.base64_encoder;
+    exports org.telekit.ui.tools.base64;
+    opens org.telekit.ui.tools.base64;
 
-    exports org.telekit.ui.tools.import_file_builder;
-    opens org.telekit.ui.tools.import_file_builder;
+    exports org.telekit.ui.tools.filebuilder;
+    opens org.telekit.ui.tools.filebuilder;
 
-    exports org.telekit.ui.tools.ip_calculator;
-    opens org.telekit.ui.tools.ip_calculator;
+    exports org.telekit.ui.tools.ipcalc;
+    opens org.telekit.ui.tools.ipcalc;
 
-    exports org.telekit.ui.tools.password_generator;
-    opens org.telekit.ui.tools.password_generator;
+    exports org.telekit.ui.tools.passgen;
+    opens org.telekit.ui.tools.passgen;
 
-    exports org.telekit.ui.tools.sequence_generator;
-    opens org.telekit.ui.tools.sequence_generator;
+    exports org.telekit.ui.tools.seqgen;
+    opens org.telekit.ui.tools.seqgen;
 
     exports org.telekit.ui.tools.ss7;
     opens org.telekit.ui.tools.ss7;
 
-    exports org.telekit.ui.tools.transliterator;
-    opens org.telekit.ui.tools.transliterator;
+    exports org.telekit.ui.tools.translit;
+    opens org.telekit.ui.tools.translit;
 }

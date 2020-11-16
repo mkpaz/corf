@@ -4,7 +4,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
@@ -34,12 +33,13 @@ import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.Mappers;
 import org.telekit.base.util.PasswordGenerator;
+import org.telekit.controls.domain.Dimension;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
+import org.telekit.ui.domain.FXMLView;
 import org.telekit.ui.main.MainController;
-import org.telekit.ui.main.Views;
-import org.telekit.ui.tools.api_client.ACMigrationUtils;
-import org.telekit.ui.tools.import_file_builder.IFBMigrationUtils;
+import org.telekit.ui.tools.apiclient.ACMigrationUtils;
+import org.telekit.ui.tools.filebuilder.IFBMigrationUtils;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.awt.*;
@@ -66,8 +66,8 @@ import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.DesktopUtils.xdgCurrentDesktopMatches;
 import static org.telekit.base.util.FileUtils.createDir;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
-import static org.telekit.ui.main.MessageKeys.MAIN_TRAY_OPEN;
-import static org.telekit.ui.main.MessageKeys.QUIT;
+import static org.telekit.ui.MessageKeys.MAIN_TRAY_OPEN;
+import static org.telekit.ui.MessageKeys.QUIT;
 
 public class Launcher extends Application implements UIDefaults {
 
@@ -105,7 +105,7 @@ public class Launcher extends Application implements UIDefaults {
         initialize();
 
         // create main controller
-        MainController controller = (MainController) UILoader.load(Views.MAIN_WINDOW.getLocation(), Messages.getInstance());
+        MainController controller = (MainController) UILoader.load(FXMLView.MAIN_WINDOW.getLocation(), Messages.getInstance());
         controller.setPrimaryStage(primaryStage);
 
         // populate icon cache
@@ -121,9 +121,7 @@ public class Launcher extends Application implements UIDefaults {
             Platform.exit();
         });
 
-        Dimension prefWindowSize = isScreenFits(WINDOW_PREF_WIDTH, WINDOW_PREF_HEIGHT) ?
-                new Dimension(WINDOW_PREF_WIDTH, WINDOW_PREF_HEIGHT) :
-                new Dimension(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);
+        Dimension prefWindowSize = isScreenFits(MAIN_WINDOW_PREF_SIZE) ? MAIN_WINDOW_PREF_SIZE : MAIN_WINDOW_MIN_SIZE;
         Dimension storedWindowSize = this.preferences.getMainWindowSize(); // previous window size
 
         // use last closed window size if possible
@@ -141,8 +139,8 @@ public class Launcher extends Application implements UIDefaults {
 
         // show primary stage
         primaryStage.setTitle(Env.APP_NAME);
-        primaryStage.setMinWidth(WINDOW_MIN_WIDTH);
-        primaryStage.setMinHeight(WINDOW_MIN_HEIGHT);
+        primaryStage.setMinWidth(MAIN_WINDOW_MIN_SIZE.getWidth());
+        primaryStage.setMinHeight(MAIN_WINDOW_MIN_SIZE.getHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
         Platform.runLater(() -> {
@@ -421,10 +419,5 @@ public class Launcher extends Application implements UIDefaults {
         createDir(CONFIG_DIR);
         createDir(CACHE_DIR);
         createDir(PLUGINS_DIR);
-    }
-
-    private static boolean isScreenFits(int width, int height) {
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        return screenBounds.getWidth() > width && screenBounds.getHeight() > height;
     }
 }

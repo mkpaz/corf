@@ -26,7 +26,4 @@ public class AboutController extends Controller {
     public void visitHomepage() {
         DesktopUtils.browseQuietly(URI.create(lnkHomepage.getText()));
     }
-
-    @Override
-    public void reset() {}
 }

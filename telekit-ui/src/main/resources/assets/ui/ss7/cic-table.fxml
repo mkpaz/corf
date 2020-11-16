@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fontawesomefx.fa.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ss7.CICTableController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="NEVER" />
+    <ColumnConstraints hgrow="NEVER" />
+    <ColumnConstraints hgrow="NEVER" maxWidth="60.0" minWidth="60.0" />
+    <ColumnConstraints />
+    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints minHeight="200.0" prefHeight="200.0" vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="ALWAYS" />
+    <RowConstraints prefHeight="20.0" vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <ListView fx:id="listE1" prefWidth="120.0" styleClass="monospaced" GridPane.rowIndex="1" GridPane.rowSpan="6" />
+      <ListView fx:id="listTimeslots" prefWidth="120.0" styleClass="monospaced" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="6" />
+      <Label styleClass="caption" text="E1" />
+      <Label styleClass="caption" text="Timeslot - CIC" GridPane.columnIndex="3" />
+      <HBox spacing="3.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="5.0" top="20.0" />
+         </GridPane.margin>
+         <children>
+            <Label text="%tools.ss7.FirstCIC" />
+            <Label text=":" />
+         </children>
+      </HBox>
+      <HBox spacing="3.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <GridPane.margin>
+            <Insets left="5.0" />
+         </GridPane.margin>
+         <children>
+            <Label text="%tools.ss7.LastCIC" />
+            <Label text=":" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+         <children>
+            <Label text="%Search" />
+            <Label text=":" />
+         </children>
+      </HBox>
+      <TextField fx:id="tfCicSearch" alignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+      <Hyperlink contentDisplay="RIGHT" onAction="#showInBrowser" text="%tools.ss7.OpenFullTable" visited="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
+         <graphic>
+            <FontAwesomeIconView glyphName="CARET_DOWN" />
+         </graphic>
+      </Hyperlink>
+      <Label fx:id="lbFirstCic" minWidth="40.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets top="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="lbLastCic" minWidth="40.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>
