@@ -14,6 +14,10 @@ import java.util.Objects;
 
 public final class DesktopUtils {
 
+    public static boolean isSupported(Desktop.Action actiom) {
+        return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(actiom);
+    }
+
     public static void open(File file) {
         Objects.requireNonNull(file);
         final Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;

@@ -46,4 +46,8 @@ public class HttpConstants {
             return this.mimeType;
         }
     }
+
+    public enum AuthType {
+        BASIC, DIGEST
+    }
 }

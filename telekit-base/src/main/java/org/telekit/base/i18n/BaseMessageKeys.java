@@ -5,11 +5,13 @@ public interface BaseMessageKeys {
     String CONFIRMATION = "Confirmation";
     String ERROR = "Error";
     String INFO = "Info";
+    String KEY = "Key";
     String PREFERENCES = "Preferences";
     String STATUS = "Status";
     String QUIT = "Quit";
     String VERSION = "Version";
     String WARNING = "Warning";
+    String VALUE = "Value";
 
     String MSG_GENERIC_IO_ERROR = "msg.generic-io-error";
     String MSG_KEY_IS_NOT_UNIQUE = "msg.key-is-not-unique";

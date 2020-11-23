@@ -25,7 +25,7 @@ import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
 @Deprecated
-public final class IFBMigrationUtils {
+public final class MigrationUtilsFileBuilder {
 
     private static final Path DATA_FILE_PATH_OLD = DATA_DIR.resolve("import-file-builder.templates.xml");
 

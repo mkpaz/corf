@@ -12,6 +12,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.apache.commons.lang3.StringUtils.substringAfterLast;
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 import static org.telekit.base.Env.TEMP_DIR;
 
 public final class FileUtils {
@@ -27,6 +29,26 @@ public final class FileUtils {
     public static @NotNull String sanitizeFileName(String filename) {
         if (filename == null || filename.isBlank()) return "";
         return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
+    }
+
+    /**
+     * Returns file name without extension.
+     *
+     * @param path absolute path to the target file
+     */
+    public static @NotNull String getFileName(Path path) {
+        if (path == null || !Files.isRegularFile(path)) return "";
+        return substringBeforeLast(path.getFileName().toString(), ".");
+    }
+
+    /**
+     * Returns file name extension.
+     *
+     * @param path absolute path to the target file
+     */
+    public static @NotNull String getFileExtension(Path path) {
+        if (path == null || !Files.isRegularFile(path)) return "";
+        return substringAfterLast(path.getFileName().toString(), ".");
     }
 
     public static @NotNull Path ensureNotNull(String path, Path defaultValue) {

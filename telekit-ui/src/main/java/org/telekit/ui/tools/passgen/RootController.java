@@ -4,7 +4,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import org.telekit.base.EventBus;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.ui.Controller;
@@ -125,7 +125,7 @@ public class RootController extends Controller {
             toggleProgressIndicator(false);
             Throwable exception = event.getSource().getException();
             if (exception != null) {
-                EventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
+                DefaultEventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
             }
         });
 
@@ -134,14 +134,14 @@ public class RootController extends Controller {
     }
 
     private void toggleProgressIndicator(boolean on) {
-        EventBus.getInstance().publish(new ProgressIndicatorEvent(id, on));
+        DefaultEventBus.getInstance().publish(new ProgressIndicatorEvent(id, on));
     }
 
     @FXML
     public void saveToFile() {
-        File outputFile = Dialogs.file()
+        File outputFile = Dialogs.fileChooser()
                 .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
-                .initialFilename(FileUtils.sanitizeFileName("passwords.txt"))
+                .initialFileName(FileUtils.sanitizeFileName("passwords.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
 

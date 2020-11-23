@@ -10,11 +10,10 @@ public enum FXMLView {
     // tools
     API_CLIENT("apiclient/_root.fxml"),
     API_CLIENT_TEMPLATE("apiclient/template.fxml"),
-    API_CLIENT_PARAM("apiclient/param.fxml"),
     BASE64("base64/_root.fxml"),
+    COMMON_PARAM("common/param.fxml"),
     FILE_BUILDER("filebuilder/_root.fxml"),
     FILE_BUILDER_TEMPLATE("filebuilder/template.fxml"),
-    FILE_BUILDER_PARAM("filebuilder/param.fxml"),
     IPV4_CALC("ipcalc/ipv4-calc.fxml"),
     IPV4_CONV("ipcalc/ipv4-conv.fxml"),
     PASS_GEN("passgen/_root.fxml"),

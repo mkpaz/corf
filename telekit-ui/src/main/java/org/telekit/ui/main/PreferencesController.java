@@ -7,7 +7,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
-import org.telekit.base.EventBus;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.Language;
 import org.telekit.base.preferences.Proxy;
@@ -80,7 +80,7 @@ public class PreferencesController extends Controller {
         }
 
         rootPane.getScene().getWindow().hide();
-        EventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
+        DefaultEventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
     }
 
     @FXML

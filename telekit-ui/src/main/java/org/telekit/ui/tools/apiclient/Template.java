@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
 import org.telekit.base.domain.HttpConstants.ContentType;
 import org.telekit.base.domain.HttpConstants.Method;
+import org.telekit.ui.tools.common.Param;
 
 import java.util.Set;
 import java.util.TreeSet;

@@ -2,6 +2,9 @@ package org.telekit.controls.i18n;
 
 public interface ControlsMessageKeys {
 
+    String CANCEL = "Cancel";
+    String SUBMIT = "Submit";
+
     String CONTEXT_MENU_UNDO = "menu.Undo";
     String CONTEXT_MENU_REDO = "menu.Redo";
     String CONTEXT_MENU_CUT = "menu.Cut";

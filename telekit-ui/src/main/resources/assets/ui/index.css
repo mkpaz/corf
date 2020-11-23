@@ -28,6 +28,7 @@
     -fx-padding: 0 4 0 0;
 }
 
+.btn-icon,
 .btn-flat-dropdown {
     -fx-background-color: transparent;
     -fx-cursor: hand;
@@ -86,4 +87,10 @@
 
 .text-error {
     -fx-fill: -fx-color-error;
+}
+
+.hide-table-header .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
 }

@@ -1,7 +1,5 @@
-package org.telekit.base;
+package org.telekit.base.event;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -12,37 +10,29 @@ import java.util.function.Consumer;
 /**
  * Simple event bus implementation.
  * <p>
- * Subscribe and publish events. Events are published in channels distinguished by event type. Channels can be grouped
- * using an event type hierarchy.
+ * Subscribe and publish events. Events are published in channels distinguished by event type.
+ * Channels can be grouped using an event type hierarchy.
  * <p>
- * You can use the default event bus instance {@link #getInstance}, which is a singleton or you can create one or multiple
- * instances of {@link EventBus}.
+ * You can use the default event bus instance {@link #getInstance}, which is a singleton
+ * or you can create one or multiple instances of {@link DefaultEventBus}.
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public final class EventBus {
+public final class DefaultEventBus implements EventBus {
 
-    private EventBus() {}
+    public DefaultEventBus() {}
 
     private static class InstanceHolder {
 
-        private static final EventBus INSTANCE = new EventBus();
+        private static final DefaultEventBus INSTANCE = new DefaultEventBus();
     }
 
-    public static EventBus getInstance() {
-        return EventBus.InstanceHolder.INSTANCE;
+    public static DefaultEventBus getInstance() {
+        return DefaultEventBus.InstanceHolder.INSTANCE;
     }
-
-    ///////////////////////////////////////////////////////////////////////////
 
     private final Map<Class<?>, Set<Consumer>> subscribers = new ConcurrentHashMap<>();
 
-    /**
-     * Subscribe to an event type
-     *
-     * @param eventType  the event type, can be a super class of all events to subscribe.
-     * @param subscriber the subscriber which will consume the events.
-     * @param <T>        the event type class.
-     */
+    @Override
     public <T> void subscribe(Class<? extends T> eventType, Consumer<T> subscriber) {
         Objects.requireNonNull(eventType, "eventType");
         Objects.requireNonNull(subscriber, "subscriber");
@@ -60,24 +50,14 @@ public final class EventBus {
         return eventSubscribers;
     }
 
-    /**
-     * Unsubscribe from all event types.
-     *
-     * @param subscriber the subscriber to unsubscribe.
-     */
+    @Override
     public void unsubscribe(Consumer<?> subscriber) {
         Objects.requireNonNull(subscriber, "subscriber");
 
         subscribers.values().forEach(eventSubscribers -> eventSubscribers.remove(subscriber));
     }
 
-    /**
-     * Unsubscribe from an event type.
-     *
-     * @param eventType  the event type, can be a super class of all events to unsubscribe.
-     * @param subscriber the subscriber to unsubscribe.
-     * @param <T>        the event type class.
-     */
+    @Override
     public <T> void unsubscribe(Class<? extends T> eventType, Consumer<T> subscriber) {
         Objects.requireNonNull(eventType, "eventType");
         Objects.requireNonNull(subscriber, "subscriber");
@@ -88,14 +68,7 @@ public final class EventBus {
                 .forEach(eventSubscribers -> eventSubscribers.remove(subscriber));
     }
 
-    /**
-     * Publish an event to all subscribers.
-     * <p>
-     * The event type is the class of <code>event</code>. The event is published to all consumers which subscribed to
-     * this event type or any super class.
-     *
-     * @param event the event.
-     */
+    @Override
     public void publish(Object event) {
         Objects.requireNonNull(event, "event");
 
@@ -113,7 +86,4 @@ public final class EventBus {
             Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
         }
     }
-
-    @Target(ElementType.METHOD)
-    public @interface Listener {}
 }

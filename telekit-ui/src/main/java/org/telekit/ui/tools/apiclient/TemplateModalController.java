@@ -1,25 +1,27 @@
 package org.telekit.ui.tools.apiclient;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.telekit.base.EventBus;
+import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.domain.HttpConstants.ContentType;
 import org.telekit.base.domain.HttpConstants.Method;
+import org.telekit.base.event.CancelEvent;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
 import org.telekit.controls.util.ExtraBindings;
 import org.telekit.ui.tools.Action;
+import org.telekit.ui.tools.SubmitActionEvent;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import static javafx.beans.property.IntegerProperty.integerProperty;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.ui.MessageKeys.TOOLS_EDIT_TEMPLATE;
 import static org.telekit.ui.MessageKeys.TOOLS_NEW_TEMPLATE;
@@ -27,6 +29,7 @@ import static org.telekit.ui.MessageKeys.TOOLS_NEW_TEMPLATE;
 public class TemplateModalController extends Controller {
 
     public @FXML VBox rootPane;
+    public @FXML TabPane tabPane;
     public @FXML TextField tfName;
     public @FXML TextField tfURI;
     public @FXML ComboBox<Method> cmbMethod;
@@ -37,23 +40,19 @@ public class TemplateModalController extends Controller {
     public @FXML Spinner<Integer> spnBatchSize;
     public @FXML Spinner<Integer> spnWaitTimeout;
     public @FXML TextArea taDescription;
-    public @FXML Button btnApply;
-    public @FXML TabPane taTabs;
+    public @FXML Button btnSubmit;
 
+    private final Set<String> usedTemplateNames = new HashSet<>();
     private Action action;
     private Template template;
-    private Set<String> usedTemplateNames;
 
     @FXML
     public void initialize() {
-        BooleanBinding isNameNotUnique = isNameNotUnique(tfName.textProperty());
-
-        btnApply.disableProperty().bind(
-                ExtraBindings.isBlank(tfName.textProperty())
-                        .or(isNameNotUnique
-                                    .or(ExtraBindings.isBlank(tfURI.textProperty()))
-                        )
-        );
+        btnSubmit.disableProperty().bind(ExtraBindings.or(
+                ExtraBindings.isBlank(tfName.textProperty()),
+                ExtraBindings.isBlank(tfURI.textProperty()),
+                ExtraBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
+        ));
 
         spnBatchSize.valueProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue == null) return;
@@ -67,7 +66,7 @@ public class TemplateModalController extends Controller {
         });
 
         taBatchWrapper.disableProperty().bind(
-                Bindings.lessThan(IntegerProperty.integerProperty(spnBatchSize.getValueFactory().valueProperty()), 2)
+                Bindings.lessThan(integerProperty(spnBatchSize.getValueFactory().valueProperty()), 2)
         );
 
         cmbContentType.setConverter(new StringConverter<>() {
@@ -84,7 +83,7 @@ public class TemplateModalController extends Controller {
         });
 
         cmbMethod.getItems().addAll(Method.values());
-        cmbContentType.getItems().add(null);
+        cmbContentType.getItems().add(null); // because it's an optional param
         cmbContentType.getItems().addAll(ContentType.values());
     }
 
@@ -96,19 +95,22 @@ public class TemplateModalController extends Controller {
         }
     }
 
-    public void setData(Action action, Template sourceTemplate, Set<String> usedTemplateNames) {
-        this.action = action;
+    public void setData(Action action, Template sourceTemplate, Set<String> templateNames) {
+        this.action = Objects.requireNonNull(action);
+
+        usedTemplateNames.clear();
+        if (templateNames != null) usedTemplateNames.addAll(templateNames);
+
         if (sourceTemplate == null) {
-            this.template = new Template();
-            this.template.setContentType(ContentType.APPLICATION_JSON);
+            template = new Template();
+            template.setContentType(ContentType.APPLICATION_JSON);
         } else {
-            this.template = new Template(sourceTemplate);
+            template = new Template(sourceTemplate);
         }
-        this.usedTemplateNames = usedTemplateNames;
 
         String titleKey = "";
         if (action == Action.NEW || action == Action.DUPLICATE) {
-            this.template.setId(UUID.randomUUID());
+            template.setId(UUID.randomUUID());
             titleKey = TOOLS_NEW_TEMPLATE;
         }
         if (action == Action.EDIT) {
@@ -127,11 +129,11 @@ public class TemplateModalController extends Controller {
         spnWaitTimeout.getValueFactory().setValue(template.getWaitTimeout());
         taDescription.setText(template.getDescription());
 
-        taTabs.getSelectionModel().selectFirst();
+        tabPane.getSelectionModel().selectFirst();
     }
 
     @FXML
-    public void apply() {
+    public void submit() {
         ContentType contentType = cmbContentType.getSelectionModel().getSelectedItem();
 
         template.setName(trim(tfName.getText()));
@@ -145,26 +147,12 @@ public class TemplateModalController extends Controller {
         template.setWaitTimeout(spnWaitTimeout.getValue());
         template.setDescription(trim(taDescription.getText()));
 
-        rootPane.getScene().getWindow().hide();
-        EventBus.getInstance().publish(new TemplateUpdateEvent(this.action, new Template(this.template)));
+        eventBus.publish(new SubmitActionEvent<>(new Template(template), action));
     }
 
     @FXML
     public void cancel() {
-        rootPane.getScene().getWindow().hide();
-    }
-
-    @Override
-    public void reset() { /* not yet implemented */ }
-
-    private BooleanBinding isNameNotUnique(StringProperty textProperty) {
-        return Bindings.createBooleanBinding(
-                () -> textProperty.get() != null &&
-                        usedTemplateNames != null &&
-                        action != Action.EDIT &&
-                        usedTemplateNames.contains(trim(textProperty.get())),
-                textProperty
-        );
+        eventBus.publish(new CancelEvent());
     }
 
     private String getDefaultBatchWrapper(ContentType contentType) {
@@ -175,26 +163,5 @@ public class TemplateModalController extends Controller {
             case APPLICATION_SOAP_XML, TEXT_XML -> "<tagName>" + noWrapper + "</tagName>";
             default -> noWrapper;
         };
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    public static class TemplateUpdateEvent {
-
-        private final Action action;
-        private final Template template;
-
-        public TemplateUpdateEvent(Action action, Template template) {
-            this.action = action;
-            this.template = template;
-        }
-
-        public Action getAction() {
-            return action;
-        }
-
-        public Template getTemplate() {
-            return template;
-        }
     }
 }

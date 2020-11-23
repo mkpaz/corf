@@ -2,6 +2,8 @@ package org.telekit.base.util;
 
 import org.telekit.base.domain.LineSeparator;
 
+import java.util.Collection;
+
 /**
  * Just a convenient wrapper around StringBuilder.
  */
@@ -57,6 +59,18 @@ public class TextBuilder {
 
     public TextBuilder appendLineIf(boolean condition, String... strings) {
         if (condition) appendLine(strings);
+        return this;
+    }
+
+    public TextBuilder appendLines(Collection<String> lines) {
+        for (String line : lines) {
+            appendLine(line);
+        }
+        return this;
+    }
+
+    public TextBuilder appendLinesIf(boolean condition, Collection<String> lines) {
+        if (condition) appendLines(lines);
         return this;
     }
 

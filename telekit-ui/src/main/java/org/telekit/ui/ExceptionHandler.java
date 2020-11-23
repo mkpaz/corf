@@ -7,8 +7,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.telekit.base.EventBus;
-import org.telekit.base.EventBus.Listener;
+import org.telekit.base.event.DefaultEventBus;
+import org.telekit.base.event.Listener;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Dialogs;
@@ -33,7 +33,7 @@ public final class ExceptionHandler {
 
     public ExceptionHandler(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        EventBus.getInstance().subscribe(ExceptionCaughtEvent.class, this::handleExceptionEvent);
+        DefaultEventBus.getInstance().subscribe(ExceptionCaughtEvent.class, this::handleExceptionEvent);
     }
 
     @Listener

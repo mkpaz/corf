@@ -2,6 +2,7 @@ package org.telekit.base.ui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 import org.telekit.base.ApplicationContext;
 import org.telekit.base.plugin.Plugin;
 
@@ -28,6 +29,12 @@ public final class UILoader {
         return loadImpl(fxmlLocation, pluginClass, resourceBundle);
     }
 
+    public static <T extends Controller> T load(Class<T> cls) {
+        T controller = ApplicationContext.getInstance().getBean(cls);
+        controller.initialize();
+        return controller;
+    }
+
     private static Controller loadImpl(URL fxmlLocation,
                                        Class<?> clazz,
                                        ResourceBundle resourceBundle) {
@@ -52,7 +59,9 @@ public final class UILoader {
 
             Parent parent = loader.load();
             Controller controller = loader.getController();
-            controller.setParent(parent);
+            if (parent instanceof Pane) {
+                controller.setView((Pane) parent);
+            }
 
             return controller;
         } catch (Exception e) {

@@ -26,6 +26,7 @@ public interface MessageKeys extends BaseMessageKeys, ControlsMessageKeys {
     String TOOLS_TRANSLIT = "tools.Transliterator";
     String TOOLS_GROUP_SS7 = "tools.group.SS7";
 
+    String TOOLS_CHOOSE_VALUE = "tools.ChooseValue";
     String TOOLS_COMMA = "tools.comma";
     String TOOLS_COLON = "tools.colon";
     String TOOLS_PIPE = "tools.pipe";

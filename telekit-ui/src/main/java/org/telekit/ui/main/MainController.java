@@ -18,9 +18,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.telekit.base.Env;
-import org.telekit.base.EventBus;
-import org.telekit.base.EventBus.Listener;
 import org.telekit.base.domain.ProgressIndicatorEvent;
+import org.telekit.base.event.DefaultEventBus;
+import org.telekit.base.event.Listener;
 import org.telekit.base.i18n.BaseMessageKeys;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Plugin;
@@ -54,6 +54,8 @@ import static org.telekit.base.Env.DOCS_DIR;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.Formatter.byteCountToDisplaySize;
+import static org.telekit.controls.util.ControlUtils.addStyleClass;
+import static org.telekit.controls.util.ControlUtils.removeStyleClass;
 import static org.telekit.ui.MessageKeys.*;
 
 public class MainController extends Controller {
@@ -106,9 +108,9 @@ public class MainController extends Controller {
     @FXML
     public void initialize() {
         // subscriber to events
-        EventBus.getInstance().subscribe(ProgressIndicatorEvent.class, this::toggleProgressIndicator);
-        EventBus.getInstance().subscribe(ApplicationEvent.class, this::onApplicationEvent);
-        EventBus.getInstance().subscribe(PluginStateChangedEvent.class, this::onPluginStateChangedEvent);
+        DefaultEventBus.getInstance().subscribe(ProgressIndicatorEvent.class, this::toggleProgressIndicator);
+        DefaultEventBus.getInstance().subscribe(ApplicationEvent.class, this::onApplicationEvent);
+        DefaultEventBus.getInstance().subscribe(PluginStateChangedEvent.class, this::onPluginStateChangedEvent);
 
         // load menus
         reloadToolsMenu();
@@ -135,10 +137,10 @@ public class MainController extends Controller {
         // change vault icon when vault state changed
         vaultState.addListener((observable, oldValue, newValue) -> {
             if (newValue == null) return;
-            vaultStatusIcon.getStyleClass().removeIf(style -> style.equals("error"));
+            removeStyleClass(vaultStatusIcon, "error");
             if (newValue.intValue() != VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesomeIcon.LOCK);
             if (newValue.intValue() == VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesomeIcon.UNLOCK);
-            if (newValue.intValue() == VAULT_UNLOCK_FAILED) vaultStatusIcon.getStyleClass().add("error");
+            if (newValue.intValue() == VAULT_UNLOCK_FAILED) addStyleClass(vaultStatusIcon, "error");
         });
 
         // unlock vault
@@ -244,14 +246,12 @@ public class MainController extends Controller {
     }
 
     private void openModal(String windowTitle, Controller controller) {
-        Stage modalWindow = Dialogs.modal(controller.getParent())
-                .owner(primaryStage, true)
+        Stage modalWindow = Dialogs.modal(controller.getParent(), primaryStage)
                 .title(windowTitle)
                 .icon(IconCache.get(ICON_APP))
                 .maxSize(Dimension.of(primaryStage).subtract(UIDefaults.WINDOW_DELTA))
                 .resizable(false)
                 .build();
-        controller.setStage(modalWindow);
         modalWindow.showAndWait();
     }
 
@@ -288,8 +288,7 @@ public class MainController extends Controller {
     @FXML
     public void showAboutDialog() {
         Controller controller = UILoader.load(FXMLView.ABOUT.getLocation(), Messages.getInstance());
-        Dialogs.modal(controller.getParent())
-                .owner(primaryStage, true)
+        Dialogs.modal(controller.getParent(), primaryStage)
                 .title(Messages.get(MAIN_ABOUT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -300,8 +299,7 @@ public class MainController extends Controller {
     @FXML
     public void showPreferences() {
         Controller controller = UILoader.load(FXMLView.PREFERENCES.getLocation(), Messages.getInstance());
-        Dialogs.modal(controller.getParent())
-                .owner(primaryStage, true)
+        Dialogs.modal(controller.getParent(), primaryStage)
                 .title(Messages.get(PREFERENCES))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -312,8 +310,7 @@ public class MainController extends Controller {
     @FXML
     public void showPluginManager() {
         Controller controller = UILoader.load(FXMLView.PLUGIN_MANAGER.getLocation(), Messages.getInstance());
-        Dialogs.modal(controller.getParent())
-                .owner(primaryStage, true)
+        Dialogs.modal(controller.getParent(), primaryStage)
                 .title(Messages.get(MAIN_PLUGIN_MANAGER))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -323,9 +320,8 @@ public class MainController extends Controller {
 
     @FXML
     public void restartApplication() {
-        CloseEvent event = new CloseEvent(Launcher.RESTART_EXIT_CODE);
-        event.setWindowSize(UIDefaults.getWindowSize(primaryStage));
-        EventBus.getInstance().publish(event);
+        CloseEvent event = new CloseEvent(Launcher.RESTART_EXIT_CODE, UIDefaults.getWindowSize(primaryStage));
+        DefaultEventBus.getInstance().publish(event);
     }
 
     @FXML

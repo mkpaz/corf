@@ -6,6 +6,14 @@ import java.util.Arrays;
 
 public final class ArrayUtils {
 
+    public static boolean containNull(Object... objects) {
+        if (objects == null) return false;
+        for (Object o : objects) {
+            if (o == null) return true;
+        }
+        return false;
+    }
+
     @SafeVarargs
     public static @Nullable <T> T[] merge(T[]... arrays) {
         int finalLength = 0;

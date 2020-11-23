@@ -25,7 +25,7 @@ import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 
 @Deprecated
-public final class ACMigrationUtils {
+public final class MigrationUtilsApiClient {
 
     private static final Path DATA_FILE_PATH_OLD = DATA_DIR.resolve("api-client.templates.xml");
 

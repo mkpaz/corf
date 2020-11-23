@@ -154,6 +154,14 @@
 .glyph-icon {
     -fx-fill: -fx-text-base-color;
 }
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected .glyph-icon,
+.tree-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected .glyph-icon,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell:filled:selected .glyph-icon,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:selected .glyph-icon,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell .table-cell:selected .glyph-icon,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell .tree-table-cell:selected .glyph-icon {
+    -fx-fill: -fx-light-text-color;
+}
 
 /* RichTextFX */
 .virtualized-scroll-pane {

@@ -1,20 +1,21 @@
 package org.telekit.ui.tools.filebuilder;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.telekit.base.EventBus;
+import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.domain.Encoding;
 import org.telekit.base.domain.LineSeparator;
+import org.telekit.base.event.CancelEvent;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
 import org.telekit.controls.util.ExtraBindings;
 import org.telekit.ui.tools.Action;
+import org.telekit.ui.tools.SubmitActionEvent;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ import static org.telekit.ui.MessageKeys.TOOLS_NEW_TEMPLATE;
 public class TemplateModalController extends Controller {
 
     public @FXML VBox rootPane;
+    public @FXML TabPane tabPane;
     public @FXML TextField tfName;
     public @FXML TextArea taHeader;
     public @FXML TextArea taFooter;
@@ -32,42 +34,40 @@ public class TemplateModalController extends Controller {
     public @FXML TextArea taPattern;
     public @FXML ComboBox<Encoding> cmbEncoding;
     public @FXML ComboBox<LineSeparator> cmbLineSeparator;
-    public @FXML Button btnApply;
+    public @FXML Button btnSubmit;
     public @FXML TextArea taDescription;
-    public @FXML TabPane taTabs;
 
+    private final Set<String> usedTemplateNames = new HashSet<>();
     private Action action;
     private Template template;
-    private Set<String> usedTemplateNames;
 
     @FXML
     public void initialize() {
-        BooleanBinding isNameNotUnique = isNameNotUnique(tfName.textProperty());
-
         cmbDelimiter.setConverter(new DelimiterStringConverter());
         cmbEncoding.getItems().setAll(Encoding.values());
         cmbLineSeparator.getItems().setAll(LineSeparator.values());
-
-        btnApply.disableProperty().bind(
-                ExtraBindings.isBlank(tfName.textProperty())
-                        .or(isNameNotUnique
-                                    .or(ExtraBindings.isBlank(taPattern.textProperty()))
-                        )
-        );
+        btnSubmit.disableProperty().bind(ExtraBindings.or(
+                ExtraBindings.isBlank(tfName.textProperty()),
+                ExtraBindings.isBlank(taPattern.textProperty()),
+                ExtraBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
+        ));
     }
 
-    public void setData(Action action, Template sourceTemplate, Set<String> usedTemplateNames) {
-        this.action = action;
+    public void setData(Action action, Template sourceTemplate, Set<String> templateNames) {
+        this.action = Objects.requireNonNull(action);
+
+        usedTemplateNames.clear();
+        if (templateNames != null) usedTemplateNames.addAll(templateNames);
+
         if (sourceTemplate == null) {
-            this.template = new Template();
+            template = new Template();
         } else {
-            this.template = new Template(sourceTemplate);
+            template = new Template(sourceTemplate);
         }
-        this.usedTemplateNames = usedTemplateNames;
 
         String titleKey = "";
         if (action == Action.NEW || action == Action.DUPLICATE) {
-            this.template.setId(UUID.randomUUID());
+            template.setId(UUID.randomUUID());
             titleKey = TOOLS_NEW_TEMPLATE;
         }
         if (action == Action.EDIT) {
@@ -84,11 +84,11 @@ public class TemplateModalController extends Controller {
         cmbEncoding.getSelectionModel().select(template.getEncoding());
         cmbLineSeparator.getSelectionModel().select(template.getLineSeparator());
 
-        taTabs.getSelectionModel().selectFirst();
+        tabPane.getSelectionModel().selectFirst();
     }
 
     @FXML
-    public void apply() {
+    public void submit() {
         template.setName(trim(tfName.getText()));
         template.setHeader(trim(taHeader.getText()));
         template.setFooter(trim(taFooter.getText()));
@@ -98,46 +98,11 @@ public class TemplateModalController extends Controller {
         template.setEncoding(cmbEncoding.getSelectionModel().getSelectedItem());
         template.setLineSeparator(cmbLineSeparator.getSelectionModel().getSelectedItem());
 
-        rootPane.getScene().getWindow().hide();
-        EventBus.getInstance().publish(new TemplateUpdateEvent(this.action, new Template(this.template)));
+        eventBus.publish(new SubmitActionEvent<>(new Template(template), action));
     }
 
     @FXML
     public void cancel() {
-        rootPane.getScene().getWindow().hide();
-    }
-
-    @Override
-    public void reset() { /* not yet implemented */ }
-
-    private BooleanBinding isNameNotUnique(StringProperty textProperty) {
-        return Bindings.createBooleanBinding(
-                () -> textProperty.get() != null &&
-                        usedTemplateNames != null &&
-                        action != Action.EDIT &&
-                        usedTemplateNames.contains(trim(textProperty.get())),
-                textProperty
-        );
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    public static class TemplateUpdateEvent {
-
-        private final Action action;
-        private final Template template;
-
-        public TemplateUpdateEvent(Action action, Template template) {
-            this.action = action;
-            this.template = template;
-        }
-
-        public Action getAction() {
-            return action;
-        }
-
-        public Template getTemplate() {
-            return template;
-        }
+        eventBus.publish(new CancelEvent());
     }
 }

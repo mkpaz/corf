@@ -12,12 +12,15 @@ module telekit.controls {
     requires undofx;
     requires wellbehavedfx;
 
-    exports org.telekit.controls;
     exports org.telekit.controls.domain;
     exports org.telekit.controls.format;
     exports org.telekit.controls.i18n;
-    exports org.telekit.controls.richtextfx;
     exports org.telekit.controls.util;
+
+    exports org.telekit.controls.components;
+    opens org.telekit.controls.components;
+    exports org.telekit.controls.components.richtextfx;
+    opens org.telekit.controls.components.richtextfx;
 
     exports fontawesomefx;
     opens fontawesomefx;

@@ -4,10 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import org.telekit.base.service.Transliterator;
+import org.telekit.base.service.impl.RUTransliterator;
 import org.telekit.base.ui.Controller;
 import org.telekit.controls.util.ExtraBindings;
-import org.telekit.base.service.impl.RUTransliterator;
-import org.telekit.base.service.Transliterator;
 
 import java.util.List;
 
@@ -34,11 +34,11 @@ public class RootController extends Controller {
     }
 
     @FXML
-    @SuppressWarnings("SwitchStatementWithTooFewBranches")
     public void transliterate() {
         String lang = cmbLang.getSelectionModel().getSelectedItem();
         String text = trim(taText.getText());
 
+        @SuppressWarnings("SwitchStatementWithTooFewBranches")
         Transliterator tr = switch (lang) {
             case "RU" -> new RUTransliterator();
             default -> null;

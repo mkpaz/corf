@@ -15,7 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.telekit.base.Env;
-import org.telekit.base.EventBus;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Metadata;
@@ -161,7 +161,7 @@ public class PluginManagerController extends Controller {
 
     @FXML
     public void installPlugin() {
-        File zipFile = Dialogs.file()
+        File zipFile = Dialogs.fileChooser()
                 .addFilter(Messages.get(FILE_DIALOG_ZIP), "*.zip")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
@@ -178,7 +178,7 @@ public class PluginManagerController extends Controller {
                 .build()
                 .showAndWait();
 
-        EventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
+        DefaultEventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
     }
 
     @FXML
@@ -219,9 +219,9 @@ public class PluginManagerController extends Controller {
 
         if (originalPluginState == DISABLED) {
             preferences.getDisabledPlugins().remove(className(pluginBox.getPluginClass()));
-            EventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
+            DefaultEventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
         }
-        EventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
+        DefaultEventBus.getInstance().publish(new ApplicationEvent(Type.RESTART_REQUIRED));
     }
 
     @FXML
@@ -271,7 +271,7 @@ public class PluginManagerController extends Controller {
         }
 
         updatePluginsList(selectedIndex);
-        EventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
+        DefaultEventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
     }
 
     ///////////////////////////////////////////////////////////////////////////

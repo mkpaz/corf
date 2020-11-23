@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -169,20 +168,18 @@ public class IPv4Controller extends Controller {
     public void showFormatConverter() {
         IPv4ConverterController converterController = getOrCreateConverterDialog();
         converterController.setData(getEnteredAddress().longValue());
-        converterController.getStage().showAndWait();
+        Dialogs.showAndWait(converterController);
     }
 
     private IPv4ConverterController getOrCreateConverterDialog() {
         if (this.formatsConverterController != null) return this.formatsConverterController;
 
         Controller controller = UILoader.load(FXMLView.IPV4_CONV.getLocation(), Messages.getInstance());
-        Stage dialog = Dialogs.modal(controller.getParent())
-                .owner(rootPane.getScene().getWindow(), true)
+        Dialogs.modal(controller.getParent(), rootPane.getScene().getWindow())
                 .title(Messages.get(TOOLS_IPCALC_TASK_REPORT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
-        controller.setStage(dialog);
         this.formatsConverterController = (IPv4ConverterController) controller;
 
         return this.formatsConverterController;
@@ -191,9 +188,9 @@ public class IPv4Controller extends Controller {
     @FXML
     public void saveToFile() {
         List<Subnet> subnets = tblSplit.getItems();
-        File outputFile = Dialogs.file()
+        File outputFile = Dialogs.fileChooser()
                 .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
-                .initialFilename(FileUtils.sanitizeFileName("subnets.txt"))
+                .initialFileName(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
 

@@ -1,29 +1,43 @@
 package org.telekit.ui.domain;
 
-public class ApplicationEvent {
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.telekit.base.event.Event;
+
+import java.util.Objects;
+
+public class ApplicationEvent extends Event {
 
     private final Type type;
-    private Object userData;
+    private final Object userData;
 
     public ApplicationEvent(Type type) {
-        this.type = type;
+        this(type, null);
     }
 
-    public Type getType() {
+    public ApplicationEvent(Type type, Object userData) {
+        this.type = Objects.requireNonNull(type);
+        this.userData = userData;
+    }
+
+    public @NotNull Type getType() {
         return type;
     }
 
-    public Object getUserData() {
+    public @Nullable Object getUserData() {
         return userData;
-    }
-
-    public void setUserData(Object userData) {
-        this.userData = userData;
     }
 
     public enum Type {
         RESTART_REQUIRED,
-        PLUGINS_STATE_CHANGED,
         PREFERENCES_CHANGED
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationEvent{" +
+                "type=" + type +
+                ", userData=" + userData +
+                "} " + super.toString();
     }
 }

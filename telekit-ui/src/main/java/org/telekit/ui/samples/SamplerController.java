@@ -13,9 +13,9 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.StyleClassedTextArea;
 import org.telekit.base.ui.Controller;
 import org.telekit.base.i18n.Messages;
-import org.telekit.controls.ContextMenuPolicy;
-import org.telekit.controls.richtextfx.RichTextFXContextMenu;
-import org.telekit.controls.richtextfx.RichTextFXHelper;
+import org.telekit.controls.components.ContextMenuPolicy;
+import org.telekit.controls.components.richtextfx.RichTextFXContextMenu;
+import org.telekit.controls.components.richtextfx.RichTextFXHelper;
 
 import java.time.LocalDate;
 import java.util.*;

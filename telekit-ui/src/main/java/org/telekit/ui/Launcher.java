@@ -13,8 +13,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.ApplicationContext;
 import org.telekit.base.Env;
-import org.telekit.base.EventBus;
-import org.telekit.base.EventBus.Listener;
+import org.telekit.base.event.DefaultEventBus;
+import org.telekit.base.event.Listener;
 import org.telekit.base.domain.SecuredData;
 import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
@@ -38,8 +38,8 @@ import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.FXMLView;
 import org.telekit.ui.main.MainController;
-import org.telekit.ui.tools.apiclient.ACMigrationUtils;
-import org.telekit.ui.tools.filebuilder.IFBMigrationUtils;
+import org.telekit.ui.tools.apiclient.MigrationUtilsApiClient;
+import org.telekit.ui.tools.filebuilder.MigrationUtilsFileBuilder;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.awt.*;
@@ -113,7 +113,7 @@ public class Launcher extends Application implements UIDefaults {
         primaryStage.getIcons().add(IconCache.get(ICON_APP));
 
         // handle application close events
-        EventBus.getInstance().subscribe(CloseEvent.class, this::close);
+        DefaultEventBus.getInstance().subscribe(CloseEvent.class, this::close);
         primaryStage.setOnCloseRequest(t -> {
             if (this.preferences != null) {
                 this.preferences.setMainWindowSize(UIDefaults.getWindowSize(primaryStage));
@@ -334,7 +334,7 @@ public class Launcher extends Application implements UIDefaults {
 
             MenuItem closeItem = new MenuItem(Messages.get(QUIT));
             ActionListener closeListener = e ->
-                    Platform.runLater(() -> EventBus.getInstance().publish(new CloseEvent(exitCode)));
+                    Platform.runLater(() -> DefaultEventBus.getInstance().publish(new CloseEvent(exitCode)));
             closeItem.addActionListener(closeListener);
             trayMenu.add(closeItem);
 
@@ -409,8 +409,8 @@ public class Launcher extends Application implements UIDefaults {
             }
         } catch (IOException ignored) {}
 
-        ACMigrationUtils.migrateXmlConfigToYaml(this.applicationContext);
-        IFBMigrationUtils.migrateXmlConfigToYaml(this.applicationContext);
+        MigrationUtilsApiClient.migrateXmlConfigToYaml(this.applicationContext);
+        MigrationUtilsFileBuilder.migrateXmlConfigToYaml(this.applicationContext);
     }
 
     private void createUserResources() {

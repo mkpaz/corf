@@ -17,6 +17,9 @@ module telekit.ui {
     requires org.apache.commons.codec;
     // end of ot modularized dependencies
 
+    exports org.telekit.ui.components;
+    opens org.telekit.ui.components;
+
     exports org.telekit.ui.domain;
     opens org.telekit.ui.domain;
 
@@ -32,6 +35,9 @@ module telekit.ui {
     // tools
     exports org.telekit.ui.tools;
     opens org.telekit.ui.tools;
+
+    exports org.telekit.ui.tools.common;
+    opens org.telekit.ui.tools.common;
 
     exports org.telekit.ui.tools.apiclient;
     opens org.telekit.ui.tools.apiclient;

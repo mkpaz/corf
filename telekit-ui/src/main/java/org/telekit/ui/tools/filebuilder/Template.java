@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Encoding;
 import org.telekit.base.domain.Entity;
 import org.telekit.base.domain.LineSeparator;
+import org.telekit.ui.tools.common.Param;
 
 import java.util.Set;
 import java.util.TreeSet;

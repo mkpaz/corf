@@ -8,7 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
-import org.telekit.base.EventBus;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.ui.Controller;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
@@ -76,7 +76,7 @@ public class RootController extends Controller {
         task.setOnFailed(event -> {
             Throwable exception = event.getSource().getException();
             if (exception != null) {
-                EventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
+                DefaultEventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
             }
         });
         return task;

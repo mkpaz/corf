@@ -1,11 +1,14 @@
-package org.telekit.ui.tools.filebuilder;
+package org.telekit.ui.tools.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.jetbrains.annotations.NotNull;
+import org.telekit.base.CompletionRegistry;
 
 import java.util.Comparator;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Param implements Comparable<Param>, Cloneable {
@@ -106,5 +109,14 @@ public class Param implements Comparable<Param>, Cloneable {
         PASSWORD,
         PASSWORD_BASE64,
         UUID
+    }
+
+    public static boolean allowsCompletion(Param param, CompletionRegistry registry) {
+        return param != null &&
+                param.getType() != null &&
+                param.getType() == Type.CONSTANT &&
+                isNotBlank(param.getName()) &&
+                registry != null &&
+                registry.isSupported(param.getName());
     }
 }

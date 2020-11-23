@@ -3,7 +3,7 @@ package org.telekit.base.plugin.internal;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.ApplicationContext;
-import org.telekit.base.EventBus;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Extension;
 import org.telekit.base.plugin.Plugin;
@@ -158,7 +158,7 @@ public class PluginManager {
 
         try {
             // notify about plugin stopped to reload UI
-            EventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
+            DefaultEventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
 
             pluginInstaller.uninstall(pluginClass, deleteResources);
         } catch (Throwable t) {
@@ -181,7 +181,7 @@ public class PluginManager {
         }
 
         // notify about plugin started to reload UI
-        EventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STARTED));
+        DefaultEventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STARTED));
     }
 
     public void disablePlugin(Class<? extends Plugin> pluginClass) throws PluginException {
@@ -195,7 +195,7 @@ public class PluginManager {
         }
 
         // notify about plugin stopped to reload UI
-        EventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
+        DefaultEventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
 
         pluginBox.setState(DISABLED);
     }

@@ -1,4 +1,4 @@
-package org.telekit.controls.richtextfx;
+package org.telekit.controls.components.richtextfx;
 
 import javafx.css.PseudoClass;
 import org.fxmisc.flowless.VirtualizedScrollPane;

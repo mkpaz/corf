@@ -1,5 +1,6 @@
 package org.telekit.base.ui;
 
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,6 +14,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.telekit.controls.domain.Dimension;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.ui.UIDefaults.DIALOG_MAX_SIZE;
@@ -35,13 +39,52 @@ public final class Dialogs {
         return new AlertBuilder(AlertType.CONFIRMATION);
     }
 
-    public static FileChooserBuilder file() {
+    public static FileChooserBuilder fileChooser() {
         return new FileChooserBuilder();
     }
 
-    public static ModalBuilder modal(Parent root) {
-        return new ModalBuilder(root);
+    public static ModalBuilder modal(Parent root, Window owner) {
+        return new ModalBuilder(root, owner, true);
     }
+
+    public static ModalBuilder modal(Parent root, Window owner, boolean inheritStyles) {
+        return new ModalBuilder(root, owner, inheritStyles);
+    }
+
+    public static void show(Controller controller) {
+        if (controller != null) show(controller.getWindow());
+    }
+
+    public static void show(Stage stage) {
+        if (stage != null && !stage.isShowing()) {
+            System.out.println(2);
+            stage.show();
+        }
+    }
+
+    public static void showAndWait(Controller controller) {
+        Platform.runLater(() -> {
+            if (controller != null) showAndWait(controller.getWindow());
+        });
+    }
+
+    public static void showAndWait(Stage stage) {
+        Platform.runLater(() -> {
+            if (stage != null && !stage.isShowing()) stage.showAndWait();
+        });
+    }
+
+    public static void hide(Controller controller) {
+        if (controller != null) hide(controller.getWindow());
+    }
+
+    public static void hide(Stage stage) {
+        Platform.runLater(() -> {
+            if (stage != null && stage.isShowing()) stage.hide();
+        });
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
 
     public static class AlertBuilder {
 
@@ -73,7 +116,7 @@ public final class Dialogs {
         }
 
         public AlertBuilder icon(Image icon) {
-            ((Stage) this.alert.getDialogPane().getScene().getWindow()).getIcons().add(icon);
+            ((Stage) alert.getDialogPane().getScene().getWindow()).getIcons().add(icon);
             return this;
         }
 
@@ -106,16 +149,17 @@ public final class Dialogs {
         }
 
         public FileChooserBuilder addFilter(String description, String... extensions) {
-            fileChooser.getExtensionFilters().add(new ExtensionFilter(description, extensions));
+            return addFilter(new ExtensionFilter(description, extensions));
+        }
+
+        public FileChooserBuilder initialDirectory(Path path) {
+            if (Files.isDirectory(path)) {
+                fileChooser.setInitialDirectory(path.toFile());
+            }
             return this;
         }
 
-        public FileChooserBuilder initialDirectory(String path) {
-            fileChooser.setInitialFileName(path);
-            return this;
-        }
-
-        public FileChooserBuilder initialFilename(String filename) {
+        public FileChooserBuilder initialFileName(String filename) {
             fileChooser.setInitialFileName(filename);
             return this;
         }
@@ -130,12 +174,19 @@ public final class Dialogs {
         private final Stage stage;
         private final Scene scene;
 
-        public ModalBuilder(Parent root) {
+        public ModalBuilder(Parent parent, Window owner, boolean inheritStyles) {
             stage = new Stage();
-            scene = new Scene(root);
+            scene = new Scene(parent);
+
             stage.setScene(scene);
-            root.getStyleClass().add("application-modal");
-            stage.initModality(Modality.WINDOW_MODAL);
+            // TODO: return before release
+            //stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(owner);
+
+            if (inheritStyles && owner.getScene() != null) {
+                scene.getStylesheets().addAll(owner.getScene().getStylesheets());
+            }
+            parent.getStyleClass().add("application-modal");
         }
 
         public ModalBuilder title(String title) {
@@ -148,12 +199,10 @@ public final class Dialogs {
             return this;
         }
 
-        public ModalBuilder owner(Window owner, boolean inheritStyles) {
-            if (inheritStyles && owner.getScene() != null) {
-                scene.getStylesheets().addAll(owner.getScene().getStylesheets());
-            }
-
-            stage.initOwner(owner);
+        public ModalBuilder preferredSize(Dimension dimension) {
+            Pane root = (Pane) scene.getRoot();
+            root.setPrefWidth(dimension.getWidth());
+            root.setPrefHeight(dimension.getHeight());
             return this;
         }
 
