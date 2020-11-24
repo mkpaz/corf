@@ -9,12 +9,12 @@
 }
 
 #tabPaneTools > .tab-content-area > * {
-    -fx-padding: 10 10 10 15;
+    -fx-padding: 5 5 5 5;
 }
 
 #paneWelcome,
 #tabPaneTools {
-    -fx-background-color: -fx-base;
+    -fx-background-color: -fx-background;
 }
 
 #welcomeAppName {

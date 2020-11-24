@@ -50,9 +50,7 @@
     -fx-text-fill: red;
 }
 
-.caption {
-    -fx-font-family: "Open Sans SemiBold";
-}
+.caption {}
 
 /******************* Utils *******************/
 

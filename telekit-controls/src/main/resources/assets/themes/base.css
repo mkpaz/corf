@@ -59,35 +59,47 @@
     -fx-padding: 0 5 0 5;
 }
 
-.tab-pane > .tab-header-area > .headers-region > .tab:top {
-/*  -fx-background-insets: 0 1 0 0, 1 2 1 0, 2 3 2 0; */
-    -fx-background-insets: 0 1 0 0, 0 2 1 0, 0 3 2 0; /* top, right, bottom, left */
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-close-button {
+    -fx-background-color: derive(-fx-mark-color, 70%);
 }
-
-.tab-pane > .tab-header-area > .headers-region > .tab:top:selected {
-/*  -fx-background-insets: 0 1 1 0, 0 2 0 0, 2 3 0 0; */
-    -fx-background-insets: 0 1 0 0, 0 2 0 0, 0 3 0 0;
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-close-button:hover {
+    -fx-background-color: derive(-fx-mark-color, -30%);
 }
 
 /* reduce tab border insets, default TabPane supposed to be used only for OUTER tabs,
    more specifically it's parent must have a border */
+.tab-pane > .tab-header-area > .headers-region > .tab:top {
+    -fx-background-insets: 0 1 0 0, 0 2 1 0, 0 2 2 0; /* top, right, bottom, left */
+}
+.tab-pane > .tab-header-area > .headers-region > .tab:top:selected {
+    -fx-background-insets: 0 1 0 0, 0 2 0 0, 0 2 0 0;
+}
 .tab-pane > .tab-header-area > .headers-region > .tab:bottom {
-    -fx-background-insets: 0 0 0 1, 0 0 1 2, 0 0 2 3; /* bottom, left, top, right */
+    -fx-background-insets: 0 0 0 1, 0 0 1 2, 0 0 2 2; /* bottom, left, top, right */
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:bottom:selected {
-    -fx-background-insets: 0 0 0 1, 0 0 0 2, 0 0 0 3;
+    -fx-background-insets: 0 0 0 1, 0 0 0 2, 0 0 0 2;
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:left {
-    -fx-background-insets: 0 0 0 1, 0 0 1 2, 0 0 2 3; /* left, top, right, bottom */
+    -fx-background-insets: 0 0 0 1, 0 0 1 2, 0 0 2 2; /* left, top, right, bottom */
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:left:selected {
-    -fx-background-insets: 0 0 0 1, 0 0 0 2, 0 0 0 3;
+    -fx-background-insets: 0 0 0 1, 0 0 0 2, 0 0 0 2;
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:right {
-    -fx-background-insets: 0 1 0 0, 0 2 1 0, 0 3 2 0; /* right, bottom, left, top */
+    -fx-background-insets: 0 1 0 0, 0 2 1 0, 0 2 2 0; /* right, bottom, left, top */
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:right:selected {
-    -fx-background-insets: 0 1 0 0, 0 2 0 0, 0 3 0 0;
+    -fx-background-insets: 0 1 0 0, 0 2 0 0, 0 2 0 0;
+}
+
+.menu-bar {
+    -fx-background-color: -fx-outer-border, -fx-body-color;
+}
+
+.tool-bar { /* top */
+    -fx-background-color: -fx-outer-border, -fx-background;
+    -fx-background-insets: 0 0 0 0, 0 0 1 0;
 }
 
 /* remove focus border and underline */

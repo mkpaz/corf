@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
@@ -11,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ss7.CICTableController">
+<GridPane hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="5.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ss7.CICTableController">
   <columnConstraints>
     <ColumnConstraints hgrow="NEVER" />
     <ColumnConstraints hgrow="NEVER" />
@@ -27,7 +25,6 @@
     <RowConstraints vgrow="NEVER" />
     <RowConstraints vgrow="NEVER" />
     <RowConstraints vgrow="ALWAYS" />
-    <RowConstraints prefHeight="20.0" vgrow="NEVER" />
   </rowConstraints>
    <children>
       <ListView fx:id="listE1" prefWidth="120.0" styleClass="monospaced" GridPane.rowIndex="1" GridPane.rowSpan="6" />
@@ -59,11 +56,6 @@
          </children>
       </HBox>
       <TextField fx:id="tfCicSearch" alignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-      <Hyperlink contentDisplay="RIGHT" onAction="#showInBrowser" text="%tools.ss7.OpenFullTable" visited="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="7">
-         <graphic>
-            <FontAwesomeIconView glyphName="CARET_DOWN" />
-         </graphic>
-      </Hyperlink>
       <Label fx:id="lbFirstCic" minWidth="40.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets top="20.0" />
