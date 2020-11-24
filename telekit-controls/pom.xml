@@ -10,7 +10,37 @@
     </parent>
     <artifactId>telekit-controls</artifactId>
 
+    <properties>
+        <launcherClass>org.telekit.controls.overview.OverviewLauncher</launcherClass>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${launcherClass}</mainClass>
+                    <executable>${java.home}/bin/java</executable>
+                </configuration>
+                <!-- Sampler -->
+                <executions>
+                    <execution>
+                        <id>overview</id>
+                        <configuration>
+                            <mainClass>${launcherClass}</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>telekit-base</artifactId>
+        </dependency>
         <!-- RichTextFX -->
         <dependency>
             <groupId>org.fxmisc.flowless</groupId>
@@ -31,24 +61,6 @@
         <dependency>
             <groupId>org.fxmisc.wellbehaved</groupId>
             <artifactId>wellbehavedfx</artifactId>
-        </dependency>
-
-        <!-- ControlsFX -->
-        <dependency>
-            <!--
-                Note:
-                - ControlsFX requires modularization tweaks to work with JPMS
-                  https://github.com/controlsfx/controlsfx/wiki/Using-ControlsFX-with-JDK-9-and-above
-                  (even some simple controls like GlyphFont), which makes it barely
-                  usable for modularized apps.
-                - ControlsFX is not internationalized by default. Maven Central artifact only includes
-                  EN locale. If you want more translations, you have to manually download them from
-                  ControlsFX page on https://www.transifex.com and place them directly into app root.
-                  What's the point to ask for translators and then not include translated files into library?
-                  Don't know.
-            -->
-            <groupId>org.controlsfx</groupId>
-            <artifactId>controlsfx</artifactId>
         </dependency>
     </dependencies>
 

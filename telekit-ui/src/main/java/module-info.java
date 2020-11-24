@@ -1,6 +1,7 @@
 module telekit.ui {
 
     requires telekit.base;
+    requires telekit.controls;
 
     // not modularized dependencies
     requires org.apache.commons.lang3;
@@ -15,11 +16,8 @@ module telekit.ui {
     requires undofx;
     requires wellbehavedfx;
     requires org.apache.commons.codec;
-    // end of ot modularized dependencies
 
-    exports org.telekit.ui.components;
-    opens org.telekit.ui.components;
-
+    // exports
     exports org.telekit.ui.domain;
     opens org.telekit.ui.domain;
 
@@ -28,9 +26,6 @@ module telekit.ui {
 
     exports org.telekit.ui;
     opens org.telekit.ui;
-
-    exports org.telekit.ui.samples;
-    opens org.telekit.ui.samples;
 
     // tools
     exports org.telekit.ui.tools;

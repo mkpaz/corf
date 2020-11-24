@@ -17,12 +17,12 @@ import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.impl.SequenceGenerator;
 import org.telekit.base.service.impl.SequenceGenerator.Item;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.format.DoubleStringConverter;
 import org.telekit.controls.format.IntegerStringConverter;
-import org.telekit.controls.util.ExtraBindings;
+import org.telekit.controls.util.BooleanBindings;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 
 import java.io.BufferedWriter;
@@ -141,11 +141,11 @@ public class RootController extends Controller {
                 cbA.selectedProperty(), cbB.selectedProperty(), cbC.selectedProperty(), cbD.selectedProperty()
         };
         btnGenerate.disableProperty().bind(Bindings.or(
-                ExtraBindings.isBlank(tfPattern.textProperty()),
-                Bindings.not(ExtraBindings.or(selectedCheckboxes))
+                BooleanBindings.isBlank(tfPattern.textProperty()),
+                Bindings.not(BooleanBindings.or(selectedCheckboxes))
         ));
 
-        btnSaveToFile.disableProperty().bind(ExtraBindings.isBlank(taResult.textProperty()));
+        btnSaveToFile.disableProperty().bind(BooleanBindings.isBlank(taResult.textProperty()));
     }
 
     private void toggleSpinners(HBox parentPane, boolean enabled) {

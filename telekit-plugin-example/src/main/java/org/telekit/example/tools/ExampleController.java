@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.util.CommonUtils;
 import org.telekit.example.ExamplePlugin;
 import org.telekit.example.MessageKeys;

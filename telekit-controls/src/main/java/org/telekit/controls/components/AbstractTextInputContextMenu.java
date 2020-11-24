@@ -1,7 +1,7 @@
 package org.telekit.controls.components;
 
-import fontawesomefx.fa.FontAwesomeIcon;
-import fontawesomefx.fa.FontAwesomeIconView;
+import org.telekit.controls.glyphs.fontawesome.FontAwesomeIcon;
+import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import org.telekit.controls.i18n.ControlsMessageKeys;

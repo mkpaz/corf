@@ -1,7 +1,7 @@
 package org.telekit.ui.tools.apiclient;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import fontawesomefx.fa.FontAwesomeIconView;
+import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -35,16 +35,16 @@ import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.service.CompletionProvider;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.components.RevealablePasswordField;
-import org.telekit.controls.domain.Dimension;
-import org.telekit.controls.util.ExtraBindings;
-import org.telekit.ui.components.FilterTable;
+import org.telekit.base.ui.Dimension;
+import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.views.FilterTable;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 import org.telekit.ui.domain.FXMLView;
 import org.telekit.ui.tools.Action;
@@ -74,7 +74,7 @@ import static org.telekit.base.util.CSVUtils.*;
 import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.util.BindUtils.rebind;
-import static org.telekit.controls.util.ExtraBindings.isBlank;
+import static org.telekit.controls.util.BooleanBindings.isBlank;
 import static org.telekit.ui.MessageKeys.*;
 import static org.telekit.ui.tools.Action.NEW;
 import static org.telekit.ui.tools.apiclient.Executor.validate;
@@ -241,13 +241,13 @@ public class RootController extends Controller {
     }
 
     private void initControlButtons() {
-        btnStart.disableProperty().bind(ExtraBindings.or(
+        btnStart.disableProperty().bind(BooleanBindings.or(
                 cmbTemplate.valueProperty().isNull(),
                 isBlank(taCsv.textProperty()),
                 ongoingProperty
         ));
         btnStop.disableProperty().bind(Bindings.not(ongoingProperty));
-        btnExportLog.disableProperty().bind(ExtraBindings.or(
+        btnExportLog.disableProperty().bind(BooleanBindings.or(
                 Bindings.isEmpty(tblLog.getItems()),
                 ongoingProperty
         ));

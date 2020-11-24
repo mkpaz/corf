@@ -12,7 +12,7 @@ import org.telekit.base.domain.HttpConstants.Method;
 import org.telekit.base.event.CancelEvent;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
-import org.telekit.controls.util.ExtraBindings;
+import org.telekit.controls.util.BooleanBindings;
 import org.telekit.ui.tools.Action;
 import org.telekit.ui.tools.SubmitActionEvent;
 
@@ -48,10 +48,10 @@ public class TemplateModalController extends Controller {
 
     @FXML
     public void initialize() {
-        btnSubmit.disableProperty().bind(ExtraBindings.or(
-                ExtraBindings.isBlank(tfName.textProperty()),
-                ExtraBindings.isBlank(tfURI.textProperty()),
-                ExtraBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
+        btnSubmit.disableProperty().bind(BooleanBindings.or(
+                BooleanBindings.isBlank(tfName.textProperty()),
+                BooleanBindings.isBlank(tfURI.textProperty()),
+                BooleanBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
         ));
 
         spnBatchSize.valueProperty().addListener((obs, oldValue, newValue) -> {

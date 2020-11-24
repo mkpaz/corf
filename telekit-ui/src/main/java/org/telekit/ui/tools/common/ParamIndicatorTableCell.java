@@ -1,7 +1,7 @@
 package org.telekit.ui.tools.common;
 
-import fontawesomefx.fa.FontAwesomeIcon;
-import fontawesomefx.fa.FontAwesomeIconView;
+import org.telekit.controls.glyphs.fontawesome.FontAwesomeIcon;
+import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableRow;
 import javafx.scene.image.Image;

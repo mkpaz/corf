@@ -1,29 +1,37 @@
 module telekit.controls {
 
-    requires java.logging;
+    requires telekit.base;
 
-    requires javafx.controls;
-    requires javafx.fxml;
+    // modularized dependencies
+    requires transitive javafx.controls;
+    requires transitive javafx.fxml;
+    requires transitive javafx.swing;
 
-    requires transitive org.controlsfx.controls;
+    // not modularized dependencies
+    requires org.apache.commons.lang3;
     requires org.fxmisc.richtext;
     requires flowless;
     requires reactfx;
     requires undofx;
     requires wellbehavedfx;
 
-    exports org.telekit.controls.domain;
+    // exports
+    exports org.telekit.controls.components;
+    exports org.telekit.controls.components.dialogs;
+    exports org.telekit.controls.components.richtextfx;
+    exports org.telekit.controls.components.skins;
     exports org.telekit.controls.format;
     exports org.telekit.controls.i18n;
+    exports org.telekit.controls.theme to telekit.ui;
     exports org.telekit.controls.util;
+    exports org.telekit.controls.views;
 
-    exports org.telekit.controls.components;
-    opens org.telekit.controls.components;
-    exports org.telekit.controls.components.richtextfx;
-    opens org.telekit.controls.components.richtextfx;
+    exports org.telekit.controls.glyphs;
+    opens org.telekit.controls.glyphs;
 
-    exports fontawesomefx;
-    opens fontawesomefx;
-    exports fontawesomefx.fa;
-    opens fontawesomefx.fa;
+    exports org.telekit.controls.glyphs.fontawesome;
+    opens org.telekit.controls.glyphs.fontawesome;
+
+    exports org.telekit.controls.overview;
+    opens org.telekit.controls.overview;
 }

@@ -12,7 +12,7 @@ import org.telekit.base.Env;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.UIDefaults;
-import org.telekit.controls.domain.Dimension;
+import org.telekit.base.ui.Dimension;
 
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;

@@ -5,8 +5,6 @@ module telekit.base {
     uses Plugin;
 
     // modularized dependencies
-    requires transitive telekit.controls;
-
     requires transitive java.desktop;
     requires transitive java.inject;
     requires transitive java.sql;
@@ -15,7 +13,6 @@ module telekit.base {
 
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
-    requires transitive javafx.swing;
 
     requires transitive com.fasterxml.jackson.annotation;
     requires transitive com.fasterxml.jackson.core;

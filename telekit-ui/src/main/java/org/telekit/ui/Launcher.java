@@ -13,9 +13,9 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.ApplicationContext;
 import org.telekit.base.Env;
+import org.telekit.base.domain.SecuredData;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
-import org.telekit.base.domain.SecuredData;
 import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.DependencyModule;
@@ -28,12 +28,13 @@ import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.PKCS12Vault;
 import org.telekit.base.preferences.Security;
 import org.telekit.base.preferences.Vault;
+import org.telekit.base.ui.Dimension;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.Mappers;
 import org.telekit.base.util.PasswordGenerator;
-import org.telekit.controls.domain.Dimension;
+import org.telekit.controls.theme.ThemeLoader;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.FXMLView;
@@ -78,8 +79,6 @@ public class Launcher extends Application implements UIDefaults {
     public static final String LOG_CONFIG_FILE_NAME = "logging.properties";
     public static final String LOG_OUTPUT_FILE_NAME = "telekit.log";
     public static final String I18N_RESOURCES_PATH = "org.telekit.ui.i18n.messages";
-    public static final String THEMES_DIR_PATH = "/assets/themes/";
-    public static final String INDEX_CSS_PATH = "/assets/ui/index.css";
 
     private static int exitCode = 0;
     private final ApplicationContext applicationContext = ApplicationContext.getInstance();
@@ -134,8 +133,8 @@ public class Launcher extends Application implements UIDefaults {
         Scene scene = new Scene(controller.getParent(), prefWindowSize.getWidth(), prefWindowSize.getHeight());
 
         // apply theme
-        scene.getStylesheets().add(getResource(INDEX_CSS_PATH).toExternalForm());
-        scene.getStylesheets().add(getResource(THEMES_DIR_PATH + "base.css").toExternalForm());
+        ThemeLoader themeLoader = new ThemeLoader();
+        scene.getStylesheets().addAll(themeLoader.getStylesheets(""));
 
         // show primary stage
         primaryStage.setTitle(Env.APP_NAME);

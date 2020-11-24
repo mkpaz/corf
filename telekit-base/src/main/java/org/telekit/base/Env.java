@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.util.DesktopUtils;
-import org.telekit.controls.domain.Dimension;
+import org.telekit.base.ui.Dimension;
 
 import java.net.URL;
 import java.nio.file.Path;

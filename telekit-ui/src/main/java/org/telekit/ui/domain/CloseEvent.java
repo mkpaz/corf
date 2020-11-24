@@ -2,7 +2,7 @@ package org.telekit.ui.domain;
 
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.event.Event;
-import org.telekit.controls.domain.Dimension;
+import org.telekit.base.ui.Dimension;
 
 public class CloseEvent extends Event {
 

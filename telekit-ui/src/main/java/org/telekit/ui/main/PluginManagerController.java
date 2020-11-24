@@ -26,7 +26,7 @@ import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.plugin.internal.PluginState;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.ApplicationEvent.Type;

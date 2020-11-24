@@ -10,7 +10,7 @@ import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.event.CancelEvent;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
-import org.telekit.controls.util.ExtraBindings;
+import org.telekit.controls.util.BooleanBindings;
 import org.telekit.ui.tools.Action;
 import org.telekit.ui.tools.SubmitActionEvent;
 
@@ -46,10 +46,10 @@ public class TemplateModalController extends Controller {
         cmbDelimiter.setConverter(new DelimiterStringConverter());
         cmbEncoding.getItems().setAll(Encoding.values());
         cmbLineSeparator.getItems().setAll(LineSeparator.values());
-        btnSubmit.disableProperty().bind(ExtraBindings.or(
-                ExtraBindings.isBlank(tfName.textProperty()),
-                ExtraBindings.isBlank(taPattern.textProperty()),
-                ExtraBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
+        btnSubmit.disableProperty().bind(BooleanBindings.or(
+                BooleanBindings.isBlank(tfName.textProperty()),
+                BooleanBindings.isBlank(taPattern.textProperty()),
+                BooleanBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
         ));
     }
 

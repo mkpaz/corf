@@ -15,7 +15,7 @@ import org.telekit.base.i18n.Messages;
 import org.telekit.base.telecom.net.IP4Address;
 import org.telekit.base.telecom.net.IP4Subnet;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.FileUtils;

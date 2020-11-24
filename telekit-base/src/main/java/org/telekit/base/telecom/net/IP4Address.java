@@ -11,6 +11,7 @@ public class IP4Address {
 
     public static final long MIN_VALUE = 0;
     public static final long MAX_VALUE = Long.parseLong("1".repeat(32), 2);
+    public static final String PATTERN = createIPv4Pattern();
 
     private final IPv4Address ip;
 
@@ -62,5 +63,11 @@ public class IP4Address {
 
     public String toHexString(String delimiter) {
         return String.join(delimiter, splitEqually(toHexString(), 2));
+    }
+
+    private static String createIPv4Pattern() {
+        String octet = "(([01]?[0-9]{0,2})|(2[0-4][0-9])|(25[0-5]))";
+        String subsequentOctet = "(\\." + octet + ")";
+        return "^" + octet + "?" + subsequentOctet + "{0,3}";
     }
 }

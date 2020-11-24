@@ -3,11 +3,11 @@ package org.telekit.ui.tools.common;
 import org.telekit.base.domain.KeyValue;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.UILoader;
-import org.telekit.ui.components.FilterTable;
+import org.telekit.controls.views.FilterTable;
 
 import static org.telekit.base.i18n.BaseMessageKeys.KEY;
 import static org.telekit.base.i18n.BaseMessageKeys.VALUE;
-import static org.telekit.base.ui.ComponentUtils.createTableColumn;
+import static org.telekit.controls.util.ControlUtils.createTableColumn;
 
 public final class Controllers {
 

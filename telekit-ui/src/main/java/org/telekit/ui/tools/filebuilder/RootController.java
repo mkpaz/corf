@@ -34,15 +34,15 @@ import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.CompletionProvider;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
-import org.telekit.controls.domain.Dimension;
-import org.telekit.controls.util.ExtraBindings;
-import org.telekit.ui.components.FilterTable;
+import org.telekit.base.ui.Dimension;
+import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.views.FilterTable;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 import org.telekit.ui.domain.FXMLView;
 import org.telekit.ui.tools.Action;
@@ -195,7 +195,7 @@ public class RootController extends Controller {
         rbSaveDynamic.setUserData(OUT_FILE_DYNAMIC);
         btnGenerate.disableProperty().bind(Bindings.or(
                 cmbTemplate.valueProperty().isNull(),
-                ExtraBindings.isBlank(taCsv.textProperty())
+                BooleanBindings.isBlank(taCsv.textProperty())
         ));
     }
 

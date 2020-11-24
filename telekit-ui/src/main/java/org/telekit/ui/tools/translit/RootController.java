@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import org.telekit.base.service.Transliterator;
 import org.telekit.base.service.impl.RUTransliterator;
 import org.telekit.base.ui.Controller;
-import org.telekit.controls.util.ExtraBindings;
+import org.telekit.controls.util.BooleanBindings;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class RootController extends Controller {
         cmbLang.getSelectionModel().selectFirst();
 
         btnTransliterate.disableProperty().bind(
-                ExtraBindings.isBlank(taText.textProperty())
+                BooleanBindings.isBlank(taText.textProperty())
         );
     }
 

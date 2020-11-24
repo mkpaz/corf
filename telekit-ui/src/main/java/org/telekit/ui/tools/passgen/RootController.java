@@ -8,8 +8,8 @@ import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.domain.ProgressIndicatorEvent;
 import org.telekit.base.domain.TelekitException;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
-import org.telekit.controls.util.ExtraBindings;
+import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.util.BooleanBindings;
 import org.telekit.controls.format.IntegerStringConverter;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.FileUtils;
@@ -95,7 +95,7 @@ public class RootController extends Controller {
 
         spnPasswordsCount.setEditable(true);
         IntegerStringConverter.createFor(spnPasswordsCount);
-        btnSaveToFile.disableProperty().bind(ExtraBindings.isBlank(taGeneratedPasswords.textProperty()));
+        btnSaveToFile.disableProperty().bind(BooleanBindings.isBlank(taGeneratedPasswords.textProperty()));
     }
 
     @FXML

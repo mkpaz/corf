@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
+import org.telekit.controls.components.skins.RevealablePasswordFieldSkin;
 
 public class RevealablePasswordField extends TextField {
 

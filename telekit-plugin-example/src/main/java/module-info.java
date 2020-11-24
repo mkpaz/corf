@@ -3,6 +3,7 @@ import org.telekit.base.plugin.Plugin;
 module telekit.example {
 
     requires telekit.base;
+    requires telekit.controls;
     requires org.jetbrains.annotations;
 
     exports org.telekit.example;

@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
-import org.telekit.controls.util.ExtraBindings;
+import org.telekit.controls.util.BooleanBindings;
 import org.telekit.base.util.TextBuilder;
 
 import static org.apache.commons.lang3.StringUtils.*;
@@ -35,7 +35,7 @@ public class SPCConverterController extends Controller {
         cmbFormat.getItems().setAll(FORMATS_14_BIT);
         cmbFormat.getSelectionModel().selectFirst();
 
-        btnConvert.disableProperty().bind(ExtraBindings.isBlank(tfSpc.textProperty()));
+        btnConvert.disableProperty().bind(BooleanBindings.isBlank(tfSpc.textProperty()));
     }
 
     @FXML

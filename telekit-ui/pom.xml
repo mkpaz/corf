@@ -45,7 +45,6 @@
                     <mainClass>${bld.mainClass}</mainClass>
                     <executable>${java.home}/bin/java</executable>
                 </configuration>
-                <!-- remote debugging -->
                 <executions>
                     <execution>
                         <id>run</id>
@@ -67,14 +66,6 @@
                                 <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:9090</option>
                             </options>
                             <mainClass>${bld.mainClass}</mainClass>
-                            <executable>${java.home}/bin/java</executable>
-                        </configuration>
-                    </execution>
-                    <!-- Preview -->
-                    <execution>
-                        <id>sampler</id>
-                        <configuration>
-                            <mainClass>org.telekit.ui.samples.SamplerLauncher</mainClass>
                             <executable>${java.home}/bin/java</executable>
                         </configuration>
                     </execution>
@@ -619,6 +610,10 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>telekit-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>telekit-controls</artifactId>
         </dependency>
         <!--
             RichTextFX (also Flowless, UndoFX etc) is a transitive dependency of telekit-ui

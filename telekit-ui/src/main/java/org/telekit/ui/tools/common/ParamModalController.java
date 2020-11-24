@@ -12,12 +12,12 @@ import org.telekit.base.event.CancelEvent;
 import org.telekit.base.event.SubmitEvent;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.Dialogs;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.format.TextFormatters;
-import org.telekit.controls.util.ExtraBindings;
+import org.telekit.controls.util.BooleanBindings;
 import org.telekit.ui.domain.FXMLView;
 import org.telekit.ui.tools.common.Param.Type;
 
@@ -45,11 +45,11 @@ public class ParamModalController extends Controller {
         param = createDefaultParam();
         // param name must not contain special characters
         tfName.setTextFormatter(TextFormatters.matches(Pattern.compile(PlaceholderReplacer.PLACEHOLDER_CHARACTERS)));
-        btnSubmit.disableProperty().bind(ExtraBindings.or(
-                ExtraBindings.isBlank(tfName.textProperty()),
+        btnSubmit.disableProperty().bind(BooleanBindings.or(
+                BooleanBindings.isBlank(tfName.textProperty()),
                 // "_" is reserved for internal params
-                ExtraBindings.startsWith(tfName.textProperty(), "_", StringUtils::trim),
-                ExtraBindings.contains(tfName.textProperty(), usedParamNames, StringUtils::trim)
+                BooleanBindings.startsWith(tfName.textProperty(), "_", StringUtils::trim),
+                BooleanBindings.contains(tfName.textProperty(), usedParamNames, StringUtils::trim)
         ));
         cmbType.getItems().addAll(Type.values());
     }

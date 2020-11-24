@@ -113,7 +113,7 @@ public class RootController extends Controller {
             return Base64.getDecoder();
         }
 
-        // used to display value name in UI
+        // uses to display value name in UI
         @Override
         public String toString() {
             return name;
