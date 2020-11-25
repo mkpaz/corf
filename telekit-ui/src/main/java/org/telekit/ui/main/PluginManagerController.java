@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import org.telekit.base.Env;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;

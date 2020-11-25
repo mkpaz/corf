@@ -1,7 +1,7 @@
 package org.telekit.base.service.impl;
 
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.EncryptionService;
 import org.telekit.base.service.Encryptor;

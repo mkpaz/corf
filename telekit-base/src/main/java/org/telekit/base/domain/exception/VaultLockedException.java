@@ -1,4 +1,4 @@
-package org.telekit.base.domain;
+package org.telekit.base.domain.exception;
 
 import org.telekit.base.i18n.Messages;
 

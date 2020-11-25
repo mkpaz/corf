@@ -1,7 +1,6 @@
 package org.telekit.ui.tools.ipcalc;
 
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,16 +9,17 @@ import javafx.scene.layout.GridPane;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
+import org.telekit.base.event.CancelEvent;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.telecom.net.IP4Address;
-import org.telekit.base.telecom.net.IP4Subnet;
+import org.telekit.base.telecom.ip.IP4Address;
+import org.telekit.base.telecom.ip.IP4Subnet;
 import org.telekit.base.ui.Controller;
-import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.controls.format.TextFormatters;
 import org.telekit.ui.domain.FXMLView;
 
@@ -38,14 +38,18 @@ import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.StringUtils.splitEqually;
+import static org.telekit.base.util.StringUtils.stringify;
+import static org.telekit.controls.util.TableUtils.createIndexCellFactory;
 import static org.telekit.ui.MessageKeys.*;
 
 public class IPv4Controller extends Controller {
 
     private static final String EMPTY_DATA = "n/a";
-    private static final int MAX_SUBNET_BITS_TO_SPLIT = 15; // max 2 ^ 14 subnets = 16384
     private static final String DEFAULT_IP = "192.168.0.1";
     private static final int DEFAULT_NETMASK = 24;
+    private static final int MAX_SUBNET_BITS_TO_SPLIT = 15; // 2 ^ 14 subnets = 16384
+    private static final List<Subnet> NETMASKS = createSubnetList();
+    private static final int NAME_PADDING = 12;
 
     public @FXML GridPane rootPane;
     public @FXML TextField tfIPAddress;
@@ -59,16 +63,27 @@ public class IPv4Controller extends Controller {
     public @FXML Button btnSaveToFile;
     public @FXML TableView<Subnet> tblNetmasks;
 
-    private IPv4ConverterController formatsConverterController = null;
-    private static final List<Subnet> NETMASKS = createSubnetsList();
+    private IPv4ConverterController converterController = null;
 
     @FXML
     public void initialize() {
         tfIPAddress.setTextFormatter(TextFormatters.ipv4Decimal());
+
+        initNetmasksSelectorAndTable();
+        initSubnetSplitControls();
+
+        // set initial data
+        tfIPAddress.setText(DEFAULT_IP);
+        cmbNetmask.getSelectionModel().select(32 - DEFAULT_NETMASK);
+        updateDetailedInfo();
+    }
+
+    private void initNetmasksSelectorAndTable() {
+        // netmasks dropdown
         cmbNetmask.setButtonCell(new NetmaskCell());
         cmbNetmask.setCellFactory(property -> new NetmaskCell());
         cmbNetmask.setItems(observableArrayList(NETMASKS));
-        cmbNetmask.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        cmbNetmask.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             fillSplitSelectors();
             int index = cmbNetmask.getSelectionModel().getSelectedIndex();
             Platform.runLater(() -> {
@@ -77,18 +92,32 @@ public class IPv4Controller extends Controller {
             });
         });
 
+        // fill netmasks table
+        tblNetmasks.setItems(observableArrayList(NETMASKS));
+        ObservableList<TableColumn<Subnet, ?>> columns = tblNetmasks.getColumns();
+        for (TableColumn<Subnet, ?> column : columns) {
+            if (isEmpty(column.getId())) continue;
+            String propertyName = extractPropertyNameFromColumnID(column.getId());
+            column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initSubnetSplitControls() {
+        // subnets dropdown
         cmbSplitSubnets.setButtonCell(new SplitSelectorCell());
         cmbSplitSubnets.setCellFactory(property -> new SplitSelectorCell());
-        cmbSplitHosts.setButtonCell(new SplitSelectorCell());
-        cmbSplitHosts.setCellFactory(property -> new SplitSelectorCell());
-
         cmbSplitSubnets.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 int index = cmbSplitSubnets.getSelectionModel().getSelectedIndex();
                 cmbSplitHosts.getSelectionModel().select(index);
-                updateSplitDetails(newValue);
+                updateSplitControls(newValue);
             }
         });
+
+        // hosts dropdown
+        cmbSplitHosts.setButtonCell(new SplitSelectorCell());
+        cmbSplitHosts.setCellFactory(property -> new SplitSelectorCell());
         cmbSplitHosts.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 int index = cmbSplitHosts.getSelectionModel().getSelectedIndex();
@@ -96,21 +125,31 @@ public class IPv4Controller extends Controller {
             }
         });
 
-        fillNetmasksTable();
-        initSplitTable();
+        // result table
+        ObservableList<TableColumn<Subnet, ?>> columns = tblSplit.getColumns();
+        TableColumn<Subnet, String> indexColumn = (TableColumn<Subnet, String>) columns.get(0);
+        indexColumn.setCellFactory(createIndexCellFactory());
+        for (TableColumn<Subnet, ?> column : columns) {
+            if (isEmpty(column.getId())) continue;
+            String propertyName = extractPropertyNameFromColumnID(column.getId());
+            column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        }
+    }
 
-        tfIPAddress.setText(DEFAULT_IP);
-        cmbNetmask.getSelectionModel().select(32 - DEFAULT_NETMASK);
-
-        updateInfo();
+    private void updateSplitControls(int subnetBits) {
+        IP4Subnet subnet = getEnteredSubnet();
+        tfBitUsage.setText(bitsUsageOf(subnet, subnetBits));
+        List<Subnet> splitResult = subnet.split(subnetBits).stream()
+                .map(Subnet::new)
+                .collect(Collectors.toList());
+        tblSplit.setItems(observableArrayList(splitResult));
     }
 
     @FXML
-    public void updateInfo() {
+    public void updateDetailedInfo() {
         IP4Address address;
         IP4Subnet subnet;
-        final TextBuilder tb = new TextBuilder();
-        final int padding = 12;
+        TextBuilder text = new TextBuilder();
 
         try {
             address = getEnteredAddress();
@@ -125,75 +164,68 @@ public class IPv4Controller extends Controller {
 
         fillSplitSelectors();
 
-        tb.appendLine("NETWORK:");
-        tb.newLine();
-        tb.appendLine(rightPad("Address:", padding),
-                      defaultString(subnet.getNetworkAddress(), EMPTY_DATA));
-        tb.appendLine(rightPad("Netmask:", padding),
-                      subnet.getNetmask().toString(), " / ", subnet.getNetmask().toHexString("."));
-        tb.appendLine(rightPad("Bitmask:", padding),
-                      String.valueOf(subnet.getPrefixLength()));
-        tb.appendLine(rightPad("Hosts:", padding),
-                      subnet.getMinHost().toString(), " - ", subnet.getMaxHost().toString());
-        tb.appendLine(rightPad("Available:", padding),
-                      formatCount(subnet.getNumberOfHosts()), " address(es)");
-        tb.appendLine(rightPad("Broadcast:", padding),
-                      defaultString(subnet.getBroadcast(), EMPTY_DATA));
-        tb.appendLine(rightPad("Wildcard:", padding),
-                      subnet.getNetmask().reverseBytes().toString());
+        text.appendLine("NETWORK:");
+        text.newLine();
+        text.appendLine(pad("Address:"), stringify(subnet.getNetworkAddress(), EMPTY_DATA));
+        text.appendLine(pad("Netmask:"), subnet.getNetmask().toString(), " / ", subnet.getNetmask().toHexString("."));
+        text.appendLine(pad("Bitmask:"), stringify(subnet.getPrefixLength()));
+        text.appendLine(pad("Hosts:"), subnet.getMinHost().toString(), " - ", subnet.getMaxHost().toString());
+        text.appendLine(pad("Available:"), formatHostsCount(subnet.getNumberOfHosts()), " address(es)");
+        text.appendLine(pad("Broadcast:"), stringify(subnet.getBroadcast(), EMPTY_DATA));
+        text.appendLine(pad("Wildcard:"), subnet.getNetmask().reverseBytes().toString());
 
-        tb.appendLine(rightPad("Remarks:", padding), "class " + subnet.getNetworkClass() + "-based;");
+        text.appendLine(pad("Remarks:"), "class " + subnet.getNetworkClass() + "-based;");
         List<String> remarks = new ArrayList<>();
         if (subnet.isLoopback()) remarks.add("localhost");
         if (subnet.isLinkLocal()) remarks.add("link-local (APIPA)");
         if (subnet.isMulticast()) remarks.add("multicast");
         if (subnet.isPrivate()) remarks.add("private network (RFC1918)");
-        remarks.forEach(remark -> tb.appendLine(" ".repeat(padding) + remark + ";"));
+        remarks.forEach(remark -> text.appendLine(" ".repeat(NAME_PADDING) + remark + ";"));
+        text.newLine();
 
-        tb.newLine();
+        text.appendLine("FORMATS:");
+        text.newLine();
+        text.appendLine(pad("Integer:"), stringify(address.longValue()));
+        text.appendLine(pad("Binary:"), address.toBinaryString("."));
+        text.appendLine(pad("Hex:"), address.toHexString("."));
 
-        tb.appendLine("FORMATS:");
-        tb.newLine();
-        tb.appendLine(rightPad("Integer:", padding),
-                      String.valueOf(address.longValue()));
-        tb.appendLine(rightPad("Binary:", padding),
-                      address.toBinaryString("."));
-        tb.appendLine(rightPad("Hex:", padding),
-                      address.toHexString("."));
-
-        taDetails.setText(tb.toString());
+        taDetails.setText(text.toString());
     }
 
     @FXML
-    public void showFormatConverter() {
+    public void showConverterDialog() {
         IPv4ConverterController converterController = getOrCreateConverterDialog();
         converterController.setData(getEnteredAddress().longValue());
         Dialogs.showAndWait(converterController);
     }
 
     private IPv4ConverterController getOrCreateConverterDialog() {
-        if (this.formatsConverterController != null) return this.formatsConverterController;
+        if (converterController != null) {
+            converterController.reset();
+            return converterController;
+        }
 
         Controller controller = UILoader.load(FXMLView.IPV4_CONV.getLocation(), Messages.getInstance());
+        controller.subscribe(CancelEvent.class, event -> Dialogs.hide(controller));
+
         Dialogs.modal(controller.getParent(), rootPane.getScene().getWindow())
                 .title(Messages.get(TOOLS_IPCALC_TASK_REPORT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
-        this.formatsConverterController = (IPv4ConverterController) controller;
 
-        return this.formatsConverterController;
+        converterController = (IPv4ConverterController) controller;
+        return this.converterController;
     }
 
     @FXML
-    public void saveToFile() {
+    public void saveSplitResultToFile() {
         List<Subnet> subnets = tblSplit.getItems();
         File outputFile = Dialogs.fileChooser()
                 .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
                 .initialFileName(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
-
         if (outputFile == null || subnets.isEmpty()) return;
 
         try (FileOutputStream fos = new FileOutputStream(outputFile);
@@ -209,51 +241,22 @@ public class IPv4Controller extends Controller {
         }
     }
 
-    @Override
-    public void reset() {}
-
-    private void initSplitTable() {
-        ObservableList<TableColumn<Subnet, ?>> columns = tblSplit.getColumns();
-
-        @SuppressWarnings("unchecked")
-        TableColumn<Subnet, String> indexColumn = (TableColumn<Subnet, String>) columns.get(0);
-
-        indexColumn.setCellFactory(col -> {
-            TableCell<Subnet, String> cell = new TableCell<>();
-            cell.textProperty().bind(Bindings.createStringBinding(() -> {
-                if (cell.isEmpty()) {
-                    return null;
-                } else {
-                    return Integer.toString(cell.getIndex() + 1);
-                }
-            }, cell.emptyProperty(), cell.indexProperty()));
-
-            return cell;
-        });
-
-        for (TableColumn<Subnet, ?> column : columns) {
-            if (isEmpty(column.getId())) continue;
-            String propertyName = extractPropertyNameFromColumnID(column.getId());
-            column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        }
-    }
-
     private void fillSplitSelectors() {
         IP4Subnet subnet = getEnteredSubnet();
 
         if (subnet.getTrailingBitCount() <= 1) {
             cmbSplitSubnets.setItems(observableArrayList());
             cmbSplitHosts.setItems(observableArrayList());
-            tfBitUsage.setText(getBitsUsage(subnet, 0));
+            tfBitUsage.setText(bitsUsageOf(subnet, 0));
             tblSplit.setItems(observableArrayList());
             return;
         }
 
-        // limit max number of subnets to which netmask can be splitted
-        // otherwise we need somehow to store 2 ^ 30 objects and show at least some of them in the table
+        // limit max number of subnets to split, otherwise we need somehow to store 2^30
+        // objects and show at least some of them in the table
         int splitSize = Math.min(subnet.getTrailingBitCount(), MAX_SUBNET_BITS_TO_SPLIT);
 
-        List<Pair<Integer, Integer>> pairs = getPairsOfGivenSum(splitSize);
+        List<Pair<Integer, Integer>> pairs = findPairsOfGivenSum(splitSize);
         ObservableList<Integer> subnets = observableArrayList();
         ObservableList<Integer> hosts = observableArrayList();
         for (Pair<Integer, Integer> pair : pairs) {
@@ -267,27 +270,12 @@ public class IPv4Controller extends Controller {
         cmbSplitHosts.getSelectionModel().selectFirst();
     }
 
-    private void updateSplitDetails(int subnetBits) {
-        IP4Subnet subnet = getEnteredSubnet();
-        tfBitUsage.setText(getBitsUsage(subnet, subnetBits));
-        List<Subnet> splitResult = subnet.split(subnetBits).stream()
-                .map(Subnet::new)
-                .collect(Collectors.toList());
-        tblSplit.setItems(observableArrayList(splitResult));
-    }
-
-    private void fillNetmasksTable() {
-        tblNetmasks.setItems(observableArrayList(NETMASKS));
-        ObservableList<TableColumn<Subnet, ?>> columns = tblNetmasks.getColumns();
-        for (TableColumn<Subnet, ?> column : columns) {
-            if (isEmpty(column.getId())) continue;
-            String propertyName = extractPropertyNameFromColumnID(column.getId());
-            column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        }
-    }
-
-    private String extractPropertyNameFromColumnID(String id) {
-        return StringUtils.uncapitalize(id.substring(2));
+    private String extractPropertyNameFromColumnID(String colID) {
+        // fail fast
+        if (isBlank(colID)) throw new IllegalArgumentException("Invalid column ID");
+        // all column ids start with "col", e.g. "colBroadcast"
+        // the latter part must be identical to corresponding field name
+        return StringUtils.uncapitalize(colID.substring(3));
     }
 
     private IP4Address getEnteredAddress() {
@@ -300,7 +288,7 @@ public class IPv4Controller extends Controller {
         return new IP4Subnet(address, prefixLength);
     }
 
-    private String getBitsUsage(IP4Subnet subnet, int subnetBits) {
+    private String bitsUsageOf(IP4Subnet subnet, int subnetBits) {
         String bitsUsage;
         if (subnet.getPrefixLength() < 31) {
             bitsUsage = Objects.requireNonNull(subnet.getHostAddress()).toBinaryString().substring(0, subnet.getPrefixLength()) +
@@ -312,8 +300,8 @@ public class IPv4Controller extends Controller {
         return String.join(".", splitEqually(bitsUsage, 8));
     }
 
-    private static List<Pair<Integer, Integer>> getPairsOfGivenSum(int sum) {
-        // result excludes 0 and bidirectional (a & b combo isn't unique e.g. [1, 2] & [2, 1])
+    private static List<Pair<Integer, Integer>> findPairsOfGivenSum(int sum) {
+        // result excludes "0" and reversed sets (e.g. [1, 2] and [2, 1] are the same)
         List<Pair<Integer, Integer>> result = new ArrayList<>(sum - 1);
         for (int i = 1; i < sum; i++) {
             result.add(new ImmutablePair<>(i, sum - i));
@@ -321,7 +309,7 @@ public class IPv4Controller extends Controller {
         return result;
     }
 
-    private static List<Subnet> createSubnetsList() {
+    private static List<Subnet> createSubnetList() {
         List<Subnet> result = new ArrayList<>();
         for (int prefixLength = 1; prefixLength <= 32; prefixLength++) {
             result.add(new Subnet(new IP4Subnet(IP4Subnet.NETMASKS[prefixLength - 1] + "/" + prefixLength)));
@@ -330,7 +318,7 @@ public class IPv4Controller extends Controller {
         return Collections.unmodifiableList(result);
     }
 
-    private static String formatCount(long count) {
+    private static String formatHostsCount(long count) {
         if (count >= 1024 * 1024) {
             return count / (1024 * 1024) + "M";
         } else if (count >= 1024) {
@@ -340,10 +328,8 @@ public class IPv4Controller extends Controller {
         }
     }
 
-    private static String defaultString(Object obj, String defaultString) {
-        if (obj == null) return defaultString;
-        String result = String.valueOf(obj);
-        return isNotEmpty(result) ? result : defaultString;
+    private static String pad(String name) {
+        return rightPad(name, NAME_PADDING);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -357,7 +343,7 @@ public class IPv4Controller extends Controller {
         }
 
         public String getNetworkAddress() {
-            return defaultString(ip4Subnet.getNetworkAddress(), EMPTY_DATA);
+            return stringify(ip4Subnet.getNetworkAddress(), EMPTY_DATA);
         }
 
         public String getPrefixLength() {
@@ -386,7 +372,7 @@ public class IPv4Controller extends Controller {
         }
 
         public String getNumberOfHosts() {
-            return formatCount(ip4Subnet.getNumberOfHosts());
+            return formatHostsCount(ip4Subnet.getNumberOfHosts());
         }
 
         public String getNetmaskWildcard() {
@@ -420,7 +406,7 @@ public class IPv4Controller extends Controller {
 
             if (numberOfBits != null) {
                 long count = (long) Math.pow(2, numberOfBits);
-                setText(formatCount(count));
+                setText(formatHostsCount(count));
             } else {
                 setText(null);
             }

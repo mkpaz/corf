@@ -1,12 +1,15 @@
 package org.telekit.ui.tools.apiclient;
 
+import org.telekit.base.util.TextBuilder;
+
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.telekit.ui.tools.apiclient.HttpClient.*;
+import static org.telekit.base.net.SimpleHttpClient.Request;
+import static org.telekit.base.net.SimpleHttpClient.Response;
 
 public class CompletedRequest {
 
@@ -25,8 +28,12 @@ public class CompletedRequest {
     private final Map<String, String> responseHeaders;
     private final String responseBody;
 
-    public CompletedRequest(Integer index, Integer processedLines, Request request, Response response,
-                            String userData) {
+    public CompletedRequest(Integer index,
+                            Integer processedLines,
+                            Request request,
+                            Response response,
+                            String userData
+    ) {
         this.index = index;
         this.processedLines = processedLines;
 
@@ -96,17 +103,17 @@ public class CompletedRequest {
         return Objects.hash(index);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-
-    private static final String PRINT_SEPARATOR = "--------------------------------------\n";
-
     public String print() {
-        return requestMethod + ": " + requestUri.toString() + "\n" +
-                "Headers: " + requestHeaders.toString() + "\n" +
-                requestBody + "\n" +
-                "\n" + PRINT_SEPARATOR + "\n" +
-                "Status: \"" + responseStatus + "\", " + responseReasonPhrase + "\n" +
-                "Headers: " + responseHeaders.toString() + "\n" +
-                responseBody + "\n";
+        TextBuilder text = new TextBuilder();
+        text.appendLine(requestMethod + ": " + requestUri.toString());
+        text.appendLine("Headers: " + requestHeaders.toString());
+        text.appendLine(requestBody);
+        text.newLine();
+        text.appendLine("--------------------------------------");
+        text.newLine();
+        text.appendLine("Status: \"" + responseStatus + "\", " + responseReasonPhrase);
+        text.appendLine("Headers: " + responseHeaders.toString());
+        text.appendLine(responseBody);
+        return text.toString();
     }
 }

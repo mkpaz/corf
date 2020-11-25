@@ -48,15 +48,17 @@ module telekit.base {
     exports org.telekit.base;
     exports org.telekit.base.collect;
     exports org.telekit.base.domain;
+    exports org.telekit.base.domain.exception;
     exports org.telekit.base.event;
     exports org.telekit.base.feather;
     exports org.telekit.base.i18n;
+    exports org.telekit.base.net;
     exports org.telekit.base.preferences to telekit.ui, com.fasterxml.jackson.databind;
     exports org.telekit.base.plugin;
     exports org.telekit.base.plugin.internal to telekit.ui;
     exports org.telekit.base.service;
     exports org.telekit.base.service.impl;
-    exports org.telekit.base.telecom.net;
+    exports org.telekit.base.telecom.ip;
     exports org.telekit.base.telecom.ss7;
     exports org.telekit.base.ui;
     exports org.telekit.base.util;

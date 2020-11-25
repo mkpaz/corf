@@ -2,7 +2,7 @@ package org.telekit.base.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.impl.AesGcmEncryptor;
 import org.telekit.base.service.impl.ChaCha20Encryptor;

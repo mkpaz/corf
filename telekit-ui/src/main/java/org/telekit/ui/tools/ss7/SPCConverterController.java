@@ -2,19 +2,23 @@ package org.telekit.ui.tools.ss7;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.telekit.base.domain.exception.InvalidInputException;
 import org.telekit.base.i18n.Messages;
+import org.telekit.base.telecom.ss7.SignallingPointCode;
 import org.telekit.base.ui.Controller;
-import org.telekit.controls.util.BooleanBindings;
 import org.telekit.base.util.TextBuilder;
+import org.telekit.controls.util.BooleanBindings;
 
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.telecom.ss7.SS7Utils.*;
+import static org.telekit.base.telecom.ss7.SignallingPointCode.*;
 import static org.telekit.ui.MessageKeys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
 
 public class SPCConverterController extends Controller {
 
+    private static final int NAME_PADDING = 16;
+
     public @FXML TextField tfSpc;
-    public @FXML ComboBox<SPCFormat> cmbFormat;
+    public @FXML ComboBox<Format> cmbFormat;
     public @FXML ToggleGroup toggleType;
     public @FXML RadioButton rb14bit;
     public @FXML RadioButton rb24bit;
@@ -26,8 +30,8 @@ public class SPCConverterController extends Controller {
         toggleType.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) onTypeChanged(newValue);
         });
-        rb14bit.setUserData(14);
-        rb24bit.setUserData(24);
+        rb14bit.setUserData(LEN_ITU);
+        rb24bit.setUserData(LEN_ANSI);
         rb14bit.setSelected(true);
 
         cmbFormat.setButtonCell(new SPCFormatCell());
@@ -40,61 +44,58 @@ public class SPCConverterController extends Controller {
 
     @FXML
     public void onTypeChanged(Toggle toggle) {
-        if ((Integer) toggle.getUserData() == 14) cmbFormat.getItems().setAll(FORMATS_14_BIT);
-        if ((Integer) toggle.getUserData() == 24) cmbFormat.getItems().setAll(FORMATS_24_BIT);
+        if ((Integer) toggle.getUserData() == LEN_ITU) cmbFormat.getItems().setAll(FORMATS_14_BIT);
+        if ((Integer) toggle.getUserData() == LEN_ANSI) cmbFormat.getItems().setAll(FORMATS_24_BIT);
         cmbFormat.getSelectionModel().selectFirst();
     }
 
     @FXML
     public void convert() {
         String spcStr = trim(tfSpc.getText());
-        SPCFormat format = cmbFormat.getSelectionModel().getSelectedItem();
+        Format fmt = cmbFormat.getSelectionModel().getSelectedItem();
         int length = (Integer) toggleType.getSelectedToggle().getUserData();
 
-        if (isEmpty(spcStr) || format == null) return;
+        if (isEmpty(spcStr) || fmt == null) return;
 
-        int spc = parsePointCode(spcStr, format, length);
-
-        if (spc > 0) {
-            updateResult(spc, length);
-        } else {
+        try {
+            SignallingPointCode spc = SignallingPointCode.parse(spcStr, fmt, length);
+            updateResult(spc);
+        } catch (InvalidInputException e) {
             taResult.setText(Messages.get(TOOLS_SS7_MSG_INVALID_POINT_CODE));
         }
     }
 
-    public void updateResult(int spc, int length) {
-        TextBuilder tb = new TextBuilder();
-        int padding = 16;
+    public void updateResult(SignallingPointCode spc) {
+        TextBuilder text = new TextBuilder();
 
-        tb.appendLine(rightPad("DEC: ", padding), formatPointCode(spc, length, SPCFormat.DEC));
-        tb.appendLine(rightPad("HEX: ", padding), formatPointCode(spc, length, SPCFormat.HEX));
-        tb.appendLine(rightPad("BIN: ", padding), formatPointCode(spc, length, SPCFormat.BIN));
+        text.appendLine(pad("DEC:"), spc.toString(Format.DEC));
+        text.appendLine(pad("HEX:"), spc.toString(Format.HEX));
+        text.appendLine(pad("BIN:"), spc.toString(Format.BIN));
 
-        if (length == 14) {
-            tb.appendLine(rightPad("ITU [3-8-3]: ", padding), formatPointCode(spc, length, SPCFormat.STRUCT_383));
-            tb.appendLine(rightPad("RUS [8-6]: ", padding), formatPointCode(spc, length, SPCFormat.STRUCT_86));
+        if (spc.getLength() == LEN_ITU) {
+            text.appendLine(pad("ITU [3-8-3]:"), spc.toString(Format.STRUCT_383));
+            text.appendLine(pad("RUS [8-6]:"), spc.toString(Format.STRUCT_86));
         }
 
-        if (length == 24) {
-            tb.appendLine(rightPad("ANSI [8-8-8]: ", padding), formatPointCode(spc, length, SPCFormat.STRUCT_888));
+        if (spc.getLength() == LEN_ANSI) {
+            text.appendLine(pad("ANSI [8-8-8]:"), spc.toString(Format.STRUCT_888));
         }
 
-        taResult.setText(tb.toString());
+        taResult.setText(text.toString());
     }
 
-    @Override
-    public void reset() {}
+    private static String pad(String name) {
+        return rightPad(name, NAME_PADDING);
+    }
 
-    ///////////////////////////////////////////////////////////////////////////
-
-    private static class SPCFormatCell extends ListCell<SPCFormat> {
+    private static class SPCFormatCell extends ListCell<Format> {
 
         @Override
-        protected void updateItem(SPCFormat spcFormat, boolean empty) {
-            super.updateItem(spcFormat, empty);
+        protected void updateItem(Format format, boolean empty) {
+            super.updateItem(format, empty);
 
-            if (spcFormat != null) {
-                setText(spcFormat.getDescription());
+            if (format != null) {
+                setText(format.getDescription());
             } else {
                 setText(null);
             }

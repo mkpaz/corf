@@ -4,11 +4,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 
 import static org.apache.commons.lang3.StringUtils.trim;
 
@@ -53,5 +52,36 @@ public final class StringUtils {
     public static byte[] charsToBytes(char[] chars) {
         final ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(CharBuffer.wrap(chars));
         return Arrays.copyOf(byteBuffer.array(), byteBuffer.limit());
+    }
+
+    public static @NotNull String toBase64(String str) {
+        return toBase64(str, StandardCharsets.UTF_8);
+    }
+
+    public static @NotNull String toBase64(String str, Charset charset) {
+        if (str == null) return "";
+        return new String(Base64.getEncoder().encode(str.getBytes(charset)), charset);
+    }
+
+    public static @NotNull String fromBase64(String str) {
+        return toBase64(str, StandardCharsets.UTF_8);
+    }
+
+    public static @NotNull String fromBase64(String str, Charset charset) {
+        if (str == null) return "";
+        return new String(Base64.getDecoder().decode(str.getBytes(charset)), charset);
+    }
+
+    public static @NotNull <T> String stringify(T object) {
+        return stringify(object, "");
+    }
+
+    public static @NotNull <T> String stringify(T object, String defaultStr) {
+        return stringify(object, defaultStr, String::valueOf);
+    }
+
+    public static @NotNull <T> String stringify(T object, String defaultStr, Function<T, String> converter) {
+        if (object == null) return defaultStr;
+        return converter.apply(object);
     }
 }

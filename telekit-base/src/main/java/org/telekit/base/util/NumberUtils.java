@@ -36,4 +36,33 @@ public final class NumberUtils {
     public static boolean isOneOf(int value, int... args) {
         return Arrays.stream(args).anyMatch(arg -> arg == value);
     }
+
+    public static boolean isInteger(String str) {
+        if (str == null || str.isEmpty()) return false;
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isHex(String str) {
+        if (str == null || str.isEmpty()) return false;
+        try {
+            Integer.parseInt(str, 16);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static boolean isBinary(String str) {
+        if (str == null || str.isEmpty()) return false;
+        return str.chars().allMatch(c -> c == '0' || c == '1');
+    }
+
+    public static int largestNumber(int bitLength) {
+        return (1 << bitLength) - 1; // = 2 ^ n - 1
+    }
 }

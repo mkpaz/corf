@@ -7,7 +7,7 @@ import org.telekit.controls.views.FilterTable;
 
 import static org.telekit.base.i18n.BaseMessageKeys.KEY;
 import static org.telekit.base.i18n.BaseMessageKeys.VALUE;
-import static org.telekit.controls.util.ControlUtils.createTableColumn;
+import static org.telekit.controls.util.TableUtils.createTableColumn;
 
 public final class Controllers {
 

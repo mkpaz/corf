@@ -1,7 +1,7 @@
 package org.telekit.base.preferences;
 
-import org.telekit.base.domain.TelekitException;
-import org.telekit.base.domain.VaultLockedException;
+import org.telekit.base.domain.exception.TelekitException;
+import org.telekit.base.domain.exception.VaultLockedException;
 import org.telekit.base.i18n.Messages;
 
 import java.io.IOException;

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.telekit.base.BaseSetup;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.preferences.PKCS12Vault;
 
 import java.nio.file.Path;

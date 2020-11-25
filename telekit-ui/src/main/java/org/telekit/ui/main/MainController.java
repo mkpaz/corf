@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.telekit.base.*;
-import org.telekit.base.domain.ProgressIndicatorEvent;
+import org.telekit.base.event.ProgressIndicatorEvent;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.base.i18n.BaseMessageKeys;

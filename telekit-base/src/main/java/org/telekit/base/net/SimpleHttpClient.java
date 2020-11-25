@@ -1,4 +1,4 @@
-package org.telekit.ui.tools.apiclient;
+package org.telekit.base.net;
 
 import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
@@ -35,24 +35,21 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCause;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
-public class HttpClient {
+public class SimpleHttpClient {
 
-    @SuppressWarnings("SpellCheckingInspection")
-    public static final String USER_AGENT = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; " +
-            "Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; " +
-            "Media Center PC 6.0; InfoPath.2)";
+    public static final String USER_AGENT = "Mozilla/5.0 AppleWebKit/537.36 Chrome/86.0.4240.101 Safari/537.36";
     public static final String CONTENT_TYPE_HEADER = HTTP.CONTENT_TYPE;
-
-    public static final int CONNECT_TIMEOUT = 5000;
-    public static final int DATA_TIMEOUT = 5000;
+    public static final int DEFAULT_CONNECT_TIMEOUT = 5000;
+    public static final int DEFAULT_DATA_TIMEOUT = 5000;
 
     private final HttpClientBuilder httpBuilder;
     private final ResponseHandler<Response> handler = new SpecificResponseHandler();
     private final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     private final HttpClientContext localContext = HttpClientContext.create();
+
     private CloseableHttpClient client;
 
-    public HttpClient(int connectTimeout, int responseTimeout) {
+    public SimpleHttpClient(int connectTimeout, int responseTimeout) {
         RequestConfig.Builder config = RequestConfig.custom()
                 // the time to establish the connection with the remote host
                 .setConnectTimeout(connectTimeout)
@@ -77,13 +74,14 @@ public class HttpClient {
     private SSLConnectionSocketFactory sslConnectionFactory() {
         try {
             SSLContext sslContext = SSLContexts.custom()
-                    .loadTrustMaterial((chain, authType) -> true).build();
+                    .loadTrustMaterial((chain, authType) -> true)
+                    .build();
 
             // ignore self-signed certificates
             // https://stackoverflow.com/questions/1828775/how-to-handle-invalid-ssl-certificates-with-apache-httpclient
             return new SSLConnectionSocketFactory(
                     sslContext,
-                    new String[]{"SSLv2Hello", "SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"},
+                    new String[] {"SSLv2Hello", "SSLv3", "TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"},
                     null,
                     NoopHostnameVerifier.INSTANCE
             );
@@ -93,8 +91,8 @@ public class HttpClient {
     }
 
     public void setUserAgent(String userAgent) {
-        this.httpBuilder.setUserAgent(userAgent);
-        this.client = httpBuilder.build();
+        httpBuilder.setUserAgent(userAgent);
+        client = httpBuilder.build();
     }
 
     public void setProxy(String proxyUrl, AuthPrincipal principal) {
@@ -102,7 +100,8 @@ public class HttpClient {
         if (principal != null) {
             credentialsProvider.setCredentials(
                     new AuthScope(proxy),
-                    new UsernamePasswordCredentials(principal.getUsername(), principal.getPassword()));
+                    new UsernamePasswordCredentials(principal.getUsername(), principal.getPassword())
+            );
         }
         httpBuilder.setRoutePlanner(new DefaultProxyRoutePlanner(proxy));
         client = httpBuilder.build();
@@ -111,11 +110,11 @@ public class HttpClient {
     public void setBasicAuth(String username, String password, String url) {
         UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(username, password);
         credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-        this.httpBuilder.setDefaultCredentialsProvider(credentialsProvider);
-        this.client = this.httpBuilder.build();
+        httpBuilder.setDefaultCredentialsProvider(credentialsProvider);
+        client = httpBuilder.build();
 
-        // enable preemptive auth (putting auth headers into each request to omit 401 challenge),
-        // needs valid URL (submitted by user) to enable
+        // enable preemptive auth (puts auth headers into each request to omit 401 challenge stage),
+        // requires exact URL to enable
         try {
             if (isNotBlank(url)) {
                 URI uri = URI.create(url);
@@ -131,21 +130,23 @@ public class HttpClient {
             HttpRequestBase httpRequest = request.createHttpRequest();
             Response response = client.execute(httpRequest, handler, localContext);
 
-            // extract runtime headers from context
-            request.getHeaders().putAll(mapHeaders(localContext.getRequest().getAllHeaders()));
+            // extract actual request headers from context
+            request.getHeaders().putAll(
+                    headersToMap(localContext.getRequest().getAllHeaders())
+            );
             return response;
         } catch (IOException e) {
             return new Response(-1, e.getMessage(), new HashMap<>(), getStackTrace(getRootCause(e)));
         }
     }
 
-    private static Header[] mapHeaders(Map<String, String> headers) {
+    private static Header[] mapToHeaders(Map<String, String> headers) {
         return headers.entrySet().stream()
                 .map(e -> new BasicHeader(e.getKey(), e.getValue()))
                 .toArray(Header[]::new);
     }
 
-    private static Map<String, String> mapHeaders(Header[] headers) {
+    private static Map<String, String> headersToMap(Header[] headers) {
         return Arrays.stream(headers)
                 .collect(Collectors.toMap(Header::getName, Header::getValue));
     }
@@ -168,7 +169,11 @@ public class HttpClient {
         private final Map<String, String> headers;
         private final String body;
 
-        public Request(String method, String uri, Map<String, String> headers, String body) {
+        public Request(String method,
+                       String uri,
+                       Map<String, String> headers,
+                       String body
+        ) {
             this.method = method;
             this.uri = URI.create(uri);
             this.headers = new LinkedHashMap<>(headers);
@@ -203,7 +208,7 @@ public class HttpClient {
             };
 
             request.setURI(uri);
-            request.setHeaders(mapHeaders(headers));
+            request.setHeaders(mapToHeaders(headers));
 
             if (request instanceof HttpEntityEnclosingRequestBase) {
                 ((HttpEntityEnclosingRequestBase) request).setEntity(new ByteArrayEntity(body.getBytes()));
@@ -220,7 +225,11 @@ public class HttpClient {
         private final Map<String, String> headers;
         private final String body;
 
-        public Response(int status, String reasonPhrase, Map<String, String> headers, String body) {
+        public Response(int status,
+                        String reasonPhrase,
+                        Map<String, String> headers,
+                        String body
+        ) {
             this.status = status;
             this.reasonPhrase = reasonPhrase;
             this.headers = new LinkedHashMap<>(headers);
@@ -275,7 +284,7 @@ public class HttpClient {
             return new Response(
                     statusLine.getStatusCode(),
                     statusLine.getReasonPhrase(),
-                    mapHeaders(response.getAllHeaders()),
+                    headersToMap(response.getAllHeaders()),
                     consumeBodyQuietly(response.getEntity())
             );
         }

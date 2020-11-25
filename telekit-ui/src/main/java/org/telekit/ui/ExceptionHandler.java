@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.ui.domain.ExceptionCaughtEvent;

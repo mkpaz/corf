@@ -1,4 +1,4 @@
-package org.telekit.base.telecom.net;
+package org.telekit.base.telecom.ip;
 
 import inet.ipaddr.AddressStringException;
 import inet.ipaddr.IPAddressString;

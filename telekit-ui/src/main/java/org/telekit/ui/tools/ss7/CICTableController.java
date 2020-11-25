@@ -6,14 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import org.telekit.base.telecom.ss7.SS7Utils;
 import org.telekit.base.ui.Controller;
 
 import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.leftPad;
-import static org.telekit.base.telecom.ss7.SS7Utils.*;
+import static org.telekit.base.telecom.ss7.ISUPUtils.*;
 import static org.telekit.base.util.CollectionUtils.*;
 
 public class CICTableController extends Controller {
@@ -26,9 +25,9 @@ public class CICTableController extends Controller {
 
     @FXML
     public void initialize() {
-        tfCicSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (isNotBlank(newValue)) {
-                findCIC(newValue);
+        tfCicSearch.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (isNotBlank(newVal)) {
+                findCICPositionAndScrollToIt(newVal);
             } else {
                 listE1.getSelectionModel().selectFirst();
                 listTimeslots.getSelectionModel().selectFirst();
@@ -36,19 +35,19 @@ public class CICTableController extends Controller {
             }
         });
 
-        listE1.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateTimeslots(newValue - 1); // E1 number starts from 0, but shown from 1
-                listTimeslots.scrollTo(0);
-            }
+        listE1.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal == null) return;
+            // E1 numbers starts from 0, but list values starts from 1
+            updateCICInfo(newVal - 1);
+            listTimeslots.scrollTo(0);
         });
-        listE1.setItems(FXCollections.observableArrayList(generate(1, SS7Utils.MAX_CIC / 32)));
+        listE1.setItems(FXCollections.observableArrayList(generate(1, MAX_CIC / 32)));
         listE1.getSelectionModel().selectFirst();
     }
 
-    private void updateTimeslots(Integer e1Num) {
+    private void updateCICInfo(Integer e1num) {
         ObservableList<String> timeslots = FXCollections.observableArrayList();
-        List<Integer> cicIDs = getCICRange(e1Num);
+        List<Integer> cicIDs = getCICRange(e1num);
 
         for (int index = 0; index < cicIDs.size(); index++) {
             timeslots.add(leftPad(String.valueOf(index + 1), 2) + " - " + cicIDs.get(index));
@@ -59,15 +58,17 @@ public class CICTableController extends Controller {
         lbLastCic.setText(String.valueOf(getLast(cicIDs)));
     }
 
-    private void findCIC(String cicStr) {
+    private void findCICPositionAndScrollToIt(String str) {
         try {
-            int e1Num = findE1ByCIC(Integer.parseInt(cicStr));
-            if (e1Num >= 0) {
-                listE1.getSelectionModel().select(e1Num);
-                listE1.scrollTo(e1Num - 1);
+            int cic = Integer.parseInt(str);
+
+            int e1num = findE1ByCIC(cic);
+            if (e1num >= 0) {
+                listE1.getSelectionModel().select(e1num);
+                listE1.scrollTo(e1num - 1);
             }
 
-            int timeslot = findTimeslotByCIC(Integer.parseInt(cicStr));
+            int timeslot = findTimeslotByCIC(cic);
             if (timeslot > 0) {
                 listTimeslots.getSelectionModel().select(timeslot - 1);
                 listTimeslots.scrollTo(timeslot - 1);

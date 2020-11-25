@@ -2,7 +2,7 @@ package org.telekit.base.service;
 
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.EntityRepository;
 import org.telekit.base.service.Serializer;

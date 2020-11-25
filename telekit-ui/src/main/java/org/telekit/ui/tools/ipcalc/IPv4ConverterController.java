@@ -6,9 +6,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.Nullable;
+import org.telekit.base.event.CancelEvent;
+import org.telekit.base.telecom.ip.IP4Address;
 import org.telekit.base.ui.Controller;
 import org.telekit.controls.format.TextFormatters;
-import org.telekit.base.telecom.net.IP4Address;
 
 import java.util.function.Function;
 
@@ -29,73 +30,51 @@ public class IPv4ConverterController extends Controller {
     @FXML
     public void initialize() {
         tfIPCanonical.setTextFormatter(TextFormatters.ipv4Decimal());
-        tfIPCanonical.textProperty().addListener(
-                (observable, oldValue, newValue) -> updateAll(parseIP(newValue, -1))
-        );
 
-        tfIPBinary.textProperty().addListener(
-                (observable, oldValue, newValue) -> updateAll(parseIP(removeSeparators(newValue), 2))
-        );
-
-        tfIPHex.textProperty().addListener(
-                (observable, oldValue, newValue) -> updateAll(parseIP(removeSeparators(newValue), 16))
-        );
-
-        tfIPInteger.textProperty().addListener(
-                (observable, oldValue, newValue) -> updateAll(parseIP(newValue, 10))
-        );
+        // cleanup removes octet separators before parsing, which is only needed for binary and hex formats
+        // because of parseLong() method
+        tfIPCanonical.textProperty()
+                .addListener((obs, oldVal, newVal) -> updateAll(parseIPAddress(newVal, -1)));
+        tfIPBinary.textProperty()
+                .addListener((obs, oldVal, newVal) -> updateAll(parseIPAddress(cleanup(newVal), 2)));
+        tfIPHex.textProperty()
+                .addListener((obs, oldVal, newVal) -> updateAll(parseIPAddress(cleanup(newVal), 16)));
+        tfIPInteger.textProperty()
+                .addListener((obs, oldVal, newVal) -> updateAll(parseIPAddress(newVal, 10)));
     }
 
     public void setData(long ip) {
-        tfIPInteger.setText(String.valueOf(ip)); // should trigger auto-update on all other fields
+        // only set one value, it should trigger auto-update on all other fields
+        tfIPInteger.setText(String.valueOf(ip));
     }
 
-    @Nullable
-    private IP4Address parseIP(String value, int radix) {
-        if (isBlank(value)) return null;
+    private @Nullable IP4Address parseIPAddress(String ipaddr, int radix) {
+        if (isBlank(ipaddr)) return null;
         try {
             // parse from octet string
-            if (radix == -1) {
-                return new IP4Address(value);
-            }
+            if (radix == -1) return new IP4Address(ipaddr);
 
-            // parse from number
-            long longValue = Long.parseLong(value, radix);
+            // parse from number (remove octet separators before parsing)
+            long longValue = Long.parseLong(ipaddr, radix);
             if (longValue < IP4Address.MIN_VALUE || longValue > IP4Address.MAX_VALUE) return null;
+
             return new IP4Address((int) longValue);
         } catch (Throwable e) {
             return null;
         }
     }
 
+    private void update(TextField textField, String value) {
+        // don't update focused field, because user edits it in that very moment
+        if (textField.isFocused()) return;
+        Platform.runLater(() -> textField.setText(value));
+    }
+
     private void updateAll(IP4Address ip) {
-        updateOne(tfIPCanonical, nullAwareConversion(
-                ip, IP4Address::toString)
-        );
-        updateOne(tfIPBinary, nullAwareConversion(
-                ip, value -> formatBinaryIP(value.toBinaryString())
-        ));
-        updateOne(tfIPHex, nullAwareConversion(
-                ip, value -> formatHexIP(value.toHexString())
-        ));
-        updateOne(tfIPInteger, nullAwareConversion(
-                ip, value -> String.valueOf(value.longValue())
-        ));
-    }
-
-    private void updateOne(final TextField tf, final String value) {
-        if (tf.isFocused()) return; // don't update focused field, because user edits it in that moment
-        Platform.runLater(() -> tf.setText(value));
-    }
-
-    private String nullAwareConversion(IP4Address ip, Function<IP4Address, String> converter) {
-        if (ip == null) return "";
-        return converter.apply(ip);
-    }
-
-    private String removeSeparators(String value) {
-        if (value == null) return null;
-        return value.replaceAll("[.]", "");
+        update(tfIPCanonical, ensureNotNull(ip, IP4Address::toString));
+        update(tfIPBinary, ensureNotNull(ip, val -> formatBinaryIP(val.toBinaryString())));
+        update(tfIPHex, ensureNotNull(ip, val -> formatHexIP(val.toHexString())));
+        update(tfIPInteger, ensureNotNull(ip, val -> String.valueOf(val.longValue())));
     }
 
     @FXML
@@ -103,32 +82,39 @@ public class IPv4ConverterController extends Controller {
         tfIPBinary.setText(formatBinaryIP(tfIPBinary.getText()));
     }
 
+    @FXML
+    public void switchHexFormat() {
+        tfIPHex.setText(formatHexIP(tfIPHex.getText()));
+    }
+
+    @FXML
+    public void close() {
+        eventBus.publish(new CancelEvent());
+    }
+
+    private static String ensureNotNull(IP4Address ip, Function<IP4Address, String> converter) {
+        if (ip == null) return "";
+        return converter.apply(ip);
+    }
+
+    private static String cleanup(String str) {
+        if (str == null) return null;
+        return str.replaceAll("[.]", "");
+    }
+
     private String formatBinaryIP(String value) {
         if (cbIPBinaryDotted.isSelected()) {
             return String.join(".", splitEqually(leftPad(value, 32, "0"), 8));
         } else {
-            return removeSeparators(value);
+            return cleanup(value);
         }
-    }
-
-    @FXML
-    public void switchHexFormat() {
-        tfIPHex.setText(formatHexIP(tfIPHex.getText()));
     }
 
     private String formatHexIP(String value) {
         if (cbIPHexDotted.isSelected()) {
             return String.join(".", splitEqually(leftPad(value, 8, "0"), 2));
         } else {
-            return removeSeparators(value);
+            return cleanup(value);
         }
     }
-
-    @FXML
-    public void close() {
-        rootPane.getScene().getWindow().hide();
-    }
-
-    @Override
-    public void reset() {}
 }

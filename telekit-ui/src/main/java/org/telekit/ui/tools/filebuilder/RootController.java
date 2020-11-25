@@ -24,8 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.Env;
 import org.telekit.base.domain.KeyValue;
-import org.telekit.base.domain.ProgressIndicatorEvent;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.event.ProgressIndicatorEvent;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.CancelEvent;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
@@ -34,13 +34,13 @@ import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.CompletionProvider;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
 import org.telekit.base.ui.Controller;
-import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.base.ui.Dimension;
 import org.telekit.base.ui.IconCache;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
-import org.telekit.base.ui.Dimension;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.controls.util.BooleanBindings;
 import org.telekit.controls.views.FilterTable;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
@@ -72,7 +72,7 @@ import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.ui.MessageKeys.*;
 import static org.telekit.ui.tools.Action.NEW;
 import static org.telekit.ui.tools.common.Controllers.paramCompletionController;
-import static org.telekit.ui.tools.filebuilder.Generator.validate;
+import static org.telekit.ui.tools.filebuilder.Generator.*;
 
 public class RootController extends Controller {
 
@@ -499,10 +499,9 @@ public class RootController extends Controller {
 
         // task
         Generator generator = new Generator(template, csv, outputFile);
-        generator.setAppend(append);
+        generator.setCharset(template.getEncoding().getCharset(), template.getEncoding().requiresBOM());
         generator.setLineSeparator(template.getLineSeparator().getCharacters());
-        generator.setCharset(template.getEncoding().getCharset());
-        generator.setBom(template.getEncoding().requiresBOM());
+        generator.setMode(append ? MODE_APPEND : MODE_REPLACE);
 
         ongoingProperty.set(true);
         DefaultEventBus.getInstance().publish(new ProgressIndicatorEvent(id, true));

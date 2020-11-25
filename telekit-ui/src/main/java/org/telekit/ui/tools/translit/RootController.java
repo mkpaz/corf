@@ -27,10 +27,7 @@ public class RootController extends Controller {
     public void initialize() {
         cmbLang.setItems(observableArrayList(SUPPORTED_LANGUAGES));
         cmbLang.getSelectionModel().selectFirst();
-
-        btnTransliterate.disableProperty().bind(
-                BooleanBindings.isBlank(taText.textProperty())
-        );
+        btnTransliterate.disableProperty().bind(BooleanBindings.isBlank(taText.textProperty()));
     }
 
     @FXML
@@ -39,16 +36,13 @@ public class RootController extends Controller {
         String text = trim(taText.getText());
 
         @SuppressWarnings("SwitchStatementWithTooFewBranches")
-        Transliterator tr = switch (lang) {
+        Transliterator exec = switch (lang) {
             case "RU" -> new RUTransliterator();
             default -> null;
         };
 
-        if (tr != null) {
-            taTransliteratedText.setText(tr.transliterate(text));
+        if (exec != null) {
+            taTransliteratedText.setText(exec.transliterate(text));
         }
     }
-
-    @Override
-    public void reset() {}
 }

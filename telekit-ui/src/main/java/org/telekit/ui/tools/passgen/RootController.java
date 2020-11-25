@@ -4,21 +4,23 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import org.telekit.base.event.ProgressIndicatorEvent;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.domain.ProgressIndicatorEvent;
-import org.telekit.base.domain.TelekitException;
-import org.telekit.base.ui.Controller;
-import org.telekit.controls.components.dialogs.Dialogs;
-import org.telekit.controls.util.BooleanBindings;
-import org.telekit.controls.format.IntegerStringConverter;
 import org.telekit.base.i18n.Messages;
+import org.telekit.base.ui.Controller;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PasswordGenerator;
+import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.format.IntegerStringConverter;
+import org.telekit.controls.util.BooleanBindings;
 import org.telekit.ui.Launcher;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,14 +39,11 @@ public class RootController extends Controller {
     private static final List<Character> SIMILAR_CHARS = List.of(
             'i', 'I', 'L', 'l', '1', '0', 'o', 'O'
     );
-    private static final long MAX_SHOWN_RESULT_ROWS = 1000;
 
     public @FXML GridPane rootPane;
     public @FXML Accordion accordion;
-    public @FXML TextArea taGeneratedPasswords;
-    public @FXML Spinner<Integer> spnPasswordsCount;
-    public @FXML Button btnSaveToFile;
 
+    // random
     public @FXML TitledPane paneRandom;
     public @FXML Spinner<Integer> spnRandomLength;
     public @FXML CheckBox cbRandomLowercase;
@@ -54,43 +53,51 @@ public class RootController extends Controller {
     public @FXML CheckBox cbRandomExcludeSimilar;
     public @FXML Label lbRandomExample;
 
+    // katakana
     public @FXML TitledPane paneKatakana;
     public @FXML Spinner<Integer> spnKatakanaLength;
     public @FXML Label lbKatakanaExample;
 
+    // xkcd
     public @FXML TitledPane paneXKCD;
     public @FXML Label lbXKCDExample;
     public @FXML Spinner<Integer> spnXKCDWords;
     public @FXML Label lbRowLimit;
 
-    // all collections are immutable
-    private List<String> xkcdDict = null;
-    private List<Character> randomDict = null;
-    private String generatedPasswordsCache = "";
+    // control
+    public @FXML TextArea taGeneratedPasswords;
+    public @FXML Spinner<Integer> spnPasswordsCount;
+    public @FXML Button btnSaveToFile;
+
+    // all collections are unmodifiable
+    private List<Character> alphabet = null; // alphabet to generate random passwords
+    private List<String> xkcdDict = null;    // word dict to generate XKCD passwords
+    private String totalResult = "";
 
     @FXML
     public void initialize() {
         lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT));
 
-        paneRandom.expandedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) onPaneExpanded(TYPE_RANDOM);
+        // update password when accordion pane expanded
+        paneRandom.expandedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) updateExample(TYPE_RANDOM);
         });
-        paneKatakana.expandedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) onPaneExpanded(TYPE_KATAKANA);
+        paneKatakana.expandedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) updateExample(TYPE_KATAKANA);
         });
-        paneXKCD.expandedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) onPaneExpanded(TYPE_XKCD);
+        paneXKCD.expandedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) updateExample(TYPE_XKCD);
         });
 
-        // init default opened pane
+        // set default opened pane
+        updateAlphabetAndExample();
         accordion.setExpandedPane(paneRandom);
-        updateRandomDictPlusExample();
 
-        cbRandomLowercase.selectedProperty().addListener((observable, oldValue, newValue) -> updateRandomDictPlusExample());
-        cbRandomUppercase.selectedProperty().addListener((observable, oldValue, newValue) -> updateRandomDictPlusExample());
-        cbRandomDigits.selectedProperty().addListener((observable, oldValue, newValue) -> updateRandomDictPlusExample());
-        cbRandomSpecialChars.selectedProperty().addListener((observable, oldValue, newValue) -> updateRandomDictPlusExample());
-        cbRandomExcludeSimilar.selectedProperty().addListener((observable, oldValue, newValue) -> updateRandomDictPlusExample());
+        cbRandomLowercase.selectedProperty().addListener((obs, oldVal, newVal) -> updateAlphabetAndExample());
+        cbRandomUppercase.selectedProperty().addListener((obs, oldVal, newVal) -> updateAlphabetAndExample());
+        cbRandomDigits.selectedProperty().addListener((obs, oldVal, newVal) -> updateAlphabetAndExample());
+        cbRandomSpecialChars.selectedProperty().addListener((obs, oldVal, newVal) -> updateAlphabetAndExample());
+        cbRandomExcludeSimilar.selectedProperty().addListener((obs, oldVal, newVal) -> updateAlphabetAndExample());
         cbRandomLowercase.setDisable(true);
 
         spnPasswordsCount.setEditable(true);
@@ -103,14 +110,14 @@ public class RootController extends Controller {
         String passwordType = getPasswordTypeFromPaneID(accordion.getExpandedPane().getId());
 
         // update global settings
-        randomDict = createRandomCharsSequence();
+        alphabet = updateAlphabet();
         if (xkcdDict == null) loadXKCDDict();
 
         int length = switch (passwordType) {
             case TYPE_RANDOM -> spnRandomLength.getValue();
             case TYPE_KATAKANA -> spnKatakanaLength.getValue();
             case TYPE_XKCD -> spnXKCDWords.getValue();
-            default -> 12;
+            default -> PasswordGenerator.DEFAULT_PASSWORD_LENGTH;
         };
         int passwordCount = spnPasswordsCount.getValue();
 
@@ -119,7 +126,7 @@ public class RootController extends Controller {
             toggleProgressIndicator(false);
             Result result = task.getValue();
             taGeneratedPasswords.setText(result.getDisplayed());
-            generatedPasswordsCache = result.getTotal();
+            totalResult = result.getTotal();
         });
         task.setOnFailed(event -> {
             toggleProgressIndicator(false);
@@ -144,25 +151,21 @@ public class RootController extends Controller {
                 .initialFileName(FileUtils.sanitizeFileName("passwords.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
-
         if (outputFile == null) return;
 
-        try (FileOutputStream fos = new FileOutputStream(outputFile);
-             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-             BufferedWriter out = new BufferedWriter(osw)) {
-
-            out.write(generatedPasswordsCache);
+        try {
+            Files.writeString(outputFile.toPath(), totalResult);
         } catch (Exception e) {
             throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 
-    private void updateRandomDictPlusExample() {
-        randomDict = createRandomCharsSequence();
+    private void updateAlphabetAndExample() {
+        alphabet = updateAlphabet();
         lbRandomExample.setText(generatePassword(TYPE_RANDOM, 16));
     }
 
-    private void onPaneExpanded(String passwordType) {
+    private void updateExample(String passwordType) {
         switch (passwordType) {
             case TYPE_RANDOM -> lbRandomExample.setText(generatePassword(passwordType, 16));
             case TYPE_KATAKANA -> lbKatakanaExample.setText(generatePassword(passwordType, 12));
@@ -181,11 +184,11 @@ public class RootController extends Controller {
         return switch (passwordType) {
             case TYPE_KATAKANA -> PasswordGenerator.katakana(length);
             case TYPE_XKCD -> PasswordGenerator.xkcd(length, "-", xkcdDict);
-            default -> PasswordGenerator.random(length, randomDict);
+            default -> PasswordGenerator.random(length, alphabet);
         };
     }
 
-    private List<Character> createRandomCharsSequence() {
+    private List<Character> updateAlphabet() {
         List<Character> chars = new ArrayList<>();
         if (cbRandomDigits.isSelected()) chars.addAll(PasswordGenerator.ASCII_DIGITS);
         if (cbRandomLowercase.isSelected()) chars.addAll(PasswordGenerator.ASCII_LOWER);
@@ -196,13 +199,12 @@ public class RootController extends Controller {
     }
 
     private void loadXKCDDict() {
-        this.xkcdDict = new BufferedReader(
-                new InputStreamReader(Launcher.getResourceAsStream(XKCD_DICT_PATH)))
-                .lines().collect(Collectors.toUnmodifiableList());
+        xkcdDict = new BufferedReader(new InputStreamReader(Launcher.getResourceAsStream(XKCD_DICT_PATH)))
+                .lines()
+                .collect(Collectors.toUnmodifiableList());
     }
 
-    @Override
-    public void reset() {}
+    ///////////////////////////////////////////////////////////////////////////
 
     private class GenerateTask extends Task<Result> {
 
@@ -218,19 +220,24 @@ public class RootController extends Controller {
 
         @Override
         protected Result call() {
-            StringBuilder result = new StringBuilder();
+            // It's possible to remember text position instead of using two variables
+            // for displayed and total text. But since strings are immutable there
+            // will be no performance impact, because we still have to store displayed
+            // text in the text area and total text in the controller variable.
+            // TODO: Replace TextArea with ListView
+            StringBuilder totalResult = new StringBuilder();
             StringBuilder displayedResult = new StringBuilder();
 
-            for (int index = 0; index < passwordCount; index++) {
+            for (int idx = 0; idx < passwordCount; idx++) {
                 String password = generatePassword(passwordType, length);
-                result.append(password).append("\n");
+                totalResult.append(password).append("\n");
 
-                if (passwordCount > MAX_SHOWN_RESULT_ROWS && index < MAX_SHOWN_RESULT_ROWS) {
+                if (passwordCount > TEXTAREA_ROW_LIMIT && idx < TEXTAREA_ROW_LIMIT) {
                     displayedResult.append(password).append("\n");
                 }
             }
 
-            return new Result(result.toString(), displayedResult.toString());
+            return new Result(totalResult.toString(), displayedResult.toString());
         }
     }
 

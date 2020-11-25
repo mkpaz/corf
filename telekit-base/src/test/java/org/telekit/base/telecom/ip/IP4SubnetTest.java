@@ -1,4 +1,4 @@
-package org.telekit.base.telecom.net;
+package org.telekit.base.telecom.ip;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

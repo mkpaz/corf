@@ -2,7 +2,7 @@ package org.telekit.base.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.telekit.base.domain.TelekitException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.BaseMessageKeys;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.Serializer;

@@ -4,11 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.CompletionRegistry;
+import org.telekit.base.domain.KeyValue;
+import org.telekit.base.util.PasswordGenerator;
 
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.UUID;
 
+import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.telekit.base.util.NumberUtils.ensureRange;
+import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
+import static org.telekit.base.util.StringUtils.toBase64;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Param implements Comparable<Param>, Cloneable {
@@ -118,5 +125,32 @@ public class Param implements Comparable<Param>, Cloneable {
                 isNotBlank(param.getName()) &&
                 registry != null &&
                 registry.isSupported(param.getName());
+    }
+
+    public static KeyValue<String, String> resolve(Param param) {
+        Objects.requireNonNull(param);
+        String paramName = param.getName();
+        switch (param.getType()) {
+            case CONSTANT -> {
+                // put params into replacements even if param value is empty
+                // because it might not be an error, but intended behavior
+                return new KeyValue<>(paramName, defaultString(param.getValue(), ""));
+            }
+            case PASSWORD -> {
+                return new KeyValue<>(paramName, generatePassword(param.getLength()));
+            }
+            case PASSWORD_BASE64 -> {
+                return new KeyValue<>(paramName, toBase64(generatePassword(param.getLength())));
+            }
+            case UUID -> {
+                return new KeyValue<>(paramName, String.valueOf(UUID.randomUUID()));
+            }
+        }
+        throw new IllegalArgumentException("Unknown param type.");
+    }
+
+    private static String generatePassword(int length) {
+        length = ensureRange(length, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH, DEFAULT_PASSWORD_LENGTH);
+        return PasswordGenerator.random(length, ASCII_LOWER_UPPER_DIGITS);
     }
 }
