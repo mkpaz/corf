@@ -1,21 +1,18 @@
 @import "../fonts/fonts.css";
 
 .root {
-    -fx-font-family: "Open Sans Regular";
-}
-
-.styled-text-area .context-menu {
-    -fx-font-family: "Open Sans Regular";
-}
-.styled-text-area .text {
-    -fx-font-family: 'Fira Mono';
-    -fx-font-size: 1.1em;
+    -fx-font-family: "Roboto";
 }
 
 /* by default context menu inherits text input font, null means - use default font */
-.context-menu .text {
+.context-menu .label {
     -fx-font-family: null;
     -fx-font: null;
+}
+
+.styled-text-area .text {
+    -fx-font-family: 'Fira Mono';
+    -fx-font-size: 1.1em;
 }
 
 /******************* Components *******************/
@@ -50,7 +47,30 @@
     -fx-text-fill: red;
 }
 
-.caption {}
+.label.subtitle {
+    -fx-font-family: "Roboto Medium";
+    -fx-text-fill: derive(-fx-text-background-color, 15%);
+}
+
+.segmented-control .text-input.right {
+    -fx-background-insets: 0 0 0 0, 1 1 1 1;
+    -fx-background-radius: 0 3 3 0;
+}
+.segmented-control .text-input.right:focused {
+    -fx-background-insets: -0.2, 1, -1.4, 3;
+    -fx-background-radius: 3, 2, 4, 0;
+}
+.segmented-control .combo-box-base.left {
+    -fx-background-radius: 3 0 0 2, 3 0 0 3, 2 0 0 2, 1 0 0 1;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2 0 2 2;
+}
+.segmented-control .combo-box-base.left > .arrow-button {
+    -fx-background-radius: 0, 0, 0;
+}
+.segmented-control .combo-box-base.left:focused {
+    -fx-background-insets: -0.2, 1, 2, -1.4, 2.6;
+    -fx-background-radius: 3, 2, 1, 4, 1;
+}
 
 /******************* Utils *******************/
 

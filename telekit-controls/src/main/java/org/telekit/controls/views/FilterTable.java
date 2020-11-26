@@ -1,7 +1,7 @@
 package org.telekit.controls.views;
 
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIcon;
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
+import org.telekit.controls.glyphs.FontAwesome;
+import org.telekit.controls.glyphs.FontAwesomeIcon;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -68,7 +68,7 @@ public class FilterTable<S> extends Controller {
             }
         });
         btnFilter = new Button();
-        btnFilter.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SEARCH));
+        btnFilter.setGraphic(new FontAwesomeIcon(FontAwesome.SEARCH));
         btnFilter.setOnAction(event -> filter());
         btnFilter.getStyleClass().add("btn-icon");
 

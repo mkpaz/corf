@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView?>
+<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -134,8 +134,8 @@
         </panes>
       </Accordion>
       <TextArea fx:id="taGeneratedPasswords" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label styleClass="caption" text="%Settings" />
-      <Label styleClass="caption" text="%Passwords" GridPane.columnIndex="1" />
+      <Label styleClass="subtitle" text="%Settings" />
+      <Label styleClass="subtitle" text="%Passwords" GridPane.columnIndex="1" />
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
          <children>
             <Button mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="%Generate">
@@ -144,7 +144,7 @@
                      <children>
                         <StackPane alignment="BOTTOM_LEFT">
                            <children>
-                              <FontAwesomeIconView glyphName="RANDOM" />
+                              <FontAwesomeIcon glyphName="RANDOM" />
                            </children>
                         </StackPane>
                      </children>

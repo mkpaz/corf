@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView?>
+<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -43,12 +43,12 @@
          <GridPane.margin>
             <Insets />
          </GridPane.margin></TextArea>
-      <Label styleClass="caption" text="%Result" GridPane.rowIndex="4">
+      <Label styleClass="subtitle" text="%Result" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Label>
-      <Label styleClass="caption" text="%tools.ss7.PointCode" />
+      <Label styleClass="subtitle" text="%tools.ss7.PointCode" />
       <HBox spacing="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
          <children>
             <Label text="%Length" />
@@ -76,7 +76,7 @@
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
-                        <FontAwesomeIconView glyphName="REFRESH" />
+                        <FontAwesomeIcon glyphName="REFRESH" />
                      </children>
                   </StackPane>
                </graphic>

@@ -12,7 +12,7 @@
  * limitations under the License.
  *
  */
-package org.telekit.controls.glyphs.fontawesome;
+package org.telekit.controls.glyphs;
 
 import org.telekit.controls.glyphs.GlyphIcons;
 
@@ -20,12 +20,10 @@ import org.telekit.controls.glyphs.GlyphIcons;
  * Icon Enum based on Font-Awesome v4.7.0
  * <p>
  * Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen readers
- * do not read off random characters that represent icons
- *
- * @author Jens Deters
+ * do not read off random characters that represent icons.
  */
 @SuppressWarnings("SpellCheckingInspection")
-public enum FontAwesomeIcon implements GlyphIcons {
+public enum FontAwesome implements GlyphIcons {
 
     FA_500PX("\uf26E"),
     ADDRESS_BOOK("\uf2B9"),
@@ -816,7 +814,7 @@ public enum FontAwesomeIcon implements GlyphIcons {
 
     private final String unicode;
 
-    FontAwesomeIcon(String unicode) {
+    FontAwesome(String unicode) {
         this.unicode = unicode;
     }
 

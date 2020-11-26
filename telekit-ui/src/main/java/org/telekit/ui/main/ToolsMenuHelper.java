@@ -56,11 +56,11 @@ public final class ToolsMenuHelper {
             // no need for recursion, because deeply nested menus is a mess, one level is enough
             if (node.hasChildren()) {
                 Label label = new Label(node.getKey());
-                label.getStyleClass().add("caption");
+                label.getStyleClass().add("list-header");
                 menuItems.add(label);
                 node.getChildren().forEach(child -> {
                     Hyperlink link = createLink(child.getKey(), child.getValue(), eventHandler);
-                    link.getStyleClass().add("nested");
+                    link.getStyleClass().add("list-nested");
                     menuItems.add(link);
                 });
 

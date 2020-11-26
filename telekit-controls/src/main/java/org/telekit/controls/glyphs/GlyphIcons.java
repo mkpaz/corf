@@ -14,9 +14,7 @@
  */
 package org.telekit.controls.glyphs;
 
-/**
- * @author Jens Deters (mail@jensd.de)
- */
+@SuppressWarnings({"SameReturnValue", "unused"})
 public interface GlyphIcons {
 
     String name();

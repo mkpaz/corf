@@ -33,7 +33,7 @@ public class OverviewLauncher extends Application implements UIDefaults {
         );
 
         Controller controller = UILoader.load(
-                ThemeLoader.getResource("/assets/overview/sampler.fxml"),
+                ThemeLoader.getResource("/assets/overview/overview.fxml"),
                 Messages.getInstance()
         );
 

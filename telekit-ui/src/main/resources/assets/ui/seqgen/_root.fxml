@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView?>
+<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -34,9 +34,9 @@
     <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <Label styleClass="caption" text="%Pattern" />
+      <Label styleClass="subtitle" text="%Pattern" />
       <TextField fx:id="tfPattern" alignment="CENTER" text="\%(A)" GridPane.rowIndex="1" />
-      <Label styleClass="caption" text="%Parameters" GridPane.rowIndex="2">
+      <Label styleClass="subtitle" text="%Parameters" GridPane.rowIndex="2">
          <padding>
             <Insets top="10.0" />
          </padding></Label>
@@ -74,7 +74,7 @@
       </HBox>
       <HBox spacing="5.0" GridPane.columnIndex="1">
          <children>
-            <Label maxWidth="1.7976931348623157E308" styleClass="caption" text="%Result" HBox.hgrow="ALWAYS" />
+            <Label maxWidth="1.7976931348623157E308" styleClass="subtitle" text="%Result" HBox.hgrow="ALWAYS" />
             <Label fx:id="lbLinesCount" text="0" />
             <Label text="%tools.lines">
                <HBox.margin>
@@ -111,7 +111,7 @@
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
-                        <FontAwesomeIconView glyphName="RANDOM" />
+                        <FontAwesomeIcon glyphName="RANDOM" />
                      </children>
                   </StackPane>
                </graphic>

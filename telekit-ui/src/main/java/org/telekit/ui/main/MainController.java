@@ -1,8 +1,8 @@
 package org.telekit.ui.main;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIcon;
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
+import org.telekit.controls.glyphs.FontAwesome;
+import org.telekit.controls.glyphs.FontAwesomeIcon;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
@@ -84,7 +84,7 @@ public class MainController extends Controller {
     public @FXML CheckMenuItem cmAlwaysOnTop;
 
     // status bar
-    public @FXML FontAwesomeIconView vaultStatusIcon;
+    public @FXML FontAwesomeIcon vaultStatusIcon;
     public @FXML ProgressBar pbarMemory;
     public @FXML Text txMemory;
     public @FXML HBox hboxProgressIndicator;
@@ -142,8 +142,8 @@ public class MainController extends Controller {
         vaultState.addListener((observable, oldValue, newValue) -> {
             if (newValue == null) return;
             removeStyleClass(vaultStatusIcon, "error");
-            if (newValue.intValue() != VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesomeIcon.LOCK);
-            if (newValue.intValue() == VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesomeIcon.UNLOCK);
+            if (newValue.intValue() != VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesome.LOCK);
+            if (newValue.intValue() == VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesome.UNLOCK);
             if (newValue.intValue() == VAULT_UNLOCK_FAILED) addStyleClass(vaultStatusIcon, "error");
         });
 

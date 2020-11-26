@@ -34,6 +34,7 @@
         <dep.hsqldb.version>2.5.1</dep.hsqldb.version>
         <dep.httpcomponents.version>4.5.12</dep.httpcomponents.version>
         <dep.ipaddress.version>5.3.2</dep.ipaddress.version>
+        <dep.ikonli.version>11.5.0</dep.ikonli.version>
         <dep.j2html.version>1.4.0</dep.j2html.version>
         <dep.jsoup.version>1.13.1</dep.jsoup.version>
         <dep.jackson.version>2.11.2</dep.jackson.version>
@@ -288,6 +289,16 @@
                 <groupId>org.fxmisc.undo</groupId>
                 <artifactId>undofx</artifactId>
                 <version>${dep.undofx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-javafx</artifactId>
+                <version>${dep.ikonli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kordamp.ikonli</groupId>
+                <artifactId>ikonli-fontawesome5-pack</artifactId>
+                <version>${dep.ikonli.version}</version>
             </dependency>
 
             <!-- Various -->

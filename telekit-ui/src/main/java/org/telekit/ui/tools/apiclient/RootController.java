@@ -42,7 +42,7 @@ import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.components.RevealablePasswordField;
 import org.telekit.controls.components.dialogs.Dialogs;
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
+import org.telekit.controls.glyphs.FontAwesomeIcon;
 import org.telekit.controls.util.BooleanBindings;
 import org.telekit.controls.views.FilterTable;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
@@ -100,7 +100,7 @@ public class RootController extends Controller {
     // auth
     public @FXML TextField tfUsername;
     public @FXML RevealablePasswordField pfPassword;
-    public @FXML FontAwesomeIconView toggleRevealPassword;
+    public @FXML FontAwesomeIcon toggleRevealPassword;
 
     // params
     public @FXML TableView<Param> tblParams;

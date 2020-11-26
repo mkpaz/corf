@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -21,6 +20,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.main.MainController">
    <center>
@@ -42,11 +43,10 @@
                            <children>
                               <VBox minWidth="300.0" VBox.vgrow="NEVER">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="header">
+                                    <HBox alignment="BASELINE_LEFT" spacing="10.0" styleClass="header">
                                        <children>
-                                          <FontAwesomeIconView glyphName="BRIEFCASE" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%Tools">
-                                    </Text>
+                                          <FontIcon iconLiteral="fas-briefcase" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%Tools" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -86,7 +86,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="%Restart" />
                 <MenuItem mnemonicParsing="false" onAction="#quit" text="%Quit">
                      <graphic>
-                        <FontAwesomeIconView glyphName="SIGN_OUT" />
+                        <FontAwesomeIcon glyphName="SIGN_OUT" />
                      </graphic></MenuItem>
               </items>
             </Menu>
@@ -101,7 +101,7 @@
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#showHelp" text="%Documentation">
                      <graphic>
-                        <FontAwesomeIconView glyphName="BOOK" />
+                        <FontAwesomeIcon glyphName="BOOK" />
                      </graphic>
                   </MenuItem>
               <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="%main.About" />
@@ -115,7 +115,7 @@
          <children>
             <HBox alignment="CENTER_LEFT">
                <children>
-                  <FontAwesomeIconView fx:id="vaultStatusIcon" glyphName="LOCK" />
+                  <FontAwesomeIcon fx:id="vaultStatusIcon" glyphName="LOCK" />
                </children>
             </HBox>
             <HBox fx:id="hboxProgressIndicator" alignment="CENTER_LEFT" visible="false">

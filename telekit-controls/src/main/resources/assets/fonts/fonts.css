@@ -1,29 +1,50 @@
+/* Roboto */
 @font-face {
-    font-family: "Open Sans Regular";
-    src: url('OpenSans-Regular.ttf');
+    font-family: "Roboto";
+    src: url('Roboto/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: "Roboto Medium";
+    src: url('Roboto/Roboto-Medium.ttf');
+}
+@font-face {
+    font-family: "Roboto Bold";
+    src: url('Roboto/Roboto-Bold.ttf');
+}
+@font-face {
+    font-family: "Roboto Italic";
+    src: url('Roboto/Roboto-Italic.ttf');
 }
 
-@font-face {
-    font-family: "Open Sans Bold";
-    src: url('OpenSans-Bold.ttf');
-}
-
-@font-face {
-    font-family: "Open Sans Italic";
-    src: url('OpenSans-Italic.ttf');
-}
-
-@font-face {
-    font-family: "Open Sans BoldItalic";
-    src: url('OpenSans-BoldItalic.ttf');
-}
-
-@font-face {
-    font-family: "Open Sans SemiBold";
-    src: url('OpenSans-SemiBold.ttf');
-}
-
+/* Fira Mono */
 @font-face {
     font-family: "Fira Mono";
-    src: url('FiraMono.ttf');
+    src: url('FiraMono/FiraMono-Regular.ttf');
 }
+@font-face {
+    font-family: "Fira Mono Medium";
+    src: url('FiraMono/FiraMono-Medium.ttf');
+}
+@font-face {
+    font-family: "Fira Mono Bold";
+    src: url('FiraMono/FiraMono-Bold.ttf');
+}
+
+/* Open Sans (replaced to Roboto)
+@font-face {
+    font-family: "OpenSans";
+    src: url('OpenSans/OpenSans-Regular.ttf');
+}
+@font-face {
+    font-family: "OpenSans Medium";
+    src: url('OpenSans/OpenSans-Medium.ttf');
+}
+@font-face {
+    font-family: "OpenSans Bold";
+    src: url('OpenSans/OpenSans-Bold.ttf');
+}
+@font-face {
+    font-family: "OpenSans Italic";
+    src: url('OpenSans/OpenSans-Italic.ttf');
+}
+*/

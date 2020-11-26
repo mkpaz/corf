@@ -12,46 +12,49 @@
  * limitations under the License.
  *
  */
-package org.telekit.controls.glyphs.fontawesome;
+package org.telekit.controls.glyphs;
 
-import org.telekit.controls.glyphs.GlyphIcon;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author Jens Deters
- */
-public class FontAwesomeIconView extends GlyphIcon<FontAwesomeIcon> {
+public class FontAwesomeIcon extends GlyphIcon<FontAwesome> {
 
-    public final static String TTF_PATH = "/assets/glyphs/fontawesome/fontawesome-webfont.ttf";
+    public static final String TTF_PATH = "/assets/glyphs/fontawesome4-webfont.ttf";
+    public static final Comparator<FontAwesome> NAME_COMPARATOR = (o1, o2) -> {
+        if (o1 != null && o2 != null) {
+            return o1.name().compareTo(o2.name());
+        }
+        return 0;
+    };
 
     static {
         try {
-            Font.loadFont(FontAwesomeIconView.class.getResource(TTF_PATH).openStream(), 10.0d);
-        } catch (IOException ex) {
-            Logger.getLogger(FontAwesomeIconView.class.getName()).log(Level.SEVERE, null, ex);
+            Font.loadFont(FontAwesomeIcon.class.getResource(TTF_PATH).openStream(), 10.0d);
+        } catch (IOException e) {
+            Logger.getLogger(FontAwesomeIcon.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
-    public FontAwesomeIconView(FontAwesomeIcon icon, String iconSize) {
-        super(FontAwesomeIcon.class);
+    public FontAwesomeIcon(FontAwesome icon, String iconSize) {
+        super(FontAwesome.class);
         setIcon(icon);
         setStyle(String.format("-fx-font-family: %s; -fx-font-size: %s;", icon.fontFamily(), iconSize));
     }
 
-    public FontAwesomeIconView(FontAwesomeIcon icon) {
+    public FontAwesomeIcon(FontAwesome icon) {
         this(icon, "1em");
     }
 
-    public FontAwesomeIconView() {
-        this(FontAwesomeIcon.ANCHOR);
+    public FontAwesomeIcon() {
+        this(FontAwesome.ANCHOR);
     }
 
     @Override
-    public FontAwesomeIcon getDefaultGlyph() {
-        return FontAwesomeIcon.ANCHOR;
+    public FontAwesome getDefaultGlyph() {
+        return FontAwesome.ANCHOR;
     }
 }

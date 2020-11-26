@@ -34,9 +34,8 @@ import java.util.logging.Logger;
  * A GlyphIcon represents an Icon Node.
  *
  * @param <T> The type of GlyphIcons enum.
- * @author Jens Deters
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings({"rawtypes", "unchecked", "unused"})
 public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
 
     public final static Double DEFAULT_ICON_SIZE = 12.0;
@@ -60,15 +59,9 @@ public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
 
     private void initProperties() {
         getStyleClass().addAll("glyph-icon");
-        glyphSizeProperty().addListener(observable -> {
-            updateSize();
-        });
-        glyphStyleProperty().addListener(observable -> {
-            updateStyle();
-        });
-        glyphNameProperty().addListener(observable -> {
-            updateIcon();
-        });
+        glyphSizeProperty().addListener(observable -> updateSize());
+        glyphStyleProperty().addListener(observable -> updateStyle());
+        glyphNameProperty().addListener(observable -> updateIcon());
         setIcon(getDefaultGlyph());
     }
 
@@ -180,7 +173,7 @@ public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
     private static class StyleableProperties {
 
         private static final CssMetaData<GlyphIcon, String> GLYPH_NAME
-                = new CssMetaData<GlyphIcon, String>("-glyph-name", StyleConverter.getStringConverter(), "BLANK") {
+                = new CssMetaData<>("-glyph-name", StyleConverter.getStringConverter(), "BLANK") {
 
             @Override
             public boolean isSettable(GlyphIcon styleable) {
@@ -199,7 +192,8 @@ public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
         };
 
         private static final CssMetaData<GlyphIcon, Number> GLYPH_SIZE
-                = new CssMetaData<GlyphIcon, Number>("-glyph-size", StyleConverter.getSizeConverter(), DEFAULT_ICON_SIZE) {
+                = new CssMetaData<>("-glyph-size", StyleConverter.getSizeConverter(), DEFAULT_ICON_SIZE) {
+
             @Override
             public boolean isSettable(GlyphIcon styleable) {
                 return styleable.glyphSize == null || !styleable.glyphSize.isBound();
@@ -239,7 +233,7 @@ public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
         // Resorting to a reflection to replace the following code:
         //    ParsedValueImpl parsedValueImpl = CSS_PARSER.parseExpr("", sizeString);
 
-        Method method = null;
+        Method method;
         try {
             method = CssParser.class.getDeclaredMethod("parseExpr", String.class, String.class);
             method.setAccessible(true);

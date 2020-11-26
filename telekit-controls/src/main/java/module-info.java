@@ -6,6 +6,9 @@ module telekit.controls {
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
     requires transitive javafx.swing;
+    requires transitive org.kordamp.iconli.core;
+    requires transitive org.kordamp.ikonli.javafx;
+    requires transitive org.kordamp.ikonli.fontawesome5;
 
     // not modularized dependencies
     requires org.apache.commons.lang3;
@@ -28,9 +31,6 @@ module telekit.controls {
 
     exports org.telekit.controls.glyphs;
     opens org.telekit.controls.glyphs;
-
-    exports org.telekit.controls.glyphs.fontawesome;
-    opens org.telekit.controls.glyphs.fontawesome;
 
     exports org.telekit.controls.overview;
     opens org.telekit.controls.overview;

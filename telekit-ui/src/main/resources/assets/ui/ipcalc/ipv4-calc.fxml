@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView?>
+<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
 
 <GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" stylesheets="@ipcalc.css" vgap="5.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.ui.tools.ipcalc.IPv4Controller">
   <columnConstraints>
@@ -38,13 +38,13 @@
    <children>
       <TextField fx:id="tfIPAddress" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="200.0" styleClass="monospaced" GridPane.rowIndex="1" />
       <ComboBox fx:id="cmbNetmask" maxHeight="1.7976931348623157E308" prefWidth="220.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label styleClass="caption" text="%tools.IPAddress" />
-      <Label maxWidth="1.7976931348623157E308" styleClass="caption" text="%Details" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
+      <Label styleClass="subtitle" text="%tools.IPAddress" />
+      <Label maxWidth="1.7976931348623157E308" styleClass="subtitle" text="%Details" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin>
       </Label>
-      <Label styleClass="caption" text="%tools.ipcalc.bit-usage" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
+      <Label styleClass="subtitle" text="%tools.ipcalc.bit-usage" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
       <TableView fx:id="tblSplit" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <columns>
             <TableColumn editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="#">
@@ -70,7 +70,7 @@
             <Insets top="5.0" />
          </GridPane.margin>
       </Label>
-      <Label styleClass="caption" text="%tools.Netmask" GridPane.columnIndex="1" />
+      <Label styleClass="subtitle" text="%tools.Netmask" GridPane.columnIndex="1" />
       <TextField fx:id="tfBitUsage" alignment="CENTER" editable="false" maxHeight="1.7976931348623157E308" minHeight="-Infinity" prefWidth="400.0" styleClass="monospaced" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets />
@@ -88,7 +88,7 @@
             <Insets top="5.0" />
          </GridPane.margin>
       </HBox>
-      <Label styleClass="caption" text="%tools.Netmask" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+      <Label styleClass="subtitle" text="%tools.Netmask" GridPane.columnIndex="2" GridPane.rowIndex="6" />
       <TableView fx:id="tblNetmasks" prefHeight="150.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
         <columns>
           <TableColumn fx:id="colPrefixLength" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" text="%Prefix">
@@ -112,7 +112,7 @@
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
-                        <FontAwesomeIconView glyphName="REFRESH" />
+                        <FontAwesomeIcon glyphName="REFRESH" />
                      </children>
                   </StackPane>
                </graphic></Button>
@@ -121,7 +121,7 @@
                   <Tooltip text="Convert IP in HEX, DEC and other formats" />
                </tooltip>
                <graphic>
-                  <FontAwesomeIconView glyphName="CARET_DOWN" />
+                  <FontAwesomeIcon glyphName="CARET_DOWN" />
                </graphic>
             </Hyperlink>
          </children>

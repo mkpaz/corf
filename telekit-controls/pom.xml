@@ -62,6 +62,15 @@
             <groupId>org.fxmisc.wellbehaved</groupId>
             <artifactId>wellbehavedfx</artifactId>
         </dependency>
+        <!-- Ikonli -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome5-pack</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

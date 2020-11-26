@@ -1,9 +1,9 @@
 package org.telekit.controls.components;
 
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIcon;
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import org.telekit.controls.glyphs.FontAwesome;
+import org.telekit.controls.glyphs.FontAwesomeIcon;
 import org.telekit.controls.i18n.ControlsMessageKeys;
 
 import java.util.ResourceBundle;
@@ -68,11 +68,11 @@ public abstract class AbstractTextInputContextMenu extends ContextMenu {
         miSelectAll = new MenuItem(textSelectAll);
 
         if (policy.isShowIcons()) {
-            miUndo.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.UNDO));
-            miRedo.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.REPEAT));
-            miCut.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.SCISSORS));
-            miCopy.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.COPY));
-            miPaste.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.CLIPBOARD));
+            miUndo.setGraphic(new FontAwesomeIcon(FontAwesome.UNDO));
+            miRedo.setGraphic(new FontAwesomeIcon(FontAwesome.REPEAT));
+            miCut.setGraphic(new FontAwesomeIcon(FontAwesome.SCISSORS));
+            miCopy.setGraphic(new FontAwesomeIcon(FontAwesome.COPY));
+            miPaste.setGraphic(new FontAwesomeIcon(FontAwesome.CLIPBOARD));
         }
 
         // item order matters

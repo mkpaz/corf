@@ -6,10 +6,7 @@ public class ContextMenuPolicy {
     private final boolean showIcons;
 
     public ContextMenuPolicy() {
-        this(
-                false,
-                true
-        );
+        this(false, true);
     }
 
     public ContextMenuPolicy(boolean hideInactiveItems, boolean showIcons) {

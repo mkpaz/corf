@@ -1,7 +1,7 @@
 package org.telekit.ui.tools.common;
 
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIcon;
-import org.telekit.controls.glyphs.fontawesome.FontAwesomeIconView;
+import org.telekit.controls.glyphs.FontAwesome;
+import org.telekit.controls.glyphs.FontAwesomeIcon;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableRow;
 import javafx.scene.image.Image;
@@ -27,7 +27,7 @@ public class ParamIndicatorTableCell extends TableCell<Param, Image> {
         if (param == null) return;
 
         if (Param.allowsCompletion(param, completionRegistry)) {
-            setGraphic(new FontAwesomeIconView(FontAwesomeIcon.LIGHTBULB_ALT));
+            setGraphic(new FontAwesomeIcon(FontAwesome.LIGHTBULB_ALT));
         }
     }
 }
