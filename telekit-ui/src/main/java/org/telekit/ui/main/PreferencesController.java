@@ -7,17 +7,26 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
+import org.telekit.base.domain.UsernamePasswordCredential;
+import org.telekit.base.domain.exception.InvalidInputException;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
+import org.telekit.base.i18n.Messages;
+import org.telekit.base.net.UriUtils;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.Language;
-import org.telekit.base.preferences.Proxy;
+import org.telekit.base.domain.Proxy;
 import org.telekit.base.ui.Controller;
 import org.telekit.ui.domain.ApplicationEvent;
 
 import javax.inject.Inject;
+import java.net.URI;
 import java.util.Arrays;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.telekit.base.domain.Proxy.NO_PROXY;
+import static org.telekit.base.i18n.BaseMessageKeys.MSG_INVALID_PARAM;
 import static org.telekit.ui.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 
 public class PreferencesController extends Controller {
@@ -57,10 +66,10 @@ public class PreferencesController extends Controller {
         cbSystemTray.setSelected(preferences.isSystemTray());
 
         Proxy proxy = preferences.getProxy();
-        if (proxy != null) {
-            tfProxyURL.setText(proxy.getUrl());
+        if (!NO_PROXY.equals(proxy)) {
+            tfProxyURL.setText(proxy.getUri().toString());
             tfProxyUsername.setText(proxy.getUsername());
-            pfProxyPassword.setText(proxy.getPassword());
+            pfProxyPassword.setText(proxy.getPasswordAsString());
         }
     }
 
@@ -68,19 +77,31 @@ public class PreferencesController extends Controller {
     public void apply() {
         preferences.setLanguage(cmbLanguage.getSelectionModel().getSelectedItem());
         preferences.setSystemTray(cbSystemTray.isSelected());
-
-        if (isNotBlank(tfProxyURL.getText())) {
-            Proxy proxy = new Proxy();
-            proxy.setUrl(tfProxyURL.getText().trim());
-            if (isNotBlank(tfProxyUsername.getText())) proxy.setUsername(tfProxyUsername.getText().trim());
-            if (isNotBlank(pfProxyPassword.getText())) proxy.setPassword(pfProxyPassword.getText().trim());
-            preferences.setProxy(proxy);
-        } else {
-            preferences.setProxy(null);
-        }
+        preferences.setProxy(getProxy());
 
         rootPane.getScene().getWindow().hide();
         DefaultEventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
+    }
+
+    private Proxy getProxy() {
+        String proxyUrl = tfProxyURL.getText();
+        if (isBlank(proxyUrl)) return null;
+
+        URI uri;
+        try {
+            uri = UriUtils.parse(proxyUrl.trim());
+        } catch (InvalidInputException e) {
+            throw new TelekitException(Messages.get(MSG_INVALID_PARAM, proxyUrl));
+        }
+
+        UsernamePasswordCredential credential = null;
+        String username = tfProxyUsername.getText();
+        String password = pfProxyPassword.getText();
+        if (isNotBlank(username) && isNotBlank(password)) {
+            credential = UsernamePasswordCredential.of(username, password);
+        }
+
+        return Proxy.of(uri, credential);
     }
 
     @FXML

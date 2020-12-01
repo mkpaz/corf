@@ -87,27 +87,27 @@ public class SignallingPointCode {
             case DEC:
                 if (isInteger(str)) {
                     value = parseInt(str);
-                    valid = inRange(value, 1, largestNumber(length));
+                    valid = between(value, 1, largestBitValue(length));
                 }
                 break;
             case HEX:
                 if (isHex(str)) {
                     value = parseInt(str, 16);
-                    valid = inRange(value, 1, largestNumber(length));
+                    valid = between(value, 1, largestBitValue(length));
                 }
                 break;
             case BIN:
                 if (isBinary(str)) {
                     value = parseInt(str, 2);
-                    valid = inRange(value, 1, largestNumber(length));
+                    valid = between(value, 1, largestBitValue(length));
                 }
                 break;
             case STRUCT_383:
                 if (isStructInteger(str, 3)) {
                     String[] parts = str.split(STRUCT_SEPARATOR, -1);
-                    valid = inRange(parseInt(parts[0]), 0, largestNumber(3)) &&
-                            inRange(parseInt(parts[1]), 0, largestNumber(8)) &&
-                            inRange(parseInt(parts[2]), 1, largestNumber(3));
+                    valid = between(parseInt(parts[0]), 0, largestBitValue(3)) &&
+                            between(parseInt(parts[1]), 0, largestBitValue(8)) &&
+                            between(parseInt(parts[2]), 1, largestBitValue(3));
                     value = parseInt(toBinaryString(parts[0], 3) +
                                              toBinaryString(parts[1], 8) +
                                              toBinaryString(parts[2], 3)
@@ -117,8 +117,8 @@ public class SignallingPointCode {
             case STRUCT_86:
                 if (isStructInteger(str, 2)) {
                     String[] parts = str.split(STRUCT_SEPARATOR, -1);
-                    valid = inRange(parseInt(parts[0]), 0, largestNumber(8)) &&
-                            inRange(parseInt(parts[1]), 1, largestNumber(6));
+                    valid = between(parseInt(parts[0]), 0, largestBitValue(8)) &&
+                            between(parseInt(parts[1]), 1, largestBitValue(6));
                     value = parseInt(toBinaryString(parts[0], 8) +
                                              toBinaryString(parts[1], 6)
                             , 2);
@@ -127,9 +127,9 @@ public class SignallingPointCode {
             case STRUCT_888:
                 if (isStructInteger(str, 3)) {
                     String[] parts = str.split(STRUCT_SEPARATOR, -1);
-                    valid = inRange(parseInt(parts[0]), 0, largestNumber(8)) &&
-                            inRange(parseInt(parts[1]), 0, largestNumber(8)) &&
-                            inRange(parseInt(parts[2]), 1, largestNumber(8));
+                    valid = between(parseInt(parts[0]), 0, largestBitValue(8)) &&
+                            between(parseInt(parts[1]), 0, largestBitValue(8)) &&
+                            between(parseInt(parts[2]), 1, largestBitValue(8));
                     value = parseInt(toBinaryString(parts[0], 8) +
                                              toBinaryString(parts[1], 8) +
                                              toBinaryString(parts[2], 8)

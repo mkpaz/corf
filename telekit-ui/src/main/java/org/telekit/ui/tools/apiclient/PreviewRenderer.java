@@ -18,8 +18,8 @@ public final class PreviewRenderer {
                             rawHtml("&nbsp;"),
                             span(template.getUri())
                     ),
-                    p("Content Type: " + template.getContentType()),
                     p("Batch Size: " + template.getBatchSize()),
+                    p("Batch Separator: " + template.getBatchSeparator()),
                     iff(isNotBlank(template.getDescription()), h3("Description:")),
                     iff(isNotBlank(template.getDescription()), pre(attrs(".description"), template.getDescription())),
                     iff(isNotBlank(template.getHeaders()), h3("Headers:")),

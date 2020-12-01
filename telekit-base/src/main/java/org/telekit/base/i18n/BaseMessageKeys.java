@@ -14,6 +14,7 @@ public interface BaseMessageKeys {
     String VALUE = "Value";
 
     String MSG_GENERIC_IO_ERROR = "msg.generic-io-error";
+    String MSG_INVALID_PARAM = "msg.invalid-param";
     String MSG_KEY_IS_NOT_UNIQUE = "msg.key-is-not-unique";
     String MSG_TASK_COMPLETED = "msg.task-completed";
     String MSG_TASK_CANCELED = "msg.task-canceled";

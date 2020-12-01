@@ -24,9 +24,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.converter.DefaultStringConverter;
 import org.telekit.base.CompletionRegistry;
-import org.telekit.base.domain.AuthPrincipal;
 import org.telekit.base.domain.KeyValue;
 import org.telekit.base.domain.LineSeparator;
+import org.telekit.base.domain.UsernamePasswordCredential;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.*;
 import org.telekit.base.i18n.Messages;
@@ -68,7 +68,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Env.TEMP_DIR;
-import static org.telekit.base.domain.HttpConstants.AuthType;
+import static org.telekit.base.net.HttpConstants.AuthScheme;
 import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.CSVUtils.*;
 import static org.telekit.base.util.CollectionUtils.isNotEmpty;
@@ -98,6 +98,7 @@ public class RootController extends Controller {
     public @FXML MenuItem itemExportTemplate;
 
     // auth
+    public @FXML ComboBox<AuthScheme> cmbAuthType;
     public @FXML TextField tfUsername;
     public @FXML RevealablePasswordField pfPassword;
     public @FXML FontAwesomeIcon toggleRevealPassword;
@@ -158,6 +159,9 @@ public class RootController extends Controller {
         cmbTemplate.setCellFactory(property -> new TemplateListCell());
         cmbTemplate.setItems(templates);
         taCsv.focusedProperty().addListener((obs, oldVal, newVal) -> { if (!newVal) countCsvLines(); });
+
+        cmbAuthType.setItems(FXCollections.observableArrayList(AuthScheme.BASIC));
+        cmbAuthType.getSelectionModel().select(AuthScheme.BASIC);
         // TODO: Replace with custom ToggleIcon component
         pfPassword.revealPasswordProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && newVal) {
@@ -262,7 +266,7 @@ public class RootController extends Controller {
         for (CompletedRequest row : selectedRows) {
             sb.append(row.getProcessedRange())
                     .append(separator)
-                    .append(row.getStatus())
+                    .append(row.getStatusCode())
                     .append(separator)
                     .append(row.getUserData())
                     .append(LineSeparator.UNIX.getCharacters());
@@ -558,15 +562,12 @@ public class RootController extends Controller {
         // task
         executor = new Executor(template, csv);
         executor.setTimeoutBetweenRequests(spnTimeout.getValue());
+        executor.setProxy(preferences.getProxy());
 
         String username = trim(tfUsername.getText());
         String password = trim(pfPassword.getText());
         if (isNotBlank(username) && isNotBlank(password)) {
-            executor.setAuthData(AuthType.BASIC, new AuthPrincipal(username, password));
-        }
-
-        if (preferences.getProxy() != null && preferences.getProxy().isValid()) {
-            executor.setProxy(preferences.getProxy());
+            executor.setPasswordBasedAuth(AuthScheme.BASIC, UsernamePasswordCredential.of(username, password));
         }
 
         final ObservableList<CompletedRequest> result = executor.getPartialResults();
@@ -676,7 +677,7 @@ public class RootController extends Controller {
             for (CompletedRequest request : log) {
                 out.write(request.getDateTime().format(formatter));
                 out.write(separator);
-                out.write(String.valueOf(request.getStatus()));
+                out.write(String.valueOf(request.getStatusCode()));
                 out.write(separator);
                 out.write(request.getUserData());
                 out.write(eol);

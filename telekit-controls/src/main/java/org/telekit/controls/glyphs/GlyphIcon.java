@@ -49,9 +49,6 @@ public abstract class GlyphIcon<T extends Enum<T> & GlyphIcons> extends Text {
     private ObjectProperty<Number> glyphSize;
     public final Class<T> typeOfT;
 
-    @FXML
-    public void init() {}
-
     public GlyphIcon(Class<T> iconType) {
         this.typeOfT = iconType;
         initProperties();

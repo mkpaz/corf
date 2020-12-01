@@ -72,6 +72,8 @@ public class TemplateModalController extends Controller {
         }
         if (action == Action.EDIT) {
             titleKey = TOOLS_EDIT_TEMPLATE;
+            // bypass name check
+            usedTemplateNames.remove(template.getName());
         }
 
         ((Stage) rootPane.getScene().getWindow()).setTitle(Messages.get(titleKey));

@@ -6,39 +6,46 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import org.telekit.base.domain.AuthPrincipal;
-import org.telekit.base.domain.HttpConstants.AuthType;
-import org.telekit.base.domain.HttpConstants.ContentType;
-import org.telekit.base.domain.KeyValue;
 import org.telekit.base.domain.LineSeparator;
+import org.telekit.base.domain.Proxy;
+import org.telekit.base.domain.UsernamePasswordCredential;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.net.SimpleHttpClient;
-import org.telekit.base.net.SimpleHttpClient.Request;
-import org.telekit.base.net.SimpleHttpClient.Response;
-import org.telekit.base.preferences.Proxy;
+import org.telekit.base.net.ApacheHttpClient;
+import org.telekit.base.net.HttpClient;
+import org.telekit.base.net.HttpClient.Request;
+import org.telekit.base.net.HttpClient.Response;
+import org.telekit.base.net.HttpConstants;
+import org.telekit.base.net.HttpConstants.AuthScheme;
+import org.telekit.base.net.UriUtils;
+import org.telekit.base.util.CollectionUtils;
 import org.telekit.base.util.ConcurrencyUtils;
 import org.telekit.base.util.PlaceholderReplacer;
+import org.telekit.ui.tools.apiclient.Template.BatchSeparator;
 import org.telekit.ui.tools.common.Param;
 
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.util.CollectionUtils.ensureNotNull;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 import static org.telekit.base.util.PlaceholderReplacer.containsPlaceholders;
 import static org.telekit.base.util.PlaceholderReplacer.format;
+import static org.telekit.base.util.StringUtils.ensureNotNull;
 import static org.telekit.ui.MessageKeys.*;
 import static org.telekit.ui.tools.common.ReplacementUtils.*;
 
 public class Executor extends Task<ObservableList<CompletedRequest>> {
 
+    public static final String BATCH_PLACEHOLDER_NAME = "_batch";
+    public static final String HEADER_KV_SEPARATOR = ":";
+
     public static final int MAX_CSV_SIZE = 100000;
 
     private final Template template;
     private final String[][] csv;
-    private final SimpleHttpClient httpClient;
+    private final ApacheHttpClient.Builder httpClientBuilder;
 
     private final ReadOnlyObjectWrapper<ObservableList<CompletedRequest>> partialResults =
             new ReadOnlyObjectWrapper<>(this, "partialResults", FXCollections.observableArrayList());
@@ -51,10 +58,10 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         return partialResults.getReadOnlyProperty();
     }
 
-    private AuthType authType;
-    private AuthPrincipal authPrincipal;
+    private AuthScheme authScheme;
+    private UsernamePasswordCredential credential;
     private Proxy proxy;
-    private int timeoutBetweenRequests = 200;
+    private int timeoutBetweenRequests = 200; // millis
 
     public Executor(Template template, String[][] csv) {
         Objects.requireNonNull(template);
@@ -62,52 +69,35 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
 
         this.template = new Template(template);
         this.csv = csv;
-        this.httpClient = new SimpleHttpClient(
-                (int) TimeUnit.SECONDS.toMillis(template.getWaitTimeout()),
-                (int) TimeUnit.SECONDS.toMillis(template.getWaitTimeout())
-        );
+        this.httpClientBuilder = ApacheHttpClient.builder()
+                .timeouts((int) TimeUnit.SECONDS.toMillis(template.getWaitTimeout()))
+                .ignoreCookies()
+                .trustAllCertificates();
     }
 
     public void setTimeoutBetweenRequests(int timeoutBetweenRequests) {
         this.timeoutBetweenRequests = timeoutBetweenRequests;
     }
 
-    public void setAuthData(AuthType authType, AuthPrincipal authPrincipal) {
-        this.authType = authType;
-        this.authPrincipal = authPrincipal;
-    }
-
     public void setProxy(Proxy proxy) {
         this.proxy = proxy;
+    }
+
+    public void setPasswordBasedAuth(AuthScheme authScheme, UsernamePasswordCredential credential) {
+        this.authScheme = authScheme;
+        this.credential = credential;
     }
 
     @Override
     protected ObservableList<CompletedRequest> call() {
         Map<String, String> replacements = new HashMap<>();
-        Set<Param> params = ensureNotNull(template.getParams());
-        Map<String, String> headers = new HashMap<>();
+        Set<Param> params = CollectionUtils.ensureNotNull(template.getParams());
+        Map<String, String> origHeaders = new HashMap<>(parseHeaders(template.getHeaders()));
 
-        // set default content-type header
-        KeyValue<String, String> contentType = contentTypeHeader(template.getContentType());
-        headers.put(contentType.getKey(), contentType.getValue());
-        // allow default headers to be overridden with user specified ones
-        headers.putAll(parseHeaders(template.getHeaders()));
+        configureAuth(origHeaders);
+        configureProxy();
 
-        // configure proxy
-        if (proxy != null) {
-            httpClient.setProxy(proxy.getUrl(), proxy.getPrincipal());
-        }
-
-        // configure auth
-        if (authType == AuthType.BASIC) {
-            httpClient.setBasicAuth(
-                    authPrincipal.getUsername(),
-                    authPrincipal.getPassword(),
-                    // preemptive auth requires domain part of URL to be specified
-                    // TODO: implement via java.net.URL wrapper
-                    template.getUri().replaceAll(PlaceholderReplacer.PLACEHOLDER_PATTERN, "")
-            );
-        }
+        HttpClient httpClient = httpClientBuilder.build();
 
         // batch size is limited by rows count
         int batchSize = ensureRange(template.getBatchSize(), 1, csv.length);
@@ -122,6 +112,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
             putTemplatePlaceholders(replacements, params);
 
             String uri, body, userData;
+            SortedMap<String, String> headers = new TreeMap<>(origHeaders);
             int processedLines;
 
             if (batchSize == 1) {
@@ -151,24 +142,28 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
                 uri = format(template.getUri(), replacements);
                 replaceHeadersPlaceholders(headers, replacements);
 
+                // batch wrapper is allowed to contain params placeholders (e.g. API key)
+                String batchWrapper = format(template.getBatchWrapper(), replacements);
+
                 // only payload can contain CSV or index placeholders
+                Map<String, String> batchReplacements = new HashMap<>(replacements);
                 for (int batchIndex = 0; batchIndex < batchCsv.length; batchIndex++) {
                     String[] row = batchCsv[batchIndex];
 
-                    putCsvPlaceholders(replacements, row);
-                    putIndexPlaceholders(replacements, sequentialIndex);
+                    putCsvPlaceholders(batchReplacements, row);
+                    putIndexPlaceholders(batchReplacements, sequentialIndex);
 
-                    batchBody[batchIndex] = format(template.getBody(), replacements);
+                    batchBody[batchIndex] = format(template.getBody(), batchReplacements);
                     sequentialIndex++;
                 }
 
-                body = mergeBatchItems(batchBody, template.getBatchWrapper(), template.getContentType());
+                body = mergeBatchItems(batchBody, batchWrapper, template.getBatchSeparator());
                 userData = uri;
                 processedLines = batchCsv.length;
             }
 
             // perform request
-            final Request request = new Request(template.getMethod().name(), uri, headers, body);
+            final Request request = new Request(template.getMethod(), URI.create(uri), headers, body);
             final Response response = httpClient.execute(request);
             final CompletedRequest result = new CompletedRequest(idx, processedLines, request, response, userData);
 
@@ -185,8 +180,30 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         return partialResults.get();
     }
 
+    private void configureProxy() {
+        if (proxy == null || !proxy.isValid()) return;
+        httpClientBuilder.proxy(proxy.getUri(), proxy.passwordAuthentication());
+    }
+
+    private void configureAuth(Map<String, String> userHeaders) {
+        if (authScheme == null || credential == null) return;
+
+        // we have to remove authorization header manually, because Apache HTTP won't override it
+        userHeaders.entrySet().removeIf(e -> HttpConstants.Headers.AUTHORIZATION.equalsIgnoreCase(e.getKey()));
+
+        // placeholders use % sign that makes whole URL invalid
+        String safeUri = PlaceholderReplacer.removePlaceholders(template.getUri());
+        if (authScheme == AuthScheme.BASIC) {
+            httpClientBuilder.basicAuth(
+                    credential.toPasswordAuthentication(),
+                    UriUtils.withoutPath(URI.create(safeUri)),
+                    true
+            );
+        }
+    }
+
     public static List<String> validate(Template template, String[][] csv) {
-        Set<Param> params = ensureNotNull(template.getParams());
+        Set<Param> params = CollectionUtils.ensureNotNull(template.getParams());
         Map<String, String> replacements = new HashMap<>();
         List<String> warnings = new ArrayList<>();
 
@@ -200,15 +217,32 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         if (hasBlankValues) warnings.add(Messages.get(TOOLS_MSG_VALIDATION_BLANK_PARAM_VALUES));
 
         int firstRowSize = 0, maxRowSize = 0;
-        String urlAndBodyFormatted = "";
+        String payloadFormatted = "";
         for (int rowIndex = 0; rowIndex < csv.length & rowIndex < MAX_CSV_SIZE; rowIndex++) {
             String[] row = csv[rowIndex];
             if (rowIndex == 0) {
                 firstRowSize = maxRowSize = row.length;
+
                 // unresolved placeholders validation can be performed for the first line only
-                putIndexPlaceholders(replacements, rowIndex);
-                putCsvPlaceholders(replacements, row);
-                urlAndBodyFormatted = format(template.getUri() + template.getBody(), replacements);
+                if (template.getBatchSize() == 0) {
+                    putIndexPlaceholders(replacements, rowIndex);
+                    putCsvPlaceholders(replacements, row);
+
+                    payloadFormatted = format(
+                            template.getUri() +
+                                    ensureNotNull(template.getBody()) +
+                                    ensureNotNull(template.getHeaders())
+                            , replacements);
+                } else {
+                    Map<String, String> batchReplacements = new HashMap<>(replacements);
+                    putIndexPlaceholders(batchReplacements, rowIndex);
+                    putCsvPlaceholders(batchReplacements, row);
+
+                    payloadFormatted = format(template.getUri() + ensureNotNull(template.getHeaders()), replacements) +
+                            format(ensureNotNull(template.getBody()), batchReplacements);
+                }
+
+                System.out.println(payloadFormatted);
             } else {
                 maxRowSize = row.length;
             }
@@ -218,7 +252,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         if (firstRowSize != maxRowSize) warnings.add(Messages.get(TOOLS_MSG_VALIDATION_MIXED_CSV));
 
         // verify that all placeholders has been replaced
-        if (containsPlaceholders(urlAndBodyFormatted)) {
+        if (containsPlaceholders(payloadFormatted)) {
             warnings.add(Messages.get(TOOLS_MSG_VALIDATION_UNRESOLVED_PLACEHOLDERS));
         }
 
@@ -231,7 +265,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
 
         for (String line : text.split(LineSeparator.LINE_SPLIT_PATTERN)) {
             if (isBlank(line)) continue;
-            String[] kv = line.split(":");
+            String[] kv = line.split(HEADER_KV_SEPARATOR);
             if (kv.length == 2) headers.put(trim(kv[0]), trim(kv[1]));
         }
         return headers;
@@ -243,14 +277,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         }
     }
 
-    private static KeyValue<String, String> contentTypeHeader(ContentType contentType) {
-        return contentType != null ?
-                new KeyValue<>(SimpleHttpClient.CONTENT_TYPE_HEADER, contentType.getMimeType()) :
-                new KeyValue<>(SimpleHttpClient.CONTENT_TYPE_HEADER, ContentType.TEXT_PLAIN.getMimeType());
-    }
-
-    private static String mergeBatchItems(String[] items, String batchWrapper, ContentType contentType) {
-        String separator = contentType == ContentType.APPLICATION_JSON ? "," : "\n";
-        return format(batchWrapper, Map.of("batch", String.join(separator, items)));
+    private static String mergeBatchItems(String[] items, String wrapper, BatchSeparator separator) {
+        return format(wrapper, Map.of(BATCH_PLACEHOLDER_NAME, String.join(separator.getValue(), items)));
     }
 }

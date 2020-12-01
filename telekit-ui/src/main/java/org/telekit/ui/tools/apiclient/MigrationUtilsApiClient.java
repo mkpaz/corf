@@ -14,15 +14,19 @@ import org.telekit.base.service.impl.JacksonYamlSerializer;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 import static org.telekit.base.Env.DATA_DIR;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
+import static org.telekit.base.net.HttpConstants.ContentType;
+import static org.telekit.ui.tools.apiclient.Template.BatchSeparator;
 
 @Deprecated
 public final class MigrationUtilsApiClient {
@@ -45,11 +49,32 @@ public final class MigrationUtilsApiClient {
              OutputStream outputStream = Files.newOutputStream(TemplateRepository.DATA_FILE_PATH)) {
 
             Collection<Template> data = xmlSerializer.deserialize(inputStream);
+            updateItems(data);
             yamlSerializer.serialize(outputStream, data);
             Files.delete(DATA_FILE_PATH_OLD);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static void updateItems(Collection<Template> templates) {
+        for (Template template : templates) {
+            // remove content type and add "application/json" to all templates
+            String headers = ContentType.APPLICATION_JSON.toHeader(StandardCharsets.UTF_8);
+            template.setHeaders(headers);
+
+            // app no longer uses content type to determine batch separator
+            int batchSize = template.getBatchSize();
+            if (batchSize > 1 && headers.contains(ContentType.APPLICATION_JSON.getMimeType())) {
+                template.setBatchSeparator(BatchSeparator.COMMA);
+            }
+
+            // batch placeholder has been changed
+            String batchWrapper = template.getBatchWrapper();
+            if (isNotEmpty(batchWrapper)) {
+                template.setBatchWrapper(batchWrapper.replace("%(batch)", "%(_batch)"));
+            }
         }
     }
 

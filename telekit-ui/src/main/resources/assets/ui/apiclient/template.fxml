@@ -22,7 +22,7 @@
          <tabs>
             <Tab closable="false" text="%Parameters">
                <content>
-                  <GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0">
+                  <GridPane hgap="10.0" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="NEVER" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="500.0" />
@@ -32,11 +32,7 @@
                       <RowConstraints vgrow="NEVER" />
                       <RowConstraints vgrow="NEVER" />
                       <RowConstraints vgrow="NEVER" />
-                      <RowConstraints vgrow="NEVER" />
-                      <RowConstraints vgrow="NEVER" />
-                      <RowConstraints vgrow="NEVER" />
-                      <RowConstraints maxHeight="-Infinity" vgrow="NEVER" />
-                      <RowConstraints vgrow="NEVER" />
+                        <RowConstraints />
                     </rowConstraints>
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="3.0">
@@ -48,7 +44,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
                            <children>
-                              <Label text="URI" />
+                              <Label text="URL" />
                               <Label styleClass="lbl-mandatory" text="*" />
                               <Label text=":" />
                            </children>
@@ -62,52 +58,75 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="2">
                            <children>
-                              <Label text="%tools.api-client.ContentType" />
-                              <Label text=":" />
-                           </children>
-                        </HBox>
-                        <ComboBox fx:id="cmbContentType" onAction="#onContentTypeChanged" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="3">
-                           <children>
                               <Label text="%tools.api-client.HTTPHeaders" />
                               <Label text=":" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="4">
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="3">
                            <children>
                               <Label text="%tools.api-client.Body" />
                               <Label text=":" />
                            </children>
                         </HBox>
-                        <TextArea fx:id="taHeaders" prefHeight="50.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextArea fx:id="taBody" prefHeight="100.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="5">
-                           <children>
-                              <Label text="%tools.api-client.BatchSize" />
-                              <Label text=":" />
-                           </children>
-                        </HBox>
-                        <Spinner fx:id="spnBatchSize" amountToStepBy="5" initialValue="0" max="100" min="0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="6">
-                           <children>
-                              <Label text="%tools.api-client.BatchWrapper" />
-                              <Label text=":" />
-                           </children>
-                        </HBox>
-                        <TextArea fx:id="taBatchWrapper" prefHeight="40.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="7">
+                        <TextArea fx:id="taHeaders" prefHeight="80.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextArea fx:id="taBody" prefHeight="200.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="4">
                            <children>
                               <Label text="%tools.api-client.WaitTimeout" />
                               <Label text=":" />
                            </children>
                         </HBox>
-                        <Spinner fx:id="spnWaitTimeout" amountToStepBy="1" initialValue="3" max="100" min="1" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Spinner fx:id="spnWaitTimeout" amountToStepBy="1" initialValue="3" max="100" min="1" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                      <padding>
-                        <Insets left="10.0" right="10.0" top="10.0" />
+                        <Insets left="10.0" right="10.0" top="20.0" />
                      </padding>
                   </GridPane>
                </content>
+            </Tab>
+            <Tab closable="false" text="%tools.Batch">
+              <content>
+                  <GridPane hgap="10.0" minHeight="-Infinity" minWidth="-Infinity" vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="NEVER" />
+                      <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints vgrow="NEVER" />
+                      <RowConstraints vgrow="ALWAYS" />
+                        <RowConstraints vgrow="NEVER" />
+                    </rowConstraints>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <TextArea fx:id="taBatchWrapper" prefHeight="40.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0">
+                           <children>
+                              <Label text="%tools.api-client.BatchSize" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
+                        <Spinner fx:id="spnBatchSize" amountToStepBy="5" initialValue="0" max="100" min="0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="%tools.api-client.BatchWrapper" HBox.hgrow="ALWAYS" />
+                              <Label text=":" />
+                           </children>
+                        </HBox>
+                        <ComboBox fx:id="cmbBatchSeparator" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="2">
+                           <children>
+                              <Label text=":">
+                                 <graphic>
+                                    <Label text="%Separator" />
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+              </content>
             </Tab>
             <Tab closable="false" text="%Description">
               <content>
@@ -115,10 +134,13 @@
                      <children>
                         <TextArea fx:id="taDescription">
                            <StackPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets />
                            </StackPane.margin>
                         </TextArea>
                      </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                     </padding>
                   </StackPane>
               </content>
             </Tab>

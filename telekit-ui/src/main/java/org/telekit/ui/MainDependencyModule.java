@@ -6,6 +6,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.Env;
+import org.telekit.base.domain.Proxy;
 import org.telekit.base.feather.Provides;
 import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.internal.PluginManager;
@@ -49,6 +50,8 @@ public final class MainDependencyModule implements DependencyModule {
         this.preferences = preferences;
         this.vault = vault;
     }
+
+    /* Singletons */
 
     @Provides
     @Singleton
@@ -97,6 +100,15 @@ public final class MainDependencyModule implements DependencyModule {
     public YAMLMapper yamlMapper() {
         return Mappers.createYamlMapper();
     }
+
+    /* Providers */
+
+    @Provides
+    public Proxy proxy() {
+        return new Proxy(applicationPreferences().getProxy());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
 
     // TODO: monitor directory for new files
     public @NotNull List<CompletionProvider<?>> findCompletionProviders() {

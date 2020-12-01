@@ -43,7 +43,6 @@ public final class Dialogs {
 
     public static void show(Stage stage) {
         if (stage != null && !stage.isShowing()) {
-            System.out.println(2);
             stage.show();
         }
     }

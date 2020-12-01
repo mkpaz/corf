@@ -61,4 +61,6 @@ module telekit.base {
     exports org.telekit.base.telecom.ss7;
     exports org.telekit.base.ui;
     exports org.telekit.base.util;
+
+    opens org.telekit.base.domain to com.fasterxml.jackson.databind;
 }

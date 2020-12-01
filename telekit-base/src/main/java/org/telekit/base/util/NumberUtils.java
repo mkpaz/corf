@@ -12,8 +12,8 @@ public final class NumberUtils {
         return (value % 2) == 0;
     }
 
-    public static boolean inRange(int value, int min, int max) {
-        return (value >= min) && (value <= max);
+    public static boolean between(int value, int minInclusive, int maxInclusive) {
+        return (value >= minInclusive) & (value <= maxInclusive);
     }
 
     /**
@@ -30,7 +30,7 @@ public final class NumberUtils {
      * Returns {@code defaultValue} if <code>value < min</code> or <code>value > max</code>.
      */
     public static int ensureRange(int value, int min, int max, int defaultValue) {
-        return inRange(value, min, max) ? value : defaultValue;
+        return between(value, min, max) ? value : defaultValue;
     }
 
     public static boolean isOneOf(int value, int... args) {
@@ -62,7 +62,7 @@ public final class NumberUtils {
         return str.chars().allMatch(c -> c == '0' || c == '1');
     }
 
-    public static int largestNumber(int bitLength) {
+    public static int largestBitValue(int bitLength) {
         return (1 << bitLength) - 1; // = 2 ^ n - 1
     }
 }

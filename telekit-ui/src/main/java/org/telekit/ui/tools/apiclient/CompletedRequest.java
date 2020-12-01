@@ -2,31 +2,21 @@ package org.telekit.ui.tools.apiclient;
 
 import org.telekit.base.util.TextBuilder;
 
-import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 
-import static org.telekit.base.net.SimpleHttpClient.Request;
-import static org.telekit.base.net.SimpleHttpClient.Response;
+import static org.telekit.base.net.ApacheHttpClient.Request;
+import static org.telekit.base.net.ApacheHttpClient.Response;
+import static org.telekit.base.util.NumberUtils.between;
 
 public class CompletedRequest {
 
     private final Integer index;
     private final Integer processedLines;
     private final LocalDateTime dateTime = LocalDateTime.now();
+    private final Request request;
+    private final Response response;
     private final String userData;
-
-    private final URI requestUri;
-    private final String requestMethod;
-    private final Map<String, String> requestHeaders;
-    private final String requestBody;
-
-    private final int responseStatus;
-    private final String responseReasonPhrase;
-    private final Map<String, String> responseHeaders;
-    private final String responseBody;
 
     public CompletedRequest(Integer index,
                             Integer processedLines,
@@ -36,17 +26,8 @@ public class CompletedRequest {
     ) {
         this.index = index;
         this.processedLines = processedLines;
-
-        this.requestUri = request.getUri();
-        this.requestMethod = request.getMethod();
-        this.requestHeaders = request.getHeaders() != null ? request.getHeaders() : Collections.emptyMap();
-        this.requestBody = request.getBody();
-
-        this.responseStatus = response.getStatus();
-        this.responseReasonPhrase = response.getReasonPhrase();
-        this.responseHeaders = response.getHeaders() != null ? response.getHeaders() : Collections.emptyMap();
-        this.responseBody = response.getBody();
-
+        this.request = request;
+        this.response = response;
         this.userData = userData;
     }
 
@@ -70,24 +51,24 @@ public class CompletedRequest {
         return userData;
     }
 
-    public Integer getStatus() {
-        return responseStatus;
+    public Integer getStatusCode() {
+        return response.statusCode();
     }
 
     public boolean isResponded() {
-        return responseStatus >= 200;
+        return response.statusCode() >= 200;
     }
 
     public boolean isSucceeded() {
-        return responseStatus >= 200 & responseStatus < 300;
+        return between(response.statusCode(), 200, 299);
     }
 
     public boolean isForwarded() {
-        return responseStatus >= 300 & responseStatus < 400;
+        return between(response.statusCode(), 300, 399);
     }
 
     public boolean isFailed() {
-        return responseStatus >= 400;
+        return response.statusCode() >= 400;
     }
 
     @Override
@@ -105,15 +86,15 @@ public class CompletedRequest {
 
     public String print() {
         TextBuilder text = new TextBuilder();
-        text.appendLine(requestMethod + ": " + requestUri.toString());
-        text.appendLine("Headers: " + requestHeaders.toString());
-        text.appendLine(requestBody);
+        text.appendLine(request.method() + ": " + request.uri());
+        text.appendLine("Headers: " + request.headers());
+        text.appendLine(request.body());
         text.newLine();
         text.appendLine("--------------------------------------");
         text.newLine();
-        text.appendLine("Status: \"" + responseStatus + "\", " + responseReasonPhrase);
-        text.appendLine("Headers: " + responseHeaders.toString());
-        text.appendLine(responseBody);
+        text.appendLine("Status: \"" + response.statusCode() + "\", " + response.reasonPhrase());
+        text.appendLine("Headers: " + response.headers());
+        text.appendLine(response.body());
         return text.toString();
     }
 }

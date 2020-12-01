@@ -9,10 +9,11 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.Env;
+import org.telekit.base.domain.Proxy;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.ui.Dimension;
+import org.telekit.base.ui.UIDefaults;
 
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -24,6 +25,7 @@ import java.util.prefs.Preferences;
 
 import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.Env.DATA_DIR;
+import static org.telekit.base.domain.Proxy.NO_PROXY;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 import static org.telekit.base.ui.UIDefaults.WINDOW_MAXIMIZED;
@@ -64,12 +66,12 @@ public class ApplicationPreferences {
         this.systemTray = systemTray;
     }
 
-    public @Nullable Proxy getProxy() {
-        return proxy;
+    public @NotNull Proxy getProxy() {
+        return proxy != null ? proxy : NO_PROXY;
     }
 
     public void setProxy(Proxy proxy) {
-        this.proxy = proxy;
+        this.proxy = NO_PROXY.equals(proxy) ? null : proxy;
     }
 
     public @NotNull Security getSecurity() {

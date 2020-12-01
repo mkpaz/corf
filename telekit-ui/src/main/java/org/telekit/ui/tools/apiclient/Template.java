@@ -3,8 +3,7 @@ package org.telekit.ui.tools.apiclient;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
-import org.telekit.base.domain.HttpConstants.ContentType;
-import org.telekit.base.domain.HttpConstants.Method;
+import org.telekit.base.net.HttpConstants.Method;
 import org.telekit.ui.tools.common.Param;
 
 import java.util.Set;
@@ -16,12 +15,12 @@ public class Template extends Entity<Template, UUID> {
     private String name;
     private String uri;
     private Method method = Method.POST;
-    private ContentType contentType;
     private @JacksonXmlCData String headers;
     private @JacksonXmlCData String body;
+    private Integer waitTimeout = 5; // seconds
     private Integer batchSize = 0;
     private String batchWrapper;
-    private Integer waitTimeout = 5; // seconds
+    private BatchSeparator batchSeparator = BatchSeparator.LINE_BREAK;
     private Set<Param> params;
     private @JacksonXmlCData String description;
 
@@ -32,10 +31,10 @@ public class Template extends Entity<Template, UUID> {
         this.setName(template.getName());
         this.uri = template.getUri();
         this.method = template.getMethod();
-        this.contentType = template.getContentType();
         this.headers = template.getHeaders();
         this.body = template.getBody();
         this.batchSize = template.getBatchSize();
+        this.batchSeparator = template.getBatchSeparator();
         this.batchWrapper = template.getBatchWrapper();
         if (template.getParams() != null) {
             Set<Param> params = new TreeSet<>();
@@ -80,20 +79,20 @@ public class Template extends Entity<Template, UUID> {
         this.headers = headers;
     }
 
-    public ContentType getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(ContentType contentType) {
-        this.contentType = contentType;
-    }
-
     public String getBody() {
         return body;
     }
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Integer getWaitTimeout() {
+        return waitTimeout;
+    }
+
+    public void setWaitTimeout(int waitTimeout) {
+        this.waitTimeout = waitTimeout;
     }
 
     public Integer getBatchSize() {
@@ -112,12 +111,12 @@ public class Template extends Entity<Template, UUID> {
         this.batchWrapper = batchWrapper;
     }
 
-    public Integer getWaitTimeout() {
-        return waitTimeout;
+    public BatchSeparator getBatchSeparator() {
+        return batchSeparator;
     }
 
-    public void setWaitTimeout(Integer waitTimeout) {
-        this.waitTimeout = waitTimeout;
+    public void setBatchSeparator(BatchSeparator batchSeparator) {
+        this.batchSeparator = batchSeparator;
     }
 
     public Set<Param> getParams() {
@@ -154,14 +153,15 @@ public class Template extends Entity<Template, UUID> {
     @Override
     public String toString() {
         return "Template{" +
-                "uri='" + uri + '\'' +
+                "name='" + name + '\'' +
+                ", uri='" + uri + '\'' +
                 ", method=" + method +
-                ", contentType='" + contentType + '\'' +
                 ", headers='" + headers + '\'' +
                 ", body='" + body + '\'' +
+                ", waitTimeout=" + waitTimeout +
                 ", batchSize=" + batchSize +
                 ", batchWrapper='" + batchWrapper + '\'' +
-                ", waitTimeout=" + waitTimeout +
+                ", batchSeparator=" + batchSeparator +
                 ", params=" + params +
                 ", description='" + description + '\'' +
                 "} " + super.toString();
@@ -170,5 +170,19 @@ public class Template extends Entity<Template, UUID> {
     @Override
     public Template deepCopy() {
         return new Template(this);
+    }
+
+    public enum BatchSeparator {
+        COMMA(","), LINE_BREAK("\n");
+
+        private final String value;
+
+        BatchSeparator(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }

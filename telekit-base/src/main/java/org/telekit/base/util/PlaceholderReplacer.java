@@ -1,9 +1,12 @@
 package org.telekit.base.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public final class PlaceholderReplacer {
 
@@ -46,5 +49,9 @@ public final class PlaceholderReplacer {
 
     public static boolean containsPlaceholders(String fmt) {
         return EXPRESSION.matcher(fmt).find();
+    }
+
+    public static @NotNull String removePlaceholders(String str) {
+        return isNotBlank(str) ? str.replaceAll(PLACEHOLDER_PATTERN, "") : str;
     }
 }

@@ -62,7 +62,7 @@
                 <MenuItem fx:id="itemExportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Export" />
               </items>
                <graphic>
-                   <FontIcon iconLiteral="fas-bars" />
+                   <FontIcon iconLiteral="fas-ellipsis-v" />
                </graphic>
             </MenuButton>
          </children>
