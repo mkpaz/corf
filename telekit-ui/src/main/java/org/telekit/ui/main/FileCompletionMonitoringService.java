@@ -41,7 +41,7 @@ public class FileCompletionMonitoringService {
 
     public void registerAllProviders() {
         if (!Files.exists(AUTOCOMPLETE_DIR) || !Files.isDirectory(AUTOCOMPLETE_DIR)) {
-            LOGGER.info(String.format("Directory '%s' doesn't exist. Service is stopped.", AUTOCOMPLETE_DIR));
+            LOGGER.info(String.format("Directory '%s' doesn't exist. Service stopped.", AUTOCOMPLETE_DIR));
             return;
         }
 
@@ -56,7 +56,7 @@ public class FileCompletionMonitoringService {
         watchDir(AUTOCOMPLETE_DIR);
 
         if (keys.isEmpty()) {
-            LOGGER.info("No directories to watch found. Service is stopped.");
+            LOGGER.info("No directories to watch found. Service stopped.");
             return;
         }
 
@@ -100,6 +100,7 @@ public class FileCompletionMonitoringService {
                 hush(key::cancel);
             }
             keys.clear();
+            LOGGER.info("Service stopped.");
         });
         task.start();
     }
