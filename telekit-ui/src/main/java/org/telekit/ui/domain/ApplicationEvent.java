@@ -30,7 +30,12 @@ public class ApplicationEvent extends Event {
 
     public enum Type {
         RESTART_REQUIRED,
-        PREFERENCES_CHANGED
+        PREFERENCES_CHANGED,
+        COMPLETION_REGISTRY_UPDATED;
+
+        public boolean isSameTypeAs(ApplicationEvent event) {
+            return event != null && event.getType() == this;
+        }
     }
 
     @Override

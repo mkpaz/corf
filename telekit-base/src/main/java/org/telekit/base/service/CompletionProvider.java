@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 public interface CompletionProvider<T> {
 
     /**
@@ -16,4 +18,8 @@ public interface CompletionProvider<T> {
     @NotNull Collection<T> contains(String str);
 
     @NotNull Collection<T> matches(String pattern);
+
+    static boolean isValidKey(String key) {
+        return isNotBlank(key);
+    }
 }

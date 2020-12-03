@@ -45,6 +45,7 @@ import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.controls.glyphs.FontAwesomeIcon;
 import org.telekit.controls.util.BooleanBindings;
 import org.telekit.controls.views.FilterTable;
+import org.telekit.ui.domain.ApplicationEvent;
 import org.telekit.ui.domain.ExceptionCaughtEvent;
 import org.telekit.ui.domain.FXMLView;
 import org.telekit.ui.tools.Action;
@@ -76,6 +77,7 @@ import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.util.BindUtils.rebind;
 import static org.telekit.controls.util.BooleanBindings.isBlank;
 import static org.telekit.ui.MessageKeys.*;
+import static org.telekit.ui.domain.ApplicationEvent.Type.COMPLETION_REGISTRY_UPDATED;
 import static org.telekit.ui.tools.Action.NEW;
 import static org.telekit.ui.tools.apiclient.Executor.validate;
 import static org.telekit.ui.tools.common.Controllers.paramCompletionController;
@@ -217,6 +219,10 @@ public class RootController extends Controller {
         selectionModel.selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> itemParamCompletion.setVisible(Param.allowsCompletion(newVal, completionRegistry))
         );
+
+        DefaultEventBus.getInstance().subscribe(ApplicationEvent.class, event -> {
+            if (COMPLETION_REGISTRY_UPDATED.isSameTypeAs(event)) tblParams.refresh();
+        });
     }
 
     private void initLogTab() {

@@ -37,7 +37,7 @@ public final class FileUtils {
      * @param path absolute path to the target file
      */
     public static @NotNull String getFileName(Path path) {
-        if (path == null || !Files.isRegularFile(path)) return "";
+        if (path == null) return "";
         return substringBeforeLast(path.getFileName().toString(), ".");
     }
 
@@ -47,7 +47,7 @@ public final class FileUtils {
      * @param path absolute path to the target file
      */
     public static @NotNull String getFileExtension(Path path) {
-        if (path == null || !Files.isRegularFile(path)) return "";
+        if (path == null) return "";
         return substringAfterLast(path.getFileName().toString(), ".");
     }
 
@@ -55,9 +55,9 @@ public final class FileUtils {
         return path != null ? Paths.get(path) : Objects.requireNonNull(defaultValue);
     }
 
-    public static @NotNull List<Path> findFilesByPrefix(Path folder, String prefix) {
-        if (!Files.exists(folder) || !Files.isDirectory(folder)) return Collections.emptyList();
-        return Arrays.stream(folder.toFile().listFiles((dir, name) -> name.startsWith(prefix)))
+    public static @NotNull List<Path> findFilesByPrefix(Path path, String prefix) {
+        if (!dirExists(path)) return Collections.emptyList();
+        return Arrays.stream(path.toFile().listFiles((dir, name) -> name.startsWith(prefix)))
                 .filter(File::isFile)
                 .map(File::toPath)
                 .collect(Collectors.toList());
@@ -108,9 +108,7 @@ public final class FileUtils {
 
     public static void createDir(Path path) {
         try {
-            if (path != null && !Files.exists(path)) {
-                Files.createDirectory(path);
-            }
+            if (!exists(path)) Files.createDirectory(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -118,9 +116,7 @@ public final class FileUtils {
 
     public static void createDirs(Path path) {
         try {
-            if (path != null && !Files.exists(path)) {
-                Files.createDirectories(path);
-            }
+            if (!exists(path)) Files.createDirectories(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -152,18 +148,18 @@ public final class FileUtils {
         }
     }
 
-    public static void deleteFile(Path file) {
-        if (file == null) return;
+    public static void deleteFile(Path path) {
+        if (!fileExists(path)) return;
         try {
-            Files.deleteIfExists(file);
+            Files.delete(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void deleteDir(Path path) {
+        if (!dirExists(path)) return;
         try {
-            if (path == null || !Files.exists(path)) return;
             //noinspection ResultOfMethodCallIgnored
             Files.walk(path)
                     .sorted(Comparator.reverseOrder())
@@ -174,13 +170,27 @@ public final class FileUtils {
         }
     }
 
-    public static boolean isDirEmpty(Path path) {
-        if (path == null) return true;
-        try (DirectoryStream<Path> folderStream = Files.newDirectoryStream(path)) {
+    public static boolean isDirEmpty(Path dir) {
+        if (!dirExists(dir)) return true;
+        try (DirectoryStream<Path> folderStream = Files.newDirectoryStream(dir)) {
             return !folderStream.iterator().hasNext();
         } catch (Throwable ignored) {
             return false;
         }
+    }
+
+    public static boolean exists(Path path) {
+        return path != null && Files.exists(path);
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean dirExists(Path path) {
+        return exists(path) && Files.isDirectory(path);
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean fileExists(Path path) {
+        return exists(path) && Files.isRegularFile(path);
     }
 
     /**
@@ -189,7 +199,7 @@ public final class FileUtils {
      * @return a path to temp file or null if copying has failed.
      */
     public static @Nullable Path backupFile(Path source) {
-        if (source == null || !Files.exists(source) || !Files.isRegularFile(source)) return null;
+        if (!exists(source)) return null;
 
         Path tmp = createTempFilePath();
         try {

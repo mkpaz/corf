@@ -38,6 +38,7 @@ import org.telekit.controls.theme.ThemeLoader;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.FXMLView;
+import org.telekit.ui.main.FileCompletionMonitoringService;
 import org.telekit.ui.main.MainController;
 import org.telekit.ui.tools.apiclient.MigrationUtilsApiClient;
 import org.telekit.ui.tools.filebuilder.MigrationUtilsFileBuilder;
@@ -254,6 +255,9 @@ public class Launcher extends Application implements UIDefaults {
 
         // migrate data between versions, if required
         executeMigrationTasks();
+
+        // register completion providers and start monitoring for changes
+        activateCompletionMonitoring();
     }
 
     private Logger setupLogging() {
@@ -398,6 +402,13 @@ public class Launcher extends Application implements UIDefaults {
         }
 
         return vault;
+    }
+
+    private void activateCompletionMonitoring() {
+        FileCompletionMonitoringService completionMonitoringService =
+                applicationContext.getBean(FileCompletionMonitoringService.class);
+        completionMonitoringService.registerAllProviders();
+        completionMonitoringService.start();
     }
 
     @Deprecated

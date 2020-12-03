@@ -241,8 +241,6 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
                     payloadFormatted = format(template.getUri() + ensureNotNull(template.getHeaders()), replacements) +
                             format(ensureNotNull(template.getBody()), batchReplacements);
                 }
-
-                System.out.println(payloadFormatted);
             } else {
                 maxRowSize = row.length;
             }

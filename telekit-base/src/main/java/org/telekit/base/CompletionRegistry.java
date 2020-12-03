@@ -4,6 +4,8 @@ import org.telekit.base.service.CompletionProvider;
 
 import java.util.*;
 
+import static org.telekit.base.service.CompletionProvider.isValidKey;
+
 /**
  * Global registry for completion providers.
  * Use DI to get the instance.
@@ -31,7 +33,15 @@ public class CompletionRegistry {
     }
 
     public void registerProvider(CompletionProvider<?> provider) {
-        Objects.requireNonNull(provider);
-        providers.put(provider.key(), provider);
+        if (isValidKey(provider.key())) {
+            // duplicated keys aren't supported, provider must be unregistered
+            providers.putIfAbsent(provider.key(), provider);
+        }
+    }
+
+    public void unregisterProvider(String key) {
+        if (isValidKey(key)) {
+            providers.remove(key);
+        }
     }
 }

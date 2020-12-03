@@ -7,6 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.telekit.base.BaseSetup;
 import org.telekit.base.domain.exception.TelekitException;
+import org.telekit.base.domain.exception.VaultLockedException;
 import org.telekit.base.preferences.PKCS12Vault;
 
 import java.nio.file.Path;
@@ -150,7 +151,7 @@ public class PKCS12VaultTest {
             vaultPath = vault.getPath();
 
             assertThat(vault.isUnlocked()).isFalse();
-            assertThatThrownBy(() -> vault.getKey(alias, vaultPass)).isInstanceOf(IllegalStateException.class);
+            assertThatThrownBy(() -> vault.getKey(alias, vaultPass)).isInstanceOf(VaultLockedException.class);
         } finally {
             cleanup(vaultPath);
         }
@@ -252,7 +253,7 @@ public class PKCS12VaultTest {
             vaultPath = vault.getPath();
 
             assertThat(vault.isUnlocked()).isFalse();
-            assertThatThrownBy(() -> vault.putKey(alias, vaultPass, key)).isInstanceOf(IllegalStateException.class);
+            assertThatThrownBy(() -> vault.putKey(alias, vaultPass, key)).isInstanceOf(VaultLockedException.class);
         } finally {
             cleanup(vaultPath);
         }
@@ -268,7 +269,7 @@ public class PKCS12VaultTest {
             vaultPath = vault.getPath();
 
             assertThat(vault.isUnlocked()).isFalse();
-            assertThatThrownBy(() -> vault.save(vaultPass)).isInstanceOf(IllegalStateException.class);
+            assertThatThrownBy(() -> vault.save(vaultPass)).isInstanceOf(VaultLockedException.class);
         } finally {
             cleanup(vaultPath);
         }
