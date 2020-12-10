@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="[ui] package" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="controls_install" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -11,17 +11,15 @@
           <option name="goals">
             <list>
               <option value="clean" />
-              <option value="package" />
+              <option value="install" />
             </list>
           </option>
           <option name="pomFileName" />
           <option name="profilesMap">
-            <map>
-              <entry key="dev" value="true" />
-            </map>
+            <map />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/telekit-ui" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/telekit-controls" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>

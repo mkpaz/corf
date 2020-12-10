@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="[ui] generate docs" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="base_install" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -10,17 +10,16 @@
           </option>
           <option name="goals">
             <list>
-              <option value="generate-resources" />
+              <option value="clean" />
+              <option value="install" />
             </list>
           </option>
           <option name="pomFileName" />
           <option name="profilesMap">
-            <map>
-              <entry key="generate-docs" value="true" />
-            </map>
+            <map />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/telekit-ui" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/telekit-base" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>

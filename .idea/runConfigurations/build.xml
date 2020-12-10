@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="[base] install" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="build" type="MavenRunConfiguration" factoryName="Maven" folderName="ui">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -11,15 +11,20 @@
           <option name="goals">
             <list>
               <option value="clean" />
-              <option value="install" />
+              <option value="verify" />
             </list>
           </option>
           <option name="pomFileName" />
           <option name="profilesMap">
-            <map />
+            <map>
+              <entry key="generate-docs" value="true" />
+              <entry key="build-dependencies" value="true" />
+              <entry key="build-runtime-image" value="true" />
+              <entry key="linux64" value="true" />
+            </map>
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/telekit-base" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/telekit-ui" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>

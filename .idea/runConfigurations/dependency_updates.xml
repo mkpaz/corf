@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="[parent] install" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="dependency updates" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings">
         <MavenGeneralSettings>
@@ -26,7 +26,7 @@
           </option>
           <option name="goals">
             <list>
-              <option value="install" />
+              <option value="versions:display-dependency-updates" />
             </list>
           </option>
           <option name="pomFileName" />

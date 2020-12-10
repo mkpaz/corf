@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="[plugin] package" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="plugin_build" type="MavenRunConfiguration" factoryName="Maven" folderName="plugin">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -17,7 +17,7 @@
           <option name="pomFileName" />
           <option name="profilesMap">
             <map>
-              <entry key="dev" value="true" />
+              <entry key="build" value="true" />
             </map>
           </option>
           <option name="resolveToWorkspace" value="false" />
