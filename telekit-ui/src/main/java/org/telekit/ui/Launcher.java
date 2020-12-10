@@ -34,8 +34,8 @@ import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.Mappers;
 import org.telekit.base.util.PasswordGenerator;
-import org.telekit.controls.theme.ThemeLoader;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
+import org.telekit.controls.theme.ThemeLoader;
 import org.telekit.ui.domain.CloseEvent;
 import org.telekit.ui.domain.FXMLView;
 import org.telekit.ui.main.FileCompletionMonitoringService;
@@ -78,6 +78,7 @@ public class Launcher extends Application implements UIDefaults {
     public static final String APP_ICON_PATH = "/assets/images/telekit.png";
     public static final String APP_PROPS_PATH = "/assets/application.properties";
     public static final String LOG_CONFIG_FILE_NAME = "logging.properties";
+    public static final String LOG_CONFIG_FALLBACK = "/assets/logging.properties";
     public static final String LOG_OUTPUT_FILE_NAME = "telekit.log";
     public static final String I18N_RESOURCES_PATH = "org.telekit.ui.i18n.messages";
 
@@ -277,9 +278,11 @@ public class Launcher extends Application implements UIDefaults {
                 logManager.readConfiguration(
                         new ByteArrayInputStream(String.join("\n", configData).getBytes())
                 );
+            } else {
+                // use console logger
+                logManager.readConfiguration(getResourceAsStream(LOG_CONFIG_FALLBACK));
             }
         } catch (IOException e) {
-            // TODO: configure logger programmatically if error occurred (or read 100% valid config from classpath)
             e.printStackTrace();
         }
 

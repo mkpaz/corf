@@ -18,7 +18,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.css.*;
-import javafx.fxml.FXML;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 

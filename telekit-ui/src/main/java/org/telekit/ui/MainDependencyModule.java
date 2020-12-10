@@ -21,13 +21,10 @@ import org.telekit.ui.main.FileCompletionMonitoringService;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.logging.Logger;
 
 import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
 
 public final class MainDependencyModule implements DependencyModule {
-
-    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private final PluginManager pluginManager;
     private final ApplicationPreferences preferences;

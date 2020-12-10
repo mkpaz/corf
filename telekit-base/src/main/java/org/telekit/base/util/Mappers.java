@@ -34,6 +34,7 @@ public final class Mappers {
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .addModule(new StringTrimModule())
                 .build();
     }
