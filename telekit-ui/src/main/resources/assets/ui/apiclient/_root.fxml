@@ -170,7 +170,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
+                        <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4" />
                         <TableView fx:id="tblParams" editable="true" styleClass="editable" GridPane.rowIndex="3">
                           <columns>
                               <TableColumn fx:id="colParamIndicator" editable="false" maxWidth="-1.0" minWidth="30.0" prefWidth="-1.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" />
@@ -284,6 +284,6 @@
       </HBox>
    </children>
    <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+       <Insets bottom="5.0" left="5.0" top="5.0" />
    </padding>
 </GridPane>
