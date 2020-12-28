@@ -4,6 +4,7 @@ import org.telekit.base.domain.exception.InvalidInputException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -14,10 +15,42 @@ import static org.telekit.base.util.NumberUtils.*;
 public class SignallingPointCode {
 
     public static final String STRUCT_SEPARATOR = "-";
-    public static final int LEN_ITU = 14;
-    public static final int LEN_ANSI = 24;
+
+    public enum Type {
+
+        ITU(14),
+        ANSI(24);
+
+        private final int bitLength;
+
+        Type(int bitLength) {
+            this.bitLength = bitLength;
+        }
+
+        public int getBitLength() {
+            return bitLength;
+        }
+
+        public List<Format> formats() {
+            if (this == Type.ITU) return Arrays.asList(
+                    Format.DEC, Format.BIN, Format.HEX, Format.STRUCT_383, Format.STRUCT_86
+            );
+
+            if (this == Type.ANSI) return Arrays.asList(
+                    Format.DEC, Format.BIN, Format.HEX, Format.STRUCT_888
+            );
+
+            return Collections.emptyList();
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s (%d bit)", this.name(), bitLength);
+        }
+    }
 
     public enum Format {
+
         DEC("DECIMAL"),
         HEX("HEX"),
         BIN("BINARY"),
@@ -35,16 +68,6 @@ public class SignallingPointCode {
             return description;
         }
     }
-
-    // european (ITU) formats
-    public static final List<Format> FORMATS_14_BIT = Arrays.asList(
-            Format.DEC, Format.BIN, Format.HEX, Format.STRUCT_383, Format.STRUCT_86
-    );
-
-    // ANSI format
-    public static final List<Format> FORMATS_24_BIT = Arrays.asList(
-            Format.DEC, Format.BIN, Format.HEX, Format.STRUCT_888
-    );
 
     // Store point code value as integer which can be easily converted to any other format when needed.
     // Max SPC value is 2 ^ 24 = 16777216, so integer type is enough.
@@ -75,11 +98,12 @@ public class SignallingPointCode {
         };
     }
 
-    public static SignallingPointCode parse(String str, Format fmt, int length) throws InvalidInputException {
-        if (isBlank(str) || fmt == null || !isOneOf(length, LEN_ITU, LEN_ANSI)) {
+    public static SignallingPointCode parse(String str, Type type, Format fmt) throws InvalidInputException {
+        if (isBlank(str) || type == null || fmt == null) {
             throw new InvalidInputException("Unable to parse point code: invalid input data.");
         }
 
+        int length = type.getBitLength();
         int value = -1;
         boolean valid = false;
 
@@ -87,19 +111,19 @@ public class SignallingPointCode {
             case DEC:
                 if (isInteger(str)) {
                     value = parseInt(str);
-                    valid = between(value, 1, largestBitValue(length));
+                    valid = between(value, 0, largestBitValue(length));
                 }
                 break;
             case HEX:
                 if (isHex(str)) {
                     value = parseInt(str, 16);
-                    valid = between(value, 1, largestBitValue(length));
+                    valid = between(value, 0, largestBitValue(length));
                 }
                 break;
             case BIN:
                 if (isBinary(str)) {
                     value = parseInt(str, 2);
-                    valid = between(value, 1, largestBitValue(length));
+                    valid = between(value, 0, largestBitValue(length));
                 }
                 break;
             case STRUCT_383:
@@ -107,7 +131,7 @@ public class SignallingPointCode {
                     String[] parts = str.split(STRUCT_SEPARATOR, -1);
                     valid = between(parseInt(parts[0]), 0, largestBitValue(3)) &&
                             between(parseInt(parts[1]), 0, largestBitValue(8)) &&
-                            between(parseInt(parts[2]), 1, largestBitValue(3));
+                            between(parseInt(parts[2]), 0, largestBitValue(3));
                     value = parseInt(toBinaryString(parts[0], 3) +
                                              toBinaryString(parts[1], 8) +
                                              toBinaryString(parts[2], 3)
@@ -118,7 +142,7 @@ public class SignallingPointCode {
                 if (isStructInteger(str, 2)) {
                     String[] parts = str.split(STRUCT_SEPARATOR, -1);
                     valid = between(parseInt(parts[0]), 0, largestBitValue(8)) &&
-                            between(parseInt(parts[1]), 1, largestBitValue(6));
+                            between(parseInt(parts[1]), 0, largestBitValue(6));
                     value = parseInt(toBinaryString(parts[0], 8) +
                                              toBinaryString(parts[1], 6)
                             , 2);
@@ -129,7 +153,7 @@ public class SignallingPointCode {
                     String[] parts = str.split(STRUCT_SEPARATOR, -1);
                     valid = between(parseInt(parts[0]), 0, largestBitValue(8)) &&
                             between(parseInt(parts[1]), 0, largestBitValue(8)) &&
-                            between(parseInt(parts[2]), 1, largestBitValue(8));
+                            between(parseInt(parts[2]), 0, largestBitValue(8));
                     value = parseInt(toBinaryString(parts[0], 8) +
                                              toBinaryString(parts[1], 8) +
                                              toBinaryString(parts[2], 8)
