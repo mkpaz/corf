@@ -298,17 +298,17 @@ public class Launcher extends Application implements UIDefaults {
                     "Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi()
             ));
 
-            log.info("Supported locales:");
+            log.fine("Supported locales:");
             Locale[] locales = SimpleDateFormat.getAvailableLocales();
             for (Locale locale : locales) {
-                log.info(locale.toString() + " / " + locale.getDisplayName());
+                log.fine(locale.toString() + " / " + locale.getDisplayName());
             }
 
-            log.info("Supported SSL/TLS ciphers:");
+            log.fine("Supported SSL/TLS ciphers:");
             SSLServerSocketFactory sslSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
             String[] ciphers = sslSocketFactory.getDefaultCipherSuites();
             for (String cipherSuite : ciphers) {
-                log.info(cipherSuite);
+                log.fine(cipherSuite);
             }
         } catch (Throwable ignored) {}
     }
