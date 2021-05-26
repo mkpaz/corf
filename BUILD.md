@@ -12,7 +12,7 @@ Configure Maven Toolchains (`~/.m2/toolchains.xml`), only include installed JDK:
   <toolchain>
     <type>jdk</type>
     <provides>
-      <version>13</version>
+      <version>16</version>
       <vendor>liberica</vendor>
       <platform>linux64</platform>
     </provides>
@@ -23,7 +23,7 @@ Configure Maven Toolchains (`~/.m2/toolchains.xml`), only include installed JDK:
   <toolchain>
     <type>jdk</type>
     <provides>
-      <version>13</version>
+      <version>16</version>
       <vendor>liberica</vendor>
       <platform>win64</platform>
     </provides>

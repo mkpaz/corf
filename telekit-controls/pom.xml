@@ -37,10 +37,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>telekit-base</artifactId>
-        </dependency>
         <!-- RichTextFX -->
         <dependency>
             <groupId>org.fxmisc.flowless</groupId>
@@ -70,6 +66,10 @@
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-fontawesome5-pack</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.telekit</groupId>
+            <artifactId>telekit-base</artifactId>
         </dependency>
     </dependencies>
 
