@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@Deprecated // in favor of BindUtils
 public final class BooleanBindings {
 
     @SafeVarargs
