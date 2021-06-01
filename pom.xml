@@ -24,42 +24,43 @@
         <java.version>16</java.version>
 
         <!-- dependencies -->
-        <dep.commons-codec.version>1.15</dep.commons-codec.version>
-        <dep.commons-collections.version>4.4</dep.commons-collections.version>
-        <dep.commons-compress.version>1.20</dep.commons-compress.version>
-        <dep.commons-dbutils.version>1.7</dep.commons-dbutils.version>
-        <dep.commons-lang.version>3.11</dep.commons-lang.version>
-        <dep.commons-net.version>3.7</dep.commons-net.version>
-        <dep.hsqldb.version>2.5.1</dep.hsqldb.version>
-        <dep.httpcomponents.version>4.5.12</dep.httpcomponents.version>
-        <dep.ipaddress.version>5.3.2</dep.ipaddress.version>
-        <dep.ikonli.version>11.5.0</dep.ikonli.version>
-        <dep.j2html.version>1.4.0</dep.j2html.version>
-        <dep.jsoup.version>1.13.1</dep.jsoup.version>
-        <dep.jackson.version>2.11.2</dep.jackson.version>
-        <dep.javax-inject.version>1.1.0</dep.javax-inject.version>
-        <dep.jetbrains-annotations.version>17.0.0</dep.jetbrains-annotations.version>
-        <dep.semantic-version.version>2.1.0</dep.semantic-version.version>
+        <lib.commons-codec.version>1.15</lib.commons-codec.version>
+        <lib.commons-collections.version>4.4</lib.commons-collections.version>
+        <lib.commons-compress.version>1.20</lib.commons-compress.version>
+        <lib.commons-dbutils.version>1.7</lib.commons-dbutils.version>
+        <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
+        <lib.commons-net.version>3.8.0</lib.commons-net.version>
+        <lib.hsqldb.version>2.6.0</lib.hsqldb.version>
+        <lib.httpcomponents.version>4.5.13</lib.httpcomponents.version>
+        <lib.ipaddress.version>5.3.3</lib.ipaddress.version>
+        <lib.ikonli.version>12.2.0</lib.ikonli.version>
+        <lib.j2html.version>1.4.0</lib.j2html.version>
+        <lib.jsoup.version>1.13.1</lib.jsoup.version>
+        <lib.jackson.version>2.12.3</lib.jackson.version>
+        <lib.javax-inject.version>1.1.0</lib.javax-inject.version>
+        <lib.jetbrains-annotations.version>21.0.1</lib.jetbrains-annotations.version>
+        <lib.semantic-version.version>2.1.0</lib.semantic-version.version>
 
-        <dep.flowless.version>0.6.1</dep.flowless.version>
-        <dep.reactfx.version>2.0-M5</dep.reactfx.version>
-        <dep.richtextfx.version>0.10.5</dep.richtextfx.version>
-        <dep.undofx.version>2.1.0</dep.undofx.version>
-        <dep.wellbehavedfx.version>0.3.3</dep.wellbehavedfx.version>
+        <lib.flowless.version>0.6.3</lib.flowless.version>
+        <lib.reactfx.version>2.0-M5</lib.reactfx.version>
+        <lib.richtextfx.version>0.10.6</lib.richtextfx.version>
+        <lib.undofx.version>2.1.1</lib.undofx.version>
+        <lib.wellbehavedfx.version>0.3.3</lib.wellbehavedfx.version>
 
-        <test.assertj.version>3.17.2</test.assertj.version>
+        <test.assertj.version>3.19.0</test.assertj.version>
         <test.junit.version>5.7.0</test.junit.version>
 
         <!-- plugins -->
         <plugin.antrun.version>1.8</plugin.antrun.version>
+        <!-- do not update to 2.x until fixed: https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/597 -->
         <plugin.asciidoctor.version>1.6.0</plugin.asciidoctor.version>
-        <plugin.assembly.version>3.2.0</plugin.assembly.version>
+        <plugin.assembly.version>3.3.0</plugin.assembly.version>
         <plugin.compiler.version>3.8.1</plugin.compiler.version>
-        <plugin.dependency.version>3.1.1</plugin.dependency.version>
-        <plugin.jar.version>3.1.2</plugin.jar.version>
+        <plugin.dependency.version>3.1.2</plugin.dependency.version>
+        <plugin.jar.version>3.2.0</plugin.jar.version>
         <plugin.javafx.version>0.0.6</plugin.javafx.version>
         <plugin.moditect.version>1.0.0.RC1</plugin.moditect.version>
-        <plugin.resources.version>3.1.0</plugin.resources.version>
+        <plugin.resources.version>3.2.0</plugin.resources.version>
         <plugin.versions.version>2.8.1</plugin.versions.version>
     </properties>
 
@@ -158,144 +159,144 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>${dep.commons-codec.version}</version>
+                <version>${lib.commons-codec.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
-                <version>${dep.commons-collections.version}</version>
+                <version>${lib.commons-collections.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
-                <version>${dep.commons-compress.version}</version>
+                <version>${lib.commons-compress.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-dbutils</groupId>
                 <artifactId>commons-dbutils</artifactId>
-                <version>${dep.commons-dbutils.version}</version>
+                <version>${lib.commons-dbutils.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>${dep.commons-lang.version}</version>
+                <version>${lib.commons-lang.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-net</groupId>
                 <artifactId>commons-net</artifactId>
-                <version>${dep.commons-net.version}</version>
+                <version>${lib.commons-net.version}</version>
             </dependency>
 
             <!-- Databases -->
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
-                <version>${dep.hsqldb.version}</version>
+                <version>${lib.hsqldb.version}</version>
             </dependency>
 
             <!-- HTTP -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>${dep.httpcomponents.version}</version>
+                <version>${lib.httpcomponents.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>fluent-hc</artifactId>
-                <version>${dep.httpcomponents.version}</version>
+                <version>${lib.httpcomponents.version}</version>
             </dependency>
 
             <!-- HTML -->
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
-                <version>${dep.jsoup.version}</version>
+                <version>${lib.jsoup.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.j2html</groupId>
                 <artifactId>j2html</artifactId>
-                <version>${dep.j2html.version}</version>
+                <version>${lib.j2html.version}</version>
             </dependency>
 
             <!-- Jackson -->
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>${dep.jetbrains-annotations.version}</version>
+                <version>${lib.jetbrains-annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${dep.jackson.version}</version>
+                <version>${lib.jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-properties</artifactId>
-                <version>${dep.jackson.version}</version>
+                <version>${lib.jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
-                <version>${dep.jackson.version}</version>
+                <version>${lib.jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>${dep.jackson.version}</version>
+                <version>${lib.jackson.version}</version>
             </dependency>
 
             <!-- UI -->
             <dependency>
                 <groupId>org.fxmisc.richtext</groupId>
                 <artifactId>richtextfx</artifactId>
-                <version>${dep.richtextfx.version}</version>
+                <version>${lib.richtextfx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.fxmisc.flowless</groupId>
                 <artifactId>flowless</artifactId>
-                <version>${dep.flowless.version}</version>
+                <version>${lib.flowless.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.reactfx</groupId>
                 <artifactId>reactfx</artifactId>
-                <version>${dep.reactfx.version}</version>
+                <version>${lib.reactfx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.fxmisc.wellbehaved</groupId>
                 <artifactId>wellbehavedfx</artifactId>
-                <version>${dep.wellbehavedfx.version}</version>
+                <version>${lib.wellbehavedfx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.fxmisc.undo</groupId>
                 <artifactId>undofx</artifactId>
-                <version>${dep.undofx.version}</version>
+                <version>${lib.undofx.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.kordamp.ikonli</groupId>
                 <artifactId>ikonli-javafx</artifactId>
-                <version>${dep.ikonli.version}</version>
+                <version>${lib.ikonli.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.kordamp.ikonli</groupId>
                 <artifactId>ikonli-fontawesome5-pack</artifactId>
-                <version>${dep.ikonli.version}</version>
+                <version>${lib.ikonli.version}</version>
             </dependency>
 
             <!-- Various -->
             <dependency>
                 <groupId>io.github.pustike</groupId>
                 <artifactId>javax.inject</artifactId>
-                <version>${dep.javax-inject.version}</version>
+                <version>${lib.javax-inject.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.seancfoley</groupId>
                 <artifactId>ipaddress</artifactId>
-                <version>${dep.ipaddress.version}</version>
+                <version>${lib.ipaddress.version}</version>
             </dependency>
             <dependency>
                 <groupId>de.skuzzle</groupId>
                 <artifactId>semantic-version</artifactId>
-                <version>${dep.semantic-version.version}</version>
+                <version>${lib.semantic-version.version}</version>
             </dependency>
 
             <!-- TEST -->

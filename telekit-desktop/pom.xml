@@ -197,16 +197,6 @@
                                         </module>
                                         <module>
                                             <artifact>
-                                                <groupId>org.jetbrains</groupId>
-                                                <artifactId>annotations</artifactId>
-                                            </artifact>
-                                            <moduleInfo>
-                                                <name>org.jetbrains.annotations</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
-                                        </module>
-                                        <module>
-                                            <artifact>
                                                 <groupId>com.j2html</groupId>
                                                 <artifactId>j2html</artifactId>
                                             </artifact>
@@ -254,35 +244,6 @@
                                                 <name>org.apache.httpcomponents.httpclient.fluent</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
-                                        </module>
-                                        <module>
-                                            <artifact>
-                                                <groupId>org.hsqldb</groupId>
-                                                <artifactId>hsqldb</artifactId>
-                                            </artifact>
-                                            <!--
-                                                HSQLDB provides module-info only when built with JDK9+
-                                                https://sourceforge.net/p/hsqldb/svn/HEAD/tree/base/trunk/src/module-info.java
-                                                Maven Central artifact built with JDK8 without JPMS support
-                                            -->
-                                            <moduleInfoSource>
-                                                module hsqldb {
-                                                exports org.hsqldb.auth;
-                                                exports org.hsqldb.jdbc;
-                                                exports org.hsqldb.jdbc.pool;
-                                                exports org.hsqldb.lib;
-                                                exports org.hsqldb.lib.tar;
-                                                exports org.hsqldb.server;
-                                                exports org.hsqldb.trigger;
-                                                exports org.hsqldb.util;
-
-                                                requires java.desktop;
-                                                requires java.logging;
-                                                requires java.naming;
-                                                requires java.sql;
-                                                requires java.xml;
-                                                }
-                                            </moduleInfoSource>
                                         </module>
                                         <module>
                                             <artifact>
@@ -417,7 +378,7 @@
                                                 <artifactId>undofx</artifactId>
                                             </artifact>
                                             <moduleInfoSource>
-                                                module undofx {
+                                                module org.fxmisc.undo {
                                                 requires transitive javafx.base;
                                                 requires transitive reactfx;
 
@@ -440,7 +401,7 @@
 
                                                 requires transitive reactfx;
                                                 requires transitive flowless;
-                                                requires transitive undofx;
+                                                requires transitive org.fxmisc.undo;
                                                 requires transitive wellbehavedfx;
 
                                                 exports org.fxmisc.richtext;

@@ -7,13 +7,13 @@ module telekit.desktop {
     requires org.apache.commons.lang3;
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpclient;
-    requires org.jetbrains.annotations;
+
     requires j2html;
 
     requires org.fxmisc.richtext;
+    requires org.fxmisc.undo;
     requires flowless;
     requires reactfx;
-    requires undofx;
     requires wellbehavedfx;
     requires org.apache.commons.codec;
 

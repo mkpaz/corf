@@ -6,16 +6,16 @@ module telekit.controls {
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
     requires transitive javafx.swing;
-    requires transitive org.kordamp.iconli.core;
+    requires transitive org.kordamp.ikonli.core;
     requires transitive org.kordamp.ikonli.javafx;
     requires transitive org.kordamp.ikonli.fontawesome5;
 
     // not modularized dependencies
     requires org.apache.commons.lang3;
     requires org.fxmisc.richtext;
+    requires org.fxmisc.undo;
     requires flowless;
     requires reactfx;
-    requires undofx;
     requires wellbehavedfx;
 
     // exports

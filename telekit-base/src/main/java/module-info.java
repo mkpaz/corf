@@ -24,6 +24,8 @@ module telekit.base {
     requires transitive com.ctc.wstx;
     requires transitive de.skuzzle.semantic;
     requires transitive inet.ipaddr;
+    requires transitive org.hsqldb;
+    requires transitive org.jetbrains.annotations;
 
     // dependencies with Automatic-Module-Name
     requires org.apache.commons.codec;
@@ -34,12 +36,10 @@ module telekit.base {
     requires org.apache.httpcomponents.httpcore;
     requires org.apache.httpcomponents.httpclient;
     requires org.apache.httpcomponents.httpclient.fluent;
-    requires org.jetbrains.annotations;
     requires org.jsoup;
     requires org.yaml.snakeyaml;
 
     // dependencies without Auto-Module-Name
-    requires hsqldb;
     requires commons.dbutils;
     requires j2html;
 
