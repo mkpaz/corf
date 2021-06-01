@@ -25,7 +25,7 @@ module telekit.controls {
     exports org.telekit.controls.components.skins;
     exports org.telekit.controls.format;
     exports org.telekit.controls.i18n;
-    exports org.telekit.controls.theme to telekit.ui;
+    exports org.telekit.controls.theme to telekit.desktop;
     exports org.telekit.controls.util;
     exports org.telekit.controls.views;
 

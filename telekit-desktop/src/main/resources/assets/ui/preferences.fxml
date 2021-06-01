@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="rootPane" minWidth="500.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.desktop.main.PreferencesController">
+   <children>
+      <TitledPane animated="false" collapsible="false" text="%preferences.General">
+         <content>
+            <GridPane hgap="10.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" minWidth="200.0" />
+                <ColumnConstraints hgrow="ALWAYS" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0">
+                     <children>
+                        <Label text="%Language" />
+                        <Label styleClass="lbl-mandatory" text="*" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                   <ComboBox fx:id="cmbLanguage" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                  <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="%preferences.SystemTray" />
+                        <Label styleClass="lbl-mandatory" text="*" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <CheckBox fx:id="cbSystemTray" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+      <TitledPane animated="false" collapsible="false" text="%preferences.Proxy">
+         <content>
+            <GridPane hgap="10.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" minWidth="200.0" />
+                <ColumnConstraints hgrow="ALWAYS" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0">
+                     <children>
+                        <Label text="URL" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="%Username" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="2">
+                     <children>
+                        <Label text="%Password" />
+                        <Label text=":" />
+                     </children>
+                  </HBox>
+                  <TextField fx:id="tfProxyURL" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfProxyUsername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="pfProxyPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+         </content>
+      </TitledPane>
+      <HBox alignment="BOTTOM_LEFT" spacing="5.0" styleClass="text-sm">
+         <children>
+            <Label styleClass="lbl-mandatory" text="* -" />
+            <Label maxWidth="1.7976931348623157E308" text="%preferences.requires-restart" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnApply" defaultButton="true" mnemonicParsing="false" onAction="#apply" text="%Submit" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="%Cancel" />
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

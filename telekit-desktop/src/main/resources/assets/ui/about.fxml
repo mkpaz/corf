@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" vgap="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.desktop.main.AboutController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="NEVER" />
+    <ColumnConstraints hgrow="ALWAYS" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="ALWAYS" />
+  </rowConstraints>
+   <children>
+      <VBox spacing="5.0" GridPane.columnIndex="1">
+         <children>
+            <Text fx:id="lbTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Telekit">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%main.telekit-description" />
+            <HBox>
+               <children>
+                  <Label fx:id="lbVersion" text="v.XYZ" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/telekit.png" />
+         </image>
+      </ImageView>
+      <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Hyperlink fx:id="lnkHomepage" onAction="#visitHomepage" style="-fx-padding: 0; -fx-border-color: transparent;" text="https://github.com/mkpaz/telekit" />
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="40.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

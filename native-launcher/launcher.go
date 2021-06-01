@@ -33,7 +33,7 @@ func main() {
   args := append(jvmOptions,
     "-Dtelekit.app.dir=" + cwd,
     "-m",
-    "telekit.ui/org.telekit.ui.Launcher")
+    "telekit.desktop/org.telekit.desktop.Launcher")
 
   // run
   for {

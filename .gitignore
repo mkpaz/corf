@@ -185,4 +185,4 @@ $RECYCLE.BIN/
 *.local.bat
 *.local.sh
 !.idea/runConfigurations
-telekit-ui/dev/**
+telekit-desktop/dev/**

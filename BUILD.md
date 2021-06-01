@@ -60,12 +60,12 @@ mvn install -f controls/pom.xml
 Build main application:
 
 ```sh
-mvn clean verufy -P generate-docs,build-dependencies,build-runtime-image,<platform> -f telekit-ui/pom.xml
+mvn clean verufy -P generate-docs,build-dependencies,build-runtime-image,<platform> -f telekit-desktop/pom.xml
 ```
 
 `<platform>` is whatever of the Maven profile ids (`win32`, `win64` or `linux64`).
 
-Successfully built application will be placed into `telekit-ui/target/dist` directory.
+Successfully built application will be placed into `telekit-desktop/target/dist` directory.
 
 ## Running and Testing
 
@@ -74,8 +74,8 @@ Successfully built application will be placed into `telekit-ui/target/dist` dire
 It's not convenient to rebuild the whole app every time you want to inspect some UI changes or runtime behavior. If you want to launch app for testing use:
 
 ```sh
-cd telekit-ui
+cd telekit-desktop
 mvn clean verify -P dev
 # JavaFX won't detect your project JDK, you have specify it explicitly
-mvn javafx:run -Dtelekit.app.dir=/path/to/telekit-ui/target -Djava.home=/path/to/jdk
+mvn javafx:run -Dtelekit.app.dir=/path/to/telekit-desktop/target -Djava.home=/path/to/jdk
 ```

@@ -92,11 +92,11 @@
             </build>
         </profile>
         <profile>
-            <!-- installs plugin into telekit-ui build directory for testing -->
+            <!-- installs plugin into telekit-desktop build directory for testing -->
             <id>install</id>
             <properties>
                 <install.sourceDir>${bld.distribDirectory}/${project.artifactId}-${project.version}</install.sourceDir>
-                <install.appDir>${project.basedir}/../telekit-ui/target</install.appDir>
+                <install.appDir>${project.basedir}/../telekit-desktop/target</install.appDir>
                 <install.appPluginDir>${install.appDir}/${bld.pluginSubDir}</install.appPluginDir>
             </properties>
             <build>
@@ -106,7 +106,7 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>copy-to-ui</id>
+                                <id>copy-to-desktop</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>run</goal>

@@ -13,7 +13,7 @@
         <module>telekit-base</module>
         <module>telekit-controls</module>
         <module>telekit-plugin-example</module>
-        <module>telekit-ui</module>
+        <module>telekit-desktop</module>
     </modules>
 
     <properties>
