@@ -2,7 +2,7 @@ package org.telekit.base.plugin.internal;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.ApplicationContext;
+import org.telekit.base.di.Injector;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Extension;
@@ -206,7 +206,7 @@ public class PluginManager {
      * instantiates them. Only plugins in {@link PluginState#STARTED} state can provide extensions.
      * <p>
      * Extension may need to use some services or want to be a singleton. To create an extension
-     * {@link ApplicationContext} is used. If object is not found in {@link ApplicationContext}
+     * {@link Injector} is used. If object is not found in {@link Injector}
      * it will be created via no-arg constructor.
      */
     public @NotNull List<ExtensionBox> getExtensionsOfType(Class<? extends Extension> extensionType) {
@@ -267,13 +267,13 @@ public class PluginManager {
         if (extensionClasses.isEmpty()) return Collections.emptyList();
 
         List<ExtensionBox> extensions = new ArrayList<>();
-        ApplicationContext applicationContext = ApplicationContext.getInstance();
+        Injector injector = Injector.getInstance();
 
         for (Class<? extends Extension> cls : extensionClasses) {
             LOGGER.fine("Instantiating extension: " + className(extensionType));
-            // even if object is not found in the ApplicationContext it will be created
-            // via no-arg constructor, this is how getBean() method works
-            Extension extension = applicationContext.getBean(cls);
+            // even if object is not provided by the injector (as a singleton)
+            // it will be created via no-arg constructor, this is how getBean() method works
+            Extension extension = injector.getBean(cls);
             extensions.add(new ExtensionBox(extension, pluginBox.getPluginClass()));
         }
         return extensions;

@@ -1,20 +1,22 @@
 /*
- * Copyright (c) 2017 zsoltherpai https://github.com/zsoltherpai/feather
+ * Copyright 2017 Zsolt Herpai (https://github.com/zsoltherpai/feather)
  *
- * Modification Copyright (c) 2019 mkpaz
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-package org.telekit.base.feather;
+package org.telekit.base.di.feather;
+
+import org.telekit.base.di.Initializable;
+import org.telekit.base.di.Provides;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -48,12 +50,11 @@ public class Feather {
 
     private Feather(Iterable<?> modules) {
         providers.put(Key.of(Feather.class), new Provider() {
-                    @Override
-                    public Object get() {
-                        return this;
-                    }
-                }
-        );
+            @Override
+            public Object get() {
+                return this;
+            }
+        });
         for (final Object module : modules) {
             if (module instanceof Class) {
                 throw new FeatherException(String.format("%s provided as class instead of an instance.", ((Class) module).getName()));
@@ -110,16 +111,23 @@ public class Feather {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private <T> Provider<T> provider(final Key<T> key, Set<Key> chain) {
         if (!providers.containsKey(key)) {
             final Constructor constructor = constructor(key);
-            final Provider<?>[] paramProviders = paramProviders(key, constructor.getParameterTypes(), constructor.getGenericParameterTypes(), constructor.getParameterAnnotations(), chain);
+            final Provider<?>[] paramProviders = paramProviders(
+                    key,
+                    constructor.getParameterTypes(),
+                    constructor.getGenericParameterTypes(),
+                    constructor.getParameterAnnotations(),
+                    chain
+            );
             providers.put(key, singletonProvider(key, key.type.getAnnotation(Singleton.class), (Provider) () -> {
                 try {
-                    return constructor.newInstance(params(paramProviders));
+                    Object o = constructor.newInstance(params(paramProviders));
+                    if (o instanceof Initializable initializable) { initializable.initialize(); }
+                    return o;
                 } catch (Exception e) {
-                    throw new FeatherException(String.format("Can't instantiate %s", key.toString()), e);
+                    throw new FeatherException(String.format("Can't instantiate %s", key), e);
                 }
             }));
         }
@@ -129,9 +137,11 @@ public class Feather {
     private void providerMethod(final Object module, final Method m) {
         final Key key = Key.of(m.getReturnType(), qualifier(m.getAnnotations()));
         if (providers.containsKey(key)) {
-            throw new FeatherException(String.format("%s has multiple providers, module %s", key.toString(), module.getClass()));
+            throw new FeatherException(String.format("%s has multiple providers, module %s", key, module.getClass()));
         }
-        Singleton singleton = m.getAnnotation(Singleton.class) != null ? m.getAnnotation(Singleton.class) : m.getReturnType().getAnnotation(Singleton.class);
+        Singleton singleton = m.getAnnotation(Singleton.class) != null ?
+                m.getAnnotation(Singleton.class) :
+                m.getReturnType().getAnnotation(Singleton.class);
         final Provider<?>[] paramProviders = paramProviders(
                 key,
                 m.getParameterTypes(),
@@ -143,12 +153,11 @@ public class Feather {
             try {
                 return m.invoke(module, params(paramProviders));
             } catch (Exception e) {
-                throw new FeatherException(String.format("Can't instantiate %s with provider", key.toString()), e);
+                throw new FeatherException(String.format("Can't instantiate %s with provider", key), e);
             }
         }));
     }
 
-    @SuppressWarnings("unchecked")
     private <T> Provider<T> singletonProvider(final Key key, Singleton singleton, final Provider<T> provider) {
         return singleton != null ? () -> {
             if (!singletons.containsKey(key)) {
@@ -162,12 +171,11 @@ public class Feather {
         } : provider;
     }
 
-    private Provider<?>[] paramProviders(
-            final Key key,
-            Class<?>[] parameterClasses,
-            Type[] parameterTypes,
-            Annotation[][] annotations,
-            final Set<Key> chain
+    private Provider<?>[] paramProviders(final Key key,
+                                         Class<?>[] parameterClasses,
+                                         Type[] parameterTypes,
+                                         Annotation[][] annotations,
+                                         final Set<Key> chain
     ) {
         Provider<?>[] providers = new Provider<?>[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; ++i) {

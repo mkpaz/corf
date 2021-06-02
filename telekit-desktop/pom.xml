@@ -552,7 +552,6 @@
                                     <sourceDocumentName>index.adoc</sourceDocumentName>
                                     <outputDirectory>${bld.docsTargetDirectory}/ru</outputDirectory>
                                     <backend>html5</backend>
-                                    <sourceHighlighter>coderay</sourceHighlighter>
                                     <embedAssets>true</embedAssets>
                                     <attributes>
                                         <imagesdir>images</imagesdir>

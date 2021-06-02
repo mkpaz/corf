@@ -1,6 +1,6 @@
 package org.telekit.example;
 
-import org.telekit.base.plugin.DependencyModule;
+import org.telekit.base.di.DependencyModule;
 import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;

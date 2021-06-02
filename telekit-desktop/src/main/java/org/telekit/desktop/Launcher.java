@@ -11,14 +11,14 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
-import org.telekit.base.ApplicationContext;
 import org.telekit.base.Env;
+import org.telekit.base.di.DependencyModule;
+import org.telekit.base.di.Injector;
 import org.telekit.base.domain.SecuredData;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.plugin.DependencyModule;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.internal.PluginBox;
 import org.telekit.base.plugin.internal.PluginCleaner;
@@ -83,7 +83,7 @@ public class Launcher extends Application implements UIDefaults {
     public static final String I18N_RESOURCES_PATH = "org.telekit.desktop.i18n.messages";
 
     private static int exitCode = 0;
-    private final ApplicationContext applicationContext = ApplicationContext.getInstance();
+    private final Injector injector = Injector.getInstance();
     private Logger logger;
     private ExceptionHandler exceptionHandler;
     private ApplicationPreferences preferences;
@@ -229,7 +229,7 @@ public class Launcher extends Application implements UIDefaults {
         this.pluginManager = new PluginManager(this.preferences);
         this.pluginManager.loadAllPlugins();
 
-        // collect all modules and initialize application context
+        // collect all modules and initialize injector
         List<DependencyModule> modules = new ArrayList<>();
         modules.add(new MainDependencyModule(
                 this.preferences,
@@ -240,7 +240,7 @@ public class Launcher extends Application implements UIDefaults {
             Plugin plugin = container.getPlugin();
             modules.addAll(plugin.getModules());
         }
-        this.applicationContext.configure(modules);
+        this.injector.configure(modules);
 
         // start plugins
         try {
@@ -409,7 +409,7 @@ public class Launcher extends Application implements UIDefaults {
 
     private void activateCompletionMonitoring() {
         FileCompletionMonitoringService completionMonitoringService =
-                applicationContext.getBean(FileCompletionMonitoringService.class);
+                injector.getBean(FileCompletionMonitoringService.class);
         completionMonitoringService.registerAllProviders();
         completionMonitoringService.start();
     }
@@ -422,8 +422,8 @@ public class Launcher extends Application implements UIDefaults {
             }
         } catch (IOException ignored) {}
 
-        MigrationUtilsApiClient.migrateXmlConfigToYaml(this.applicationContext);
-        MigrationUtilsFileBuilder.migrateXmlConfigToYaml(this.applicationContext);
+        MigrationUtilsApiClient.migrateXmlConfigToYaml(this.injector);
+        MigrationUtilsFileBuilder.migrateXmlConfigToYaml(this.injector);
     }
 
     private void createUserResources() {

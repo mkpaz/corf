@@ -3,7 +3,7 @@ package org.telekit.base.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
-import org.telekit.base.ApplicationContext;
+import org.telekit.base.di.Injector;
 import org.telekit.base.plugin.Plugin;
 
 import java.net.URL;
@@ -12,11 +12,11 @@ import java.util.ResourceBundle;
 public final class UILoader {
 
     public static Controller load(URL fxmlLocation) {
-        return loadImpl(fxmlLocation, ApplicationContext.class, null);
+        return loadImpl(fxmlLocation, Injector.class, null);
     }
 
     public static Controller load(URL fxmlLocation, ResourceBundle resourceBundle) {
-        return loadImpl(fxmlLocation, ApplicationContext.class, resourceBundle);
+        return loadImpl(fxmlLocation, Injector.class, resourceBundle);
     }
 
     public static Controller load(URL fxmlLocation, Class<? extends Plugin> pluginClass) {
@@ -30,7 +30,7 @@ public final class UILoader {
     }
 
     public static <T extends Controller> T load(Class<T> cls) {
-        T controller = ApplicationContext.getInstance().getBean(cls);
+        T controller = Injector.getInstance().getBean(cls);
         controller.initialize();
         return controller;
     }
@@ -40,7 +40,7 @@ public final class UILoader {
                                        ResourceBundle resourceBundle) {
         try {
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
-            loader.setControllerFactory(ApplicationContext.getInstance()::getBean);
+            loader.setControllerFactory(Injector.getInstance()::getBean);
 
             // plugin can be loaded by a separate classloader and FXMLLoader MUST use the same one
             loader.setClassLoader(clazz.getClassLoader());

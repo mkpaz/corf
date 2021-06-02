@@ -5,8 +5,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.telekit.base.ApplicationContext;
 import org.telekit.base.Env;
+import org.telekit.base.di.Injector;
 import org.telekit.base.i18n.BaseMessagesBundleProvider;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Tool;
@@ -26,7 +26,7 @@ import static org.telekit.example.ExamplePlugin.ASSETS_PATH;
 
 public class Launcher extends Application implements UIDefaults {
 
-    private final ApplicationContext applicationContext = ApplicationContext.getInstance();
+    private final Injector injector = Injector.getInstance();
 
     public static void main(String[] args) {
         launch(args);
@@ -34,7 +34,7 @@ public class Launcher extends Application implements UIDefaults {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        applicationContext.configure(new ExampleDependencyModule());
+        injector.configure(new ExampleDependencyModule());
 
         ExamplePlugin plugin = new ExamplePlugin();
 

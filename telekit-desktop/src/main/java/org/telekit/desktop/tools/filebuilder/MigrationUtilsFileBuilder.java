@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.telekit.base.ApplicationContext;
+import org.telekit.base.di.Injector;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.service.Serializer;
@@ -29,14 +29,14 @@ public final class MigrationUtilsFileBuilder {
 
     private static final Path DATA_FILE_PATH_OLD = DATA_DIR.resolve("import-file-builder.templates.xml");
 
-    public static void migrateXmlConfigToYaml(ApplicationContext context) {
+    public static void migrateXmlConfigToYaml(Injector injector) {
         // database file already converted
         if (Files.exists(TemplateRepository.DATA_FILE_PATH)) return;
         // database file is empty
         if (!Files.exists(DATA_FILE_PATH_OLD)) return;
 
-        XmlMapper xmlMapper = context.getBean(XmlMapper.class);
-        YAMLMapper yamlMapper = context.getBean(YAMLMapper.class);
+        XmlMapper xmlMapper = injector.getBean(XmlMapper.class);
+        YAMLMapper yamlMapper = injector.getBean(YAMLMapper.class);
 
         Serializer<Collection<Template>> xmlSerializer = new XmlSerializer(xmlMapper);
         Serializer<Collection<Template>> yamlSerializer = new JacksonYamlSerializer<>(yamlMapper, new TypeReference<>() {});
@@ -47,7 +47,6 @@ public final class MigrationUtilsFileBuilder {
             Collection<Template> data = xmlSerializer.deserialize(inputStream);
             yamlSerializer.serialize(outputStream, data);
             Files.delete(DATA_FILE_PATH_OLD);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

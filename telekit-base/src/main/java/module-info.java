@@ -49,7 +49,7 @@ module telekit.base {
     exports org.telekit.base.domain;
     exports org.telekit.base.domain.exception;
     exports org.telekit.base.event;
-    exports org.telekit.base.feather;
+    exports org.telekit.base.di;
     exports org.telekit.base.i18n;
     exports org.telekit.base.net;
     exports org.telekit.base.preferences to telekit.desktop, com.fasterxml.jackson.databind;

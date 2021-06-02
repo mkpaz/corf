@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.telekit.base.BaseSetup;
-import org.telekit.base.plugin.*;
+import org.telekit.base.di.DependencyModule;
+import org.telekit.base.plugin.Includes;
+import org.telekit.base.plugin.Metadata;
+import org.telekit.base.plugin.Plugin;
+import org.telekit.base.plugin.Tool;
 
 import java.util.List;
 import java.util.Locale;

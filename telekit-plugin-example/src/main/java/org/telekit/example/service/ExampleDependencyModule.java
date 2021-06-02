@@ -1,7 +1,7 @@
 package org.telekit.example.service;
 
-import org.telekit.base.feather.Provides;
-import org.telekit.base.plugin.DependencyModule;
+import org.telekit.base.di.DependencyModule;
+import org.telekit.base.di.Provides;
 
 import javax.inject.Singleton;
 

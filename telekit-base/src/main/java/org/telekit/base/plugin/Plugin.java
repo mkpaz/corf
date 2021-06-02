@@ -1,6 +1,7 @@
 package org.telekit.base.plugin;
 
 import org.jetbrains.annotations.Nullable;
+import org.telekit.base.di.DependencyModule;
 
 import java.net.URL;
 import java.security.CodeSource;
