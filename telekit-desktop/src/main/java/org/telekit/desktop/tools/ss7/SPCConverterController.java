@@ -3,10 +3,13 @@ package org.telekit.desktop.tools.ss7;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.exception.InvalidInputException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.telecom.ss7.SignallingPointCode;
-import org.telekit.base.ui.Controller;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.util.BooleanBindings;
 
@@ -15,10 +18,12 @@ import static org.telekit.base.telecom.ss7.SignallingPointCode.Format;
 import static org.telekit.base.telecom.ss7.SignallingPointCode.Type;
 import static org.telekit.desktop.MessageKeys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
 
-public class SPCConverterController extends Controller {
+@FxmlPath("/org/telekit/desktop/tools/ss7/spc-conv.fxml")
+public class SPCConverterController implements Component {
 
     private static final int NAME_PADDING = 16;
 
+    public @FXML VBox rootPane;
     public @FXML ComboBox<Type> cmbType;
     public @FXML TextField tfSpc;
     public @FXML ComboBox<Format> cmbFormat;
@@ -91,6 +96,14 @@ public class SPCConverterController extends Controller {
     private static String pad(String name) {
         return rightPad(name, NAME_PADDING);
     }
+
+    @Override
+    public Region getRoot() {
+        return rootPane;
+    }
+
+    @Override
+    public void reset() {}
 
     private static class SPCFormatCell extends ListCell<Format> {
 

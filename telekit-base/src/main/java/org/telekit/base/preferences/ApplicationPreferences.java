@@ -9,11 +9,10 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.Env;
+import org.telekit.base.desktop.Dimension;
 import org.telekit.base.domain.Proxy;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.Messages;
-import org.telekit.base.ui.Dimension;
-import org.telekit.base.ui.UIDefaults;
 
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -23,12 +22,10 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
-import static org.telekit.base.Env.CONFIG_DIR;
-import static org.telekit.base.Env.DATA_DIR;
+import static org.telekit.base.Env.*;
 import static org.telekit.base.domain.Proxy.NO_PROXY;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
-import static org.telekit.base.ui.UIDefaults.WINDOW_MAXIMIZED;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileUtils.*;
 
@@ -130,8 +127,8 @@ public class ApplicationPreferences {
     public @Nullable Dimension getMainWindowSize() {
         try {
             Objects.requireNonNull(systemPreferences);
-            int width = systemPreferences.getInt(WINDOW_WIDTH, (int) WINDOW_MAXIMIZED.getWidth());
-            int height = systemPreferences.getInt(WINDOW_HEIGHT, (int) WINDOW_MAXIMIZED.getHeight());
+            int width = systemPreferences.getInt(WINDOW_WIDTH, (int) WINDOW_MAXIMIZED.width());
+            int height = systemPreferences.getInt(WINDOW_HEIGHT, (int) WINDOW_MAXIMIZED.height());
             return new Dimension(width, height);
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,12 +141,12 @@ public class ApplicationPreferences {
             Objects.requireNonNull(systemPreferences);
             Objects.requireNonNull(dimension);
 
-            int width = Math.max((int) dimension.getWidth(), (int) UIDefaults.MAIN_WINDOW_MIN_SIZE.getWidth());
-            int height = Math.max((int) dimension.getHeight(), (int) UIDefaults.MAIN_WINDOW_MIN_SIZE.getHeight());
+            int width = Math.max((int) dimension.width(), 800);
+            int height = Math.max((int) dimension.height(), 600);
 
             if (WINDOW_MAXIMIZED.equals(dimension)) {
-                width = (int) WINDOW_MAXIMIZED.getWidth();
-                height = (int) WINDOW_MAXIMIZED.getHeight();
+                width = (int) WINDOW_MAXIMIZED.width();
+                height = (int) WINDOW_MAXIMIZED.height();
             }
 
             systemPreferences.putInt(WINDOW_WIDTH, width);

@@ -13,10 +13,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.util.Callback;
 import org.telekit.base.Env;
-import org.telekit.base.event.DefaultEventBus;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.exception.TelekitException;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
@@ -25,9 +28,8 @@ import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.plugin.internal.PluginState;
 import org.telekit.base.preferences.ApplicationPreferences;
-import org.telekit.base.ui.Controller;
-import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.base.util.TextBuilder;
+import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.desktop.domain.ApplicationEvent;
 import org.telekit.desktop.domain.ApplicationEvent.Type;
 
@@ -42,10 +44,11 @@ import java.util.Set;
 import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.telekit.base.plugin.internal.PluginState.*;
 import static org.telekit.base.util.CommonUtils.className;
-import static org.telekit.desktop.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 import static org.telekit.desktop.MessageKeys.*;
+import static org.telekit.desktop.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 
-public class PluginManagerController extends Controller {
+@FxmlPath("/org/telekit/desktop/main/plugin-manager.fxml")
+public class PluginManagerController implements Component {
 
     public @FXML GridPane rootPane;
     public @FXML ListView<PluginListItem> listPlugins;
@@ -273,6 +276,14 @@ public class PluginManagerController extends Controller {
         updatePluginsList(selectedIndex);
         DefaultEventBus.getInstance().publish(new ApplicationEvent(PREFERENCES_CHANGED));
     }
+
+    @Override
+    public Region getRoot() {
+        return rootPane;
+    }
+
+    @Override
+    public void reset() {}
 
     ///////////////////////////////////////////////////////////////////////////
 

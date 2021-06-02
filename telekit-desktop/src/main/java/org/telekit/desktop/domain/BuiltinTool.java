@@ -2,11 +2,20 @@ package org.telekit.desktop.domain;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Tool;
-import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.UILoader;
 import org.telekit.desktop.MessageKeys;
+import org.telekit.desktop.tools.apiclient.ApiClientController;
+import org.telekit.desktop.tools.base64.Base64Controller;
+import org.telekit.desktop.tools.filebuilder.FileBuilderController;
+import org.telekit.desktop.tools.ipcalc.IPv4Controller;
+import org.telekit.desktop.tools.passgen.PasswordGeneratorController;
+import org.telekit.desktop.tools.seqgen.SequenceGeneratorController;
+import org.telekit.desktop.tools.ss7.CICTableController;
+import org.telekit.desktop.tools.ss7.SPCConverterController;
+import org.telekit.desktop.tools.translit.TranslitController;
 
 import java.util.Objects;
 
@@ -52,37 +61,20 @@ public enum BuiltinTool implements Tool {
     }
 
     @Override
-    public @NotNull Controller createController() {
-        Messages resourceBundle = Messages.getInstance();
+    public @NotNull Component createComponent() {
+        //@formatter:off
         switch (this) {
-            case API_CLIENT -> {
-                return UILoader.load(FXMLView.API_CLIENT.getLocation(), resourceBundle);
-            }
-            case BASE64 -> {
-                return UILoader.load(FXMLView.BASE64.getLocation(), resourceBundle);
-            }
-            case FILE_BUILDER -> {
-                return UILoader.load(FXMLView.FILE_BUILDER.getLocation(), resourceBundle);
-            }
-            case IP4_CALC -> {
-                return UILoader.load(FXMLView.IPV4_CALC.getLocation(), resourceBundle);
-            }
-            case PASS_GEN -> {
-                return UILoader.load(FXMLView.PASS_GEN.getLocation(), resourceBundle);
-            }
-            case SEQ_GEN -> {
-                return UILoader.load(FXMLView.SEQ_GEN.getLocation(), resourceBundle);
-            }
-            case SS7_CIC_TABLE -> {
-                return UILoader.load(FXMLView.SS7_CIC_TABLE.getLocation(), resourceBundle);
-            }
-            case SS7_SPC_CONV -> {
-                return UILoader.load(FXMLView.SS7_SPC_CONV.getLocation(), resourceBundle);
-            }
-            case TRANSLIT -> {
-                return UILoader.load(FXMLView.TRANSLIT.getLocation(), resourceBundle);
-            }
+            case API_CLIENT ->    { return ViewLoader.load(ApiClientController.class);           }
+            case BASE64 ->        { return ViewLoader.load(Base64Controller.class);              }
+            case FILE_BUILDER ->  { return ViewLoader.load(FileBuilderController.class);         }
+            case IP4_CALC ->      { return ViewLoader.load(IPv4Controller.class);                }
+            case PASS_GEN ->      { return ViewLoader.load(PasswordGeneratorController.class);   }
+            case SEQ_GEN ->       { return ViewLoader.load(SequenceGeneratorController.class);            }
+            case SS7_CIC_TABLE -> { return ViewLoader.load(CICTableController.class);            }
+            case SS7_SPC_CONV ->  { return ViewLoader.load(SPCConverterController.class);        }
+            case TRANSLIT ->      { return ViewLoader.load(TranslitController.class);            }
         }
+        //@formatter:om
         throw new RuntimeException("Unable to create controller: unknown tool ID.");
     }
 }

@@ -4,11 +4,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.event.CancelEvent;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.telecom.ip.IP4Address;
-import org.telekit.base.ui.Controller;
 import org.telekit.controls.format.TextFormatters;
 
 import java.util.function.Function;
@@ -17,15 +18,18 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.telekit.base.util.StringUtils.splitEqually;
 
-public class IPv4ConverterController extends Controller {
+@FxmlPath("/org/telekit/desktop/tools/ipcalc/ipv4-conv.fxml")
+public class IPv4ConverterController implements Component {
 
-    public @FXML GridPane rootPane;
+    public @FXML HBox rootPane;
     public @FXML TextField tfIPCanonical;
     public @FXML TextField tfIPBinary;
     public @FXML TextField tfIPHex;
     public @FXML TextField tfIPInteger;
     public @FXML CheckBox cbIPBinaryDotted;
     public @FXML CheckBox cbIPHexDotted;
+
+    private Runnable onCloseCallback;
 
     @FXML
     public void initialize() {
@@ -89,7 +93,7 @@ public class IPv4ConverterController extends Controller {
 
     @FXML
     public void close() {
-        eventBus.publish(new CancelEvent());
+        if (onCloseCallback != null) { onCloseCallback.run(); }
     }
 
     private static String ensureNotNull(IP4Address ip, Function<IP4Address, String> converter) {
@@ -117,4 +121,12 @@ public class IPv4ConverterController extends Controller {
             return cleanup(value);
         }
     }
+
+    @Override
+    public Region getRoot() { return rootPane; }
+
+    @Override
+    public void reset() {}
+
+    public void setOnClose(Runnable handler) { this.onCloseCallback = handler; }
 }

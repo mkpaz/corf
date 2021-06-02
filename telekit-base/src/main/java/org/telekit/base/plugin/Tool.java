@@ -2,7 +2,9 @@ package org.telekit.base.plugin;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.ui.Controller;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.mvvm.View;
+import org.telekit.base.desktop.mvvm.ViewModel;
 import org.telekit.base.i18n.Messages;
 
 public interface Tool extends Extension {
@@ -23,7 +25,7 @@ public interface Tool extends Extension {
      * JavaFX controller for the tool stage. It will be created only when user
      * will actually choose to run this tool.
      */
-    @NotNull Controller createController();
+    @NotNull Component createComponent();
 
     /**
      * Specifies will tool be opened in modal window or not.

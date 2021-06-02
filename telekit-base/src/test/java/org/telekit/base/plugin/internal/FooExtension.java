@@ -2,7 +2,7 @@ package org.telekit.base.plugin.internal;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.ui.Controller;
+import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.plugin.Tool;
 
 @SuppressWarnings("ConstantConditions")
@@ -19,7 +19,7 @@ public class FooExtension implements Tool {
     }
 
     @Override
-    public @NotNull Controller createController() {
+    public @NotNull View<?> createComponent() {
         return null;
     }
 

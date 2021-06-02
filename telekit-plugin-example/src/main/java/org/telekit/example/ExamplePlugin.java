@@ -21,16 +21,12 @@ import static org.telekit.base.Env.getPluginDocsDir;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.CommonUtils.localizedFileName;
 
-@Includes({
-        HelloTool.class,
-        DummyOneTool.class,
-        DummyTwoTool.class
-})
+@Includes({HelloTool.class, DummyOneTool.class, DummyTwoTool.class})
 public class ExamplePlugin implements Plugin {
 
-    public static final String ASSETS_PATH = "/org/telekit/example/assets/";
+    public static final String ASSETS_PATH = "/org/telekit/example/assets";
+    public static final String PLUGIN_PROPERTIES_FILE_NAME = "/org/telekit/example/plugin.properties";
     public static final String I18N_MESSAGES_PATH = "org.telekit.example.i18n.messages";
-    public static final String PLUGIN_PROPERTIES_FILE_NAME = "plugin.properties";
     public static final String SAMPLE_PROPERTIES_FILE_NAME = "sample.properties";
 
     private final Metadata metadata;
@@ -39,10 +35,11 @@ public class ExamplePlugin implements Plugin {
         metadata = new Metadata();
 
         Properties properties = new Properties();
-        properties.load(new InputStreamReader(
-                ExamplePlugin.class.getResourceAsStream(ASSETS_PATH + PLUGIN_PROPERTIES_FILE_NAME),
+        InputStreamReader reader = new InputStreamReader(
+                Objects.requireNonNull(ExamplePlugin.class.getResourceAsStream(PLUGIN_PROPERTIES_FILE_NAME)),
                 StandardCharsets.UTF_8
-        ));
+        );
+        properties.load(reader);
 
         metadata.setName(properties.getProperty(METADATA_NAME));
         metadata.setAuthor(properties.getProperty(METADATA_AUTHOR));

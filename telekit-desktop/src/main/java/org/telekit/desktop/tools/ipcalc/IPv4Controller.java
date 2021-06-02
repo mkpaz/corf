@@ -6,22 +6,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.FxmlPath;
+import org.telekit.base.desktop.ModalDialog;
+import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.event.CancelEvent;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.telecom.ip.IP4Address;
 import org.telekit.base.telecom.ip.IP4Subnet;
-import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.IconCache;
-import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.controls.format.TextFormatters;
-import org.telekit.desktop.domain.FXMLView;
+import org.telekit.desktop.IconCache;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -36,13 +37,14 @@ import java.util.stream.Collectors;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.base.util.StringUtils.stringify;
 import static org.telekit.controls.util.TableUtils.createIndexCellFactory;
+import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.MessageKeys.*;
 
-public class IPv4Controller extends Controller {
+@FxmlPath("/org/telekit/desktop/tools/ipcalc/ipv4-calc.fxml")
+public class IPv4Controller implements Component {
 
     private static final String EMPTY_DATA = "n/a";
     private static final String DEFAULT_IP = "192.168.0.1";
@@ -63,7 +65,7 @@ public class IPv4Controller extends Controller {
     public @FXML Button btnSaveToFile;
     public @FXML TableView<Subnet> tblNetmasks;
 
-    private IPv4ConverterController converterController = null;
+    private ModalDialog<IPv4ConverterController> converterDialog = null;
 
     @FXML
     public void initialize() {
@@ -194,28 +196,26 @@ public class IPv4Controller extends Controller {
 
     @FXML
     public void showConverterDialog() {
-        IPv4ConverterController converterController = getOrCreateConverterDialog();
-        converterController.setData(getEnteredAddress().longValue());
-        Dialogs.showAndWait(converterController);
+        ModalDialog<IPv4ConverterController> dialog = getOrCreateConverterDialog();
+        dialog.getComponent().setData(getEnteredAddress().longValue());
+        dialog.showAndWait();
     }
 
-    private IPv4ConverterController getOrCreateConverterDialog() {
-        if (converterController != null) {
-            converterController.reset();
-            return converterController;
+    private ModalDialog<IPv4ConverterController> getOrCreateConverterDialog() {
+        if (converterDialog != null) {
+            converterDialog.getComponent().reset();
+            return converterDialog;
         }
 
-        Controller controller = UILoader.load(FXMLView.IPV4_CONV.getLocation(), Messages.getInstance());
-        controller.subscribe(CancelEvent.class, event -> Dialogs.hide(controller));
-
-        Dialogs.modal(controller.getParent(), rootPane.getScene().getWindow())
+        IPv4ConverterController controller = ViewLoader.load(IPv4ConverterController.class);
+        converterDialog = ModalDialog.builder(controller, getWindow())
                 .title(Messages.get(TOOLS_IPCALC_TASK_REPORT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
+        controller.setOnClose(() -> converterDialog.hide());
 
-        converterController = (IPv4ConverterController) controller;
-        return this.converterController;
+        return converterDialog;
     }
 
     @FXML
@@ -225,7 +225,7 @@ public class IPv4Controller extends Controller {
                 .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
                 .initialFileName(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
-                .showSaveDialog(rootPane.getScene().getWindow());
+                .showSaveDialog(getWindow());
         if (outputFile == null || subnets.isEmpty()) return;
 
         try (FileOutputStream fos = new FileOutputStream(outputFile);
@@ -331,6 +331,12 @@ public class IPv4Controller extends Controller {
     private static String pad(String name) {
         return rightPad(name, NAME_PADDING);
     }
+
+    @Override
+    public Region getRoot() { return rootPane; }
+
+    @Override
+    public void reset() {}
 
     ///////////////////////////////////////////////////////////////////////////
 

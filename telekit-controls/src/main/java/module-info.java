@@ -24,14 +24,16 @@ module telekit.controls {
     exports org.telekit.controls.components.richtextfx;
     exports org.telekit.controls.components.skins;
     exports org.telekit.controls.format;
-    exports org.telekit.controls.i18n;
     exports org.telekit.controls.theme to telekit.desktop;
     exports org.telekit.controls.util;
-    exports org.telekit.controls.views;
+    exports org.telekit.controls.widgets;
+
+    exports org.telekit.controls.i18n;
+    opens org.telekit.controls.i18n;
 
     exports org.telekit.controls.glyphs;
     opens org.telekit.controls.glyphs;
 
-    exports org.telekit.controls.overview;
-    opens org.telekit.controls.overview;
+    exports org.telekit.controls.demo;
+    opens org.telekit.controls.demo;
 }

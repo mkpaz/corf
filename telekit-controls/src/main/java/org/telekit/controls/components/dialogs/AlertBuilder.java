@@ -5,23 +5,19 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.telekit.base.ui.IconCache;
+import org.telekit.base.desktop.Dimension;
 
-import static org.telekit.base.ui.IconCache.ICON_APP;
-import static org.telekit.base.ui.UIDefaults.DIALOG_MAX_SIZE;
+public final class AlertBuilder {
 
-public class AlertBuilder {
+    public static final Dimension MAX_SIZE = new Dimension(500, 500);
 
     private final Alert alert;
 
     public AlertBuilder(Alert.AlertType type) {
-        this.alert = new Alert(type);
-        this.alert.setHeaderText(null);
-        this.alert.getDialogPane().setMaxWidth(DIALOG_MAX_SIZE.getWidth());
-        this.alert.getDialogPane().setMaxHeight(DIALOG_MAX_SIZE.getHeight());
-
-        Image appIcon = IconCache.get(ICON_APP);
-        if (appIcon != null) icon(appIcon);
+        alert = new Alert(type);
+        alert.setHeaderText(null);
+        alert.getDialogPane().setMaxWidth(MAX_SIZE.width());
+        alert.getDialogPane().setMaxHeight(MAX_SIZE.height());
     }
 
     public AlertBuilder title(String title) {

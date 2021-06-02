@@ -5,10 +5,9 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.telekit.base.desktop.Dimension;
 import org.telekit.base.plugin.Plugin;
-import org.telekit.base.ui.UIDefaults;
 import org.telekit.base.util.DesktopUtils;
-import org.telekit.base.ui.Dimension;
 
 import java.net.URL;
 import java.nio.file.Path;
@@ -142,9 +141,9 @@ public final class Env {
         return System.getProperty(propertyKey, System.getenv(envKey));
     }
 
-    public static final @Nullable Locale LOCALE = getLocaleFromEnv();
+    public static final Locale LOCALE = getLocaleOrDefault();
 
-    public static @Nullable Locale getLocaleFromEnv() {
+    public static Locale getLocaleOrDefault() {
         String localeStr = getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE");
         if (isNotBlank(localeStr)) {
             Locale locale = new Locale.Builder().setLanguageTag(localeStr).build();
@@ -152,14 +151,29 @@ public final class Env {
                 return locale;
             }
         }
-        return null;
+        return Locale.getDefault();
     }
+
+    // TODO: Find a better way to provide app version. This way it can be manipulated at runtime.
+    public static @Nullable String getAppVersion() {
+        return System.getProperty("application.version");
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Desktop                                                               //
+    ///////////////////////////////////////////////////////////////////////////
+
+    // textarea row number limit (bigger values hit performance)
+    public static final int TEXTAREA_ROW_LIMIT = 1000;
+
+    // special value that means window is maximized
+    public static final Dimension WINDOW_MAXIMIZED = new Dimension(0, 0);
 
     public static final Dimension FORCED_WINDOW_SIZE = parseWindowsSize();
 
     private static @Nullable Dimension parseWindowsSize() {
         String property = getPropertyOrEnv("telekit.window.size", "TELEKIT_WINDOW_SIZE");
-        if (isEmpty(property)) return null;
+        if (isEmpty(property)) { return null; }
 
         String[] bounds = property.split("x");
         if (bounds.length != 2 || !NumberUtils.isDigits(bounds[0]) || !NumberUtils.isDigits(bounds[1])) {
@@ -170,14 +184,9 @@ public final class Env {
         int userHeight = Integer.parseInt(bounds[1]);
 
         // be sensible
-        userWidth = ensureRange(userWidth, 256, 4096, (int) UIDefaults.MAIN_WINDOW_PREF_SIZE.getWidth());
-        userHeight = ensureRange(userHeight, 256, 4096, (int) UIDefaults.MAIN_WINDOW_PREF_SIZE.getHeight());
+        userWidth = ensureRange(userWidth, 256, 4096, 1024);
+        userHeight = ensureRange(userHeight, 256, 4096, 768);
 
         return new Dimension(userWidth, userHeight);
-    }
-
-    // TODO: Find a better way to provide app version. This way it can be manipulated at runtime.
-    public static @Nullable String getAppVersion() {
-        return System.getProperty("application.version");
     }
 }

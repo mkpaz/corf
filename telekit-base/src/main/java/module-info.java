@@ -46,6 +46,8 @@ module telekit.base {
     // exports
     exports org.telekit.base;
     exports org.telekit.base.collect;
+    exports org.telekit.base.desktop;
+    exports org.telekit.base.desktop.mvvm;
     exports org.telekit.base.domain;
     exports org.telekit.base.domain.exception;
     exports org.telekit.base.event;
@@ -59,8 +61,8 @@ module telekit.base {
     exports org.telekit.base.service.impl;
     exports org.telekit.base.telecom.ip;
     exports org.telekit.base.telecom.ss7;
-    exports org.telekit.base.ui;
     exports org.telekit.base.util;
 
     opens org.telekit.base.domain to com.fasterxml.jackson.databind;
+    opens org.telekit.base.desktop to com.fasterxml.jackson.databind;
 }

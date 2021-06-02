@@ -1,8 +1,6 @@
 package org.telekit.desktop.main;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.telekit.controls.glyphs.FontAwesome;
-import org.telekit.controls.glyphs.FontAwesomeIcon;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
@@ -12,15 +10,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.telekit.base.*;
-import org.telekit.base.event.ProgressIndicatorEvent;
+import org.telekit.base.Env;
+import org.telekit.base.desktop.*;
+import org.telekit.base.desktop.Dimension;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
+import org.telekit.base.event.ProgressIndicatorEvent;
 import org.telekit.base.i18n.BaseMessageKeys;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Plugin;
@@ -32,19 +30,15 @@ import org.telekit.base.plugin.internal.PluginStateChangedEvent;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.Security;
 import org.telekit.base.preferences.Vault;
-import org.telekit.base.ui.Controller;
-import org.telekit.base.ui.IconCache;
-import org.telekit.base.ui.UIDefaults;
-import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.CollectionUtils;
 import org.telekit.base.util.DesktopUtils;
-import org.telekit.controls.components.dialogs.Dialogs;
-import org.telekit.base.ui.Dimension;
+import org.telekit.controls.glyphs.FontAwesome;
+import org.telekit.controls.glyphs.FontAwesomeIcon;
+import org.telekit.desktop.IconCache;
 import org.telekit.desktop.Launcher;
 import org.telekit.desktop.domain.ApplicationEvent;
 import org.telekit.desktop.domain.BuiltinTool;
 import org.telekit.desktop.domain.CloseEvent;
-import org.telekit.desktop.domain.FXMLView;
 
 import javax.inject.Inject;
 import java.nio.file.Files;
@@ -55,19 +49,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static org.telekit.base.Env.DOCS_DIR;
-import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.Formatter.byteCountToDisplaySize;
 import static org.telekit.controls.util.ControlUtils.addStyleClass;
 import static org.telekit.controls.util.ControlUtils.removeStyleClass;
+import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.MessageKeys.*;
 
-public class MainController extends Controller {
+@FxmlPath("/org/telekit/desktop/main/main-window.fxml")
+public class MainController implements Component {
 
     private static final int VAULT_LOCKED = 0;
     private static final int VAULT_UNLOCKED = 1;
     private static final int VAULT_UNLOCK_FAILED = -1;
 
+    public @FXML BorderPane rootPane;
     public @FXML StackPane paneContent;
     public @FXML ScrollPane paneWelcome;
     public @FXML VBox paneWelcomeToolsMenu;
@@ -208,10 +204,9 @@ public class MainController extends Controller {
         if (event.getSource() == null) return;
         if (event.getSource() instanceof MenuItem) userData = ((MenuItem) event.getSource()).getUserData();
         if (event.getSource() instanceof Node) userData = ((Node) event.getSource()).getUserData();
-        if (!(userData instanceof Tool)) return;
+        if (!(userData instanceof Tool tool)) return;
 
-        Tool tool = (Tool) userData;
-        Controller controller = Objects.requireNonNull(tool.createController());
+        Component component = Objects.requireNonNull(tool.createComponent());
 
         // when builtin tool or plugin is disabled, this is used to find and close all related tabs
         String tabUserData = null;
@@ -223,9 +218,9 @@ public class MainController extends Controller {
         }
 
         if (!tool.isModal()) {
-            openTab(tool.getName(), controller.getParent(), tabUserData);
+            openTab(tool.getName(), component.getRoot(), tabUserData);
         } else {
-            openModal(tool.getName(), controller);
+            openModal(tool.getName(), component);
         }
     }
 
@@ -249,14 +244,14 @@ public class MainController extends Controller {
         tabPaneTools.getSelectionModel().selectLast();
     }
 
-    private void openModal(String windowTitle, Controller controller) {
-        Stage modalWindow = Dialogs.modal(controller.getParent(), primaryStage)
+    private void openModal(String windowTitle, Component component) {
+        ModalDialog.builder(component, primaryStage)
                 .title(windowTitle)
                 .icon(IconCache.get(ICON_APP))
-                .maxSize(Dimension.of(primaryStage).subtract(UIDefaults.WINDOW_DELTA))
+                .maxSize(Dimension.of(primaryStage).subtract(Dimension.of(200)))
                 .resizable(false)
-                .build();
-        modalWindow.showAndWait();
+                .build()
+                .showAndWait();
     }
 
     private void closeTabs(String tabUserDara) {
@@ -291,8 +286,8 @@ public class MainController extends Controller {
 
     @FXML
     public void showAboutDialog() {
-        Controller controller = UILoader.load(FXMLView.ABOUT.getLocation(), Messages.getInstance());
-        Dialogs.modal(controller.getParent(), primaryStage)
+        AboutController controller = ViewLoader.load(AboutController.class);
+        ModalDialog.builder(controller, primaryStage)
                 .title(Messages.get(MAIN_ABOUT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -302,8 +297,8 @@ public class MainController extends Controller {
 
     @FXML
     public void showPreferences() {
-        Controller controller = UILoader.load(FXMLView.PREFERENCES.getLocation(), Messages.getInstance());
-        Dialogs.modal(controller.getParent(), primaryStage)
+        PreferencesController controller = ViewLoader.load(PreferencesController.class);
+        ModalDialog.builder(controller, primaryStage)
                 .title(Messages.get(PREFERENCES))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -313,8 +308,8 @@ public class MainController extends Controller {
 
     @FXML
     public void showPluginManager() {
-        Controller controller = UILoader.load(FXMLView.PLUGIN_MANAGER.getLocation(), Messages.getInstance());
-        Dialogs.modal(controller.getParent(), primaryStage)
+        PluginManagerController controller = ViewLoader.load(PluginManagerController.class);
+        ModalDialog.builder(controller, primaryStage)
                 .title(Messages.get(MAIN_PLUGIN_MANAGER))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
@@ -324,7 +319,7 @@ public class MainController extends Controller {
 
     @FXML
     public void restartApplication() {
-        CloseEvent event = new CloseEvent(Launcher.RESTART_EXIT_CODE, UIDefaults.getWindowSize(primaryStage));
+        CloseEvent event = new CloseEvent(Launcher.RESTART_EXIT_CODE, Dimension.of(primaryStage));
         DefaultEventBus.getInstance().publish(event);
     }
 
@@ -346,6 +341,12 @@ public class MainController extends Controller {
             DesktopUtils.openQuietly(pluginsDir.toFile());
         }
     }
+
+    @Override
+    public Region getRoot() { return rootPane; }
+
+    @Override
+    public void reset() {}
 
     ///////////////////////////////////////////////////////////////////////////
 

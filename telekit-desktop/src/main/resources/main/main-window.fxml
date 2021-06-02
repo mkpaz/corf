@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
+
+<BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.desktop.main.MainController">
+   <center>
+      <StackPane fx:id="paneContent" BorderPane.alignment="CENTER">
+         <children>
+            <TabPane fx:id="tabPaneTools" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" />
+            <ScrollPane fx:id="paneWelcome" fitToHeight="true" fitToWidth="true">
+               <content>
+                  <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                     <children>
+                        <ImageView pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/telekit.png" />
+                           </image>
+                        </ImageView>
+                        <Text fx:id="welcomeAppName" strokeType="OUTSIDE" strokeWidth="0.0" text="Telekit" />
+                        <Text fx:id="welcomeAppVersion" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Version 0.0.0" />
+                        <VBox alignment="TOP_CENTER" fillWidth="false" spacing="5.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox minWidth="300.0" VBox.vgrow="NEVER">
+                                 <children>
+                                    <HBox alignment="BASELINE_LEFT" spacing="10.0" styleClass="header">
+                                       <children>
+                                          <FontIcon iconLiteral="fas-briefcase" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%Tools" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="paneWelcomeToolsMenu" minWidth="300.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin></VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </StackPane>
+   </center>
+   <top>
+      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+        <menus>
+            <Menu mnemonicParsing="false" text="%File">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showPreferences" text="%Preferences" />
+                  <MenuItem mnemonicParsing="false" onAction="#showPluginManager" text="%main.PluginManager" />
+                  <Menu mnemonicParsing="false" text="%main.Configuration">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#openDataDir" text="%main.OpenDataDirectory" />
+                        <MenuItem mnemonicParsing="false" onAction="#openPluginsDir" text="%main.OpenPluginsDirectory" />
+                    </items>
+                  </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="%Restart" />
+                <MenuItem mnemonicParsing="false" onAction="#quit" text="%Quit">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="SIGN_OUT" />
+                     </graphic></MenuItem>
+              </items>
+            </Menu>
+          <Menu fx:id="menuTools" mnemonicParsing="false" text="%Tools" />
+            <Menu fx:id="menuPlugins" mnemonicParsing="false" text="%Plugins" />
+            <Menu mnemonicParsing="false" text="%Window">
+              <items>
+                  <CheckMenuItem fx:id="cmAlwaysOnTop" mnemonicParsing="false" onAction="#setOnTop" text="%main.SetAlwaysOnTop" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="%Help">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#showHelp" text="%Documentation">
+                     <graphic>
+                        <FontAwesomeIcon glyphName="BOOK" />
+                     </graphic>
+                  </MenuItem>
+              <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="%main.About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
+         <children>
+            <HBox alignment="CENTER_LEFT">
+               <children>
+                  <FontAwesomeIcon fx:id="vaultStatusIcon" glyphName="LOCK" />
+               </children>
+            </HBox>
+            <HBox fx:id="hboxProgressIndicator" alignment="CENTER_LEFT" visible="false">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+               <children>
+                  <ProgressIndicator maxHeight="24.0" maxWidth="24.0" />
+                  <Label fx:id="lbInProgress" text="task(s) in progress">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <Label maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <StackPane alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" HBox.hgrow="NEVER">
+               <children>
+                  <ProgressBar fx:id="pbarMemory" maxHeight="1.7976931348623157E308" onMouseClicked="#runGc" opacity="0.3" prefWidth="100.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ProgressBar>
+                  <Text fx:id="txMemory" fill="#212121cc" onMouseClicked="#runGc" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" StackPane.alignment="CENTER_RIGHT">
+                     <StackPane.margin>
+                        <Insets right="10.0" />
+                     </StackPane.margin>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Text>
+               </children>
+            </StackPane>
+         </children>
+         <padding>
+            <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <stylesheets>
+      <URL value="@main-window.css" />
+   </stylesheets>
+</BorderPane>

@@ -2,16 +2,12 @@ package org.telekit.example.tools;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.ui.UILoader;
-import org.telekit.base.ui.Controller;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.plugin.Tool;
 import org.telekit.example.ExamplePlugin;
 import org.telekit.example.MessageKeys;
-
-import java.net.URL;
-
-import static org.telekit.example.ExamplePlugin.ASSETS_PATH;
 
 public class HelloTool implements Tool {
 
@@ -26,9 +22,8 @@ public class HelloTool implements Tool {
     }
 
     @Override
-    public @NotNull Controller createController() {
-        URL fxmlLocation = getClass().getResource(ASSETS_PATH + "ui/example.fxml");
-        return UILoader.load(fxmlLocation, ExamplePlugin.class);
+    public @NotNull Component createComponent() {
+        return ViewLoader.load(ExampleController.class);
     }
 
     @Override

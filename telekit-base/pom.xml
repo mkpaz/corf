@@ -10,6 +10,17 @@
     </parent>
     <artifactId>telekit-base</artifactId>
 
+    <build>
+        <resources>
+            <!-- everything in the `resources` goes under package prefix -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>org/telekit/base</targetPath>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>commons-codec</groupId>

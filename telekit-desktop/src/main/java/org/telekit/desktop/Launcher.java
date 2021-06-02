@@ -4,6 +4,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
@@ -12,6 +13,8 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.Env;
+import org.telekit.base.desktop.Dimension;
+import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.di.DependencyModule;
 import org.telekit.base.di.Injector;
 import org.telekit.base.domain.SecuredData;
@@ -28,16 +31,11 @@ import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.PKCS12Vault;
 import org.telekit.base.preferences.Security;
 import org.telekit.base.preferences.Vault;
-import org.telekit.base.ui.Dimension;
-import org.telekit.base.ui.IconCache;
-import org.telekit.base.ui.UIDefaults;
-import org.telekit.base.ui.UILoader;
 import org.telekit.base.util.Mappers;
 import org.telekit.base.util.PasswordGenerator;
 import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
 import org.telekit.controls.theme.ThemeLoader;
 import org.telekit.desktop.domain.CloseEvent;
-import org.telekit.desktop.domain.FXMLView;
 import org.telekit.desktop.main.FileCompletionMonitoringService;
 import org.telekit.desktop.main.MainController;
 import org.telekit.desktop.tools.apiclient.MigrationUtilsApiClient;
@@ -64,23 +62,25 @@ import java.util.logging.Logger;
 import static org.telekit.base.Env.*;
 import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
 import static org.telekit.base.service.Encryptor.generateKey;
-import static org.telekit.base.ui.IconCache.ICON_APP;
 import static org.telekit.base.util.DesktopUtils.xdgCurrentDesktopMatches;
 import static org.telekit.base.util.FileUtils.createDir;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
+import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.MessageKeys.MAIN_TRAY_OPEN;
 import static org.telekit.desktop.MessageKeys.QUIT;
 
-public class Launcher extends Application implements UIDefaults {
+public class Launcher extends Application {
 
     public static final int RESTART_EXIT_CODE = 3;
 
-    public static final String APP_ICON_PATH = "/assets/images/telekit.png";
-    public static final String APP_PROPS_PATH = "/assets/application.properties";
+    public static final String APP_ICON_PATH = "/org/telekit/desktop/assets/images/telekit.png";
+    public static final String APP_PROPS_PATH = "/org/telekit/desktop/application.properties";
     public static final String LOG_CONFIG_FILE_NAME = "logging.properties";
-    public static final String LOG_CONFIG_FALLBACK = "/assets/logging.properties";
+    public static final String LOG_CONFIG_FALLBACK = "/org/telekit/desktop/logging.properties";
     public static final String LOG_OUTPUT_FILE_NAME = "telekit.log";
     public static final String I18N_RESOURCES_PATH = "org.telekit.desktop.i18n.messages";
+    public static final Dimension STAGE_MIN_SIZE = new Dimension(800, 600);
+    public static final Dimension STAGE_PREF_SIZE = new Dimension(1440, 900);
 
     private static int exitCode = 0;
     private final Injector injector = Injector.getInstance();
@@ -106,7 +106,7 @@ public class Launcher extends Application implements UIDefaults {
         initialize();
 
         // create main controller
-        MainController controller = (MainController) UILoader.load(FXMLView.MAIN_WINDOW.getLocation(), Messages.getInstance());
+        MainController controller = ViewLoader.load(MainController.class);
         controller.setPrimaryStage(primaryStage);
 
         // populate icon cache
@@ -116,13 +116,14 @@ public class Launcher extends Application implements UIDefaults {
         // handle application close events
         DefaultEventBus.getInstance().subscribe(CloseEvent.class, this::close);
         primaryStage.setOnCloseRequest(t -> {
-            if (this.preferences != null) {
-                this.preferences.setMainWindowSize(UIDefaults.getWindowSize(primaryStage));
+            if (preferences != null) {
+                preferences.setMainWindowSize(Dimension.of(primaryStage));
             }
             Platform.exit();
         });
 
-        Dimension prefWindowSize = isScreenFits(MAIN_WINDOW_PREF_SIZE) ? MAIN_WINDOW_PREF_SIZE : MAIN_WINDOW_MIN_SIZE;
+        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        Dimension prefWindowSize = STAGE_PREF_SIZE.lt(screenSize) ? STAGE_PREF_SIZE : STAGE_MIN_SIZE;
         Dimension storedWindowSize = this.preferences.getMainWindowSize(); // previous window size
 
         // use last closed window size if possible
@@ -132,7 +133,7 @@ public class Launcher extends Application implements UIDefaults {
         // if special dimension value (0, 0) is used, maximize the stage
         if (WINDOW_MAXIMIZED.equals(prefWindowSize)) primaryStage.setMaximized(true);
 
-        Scene scene = new Scene(controller.getParent(), prefWindowSize.getWidth(), prefWindowSize.getHeight());
+        Scene scene = new Scene(controller.getRoot(), prefWindowSize.width(), prefWindowSize.height());
 
         // apply theme
         ThemeLoader themeLoader = new ThemeLoader();
@@ -140,8 +141,8 @@ public class Launcher extends Application implements UIDefaults {
 
         // show primary stage
         primaryStage.setTitle(Env.APP_NAME);
-        primaryStage.setMinWidth(MAIN_WINDOW_MIN_SIZE.getWidth());
-        primaryStage.setMinHeight(MAIN_WINDOW_MIN_SIZE.getHeight());
+        primaryStage.setMinWidth(STAGE_MIN_SIZE.width());
+        primaryStage.setMinHeight(STAGE_MIN_SIZE.height());
         primaryStage.setScene(scene);
         primaryStage.show();
         Platform.runLater(() -> {
@@ -248,7 +249,6 @@ public class Launcher extends Application implements UIDefaults {
             // NOTE: plugins should be started BEFORE MainController initialization
             //       because it queries extensions to build-up menu bar
             this.pluginManager.startAllPlugins();
-
         } catch (PluginException ignored) {
             // even if some plugin wasn't started, it shouldn't prevent application
             // from loading because it may work without plugins

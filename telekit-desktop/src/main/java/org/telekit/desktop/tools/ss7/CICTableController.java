@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import org.telekit.base.ui.Controller;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.FxmlPath;
 
 import java.util.List;
 
@@ -15,8 +18,10 @@ import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.telekit.base.telecom.ss7.ISUPUtils.*;
 import static org.telekit.base.util.CollectionUtils.*;
 
-public class CICTableController extends Controller {
+@FxmlPath("/org/telekit/desktop/tools/ss7/cic-table.fxml")
+public class CICTableController implements Component {
 
+    public @FXML GridPane rootPane;
     public @FXML ListView<Integer> listE1;
     public @FXML ListView<String> listTimeslots;
     public @FXML TextField tfCicSearch;
@@ -75,4 +80,12 @@ public class CICTableController extends Controller {
             }
         } catch (Exception ignored) {}
     }
+
+    @Override
+    public Region getRoot() {
+        return rootPane;
+    }
+
+    @Override
+    public void reset() {}
 }

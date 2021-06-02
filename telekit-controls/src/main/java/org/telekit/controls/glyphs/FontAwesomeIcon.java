@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 public class FontAwesomeIcon extends GlyphIcon<FontAwesome> {
 
-    public static final String TTF_PATH = "/assets/glyphs/fontawesome4-webfont.ttf";
+    public static final String TTF_PATH = "/org/telekit/controls/assets/glyphs/fontawesome4-webfont.ttf";
     public static final Comparator<FontAwesome> NAME_COMPARATOR = (o1, o2) -> {
         if (o1 != null && o2 != null) {
             return o1.name().compareTo(o2.name());

@@ -37,8 +37,4 @@ public final class Injector {
     public <T> Provider<T> getProvider(Class<T> type) {
         return feather.provider(type);
     }
-
-    public void injectFields(Object target) {
-        feather.injectFields(target);
-    }
 }

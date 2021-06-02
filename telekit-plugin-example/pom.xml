@@ -20,7 +20,7 @@
 
         <bld.basePackage>org.telekit.example</bld.basePackage>
         <bld.pluginClassName>${bld.basePackage}.ExamplePlugin</bld.pluginClassName>
-        <bld.launcherClassName>${bld.basePackage}.demo.Launcher</bld.launcherClassName>
+        <bld.launcherClassName>${bld.basePackage}.demo.DemoLauncher</bld.launcherClassName>
         <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
         <!-- this is where application will store plugin and its data after installation -->
         <bld.pluginSubDir>data/plugins/${bld.pluginClassName}</bld.pluginSubDir>
@@ -28,10 +28,7 @@
 
     <build>
         <resources>
-            <!--
-                NOTE: put all resources into directory that has the same prefix as plugin package name,
-                so they won't be confused with resources of other plugins
-            -->
+            <!-- everything in the `resources` goes under package prefix -->
             <resource>
                 <directory>src/main/resources</directory>
                 <targetPath>org/telekit/example</targetPath>
@@ -42,7 +39,7 @@
                 <targetPath>org/telekit/example</targetPath>
                 <filtering>true</filtering>
                 <includes>
-                    <include>assets/plugin.properties</include>
+                    <include>plugin.properties</include>
                 </includes>
             </resource>
         </resources>
