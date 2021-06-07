@@ -10,7 +10,7 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.service.Transliterator;
 import org.telekit.base.service.impl.RUTransliterator;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class TranslitController implements Component {
     public void initialize() {
         cmbLang.setItems(observableArrayList(SUPPORTED_LANGUAGES));
         cmbLang.getSelectionModel().selectFirst();
-        btnTransliterate.disableProperty().bind(BooleanBindings.isBlank(taText.textProperty()));
+        btnTransliterate.disableProperty().bind(BindUtils.isBlank(taText.textProperty()));
     }
 
     @FXML

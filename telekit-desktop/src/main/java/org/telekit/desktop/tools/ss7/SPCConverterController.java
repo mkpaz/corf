@@ -11,7 +11,7 @@ import org.telekit.base.domain.exception.InvalidInputException;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.telecom.ss7.SignallingPointCode;
 import org.telekit.base.util.TextBuilder;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.telecom.ss7.SignallingPointCode.Format;
@@ -45,7 +45,7 @@ public class SPCConverterController implements Component {
                 convert();
             }
         });
-        btnConvert.disableProperty().bind(BooleanBindings.isBlank(tfSpc.textProperty()));
+        btnConvert.disableProperty().bind(BindUtils.isBlank(tfSpc.textProperty()));
 
         cmbType.getSelectionModel().select(Type.ITU);
         cmbFormat.getItems().setAll(Type.ITU.formats());

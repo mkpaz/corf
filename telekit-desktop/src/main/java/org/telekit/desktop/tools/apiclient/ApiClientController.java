@@ -26,10 +26,8 @@ import javafx.scene.layout.Region;
 import javafx.util.converter.DefaultStringConverter;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.desktop.Component;
-import org.telekit.base.desktop.FxmlPath;
-import org.telekit.base.desktop.ModalDialog;
-import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.desktop.Dimension;
+import org.telekit.base.desktop.*;
 import org.telekit.base.domain.KeyValue;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.domain.UsernamePasswordCredential;
@@ -46,7 +44,7 @@ import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.components.RevealablePasswordField;
 import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.controls.glyphs.FontAwesomeIcon;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.domain.ApplicationEvent;
 import org.telekit.desktop.domain.ExceptionCaughtEvent;
@@ -63,16 +61,13 @@ import java.util.List;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.commons.lang3.StringUtils.trim;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.Env.TEMP_DIR;
 import static org.telekit.base.net.HttpConstants.AuthScheme;
 import static org.telekit.base.util.CSVUtils.*;
 import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.util.BindUtils.rebind;
-import static org.telekit.controls.util.BooleanBindings.isBlank;
 import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.MessageKeys.*;
 import static org.telekit.desktop.domain.ApplicationEvent.Type.COMPLETION_REGISTRY_UPDATED;
@@ -250,13 +245,13 @@ public class ApiClientController implements Component {
     }
 
     private void initControlButtons() {
-        btnStart.disableProperty().bind(BooleanBindings.or(
+        btnStart.disableProperty().bind(BindUtils.or(
                 cmbTemplate.valueProperty().isNull(),
-                isBlank(taCsv.textProperty()),
+                BindUtils.isBlank(taCsv.textProperty()),
                 ongoingProperty
         ));
         btnStop.disableProperty().bind(Bindings.not(ongoingProperty));
-        btnExportLog.disableProperty().bind(BooleanBindings.or(
+        btnExportLog.disableProperty().bind(BindUtils.or(
                 Bindings.isEmpty(tblLog.getItems()),
                 ongoingProperty
         ));

@@ -16,7 +16,7 @@ import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.format.TextFormatters;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.tools.common.Param.Type;
 
@@ -48,11 +48,11 @@ public class ParamController implements Component {
         param = createDefaultParam();
         // param name must not contain special characters
         tfName.setTextFormatter(TextFormatters.matches(Pattern.compile(PlaceholderReplacer.PLACEHOLDER_CHARACTERS)));
-        btnSubmit.disableProperty().bind(BooleanBindings.or(
-                BooleanBindings.isBlank(tfName.textProperty()),
+        btnSubmit.disableProperty().bind(BindUtils.or(
+                BindUtils.isBlank(tfName.textProperty()),
                 // "_" is reserved for internal params
-                BooleanBindings.startsWith(tfName.textProperty(), "_", StringUtils::trim),
-                BooleanBindings.contains(tfName.textProperty(), usedParamNames, StringUtils::trim)
+                BindUtils.startsWith(tfName.textProperty(), "_", StringUtils::trim),
+                BindUtils.contains(tfName.textProperty(), usedParamNames, StringUtils::trim)
         ));
         cmbType.getItems().addAll(Type.values());
     }

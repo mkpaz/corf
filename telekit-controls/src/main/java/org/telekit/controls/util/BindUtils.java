@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -38,11 +39,21 @@ public final class BindUtils {
         );
     }
 
+    @SuppressWarnings("unchecked")
+    public static BooleanBinding and(Collection<ObservableValue<Boolean>> properties) {
+        return and(properties.toArray(new ObservableValue[0]));
+    }
+
     @SafeVarargs
     public static BooleanBinding or(ObservableValue<Boolean>... values) {
         return Bindings.createBooleanBinding(
                 () -> Arrays.stream(values).anyMatch(ObservableValue::getValue), values
         );
+    }
+
+    @SuppressWarnings("unchecked")
+    public static BooleanBinding or(Collection<ObservableValue<Boolean>> properties) {
+        return or(properties.toArray(new ObservableValue[0]));
     }
 
     public static <E> BooleanBinding ofPredicate(ObservableObjectValue<E> property,
@@ -73,12 +84,42 @@ public final class BindUtils {
         return property != null && property.get() != null;
     }
 
-    public static BooleanBinding isBlank(ObservableStringValue property) {
+    public static BooleanBinding isBlank(ObservableObjectValue<String> property) {
         return ofPredicate(property, String::isBlank);
     }
 
-    public static BooleanBinding isNotBlank(ObservableStringValue property) {
+    public static BooleanBinding isNotBlank(ObservableObjectValue<String> property) {
         return ofPredicate(property, value -> !value.isBlank());
+    }
+
+    public static BooleanBinding startsWith(ObservableObjectValue<String> value, String prefix) {
+        return startsWith(value, prefix, null);
+    }
+
+    public static BooleanBinding startsWith(ObservableObjectValue<String> property,
+                                            String prefix,
+                                            Function<String, String> converter) {
+        return ofPredicate(property, val -> prefix != null && val.startsWith(prefix), converter);
+    }
+
+    public static BooleanBinding endsWith(ObservableObjectValue<String> property, String suffix) {
+        return endsWith(property, suffix, null);
+    }
+
+    public static BooleanBinding endsWith(ObservableObjectValue<String> property,
+                                          String suffix,
+                                          Function<String, String> converter) {
+        return ofPredicate(property, val -> suffix != null && val.endsWith(suffix), converter);
+    }
+
+    public static <E> BooleanBinding contains(ObservableObjectValue<E> property, Collection<E> c) {
+        return contains(property, c, null);
+    }
+
+    public static <E> BooleanBinding contains(ObservableObjectValue<E> property,
+                                              Collection<E> c,
+                                              Function<E, E> converter) {
+        return ofPredicate(property, val -> c != null && c.contains(val), converter);
     }
 
     ///////////////////////////////////////////////////////////////////////////

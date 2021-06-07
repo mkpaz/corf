@@ -41,7 +41,7 @@ import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.components.dialogs.Dialogs;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.domain.ApplicationEvent;
 import org.telekit.desktop.domain.ExceptionCaughtEvent;
@@ -197,7 +197,7 @@ public class FileBuilderController implements Component {
         rbSaveDynamic.setUserData(OUT_FILE_DYNAMIC);
         btnGenerate.disableProperty().bind(Bindings.or(
                 cmbTemplate.valueProperty().isNull(),
-                BooleanBindings.isBlank(taCsv.textProperty())
+                BindUtils.isBlank(taCsv.textProperty())
         ));
     }
 

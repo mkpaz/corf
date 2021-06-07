@@ -24,7 +24,7 @@ import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.controls.format.DoubleStringConverter;
 import org.telekit.controls.format.IntegerStringConverter;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.domain.ExceptionCaughtEvent;
 
 import java.io.File;
@@ -98,12 +98,12 @@ public class SequenceGeneratorController implements Component {
         BooleanProperty[] selectedCheckboxes = {
                 cbA.selectedProperty(), cbB.selectedProperty(), cbC.selectedProperty(), cbD.selectedProperty()
         };
-        btnGenerate.disableProperty().bind(BooleanBindings.or(
-                BooleanBindings.isBlank(tfPattern.textProperty()),
-                Bindings.not(BooleanBindings.or(selectedCheckboxes))
+        btnGenerate.disableProperty().bind(BindUtils.or(
+                BindUtils.isBlank(tfPattern.textProperty()),
+                Bindings.not(BindUtils.or(selectedCheckboxes))
         ));
 
-        btnSaveToFile.disableProperty().bind(BooleanBindings.isBlank(taResult.textProperty()));
+        btnSaveToFile.disableProperty().bind(BindUtils.isBlank(taResult.textProperty()));
     }
 
     private void initItemControls() {

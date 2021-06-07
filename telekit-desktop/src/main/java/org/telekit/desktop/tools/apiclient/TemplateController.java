@@ -14,7 +14,7 @@ import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.i18n.Messages;
 import org.telekit.base.net.HttpConstants.ContentType;
 import org.telekit.base.net.HttpConstants.Method;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.tools.Action;
 import org.telekit.desktop.tools.apiclient.Template.BatchSeparator;
 
@@ -60,10 +60,10 @@ public class TemplateController implements Component {
 
     @FXML
     public void initialize() {
-        btnSubmit.disableProperty().bind(BooleanBindings.or(
-                BooleanBindings.isBlank(tfName.textProperty()),
-                BooleanBindings.isBlank(tfURI.textProperty()),
-                BooleanBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim))
+        btnSubmit.disableProperty().bind(BindUtils.or(
+                BindUtils.isBlank(tfName.textProperty()),
+                BindUtils.isBlank(tfURI.textProperty()),
+                BindUtils.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim))
         );
 
         spnBatchSize.valueProperty().addListener((obs, oldValue, newValue) -> {

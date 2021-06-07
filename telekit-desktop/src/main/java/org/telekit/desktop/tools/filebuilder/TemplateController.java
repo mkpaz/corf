@@ -11,7 +11,7 @@ import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.Encoding;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.i18n.Messages;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.tools.Action;
 
 import java.util.HashSet;
@@ -51,10 +51,10 @@ public class TemplateController implements Component {
         cmbDelimiter.setConverter(new DelimiterStringConverter());
         cmbEncoding.getItems().setAll(Encoding.values());
         cmbLineSeparator.getItems().setAll(LineSeparator.values());
-        btnSubmit.disableProperty().bind(BooleanBindings.or(
-                BooleanBindings.isBlank(tfName.textProperty()),
-                BooleanBindings.isBlank(taPattern.textProperty()),
-                BooleanBindings.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
+        btnSubmit.disableProperty().bind(BindUtils.or(
+                BindUtils.isBlank(tfName.textProperty()),
+                BindUtils.isBlank(taPattern.textProperty()),
+                BindUtils.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
         ));
     }
 

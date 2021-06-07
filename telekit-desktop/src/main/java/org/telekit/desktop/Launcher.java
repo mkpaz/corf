@@ -38,8 +38,6 @@ import org.telekit.controls.theme.ThemeLoader;
 import org.telekit.desktop.domain.CloseEvent;
 import org.telekit.desktop.main.FileCompletionMonitoringService;
 import org.telekit.desktop.main.MainController;
-import org.telekit.desktop.tools.apiclient.MigrationUtilsApiClient;
-import org.telekit.desktop.tools.filebuilder.MigrationUtilsFileBuilder;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.awt.*;
@@ -254,9 +252,6 @@ public class Launcher extends Application {
             // from loading because it may work without plugins
         }
 
-        // migrate data between versions, if required
-        executeMigrationTasks();
-
         // register completion providers and start monitoring for changes
         activateCompletionMonitoring();
     }
@@ -412,18 +407,6 @@ public class Launcher extends Application {
                 injector.getBean(FileCompletionMonitoringService.class);
         completionMonitoringService.registerAllProviders();
         completionMonitoringService.start();
-    }
-
-    @Deprecated
-    private void executeMigrationTasks() {
-        try {
-            if (Files.exists(ApplicationPreferences.CONFIG_PATH_OLD)) {
-                Files.delete(ApplicationPreferences.CONFIG_PATH_OLD);
-            }
-        } catch (IOException ignored) {}
-
-        MigrationUtilsApiClient.migrateXmlConfigToYaml(this.injector);
-        MigrationUtilsFileBuilder.migrateXmlConfigToYaml(this.injector);
     }
 
     private void createUserResources() {

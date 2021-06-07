@@ -158,8 +158,6 @@ public class ApplicationPreferences {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    @Deprecated
-    public static final Path CONFIG_PATH_OLD = DATA_DIR.resolve("preferences.xml");
     public static final Path CONFIG_PATH = CONFIG_DIR.resolve("preferences.yaml");
 
     public static ApplicationPreferences load(YAMLMapper mapper) {

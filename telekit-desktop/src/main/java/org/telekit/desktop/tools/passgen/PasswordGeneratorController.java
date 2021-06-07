@@ -15,7 +15,7 @@ import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PasswordGenerator;
 import org.telekit.controls.components.dialogs.Dialogs;
 import org.telekit.controls.format.IntegerStringConverter;
-import org.telekit.controls.util.BooleanBindings;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.Launcher;
 import org.telekit.desktop.domain.ExceptionCaughtEvent;
 
@@ -104,7 +104,7 @@ public class PasswordGeneratorController implements Component {
 
         spnPasswordsCount.setEditable(true);
         IntegerStringConverter.createFor(spnPasswordsCount);
-        btnSaveToFile.disableProperty().bind(BooleanBindings.isBlank(taGeneratedPasswords.textProperty()));
+        btnSaveToFile.disableProperty().bind(BindUtils.isBlank(taGeneratedPasswords.textProperty()));
     }
 
     @FXML
