@@ -10,40 +10,32 @@ import java.util.stream.Collectors;
 
 public final class I18n extends ResourceBundle {
 
-    private static final Map<String, BundleLoader> loaders = new HashMap<>();
-    private static Map<String, String> messages = new HashMap<>();
+    private final Map<String, BundleLoader> loaders = new HashMap<>();
+    private Map<String, String> messages = new HashMap<>();
 
-    public static String t(String text) {
-        return translate(text);
-    }
-
-    public static String translate(String text) {
+    public String translate(String text) {
         return messages.getOrDefault(text, text);
     }
 
-    public static String t(String text, Object... args) {
-        return translate(text, args);
-    }
-
-    public static String translate(String text, Object... args) {
+    public String translate(String text, Object... args) {
         return MessageFormat.format(translate(text), args);
     }
 
-    public static void register(BundleLoader loader) {
+    public void register(BundleLoader loader) {
         loaders.putIfAbsent(loader.id(), loader);
     }
 
-    public static void unregister(String id) {
+    public void unregister(String id) {
         loaders.remove(id);
     }
 
-    public static void reload() {
+    public void reload() {
         messages = loaders.values().stream()
                 .flatMap(loader -> loader.load(Locale.getDefault()))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
-    public static void print(PrintStream out) {
+    public void print(PrintStream out) {
         messages.forEach((key, value) -> out.println(key + "=" + value));
     }
 
@@ -70,5 +62,23 @@ public final class I18n extends ResourceBundle {
 
     public static I18n getInstance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public static String t(String text) {
+        return getInstance().translate(text);
+    }
+
+    public static String t(String text, Object... args) {
+        return getInstance().translate(text, args);
+    }
+
+    public static String concat(String... keys) {
+        return concat(" ".toCharArray(), keys);
+    }
+
+    public static String concat(char[] separator, String... keys) {
+        return Arrays.stream(keys)
+                .map(key -> getInstance().getString(key))
+                .collect(Collectors.joining(new String(separator)));
     }
 }

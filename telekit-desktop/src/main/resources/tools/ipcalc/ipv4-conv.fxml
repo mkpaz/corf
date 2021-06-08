@@ -83,7 +83,7 @@
                   <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="6">
                      <children>
                         <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-                        <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="%Close" />
+                        <Button cancelButton="true" mnemonicParsing="false" onAction="#close" text="%action.Close" />
                      </children>
                      <GridPane.margin>
                         <Insets top="5.0" />

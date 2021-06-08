@@ -4,33 +4,30 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.ObjectUtils;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.ViewLoader;
-import org.telekit.base.i18n.BaseMessagesBundleProvider;
-import org.telekit.base.i18n.Messages;
-import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
+import org.telekit.base.i18n.BaseMessages;
+import org.telekit.base.i18n.I18n;
+import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.controls.theme.ThemeLoader;
 
 import java.util.Locale;
 
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+
 public class DemoLauncher extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public static void main(String[] args) { launch(args); }
 
     @Override
     public void start(Stage primaryStage) {
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
 
-        Messages.getInstance().load(
-                ControlsMessagesBundleProvider.getBundle(Locale.getDefault()),
-                ControlsMessagesBundleProvider.class.getName()
-        );
-        Messages.getInstance().load(
-                BaseMessagesBundleProvider.getBundle(Locale.getDefault()),
-                BaseMessagesBundleProvider.class.getName()
-        );
+        Locale.setDefault(defaultIfNull(Env.LOCALE, Locale.getDefault()));
+        I18n.getInstance().register(BaseMessages.getLoader());
+        I18n.getInstance().register(ControlsMessages.getLoader());
+        I18n.getInstance().reload();
 
         DemoController controller = ViewLoader.load(DemoController.class);
 

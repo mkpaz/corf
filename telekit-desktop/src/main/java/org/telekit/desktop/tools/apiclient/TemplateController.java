@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.net.HttpConstants.ContentType;
 import org.telekit.base.net.HttpConstants.Method;
 import org.telekit.controls.util.BindUtils;
@@ -28,8 +28,8 @@ import java.util.function.BiConsumer;
 import static javafx.beans.property.IntegerProperty.integerProperty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.desktop.MessageKeys.TOOLS_EDIT_TEMPLATE;
-import static org.telekit.desktop.MessageKeys.TOOLS_NEW_TEMPLATE;
+import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_EDIT_TEMPLATE;
+import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_NEW_TEMPLATE;
 import static org.telekit.desktop.tools.apiclient.Executor.BATCH_PLACEHOLDER_NAME;
 
 @FxmlPath("/org/telekit/desktop/tools/apiclient/_root.fxml")
@@ -110,7 +110,7 @@ public class TemplateController implements Component {
             usedTemplateNames.remove(template.getName());
         }
 
-        ((Stage) rootPane.getScene().getWindow()).setTitle(Messages.get(titleKey));
+        ((Stage) rootPane.getScene().getWindow()).setTitle(I18n.t(titleKey));
         tfName.setText(template.getName());
         tfURI.setText(template.getUri());
         cmbMethod.getSelectionModel().select(template.getMethod());

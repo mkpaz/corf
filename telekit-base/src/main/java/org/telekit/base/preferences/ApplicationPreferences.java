@@ -12,7 +12,7 @@ import org.telekit.base.Env;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.domain.Proxy;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -22,10 +22,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
-import static org.telekit.base.Env.*;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.telekit.base.Env.CONFIG_DIR;
+import static org.telekit.base.Env.WINDOW_MAXIMIZED;
 import static org.telekit.base.domain.Proxy.NO_PROXY;
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
+import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
+import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileUtils.*;
 
@@ -90,7 +92,7 @@ public class ApplicationPreferences {
     @JsonIgnore
     public @NotNull Locale getLocale() {
         // env variable is only needed to simplify app testing
-        return Env.LOCALE != null ? Env.LOCALE : language.getLocale();
+        return defaultIfNull(Env.LOCALE, language.getLocale());
     }
 
     @JsonIgnore
@@ -170,7 +172,7 @@ public class ApplicationPreferences {
         try {
             return mapper.readValue(path.toFile(), ApplicationPreferences.class);
         } catch (Exception e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
         }
     }
 
@@ -186,7 +188,7 @@ public class ApplicationPreferences {
             if (backup != null) {
                 copyFile(backup, path, StandardCopyOption.REPLACE_EXISTING);
             }
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         } finally {
             if (backup != null) hush(() -> deleteFile(backup));
         }

@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.telekit.base.di.Injector;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 
 import java.net.URL;
 import java.util.Objects;
@@ -44,7 +44,7 @@ public final class ViewLoader {
             FXMLLoader loader = new FXMLLoader(url);
             loader.setControllerFactory(Injector.getInstance()::getBean);
             loader.setClassLoader(controllerClass.getClassLoader());
-            loader.setResources(Messages.getInstance());
+            loader.setResources(I18n.getInstance());
 
             Parent parent = loader.load();
             Object controller = loader.getController();

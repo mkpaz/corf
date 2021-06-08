@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.NotImplementedException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.controls.glyphs.FontAwesome;
 import org.telekit.controls.glyphs.FontAwesomeIcon;
 
@@ -26,8 +26,8 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.telekit.controls.i18n.ControlsMessageKeys.CANCEL;
-import static org.telekit.controls.i18n.ControlsMessageKeys.SUBMIT;
+import static org.telekit.controls.i18n.ControlsMessages.ACTION_CANCEL;
+import static org.telekit.controls.i18n.ControlsMessages.ACTION_SUBMIT;
 import static org.telekit.controls.util.ControlUtils.addStyleClass;
 import static org.telekit.controls.util.ControlUtils.removeStyleClass;
 
@@ -83,13 +83,13 @@ public class FilterTable<S> extends VBox {
         });
 
         // control area
-        btnSubmit = new Button(Messages.get(SUBMIT));
+        btnSubmit = new Button(I18n.t(ACTION_SUBMIT));
         btnSubmit.setDefaultButton(true);
         btnSubmit.setOnAction(event -> {
             if (onSubmitCallback != null) { onSubmitCallback.accept(submit()); }
         });
 
-        btnCancel = new Button(Messages.get(CANCEL));
+        btnCancel = new Button(I18n.t(ACTION_CANCEL));
         btnCancel.setOnAction(event -> {
             if (onCancelCallback != null) { onCancelCallback.run(); }
         });

@@ -57,4 +57,6 @@ module telekit.desktop {
 
     exports org.telekit.desktop.tools.translit;
     opens org.telekit.desktop.tools.translit;
+    exports org.telekit.desktop.i18n;
+    opens org.telekit.desktop.i18n;
 }

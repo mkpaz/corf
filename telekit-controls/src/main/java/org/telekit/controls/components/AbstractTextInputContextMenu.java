@@ -4,7 +4,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import org.telekit.controls.glyphs.FontAwesome;
 import org.telekit.controls.glyphs.FontAwesomeIcon;
-import org.telekit.controls.i18n.ControlsMessageKeys;
+import org.telekit.controls.i18n.ControlsMessages;
 
 import java.util.ResourceBundle;
 
@@ -41,13 +41,13 @@ public abstract class AbstractTextInputContextMenu extends ContextMenu {
         }
 
         createItems(
-                bundle.getString(ControlsMessageKeys.CONTEXT_MENU_UNDO),
-                bundle.getString(ControlsMessageKeys.CONTEXT_MENU_REDO),
-                bundle.getString(ControlsMessageKeys.CONTEXT_MENU_CUT),
-                bundle.getString(ControlsMessageKeys.CONTEXT_MENU_COPY),
-                bundle.getString(ControlsMessageKeys.CONTEXT_MENU_PASTE),
-                bundle.getString(ControlsMessageKeys.CONTEXT_MENU_DELETE),
-                bundle.getString(ControlsMessageKeys.CONTEXT_MENU_SELECT_ALL)
+                bundle.getString(ControlsMessages.ACTION_UNDO),
+                bundle.getString(ControlsMessages.ACTION_REDO),
+                bundle.getString(ControlsMessages.ACTION_CUT),
+                bundle.getString(ControlsMessages.ACTION_COPY),
+                bundle.getString(ControlsMessages.ACTION_PASTE),
+                bundle.getString(ControlsMessages.ACTION_DELETE),
+                bundle.getString(ControlsMessages.ACTION_SELECT_ALL)
         );
     }
 

@@ -3,8 +3,8 @@ package org.telekit.base.service.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.BaseMessageKeys;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.BaseMessages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.Serializer;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class JacksonYamlSerializer<T> implements Serializer<T> {
         try {
             mapper.writeValue(outputStream, value);
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(BaseMessageKeys.MGG_UNABLE_TO_SAVE_DATA_TO_FILE));
+            throw new TelekitException(I18n.t(BaseMessages.MGG_UNABLE_TO_SAVE_DATA_TO_FILE));
         }
     }
 
@@ -35,7 +35,7 @@ public class JacksonYamlSerializer<T> implements Serializer<T> {
         try {
             return mapper.readValue(inputStream, typeRef);
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE));
+            throw new TelekitException(I18n.t(BaseMessages.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE));
         }
     }
 }

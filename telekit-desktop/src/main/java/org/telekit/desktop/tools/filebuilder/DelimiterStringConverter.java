@@ -1,11 +1,11 @@
 package org.telekit.desktop.tools.filebuilder;
 
 import javafx.util.StringConverter;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 
 import java.util.Map;
 
-import static org.telekit.desktop.MessageKeys.*;
+import static org.telekit.desktop.i18n.DesktopMessages.*;
 
 public class DelimiterStringConverter extends StringConverter<String> {
 
@@ -22,7 +22,7 @@ public class DelimiterStringConverter extends StringConverter<String> {
     @Override
     public String toString(String punctuationMark) {
         if (punctuationMark == null || punctuationMark.isEmpty() || !VALUES.containsKey(punctuationMark)) return "";
-        return punctuationMark + SEPARATOR + Messages.get(VALUES.get(punctuationMark));
+        return punctuationMark + SEPARATOR + I18n.t(VALUES.get(punctuationMark));
     }
 
     @Override

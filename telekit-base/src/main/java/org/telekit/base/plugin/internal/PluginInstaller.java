@@ -4,7 +4,7 @@ import de.skuzzle.semantic.Version;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.Env;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.util.FileUtils;
@@ -23,7 +23,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.apache.commons.lang3.StringUtils.endsWithAny;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.telekit.base.Env.*;
-import static org.telekit.base.i18n.BaseMessageKeys.*;
+import static org.telekit.base.i18n.BaseMessages.*;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileUtils.*;
 
@@ -201,21 +201,21 @@ public class PluginInstaller {
             LOGGER.info("Extracting to " + tempDir.toAbsolutePath());
 
             if (!ZipUtils.isExtractable(archiveFile)) {
-                throw new TelekitException(Messages.get(MGG_UNABLE_TO_EXTRACT_FILE));
+                throw new TelekitException(I18n.t(MGG_UNABLE_TO_EXTRACT_FILE));
             }
             ZipUtils.unzip(archiveFile, tempDir);
 
             return tempDir;
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_EXTRACT_FILE), e);
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_EXTRACT_FILE), e);
         }
     }
 
     private static void fireInstallFailed(String reason) {
-        throw new TelekitException(Messages.get(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + Messages.get(reason));
+        throw new TelekitException(I18n.t(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + I18n.t(reason));
     }
 
     private static void fireInstallFailed(String reason, Object... args) {
-        throw new TelekitException(Messages.get(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + Messages.get(reason, args));
+        throw new TelekitException(I18n.t(PLUGIN_MSG_PREFIX_INSTALLATION_FAILED) + " " + I18n.t(reason, args));
     }
 }

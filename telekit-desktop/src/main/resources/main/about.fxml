@@ -40,7 +40,7 @@
       </VBox>
       <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/telekit.png" />
+            <Image url="@../assets/images/telekit.png" />
          </image>
       </ImageView>
       <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">

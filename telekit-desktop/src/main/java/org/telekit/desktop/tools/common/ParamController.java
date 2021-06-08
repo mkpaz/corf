@@ -13,7 +13,7 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.desktop.ModalDialog;
 import org.telekit.base.desktop.ViewLoader;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.format.TextFormatters;
 import org.telekit.controls.util.BindUtils;
@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.desktop.IconCache.ICON_APP;
-import static org.telekit.desktop.MessageKeys.TOOLS_ADD_PARAM;
+import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_ADD_PARAM;
 
 @FxmlPath("/org/telekit/desktop/tools/common/param.fxml")
 public class ParamController implements Component {
@@ -117,7 +117,7 @@ public class ParamController implements Component {
     public static ModalDialog<ParamController> createDialog(Window window) {
         ParamController controller = ViewLoader.load(ParamController.class);
         return ModalDialog.builder(controller, window.getScene().getWindow())
-                .title(Messages.get(TOOLS_ADD_PARAM))
+                .title(I18n.t(TOOLS_ADD_PARAM))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();

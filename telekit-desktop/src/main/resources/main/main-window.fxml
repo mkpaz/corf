@@ -34,7 +34,7 @@
                      <children>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/telekit.png" />
+                              <Image url="@../assets/images/telekit.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="welcomeAppName" strokeType="OUTSIDE" strokeWidth="0.0" text="Telekit" />
@@ -83,8 +83,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#openPluginsDir" text="%main.OpenPluginsDirectory" />
                     </items>
                   </Menu>
-                  <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="%Restart" />
-                <MenuItem mnemonicParsing="false" onAction="#quit" text="%Quit">
+                  <MenuItem mnemonicParsing="false" onAction="#restartApplication" text="%action.Restart" />
+                <MenuItem mnemonicParsing="false" onAction="#quit" text="%action.Quit">
                      <graphic>
                         <FontAwesomeIcon glyphName="SIGN_OUT" />
                      </graphic></MenuItem>

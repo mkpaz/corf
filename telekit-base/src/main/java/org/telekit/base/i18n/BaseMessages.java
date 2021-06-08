@@ -1,17 +1,8 @@
 package org.telekit.base.i18n;
 
-public interface BaseMessageKeys {
-
-    String CONFIRMATION = "Confirmation";
-    String ERROR = "Error";
-    String INFO = "Info";
-    String KEY = "Key";
-    String PREFERENCES = "Preferences";
-    String STATUS = "Status";
-    String QUIT = "Quit";
-    String VERSION = "Version";
-    String WARNING = "Warning";
-    String VALUE = "Value";
+// Should contain any error or informational messages, which can be used
+// both in services and desktop dialogs.
+public interface BaseMessages {
 
     String MSG_GENERIC_IO_ERROR = "msg.generic-io-error";
     String MSG_INVALID_PARAM = "msg.invalid-param";
@@ -27,11 +18,6 @@ public interface BaseMessageKeys {
     String MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA = "msg.crypto.unable-to-encrypt-data";
     String MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA = "msg.crypto.unable-to-decrypt-data";
 
-    String FILE_DIALOG_TEXT = "file-dialog.text";
-    String FILE_DIALOG_XML = "file-dialog.xml";
-    String FILE_DIALOG_YAML = "file-dialog.yaml";
-    String FILE_DIALOG_ZIP = "file-dialog.zip";
-
     String PLUGIN_MSG_ALREADY_INSTALLED = "plugin.msg.already-installed";
     String PLUGIN_MSG_ERROR_WHILE_START = "plugin.msg.error-while-start";
     String PLUGIN_MSG_ERROR_WHILE_STOP = "plugin.msg.error-while-stop";
@@ -44,4 +30,6 @@ public interface BaseMessageKeys {
     String PLUGIN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS = "plugin.msg.path-does-not-contain-plugins";
     String PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STARTED = "plugin.msg.some-plugins-were-not-started";
     String PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STOPPED = "plugin.msg.some-plugins-were-not-stopped";
+
+    static BundleLoader getLoader() { return BundleLoader.of(BaseMessages.class); }
 }

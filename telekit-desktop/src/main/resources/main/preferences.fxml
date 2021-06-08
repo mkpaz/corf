@@ -90,8 +90,8 @@
          <children>
             <Label styleClass="lbl-mandatory" text="* -" />
             <Label maxWidth="1.7976931348623157E308" text="%preferences.requires-restart" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnApply" defaultButton="true" mnemonicParsing="false" onAction="#apply" text="%Submit" />
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="%Cancel" />
+            <Button fx:id="btnApply" defaultButton="true" mnemonicParsing="false" onAction="#apply" text="%action.Submit" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="%action.Cancel" />
          </children>
          <VBox.margin>
             <Insets top="10.0" />

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.desktop.mvvm.ViewModel;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 
 public interface Tool extends Extension {
 

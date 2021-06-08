@@ -1,9 +1,11 @@
-package org.telekit.desktop;
+package org.telekit.desktop.i18n;
 
-import org.telekit.base.i18n.BaseMessageKeys;
-import org.telekit.controls.i18n.ControlsMessageKeys;
+import org.telekit.base.i18n.BaseMessages;
+import org.telekit.base.i18n.BundleLoader;
+import org.telekit.controls.i18n.ControlsMessages;
 
-public interface MessageKeys extends BaseMessageKeys, ControlsMessageKeys {
+// TODO: Add all entries from messages file (for now ignore test warnings)
+public interface DesktopMessages extends BaseMessages, ControlsMessages {
 
     String MAIN_ABOUT = "main.About";
     String MAIN_PLUGIN_MANAGER = "main.PluginManager";
@@ -51,4 +53,6 @@ public interface MessageKeys extends BaseMessageKeys, ControlsMessageKeys {
     String TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS = "tools.ipcalc.msg.invalid-ip-address";
     String TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT = "tools.seq-gen.msg.sequence-size-exceeds-limit";
     String TOOLS_SS7_MSG_INVALID_POINT_CODE = "tools.ss7.msg.invalid-point-code";
+
+    static BundleLoader getLoader() { return BundleLoader.of(DesktopMessages.class); }
 }

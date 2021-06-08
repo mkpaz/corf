@@ -16,7 +16,7 @@ import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.ProgressIndicatorEvent;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.impl.SequenceGenerator;
 import org.telekit.base.service.impl.SequenceGenerator.Item;
 import org.telekit.base.util.FileUtils;
@@ -36,7 +36,7 @@ import java.util.function.BiFunction;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
-import static org.telekit.desktop.MessageKeys.*;
+import static org.telekit.desktop.i18n.DesktopMessages.*;
 
 @FxmlPath("/org/telekit/desktop/tools/seqgen/_root.fxml")
 public class SequenceGeneratorController implements Component {
@@ -91,7 +91,7 @@ public class SequenceGeneratorController implements Component {
 
     @FXML
     public void initialize() {
-        lbRowLimit.setText(Messages.get(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT));
+        lbRowLimit.setText(I18n.t(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT));
 
         initItemControls();
 
@@ -194,8 +194,8 @@ public class SequenceGeneratorController implements Component {
 
         if (SequenceGenerator.expectedSize(items) > MAX_TOTAL_RESULT_SIZE) {
             Dialogs.warning()
-                    .title(Messages.get(WARNING))
-                    .content(Messages.get(TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_TOTAL_RESULT_SIZE))
+                    .title(I18n.t(WARNING))
+                    .content(I18n.t(TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_TOTAL_RESULT_SIZE))
                     .owner(rootPane.getScene().getWindow())
                     .build()
                     .showAndWait();
@@ -229,7 +229,7 @@ public class SequenceGeneratorController implements Component {
     @FXML
     public void saveToFile() {
         File outputFile = Dialogs.fileChooser()
-                .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
+                .addFilter(I18n.t(FILE_DIALOG_TEXT), "*.txt")
                 .initialFileName(FileUtils.sanitizeFileName("sequence.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
@@ -238,7 +238,7 @@ public class SequenceGeneratorController implements Component {
         try {
             Files.writeString(outputFile.toPath(), totalResult);
         } catch (Exception e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 

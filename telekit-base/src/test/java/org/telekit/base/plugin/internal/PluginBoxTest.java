@@ -7,6 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.telekit.base.BaseSetup;
 import org.telekit.base.di.DependencyModule;
+import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
@@ -14,7 +15,6 @@ import org.telekit.base.plugin.Tool;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -67,7 +67,7 @@ public class PluginBoxTest {
         }
 
         @Override
-        public ResourceBundle getBundle(Locale locale) {
+        public BundleLoader getBundleLoader() {
             return null;
         }
 

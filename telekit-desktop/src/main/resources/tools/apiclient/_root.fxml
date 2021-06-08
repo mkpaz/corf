@@ -65,12 +65,12 @@
                                   <MenuItem fx:id="itemPreviewTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Preview" />
                                   <SeparatorMenuItem mnemonicParsing="false" />
                                   <MenuItem fx:id="itemNewTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%New" />
-                                  <MenuItem fx:id="itemEditTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Edit" />
-                                  <MenuItem fx:id="itemDuplicateTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Duplicate" />
-                                  <MenuItem fx:id="itemDeleteTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Delete" />
+                                  <MenuItem fx:id="itemEditTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%action.Edit" />
+                                  <MenuItem fx:id="itemDuplicateTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%action.Duplicate" />
+                                  <MenuItem fx:id="itemDeleteTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%action.Delete" />
                                   <SeparatorMenuItem mnemonicParsing="false" />
-                                  <MenuItem fx:id="itemImportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Import" />
-                                  <MenuItem fx:id="itemExportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Export" />
+                                  <MenuItem fx:id="itemImportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%action.Import" />
+                                  <MenuItem fx:id="itemExportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%action.Export" />
                                 </items>
                                  <graphic>
                                      <FontIcon iconLiteral="fas-ellipsis-v" />
@@ -183,8 +183,8 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem fx:id="itemAddParam" mnemonicParsing="false" onAction="#showParamDialog" text="%Add" />
-                                  <MenuItem fx:id="itemRemoveParam" mnemonicParsing="false" onAction="#removeParam" text="%Remove" />
+                                  <MenuItem fx:id="itemAddParam" mnemonicParsing="false" onAction="#showParamDialog" text="%action.Add" />
+                                  <MenuItem fx:id="itemRemoveParam" mnemonicParsing="false" onAction="#removeParam" text="%action.Remove" />
                                   <MenuItem fx:id="itemParamCompletion" mnemonicParsing="false" onAction="#showParamCompletions" text="%tools.ChooseValue" />
                                 </items>
                               </ContextMenu>
@@ -224,7 +224,7 @@
                               <HBox alignment="CENTER_LEFT">
                                  <children>
                                     <CheckBox fx:id="cbDisplayErrorsOnly" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%tools.api-client.show-unsuccessful-requests-only" HBox.hgrow="ALWAYS" />
-                                    <Button fx:id="btnExportLog" mnemonicParsing="false" onAction="#exportLogFile" text="%Export" />
+                                    <Button fx:id="btnExportLog" mnemonicParsing="false" onAction="#exportLogFile" text="%action.Export" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" />
@@ -258,7 +258,7 @@
             <Insets top="10.0" />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="btn-main" text="%Start">
+            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="btn-main" text="%action.Start">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
@@ -266,7 +266,7 @@
                      </children>
                   </StackPane>
                </graphic></Button>
-            <Button fx:id="btnStop" mnemonicParsing="false" onAction="#stopHTTPClient" styleClass="btn-main" text="%Stop">
+            <Button fx:id="btnStop" mnemonicParsing="false" onAction="#stopHTTPClient" styleClass="btn-main" text="%action.Stop">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>

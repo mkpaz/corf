@@ -5,11 +5,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.util.CommonUtils;
 import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.example.ExamplePlugin;
-import org.telekit.example.MessageKeys;
 import org.telekit.example.service.HelloService;
 
 import javax.inject.Inject;
@@ -48,7 +48,7 @@ public class ExampleController implements Component {
     @FXML
     public void hello() {
         Dialogs.info()
-                .title(Messages.get(MessageKeys.INFO))
+                .title(I18n.t(ControlsMessages.INFO))
                 .content(helloService.hello())
                 .owner(rootPane.getScene().getWindow())
                 .build()

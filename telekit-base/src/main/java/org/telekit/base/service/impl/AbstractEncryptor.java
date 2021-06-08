@@ -2,7 +2,7 @@ package org.telekit.base.service.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.Encryptor;
 
 import javax.crypto.BadPaddingException;
@@ -17,8 +17,8 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA;
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA;
+import static org.telekit.base.i18n.BaseMessages.MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA;
+import static org.telekit.base.i18n.BaseMessages.MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA;
 
 public abstract class AbstractEncryptor implements Encryptor {
 
@@ -66,7 +66,7 @@ public abstract class AbstractEncryptor implements Encryptor {
                 NoSuchPaddingException |
                 BadPaddingException |
                 IllegalBlockSizeException e) {
-            throw new TelekitException(Messages.get(MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA), e);
+            throw new TelekitException(I18n.t(MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA), e);
         }
     }
 
@@ -93,7 +93,7 @@ public abstract class AbstractEncryptor implements Encryptor {
                 NoSuchPaddingException |
                 BadPaddingException |
                 IllegalBlockSizeException e) {
-            throw new TelekitException(Messages.get(MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA), e);
+            throw new TelekitException(I18n.t(MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA), e);
         }
     }
 

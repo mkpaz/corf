@@ -1,10 +1,12 @@
 package org.telekit.example;
 
 import org.telekit.base.di.DependencyModule;
+import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.util.DesktopUtils;
+import org.telekit.example.i18n.ExampleMessages;
 import org.telekit.example.service.ExampleDependencyModule;
 import org.telekit.example.tools.DummyOneTool;
 import org.telekit.example.tools.DummyTwoTool;
@@ -26,7 +28,6 @@ public class ExamplePlugin implements Plugin {
 
     public static final String ASSETS_PATH = "/org/telekit/example/assets";
     public static final String PLUGIN_PROPERTIES_FILE_NAME = "/org/telekit/example/plugin.properties";
-    public static final String I18N_MESSAGES_PATH = "org.telekit.example.i18n.messages";
     public static final String SAMPLE_PROPERTIES_FILE_NAME = "sample.properties";
 
     private final Metadata metadata;
@@ -60,8 +61,8 @@ public class ExamplePlugin implements Plugin {
     }
 
     @Override
-    public ResourceBundle getBundle(Locale locale) {
-        return ResourceBundle.getBundle(I18N_MESSAGES_PATH, locale, ExamplePlugin.class.getModule());
+    public BundleLoader getBundleLoader() {
+        return BundleLoader.of(ExampleMessages.class);
     }
 
     @Override

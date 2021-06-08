@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.exception.InvalidInputException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.telecom.ss7.SignallingPointCode;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.util.BindUtils;
@@ -16,7 +16,7 @@ import org.telekit.controls.util.BindUtils;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.telecom.ss7.SignallingPointCode.Format;
 import static org.telekit.base.telecom.ss7.SignallingPointCode.Type;
-import static org.telekit.desktop.MessageKeys.TOOLS_SS7_MSG_INVALID_POINT_CODE;
+import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_SS7_MSG_INVALID_POINT_CODE;
 
 @FxmlPath("/org/telekit/desktop/tools/ss7/spc-conv.fxml")
 public class SPCConverterController implements Component {
@@ -70,7 +70,7 @@ public class SPCConverterController implements Component {
             SignallingPointCode spc = SignallingPointCode.parse(spcStr, type, fmt);
             updateResult(spc);
         } catch (InvalidInputException e) {
-            taResult.setText(Messages.get(TOOLS_SS7_MSG_INVALID_POINT_CODE));
+            taResult.setText(I18n.t(TOOLS_SS7_MSG_INVALID_POINT_CODE));
         }
     }
 

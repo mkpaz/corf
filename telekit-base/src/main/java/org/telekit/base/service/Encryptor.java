@@ -3,7 +3,7 @@ package org.telekit.base.service;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.impl.AesGcmEncryptor;
 import org.telekit.base.service.impl.ChaCha20Encryptor;
 import org.telekit.base.util.CryptoUtils;
@@ -12,7 +12,7 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_CRYPTO_GENERIC_ERROR;
+import static org.telekit.base.i18n.BaseMessages.MGG_CRYPTO_GENERIC_ERROR;
 
 public interface Encryptor {
 
@@ -81,7 +81,7 @@ public interface Encryptor {
         try {
             return CryptoUtils.generateKey(alg.getKeyAlg(), alg.getKeyLength());
         } catch (NoSuchAlgorithmException e) {
-            throw new TelekitException(Messages.get(MGG_CRYPTO_GENERIC_ERROR, e));
+            throw new TelekitException(I18n.t(MGG_CRYPTO_GENERIC_ERROR, e));
         }
     }
 

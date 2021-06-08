@@ -88,7 +88,7 @@
          <children>
             <Label fx:id="lbRowLimit" opacity="0.75" styleClass="text-sm" text="%tools.only-first-N-rows-will-be-shown" />
             <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnSaveToFile" mnemonicParsing="false" onAction="#saveToFile" text="%Save" />
+            <Button fx:id="btnSaveToFile" mnemonicParsing="false" onAction="#saveToFile" text="%action.Save" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="3">
@@ -107,7 +107,7 @@
             <Insets top="10.0" />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="%Generate">
+            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="%action.Generate">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>

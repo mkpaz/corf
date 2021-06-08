@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.telekit.base.Env;
 import org.telekit.base.di.Injector;
-import org.telekit.base.i18n.BaseMessagesBundleProvider;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.BaseMessages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Tool;
 import org.telekit.example.ExamplePlugin;
 import org.telekit.example.service.ExampleDependencyModule;
@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Objects;
 
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.telekit.example.ExamplePlugin.ASSETS_PATH;
 
 public class DemoLauncher extends Application {
@@ -35,15 +36,16 @@ public class DemoLauncher extends Application {
 
         ExamplePlugin plugin = new ExamplePlugin();
 
-        Locale.setDefault(Env.LOCALE);
-        Messages.getInstance().load(BaseMessagesBundleProvider.getBundle(Locale.getDefault()), Messages.class.getName());
-        Messages.getInstance().load(plugin.getBundle(Locale.getDefault()), DemoLauncher.class.getName());
+        Locale.setDefault(defaultIfNull(Env.LOCALE, Locale.getDefault()));
+        I18n.getInstance().register(BaseMessages.getLoader());
+        I18n.getInstance().register(plugin.getBundleLoader());
+        I18n.getInstance().reload();
 
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
 
         Tool exampleTool = new HelloTool();
         ExampleController controller = (ExampleController) exampleTool.createComponent();
-        Scene scene = new Scene(controller.getRoot(), 1440, 900);
+        Scene scene = new Scene(controller.getRoot(), 800, 600);
 
         primaryStage.setTitle(Env.APP_NAME);
         primaryStage.setResizable(false);

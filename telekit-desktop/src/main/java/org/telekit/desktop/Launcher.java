@@ -20,8 +20,8 @@ import org.telekit.base.di.Injector;
 import org.telekit.base.domain.SecuredData;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
-import org.telekit.base.i18n.BaseMessagesBundleProvider;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.BaseMessages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.internal.PluginBox;
 import org.telekit.base.plugin.internal.PluginCleaner;
@@ -33,9 +33,10 @@ import org.telekit.base.preferences.Security;
 import org.telekit.base.preferences.Vault;
 import org.telekit.base.util.Mappers;
 import org.telekit.base.util.PasswordGenerator;
-import org.telekit.controls.i18n.ControlsMessagesBundleProvider;
+import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.controls.theme.ThemeLoader;
 import org.telekit.desktop.domain.CloseEvent;
+import org.telekit.desktop.i18n.DesktopMessages;
 import org.telekit.desktop.main.FileCompletionMonitoringService;
 import org.telekit.desktop.main.MainController;
 
@@ -64,8 +65,8 @@ import static org.telekit.base.util.DesktopUtils.xdgCurrentDesktopMatches;
 import static org.telekit.base.util.FileUtils.createDir;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.desktop.IconCache.ICON_APP;
-import static org.telekit.desktop.MessageKeys.MAIN_TRAY_OPEN;
-import static org.telekit.desktop.MessageKeys.QUIT;
+import static org.telekit.desktop.i18n.DesktopMessages.MAIN_TRAY_OPEN;
+import static org.telekit.desktop.i18n.DesktopMessages.ACTION_QUIT;
 
 public class Launcher extends Application {
 
@@ -205,18 +206,10 @@ public class Launcher extends Application {
         // set default locale and load resource bundles
         // after that any component can just call Locale.getDefault()
         Locale.setDefault(preferences.getLocale());
-        Messages.getInstance().load(
-                ControlsMessagesBundleProvider.getBundle(Locale.getDefault()),
-                ControlsMessagesBundleProvider.class.getName()
-        );
-        Messages.getInstance().load(
-                BaseMessagesBundleProvider.getBundle(Locale.getDefault()),
-                BaseMessagesBundleProvider.class.getName()
-        );
-        Messages.getInstance().load(
-                ResourceBundle.getBundle(I18N_RESOURCES_PATH, Locale.getDefault(), Launcher.class.getModule()),
-                Launcher.class.getName()
-        );
+        I18n.getInstance().register(BaseMessages.getLoader());
+        I18n.getInstance().register(ControlsMessages.getLoader());
+        I18n.getInstance().register(DesktopMessages.getLoader());
+        I18n.getInstance().reload();
 
         // save preferences if changes were made
         if (this.preferences.isDirty()) {
@@ -322,7 +315,7 @@ public class Launcher extends Application {
 
             PopupMenu trayMenu = new PopupMenu();
 
-            MenuItem showItem = new MenuItem(Messages.get(MAIN_TRAY_OPEN));
+            MenuItem showItem = new MenuItem(I18n.t(MAIN_TRAY_OPEN));
             ActionListener showListener = e -> {
                 if (primaryStage.isShowing()) {
                     Platform.runLater(primaryStage::toFront);
@@ -333,7 +326,7 @@ public class Launcher extends Application {
             showItem.addActionListener(showListener);
             trayMenu.add(showItem);
 
-            MenuItem closeItem = new MenuItem(Messages.get(QUIT));
+            MenuItem closeItem = new MenuItem(I18n.t(ACTION_QUIT));
             ActionListener closeListener = e ->
                     Platform.runLater(() -> DefaultEventBus.getInstance().publish(new CloseEvent(exitCode)));
             closeItem.addActionListener(closeListener);

@@ -141,9 +141,10 @@ public final class Env {
         return System.getProperty(propertyKey, System.getenv(envKey));
     }
 
-    public static final Locale LOCALE = getLocaleOrDefault();
+    /** Only used for testing. Application itself obtains locale from user preferences. */
+    public static final @Nullable Locale LOCALE = getLocaleFromEnv();
 
-    public static Locale getLocaleOrDefault() {
+    public static @Nullable Locale getLocaleFromEnv() {
         String localeStr = getPropertyOrEnv("telekit.language", "TELEKIT_LANGUAGE");
         if (isNotBlank(localeStr)) {
             Locale locale = new Locale.Builder().setLanguageTag(localeStr).build();
@@ -151,7 +152,7 @@ public final class Env {
                 return locale;
             }
         }
-        return Locale.getDefault();
+        return null;
     }
 
     // TODO: Find a better way to provide app version. This way it can be manipulated at runtime.

@@ -4,9 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.ViewLoader;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Tool;
-import org.telekit.desktop.MessageKeys;
+import org.telekit.desktop.i18n.DesktopMessages;
 import org.telekit.desktop.tools.apiclient.ApiClientController;
 import org.telekit.desktop.tools.base64.Base64Controller;
 import org.telekit.desktop.tools.filebuilder.FileBuilderController;
@@ -24,15 +24,15 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public enum BuiltinTool implements Tool {
 
     //@formatter:off
-    API_CLIENT    (MessageKeys.TOOLS_API_CLIENT, null, false),
-    BASE64        (MessageKeys.TOOLS_BASE64, null, false),
-    FILE_BUILDER  (MessageKeys.TOOLS_FILE_BUILDER, null, false),
-    IP4_CALC      (MessageKeys.TOOLS_IP4_CALC, null, false),
-    PASS_GEN      (MessageKeys.TOOLS_PASS_GEN, null, false),
-    SEQ_GEN       (MessageKeys.TOOLS_SEQ_GEN, null, false),
-    SS7_SPC_CONV  (MessageKeys.TOOLS_SS7_SPC_CONV, MessageKeys.TOOLS_GROUP_SS7, true),
-    SS7_CIC_TABLE (MessageKeys.TOOLS_SS7_CIC_TABLE, MessageKeys.TOOLS_GROUP_SS7, false),
-    TRANSLIT      (MessageKeys.TOOLS_TRANSLIT, null, false);
+    API_CLIENT    (DesktopMessages.TOOLS_API_CLIENT, null, false),
+    BASE64        (DesktopMessages.TOOLS_BASE64, null, false),
+    FILE_BUILDER  (DesktopMessages.TOOLS_FILE_BUILDER, null, false),
+    IP4_CALC      (DesktopMessages.TOOLS_IP4_CALC, null, false),
+    PASS_GEN      (DesktopMessages.TOOLS_PASS_GEN, null, false),
+    SEQ_GEN       (DesktopMessages.TOOLS_SEQ_GEN, null, false),
+    SS7_SPC_CONV  (DesktopMessages.TOOLS_SS7_SPC_CONV, DesktopMessages.TOOLS_GROUP_SS7, true),
+    SS7_CIC_TABLE (DesktopMessages.TOOLS_SS7_CIC_TABLE, DesktopMessages.TOOLS_GROUP_SS7, false),
+    TRANSLIT      (DesktopMessages.TOOLS_TRANSLIT, null, false);
     //@formatter:on
 
     private final String nameKey;
@@ -47,12 +47,12 @@ public enum BuiltinTool implements Tool {
 
     @Override
     public @NotNull String getName() {
-        return Messages.get(nameKey);
+        return I18n.t(nameKey);
     }
 
     @Override
     public @Nullable String getGroupName() {
-        return isNotBlank(groupNameKey) ? Messages.get(groupNameKey) : null;
+        return isNotBlank(groupNameKey) ? I18n.t(groupNameKey) : null;
     }
 
     @Override

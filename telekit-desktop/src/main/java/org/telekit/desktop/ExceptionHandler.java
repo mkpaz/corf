@@ -10,8 +10,9 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.desktop.domain.ExceptionCaughtEvent;
 
 import java.util.List;
@@ -20,9 +21,8 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
-import static org.telekit.base.i18n.BaseMessageKeys.ERROR;
 import static org.telekit.base.util.CollectionUtils.getLast;
-import static org.telekit.desktop.MessageKeys.MAIN_MSG_ERROR_OCCURRED;
+import static org.telekit.desktop.i18n.DesktopMessages.MAIN_MSG_ERROR_OCCURRED;
 
 public final class ExceptionHandler {
 
@@ -51,7 +51,7 @@ public final class ExceptionHandler {
             Throwable cause = findExactCauseOrRootIfNotPresent(throwable, TelekitException.class);
 
             exceptionDialog.setHeaderText(ensureGrammar(
-                    defaultIfBlank(cause.getMessage(), Messages.get(MAIN_MSG_ERROR_OCCURRED))
+                    defaultIfBlank(cause.getMessage(), I18n.t(MAIN_MSG_ERROR_OCCURRED))
             ));
 
             exceptionDialog.setStackTrace(
@@ -97,7 +97,7 @@ public final class ExceptionHandler {
 
         public ExceptionDialog() {
             dialog = Dialogs.error()
-                    .title(Messages.get(ERROR))
+                    .title(I18n.t(ControlsMessages.ERROR))
                     .header(null)
                     .owner(primaryStage)
                     .build();

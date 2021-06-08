@@ -20,7 +20,7 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.internal.PluginBox;
@@ -44,7 +44,7 @@ import java.util.Set;
 import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.telekit.base.plugin.internal.PluginState.*;
 import static org.telekit.base.util.CommonUtils.className;
-import static org.telekit.desktop.MessageKeys.*;
+import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 
 @FxmlPath("/org/telekit/desktop/main/plugin-manager.fxml")
@@ -165,7 +165,7 @@ public class PluginManagerController implements Component {
     @FXML
     public void installPlugin() {
         File zipFile = Dialogs.fileChooser()
-                .addFilter(Messages.get(FILE_DIALOG_ZIP), "*.zip")
+                .addFilter(I18n.t(FILE_DIALOG_ZIP), "*.zip")
                 .build()
                 .showOpenDialog(rootPane.getScene().getWindow());
 
@@ -175,8 +175,8 @@ public class PluginManagerController implements Component {
 
         updatePluginsList(0);
         Dialogs.info()
-                .title(Messages.get(INFO))
-                .content(Messages.get(PLUGIN_MANAGER_MSG_INSTALL_SUCCESS))
+                .title(I18n.t(INFO))
+                .content(I18n.t(PLUGIN_MANAGER_MSG_INSTALL_SUCCESS))
                 .owner(rootPane.getScene().getWindow())
                 .build()
                 .showAndWait();
@@ -197,8 +197,8 @@ public class PluginManagerController implements Component {
 
         if (pluginBox.hasConfigs()) {
             Alert dialog = Dialogs.confirm()
-                    .title(Messages.get(CONFIRMATION))
-                    .content(Messages.get(PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM))
+                    .title(I18n.t(CONFIRMATION))
+                    .content(I18n.t(PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM))
                     .setButtonTypes(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL)
                     .owner(rootPane.getScene().getWindow())
                     .build();
@@ -214,8 +214,8 @@ public class PluginManagerController implements Component {
 
         updatePluginsList(0);
         Dialogs.info()
-                .title(Messages.get(INFO))
-                .content(Messages.get(PLUGIN_MANAGER_MSG_UNINSTALL_SUCCESS))
+                .title(I18n.t(INFO))
+                .content(I18n.t(PLUGIN_MANAGER_MSG_UNINSTALL_SUCCESS))
                 .owner(rootPane.getScene().getWindow())
                 .build()
                 .showAndWait();

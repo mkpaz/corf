@@ -108,7 +108,7 @@
       </TableView>
       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateDetailedInfo" styleClass="btn-main" text="%Update">
+            <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#updateDetailedInfo" styleClass="btn-main" text="%action.Update">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
@@ -132,7 +132,7 @@
       <HBox GridPane.columnIndex="2" GridPane.rowIndex="5">
          <children>
             <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnSaveToFile" mnemonicParsing="false" onAction="#saveSplitResultToFile" text="%Save" />
+            <Button fx:id="btnSaveToFile" mnemonicParsing="false" onAction="#saveSplitResultToFile" text="%action.Save" />
          </children>
       </HBox>
    </children>

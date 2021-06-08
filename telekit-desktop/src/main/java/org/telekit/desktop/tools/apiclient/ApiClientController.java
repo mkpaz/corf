@@ -34,7 +34,7 @@ import org.telekit.base.domain.UsernamePasswordCredential;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.ProgressIndicatorEvent;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.service.CompletionProvider;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
@@ -69,8 +69,9 @@ import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.util.BindUtils.rebind;
 import static org.telekit.desktop.IconCache.ICON_APP;
-import static org.telekit.desktop.MessageKeys.*;
 import static org.telekit.desktop.domain.ApplicationEvent.Type.COMPLETION_REGISTRY_UPDATED;
+import static org.telekit.desktop.i18n.DesktopMessages.*;
+import static org.telekit.desktop.tools.Action.NEW;
 import static org.telekit.desktop.tools.Action.*;
 import static org.telekit.desktop.tools.apiclient.Executor.validate;
 
@@ -180,7 +181,7 @@ public class ApiClientController implements Component {
 
     private void initTemplatesMenu() {
         itemPreviewTemplate.setUserData(Action.PREVIEW);
-        itemNewTemplate.setUserData(Action.NEW);
+        itemNewTemplate.setUserData(NEW);
         itemEditTemplate.setUserData(EDIT);
         itemDuplicateTemplate.setUserData(DUPLICATE);
         itemDeleteTemplate.setUserData(Action.DELETE);
@@ -356,8 +357,8 @@ public class ApiClientController implements Component {
         if (template == null) { return; }
 
         Alert dialog = Dialogs.confirm()
-                .title(Messages.get(CONFIRMATION))
-                .content(Messages.get(TOOLS_MSG_DELETE_TEMPLATE, template.getName()))
+                .title(I18n.t(CONFIRMATION))
+                .content(I18n.t(TOOLS_MSG_DELETE_TEMPLATE, template.getName()))
                 .owner(getWindow())
                 .build();
         Optional<ButtonType> confirmation = dialog.showAndWait();
@@ -382,13 +383,13 @@ public class ApiClientController implements Component {
             Files.writeString(outputFile.toPath(), html);
             DesktopUtils.browse(outputFile.toURI());
         } catch (IOException e) {
-            throw new TelekitException(Messages.get(MSG_GENERIC_IO_ERROR), e);
+            throw new TelekitException(I18n.t(MSG_GENERIC_IO_ERROR), e);
         }
     }
 
     private void importTemplate() {
         File inputFile = Dialogs.fileChooser()
-                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.yaml", "*.yml")
+                .addFilter(I18n.t(FILE_DIALOG_YAML), "*.yaml", "*.yml")
                 .build()
                 .showOpenDialog(getWindow());
         if (inputFile == null) return;
@@ -402,7 +403,7 @@ public class ApiClientController implements Component {
 
     private void exportTemplate(Template template) {
         File outputFile = Dialogs.fileChooser()
-                .addFilter(Messages.get(FILE_DIALOG_YAML), "*.yaml", "*.yml")
+                .addFilter(I18n.t(FILE_DIALOG_YAML), "*.yaml", "*.yml")
                 .initialFileName(FileUtils.sanitizeFileName(template.getName()) + ".yaml")
                 .build()
                 .showSaveDialog(getWindow());
@@ -507,7 +508,7 @@ public class ApiClientController implements Component {
 
         ParamCompletionController controller = new ParamCompletionController();
         paramCompletionDialog = ModalDialog.builder(controller, controller, getWindow())
-                .title(Messages.get(TOOLS_CHOOSE_VALUE))
+                .title(I18n.t(TOOLS_CHOOSE_VALUE))
                 .icon(IconCache.get(ICON_APP))
                 .prefSize(new Dimension(480, 400))
                 .resizable(false)
@@ -561,11 +562,11 @@ public class ApiClientController implements Component {
 
         executor.setOnSucceeded(event -> {
             toggleProgressIndicator(false);
-            Platform.runLater(() -> reportTaskDone(Messages.get(MSG_TASK_COMPLETED), executor.getPartialResults()));
+            Platform.runLater(() -> reportTaskDone(I18n.t(MSG_TASK_COMPLETED), executor.getPartialResults()));
         });
         executor.setOnCancelled(event -> {
             toggleProgressIndicator(false);
-            Platform.runLater(() -> reportTaskDone(Messages.get(MSG_TASK_CANCELED), executor.getPartialResults()));
+            Platform.runLater(() -> reportTaskDone(I18n.t(MSG_TASK_CANCELED), executor.getPartialResults()));
         });
         executor.setOnFailed(event -> {
             toggleProgressIndicator(false);
@@ -590,7 +591,7 @@ public class ApiClientController implements Component {
         int successCount = (int) result.stream().filter(CompletedRequest::isSucceeded).count();
 
         Alert dialog = Dialogs.info()
-                .title(Messages.get(INFO))
+                .title(I18n.t(INFO))
                 .content("")
                 .owner(getWindow())
                 .build();
@@ -598,8 +599,8 @@ public class ApiClientController implements Component {
         TextBuilder text = new TextBuilder();
         text.appendLine(message);
         text.newLine();
-        text.appendLine(Messages.get(STATUS), ":");
-        text.appendLine(Messages.get(TOOLS_APICLIENT_TASK_REPORT, result.size(), successCount, result.size() - successCount));
+        text.appendLine(I18n.t(STATUS), ":");
+        text.appendLine(I18n.t(TOOLS_APICLIENT_TASK_REPORT, result.size(), successCount, result.size() - successCount));
 
         Label label = new Label(text.toString());
         label.setWrapText(true);
@@ -619,17 +620,17 @@ public class ApiClientController implements Component {
         if (warnings.isEmpty()) return true;
 
         Alert dialog = Dialogs.confirm()
-                .title(Messages.get(WARNING))
+                .title(I18n.t(WARNING))
                 .owner(getWindow())
                 .content("")
                 .build();
 
         TextBuilder text = new TextBuilder();
-        text.appendLine(Messages.get(TOOLS_MSG_VALIDATION_HEAD));
+        text.appendLine(I18n.t(TOOLS_MSG_VALIDATION_HEAD));
         text.newLine();
         text.appendLines(warnings);
         text.newLine();
-        text.append(Messages.get(TOOLS_MSG_VALIDATION_TAIL));
+        text.append(I18n.t(TOOLS_MSG_VALIDATION_TAIL));
 
         Label label = new Label(text.toString());
         label.setWrapText(true);
@@ -642,7 +643,7 @@ public class ApiClientController implements Component {
     @FXML
     public void exportLogFile() {
         File outputFile = Dialogs.fileChooser()
-                .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
+                .addFilter(I18n.t(FILE_DIALOG_TEXT), "*.txt")
                 .initialFileName(FileUtils.sanitizeFileName("api-client-log.txt"))
                 .build()
                 .showSaveDialog(getWindow());
@@ -670,7 +671,7 @@ public class ApiClientController implements Component {
                 out.write(eol);
             }
         } catch (Exception e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 

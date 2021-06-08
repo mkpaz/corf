@@ -19,8 +19,7 @@ import org.telekit.base.desktop.Dimension;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.base.event.ProgressIndicatorEvent;
-import org.telekit.base.i18n.BaseMessageKeys;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.plugin.internal.ExtensionBox;
@@ -51,10 +50,11 @@ import java.util.stream.Collectors;
 import static org.telekit.base.Env.DOCS_DIR;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.Formatter.byteCountToDisplaySize;
+import static org.telekit.controls.i18n.ControlsMessages.VERSION;
 import static org.telekit.controls.util.ControlUtils.addStyleClass;
 import static org.telekit.controls.util.ControlUtils.removeStyleClass;
 import static org.telekit.desktop.IconCache.ICON_APP;
-import static org.telekit.desktop.MessageKeys.*;
+import static org.telekit.desktop.i18n.DesktopMessages.*;
 
 @FxmlPath("/org/telekit/desktop/main/main-window.fxml")
 public class MainController implements Component {
@@ -118,7 +118,7 @@ public class MainController implements Component {
 
         // setup and bring welcome screen to the front
         welcomeAppName.setText(Env.APP_NAME);
-        welcomeAppVersion.setText(Messages.get(BaseMessageKeys.VERSION).toLowerCase() + " " + Env.getAppVersion());
+        welcomeAppVersion.setText(I18n.t(VERSION).toLowerCase() + " " + Env.getAppVersion());
         paneWelcome.toFront();
 
         // hide welcome screen if at least one tab opened
@@ -288,7 +288,7 @@ public class MainController implements Component {
     public void showAboutDialog() {
         AboutController controller = ViewLoader.load(AboutController.class);
         ModalDialog.builder(controller, primaryStage)
-                .title(Messages.get(MAIN_ABOUT))
+                .title(I18n.t(MAIN_ABOUT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build()
@@ -299,7 +299,7 @@ public class MainController implements Component {
     public void showPreferences() {
         PreferencesController controller = ViewLoader.load(PreferencesController.class);
         ModalDialog.builder(controller, primaryStage)
-                .title(Messages.get(PREFERENCES))
+                .title(I18n.t(PREFERENCES))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build()
@@ -310,7 +310,7 @@ public class MainController implements Component {
     public void showPluginManager() {
         PluginManagerController controller = ViewLoader.load(PluginManagerController.class);
         ModalDialog.builder(controller, primaryStage)
-                .title(Messages.get(MAIN_PLUGIN_MANAGER))
+                .title(I18n.t(MAIN_PLUGIN_MANAGER))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build()
@@ -363,7 +363,7 @@ public class MainController implements Component {
     @Listener
     private void onApplicationEvent(ApplicationEvent event) {
         switch (event.getType()) {
-            case RESTART_REQUIRED -> primaryStage.setTitle(Env.APP_NAME + " (" + Messages.get(MAIN_RESTART_REQUIRED) + ")");
+            case RESTART_REQUIRED -> primaryStage.setTitle(Env.APP_NAME + " (" + I18n.t(MAIN_RESTART_REQUIRED) + ")");
             case PREFERENCES_CHANGED -> {
                 ApplicationPreferences.save(preferences, yamlMapper);
                 preferences.resetDirty();

@@ -4,7 +4,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.di.Injector;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.BundleLoader;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Extension;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.preferences.ApplicationPreferences;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.telekit.base.Env.PLUGINS_DIR;
-import static org.telekit.base.i18n.BaseMessageKeys.*;
+import static org.telekit.base.i18n.BaseMessages.*;
 import static org.telekit.base.plugin.internal.PluginState.*;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.CommonUtils.objectClassName;
@@ -234,15 +235,16 @@ public class PluginManager {
             pluginBox.setState(STARTED);
 
             // if started, load resource bundle
-            ResourceBundle bundle = pluginBox.getPlugin().getBundle(Locale.getDefault());
-            if (bundle != null) {
-                Messages.getInstance().load(bundle, className(pluginBox.getPluginClass()));
+            BundleLoader bundleLoader = pluginBox.getPlugin().getBundleLoader();
+            if (bundleLoader != null) {
+                I18n.getInstance().register(bundleLoader);
+                I18n.getInstance().reload();
             }
         } catch (Throwable t) {
             LOGGER.severe("Failed to start plugin: " + className(pluginBox.getPluginClass()));
             LOGGER.severe(ExceptionUtils.getStackTrace(t));
             pluginBox.setState(PluginState.FAILED);
-            throw new PluginException(Messages.get(PLUGIN_MSG_ERROR_WHILE_START), t);
+            throw new PluginException(I18n.t(PLUGIN_MSG_ERROR_WHILE_START), t);
         }
     }
 
@@ -251,11 +253,18 @@ public class PluginManager {
             LOGGER.fine("Stopping plugin: " + className(pluginBox.getPluginClass()));
             pluginBox.getPlugin().stop();
             pluginBox.setState(STOPPED);
+
+            // cleanup i18n resources
+            BundleLoader bundleLoader = pluginBox.getPlugin().getBundleLoader();
+            if (bundleLoader != null) {
+                I18n.getInstance().unregister(bundleLoader.id());
+                I18n.getInstance().reload();
+            }
         } catch (Throwable t) {
             LOGGER.severe("Failed to stop plugin: " + className(pluginBox.getPluginClass()));
             LOGGER.severe(ExceptionUtils.getStackTrace(t));
             pluginBox.setState(PluginState.FAILED);
-            throw new PluginException(Messages.get(PLUGIN_MSG_ERROR_WHILE_STOP), t);
+            throw new PluginException(I18n.t(PLUGIN_MSG_ERROR_WHILE_STOP), t);
         }
     }
 

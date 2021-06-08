@@ -15,7 +15,7 @@ import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.desktop.ModalDialog;
 import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.telecom.ip.IP4Address;
 import org.telekit.base.telecom.ip.IP4Subnet;
 import org.telekit.base.util.FileUtils;
@@ -41,7 +41,7 @@ import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.base.util.StringUtils.stringify;
 import static org.telekit.controls.util.TableUtils.createIndexCellFactory;
 import static org.telekit.desktop.IconCache.ICON_APP;
-import static org.telekit.desktop.MessageKeys.*;
+import static org.telekit.desktop.i18n.DesktopMessages.*;
 
 @FxmlPath("/org/telekit/desktop/tools/ipcalc/ipv4-calc.fxml")
 public class IPv4Controller implements Component {
@@ -157,7 +157,7 @@ public class IPv4Controller implements Component {
             address = getEnteredAddress();
             subnet = getEnteredSubnet();
         } catch (Exception e) {
-            taDetails.setText(Messages.get(TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS));
+            taDetails.setText(I18n.t(TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS));
             return;
         }
 
@@ -209,7 +209,7 @@ public class IPv4Controller implements Component {
 
         IPv4ConverterController controller = ViewLoader.load(IPv4ConverterController.class);
         converterDialog = ModalDialog.builder(controller, getWindow())
-                .title(Messages.get(TOOLS_IPCALC_TASK_REPORT))
+                .title(I18n.t(TOOLS_IPCALC_TASK_REPORT))
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
@@ -222,7 +222,7 @@ public class IPv4Controller implements Component {
     public void saveSplitResultToFile() {
         List<Subnet> subnets = tblSplit.getItems();
         File outputFile = Dialogs.fileChooser()
-                .addFilter(Messages.get(FILE_DIALOG_TEXT), "*.txt")
+                .addFilter(I18n.t(FILE_DIALOG_TEXT), "*.txt")
                 .initialFileName(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
                 .showSaveDialog(getWindow());
@@ -237,7 +237,7 @@ public class IPv4Controller implements Component {
                 out.write("\n");
             }
         } catch (Exception e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 

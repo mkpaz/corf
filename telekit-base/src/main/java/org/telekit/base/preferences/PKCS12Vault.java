@@ -2,7 +2,7 @@ package org.telekit.base.preferences;
 
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.domain.exception.VaultLockedException;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +14,8 @@ import java.security.cert.CertificateException;
 import java.util.Objects;
 import java.util.Optional;
 
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_CRYPTO_GENERIC_ERROR;
-import static org.telekit.base.i18n.BaseMessageKeys.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
+import static org.telekit.base.i18n.BaseMessages.MGG_CRYPTO_GENERIC_ERROR;
+import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.util.StringUtils.bytesToChars;
 
 public class PKCS12Vault implements Vault {
@@ -31,7 +31,7 @@ public class PKCS12Vault implements Vault {
             this.keyStorePath = Objects.requireNonNull(keyStorePath);
             this.keyStore = KeyStore.getInstance(vaultType.getKeyStoreType());
         } catch (KeyStoreException e) {
-            throw new TelekitException(Messages.get(MGG_CRYPTO_GENERIC_ERROR, e));
+            throw new TelekitException(I18n.t(MGG_CRYPTO_GENERIC_ERROR, e));
         }
     }
 
@@ -62,9 +62,9 @@ public class PKCS12Vault implements Vault {
             char[] passwordSeq = bytesToChars(password);
             return Optional.ofNullable(keyStore.getKey(alias, passwordSeq));
         } catch (NoSuchAlgorithmException e) {
-            throw new TelekitException(Messages.get(MGG_CRYPTO_GENERIC_ERROR, e));
+            throw new TelekitException(I18n.t(MGG_CRYPTO_GENERIC_ERROR, e));
         } catch (KeyStoreException | UnrecoverableKeyException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
         }
     }
 
@@ -82,7 +82,7 @@ public class PKCS12Vault implements Vault {
             char[] passwordSeq = bytesToChars(password);
             keyStore.setKeyEntry(alias, key, passwordSeq, null);
         } catch (KeyStoreException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
         }
     }
 
@@ -106,9 +106,9 @@ public class PKCS12Vault implements Vault {
                 this.loaded = true;
             }
         } catch (NoSuchAlgorithmException e) {
-            throw new TelekitException(Messages.get(MGG_CRYPTO_GENERIC_ERROR, e));
+            throw new TelekitException(I18n.t(MGG_CRYPTO_GENERIC_ERROR, e));
         } catch (IOException | CertificateException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
         }
     }
 
@@ -129,9 +129,9 @@ public class PKCS12Vault implements Vault {
             char[] passwordSeq = bytesToChars(password);
             keyStore.store(outputStream, passwordSeq);
         } catch (NoSuchAlgorithmException e) {
-            throw new TelekitException(Messages.get(MGG_CRYPTO_GENERIC_ERROR, e));
+            throw new TelekitException(I18n.t(MGG_CRYPTO_GENERIC_ERROR, e));
         } catch (CertificateException | KeyStoreException | IOException e) {
-            throw new TelekitException(Messages.get(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
+            throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE, e));
         }
     }
 }

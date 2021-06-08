@@ -15,7 +15,7 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.StyleClassedTextArea;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.controls.components.ContextMenuPolicy;
 import org.telekit.controls.components.richtextfx.RichTextFXContextMenu;
 import org.telekit.controls.components.richtextfx.RichTextFXHelper;
@@ -92,7 +92,7 @@ public class DemoController implements Component {
         styleClassedTextArea.showParagraphAtTop(0);
 
         RichTextFXContextMenu contextMenu = new RichTextFXContextMenu(
-                Messages.getInstance(),
+                I18n.getInstance(),
                 new ContextMenuPolicy(false, true)
         );
         styleClassedTextArea.setContextMenu(contextMenu);

@@ -15,7 +15,7 @@ import org.telekit.base.domain.UsernamePasswordCredential;
 import org.telekit.base.domain.exception.InvalidInputException;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.i18n.Messages;
+import org.telekit.base.i18n.I18n;
 import org.telekit.base.net.UriUtils;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.preferences.Language;
@@ -28,7 +28,7 @@ import java.util.Arrays;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.domain.Proxy.NO_PROXY;
-import static org.telekit.base.i18n.BaseMessageKeys.MSG_INVALID_PARAM;
+import static org.telekit.base.i18n.BaseMessages.MSG_INVALID_PARAM;
 import static org.telekit.desktop.domain.ApplicationEvent.Type.PREFERENCES_CHANGED;
 
 @FxmlPath("/org/telekit/desktop/main/preferences.fxml")
@@ -94,7 +94,7 @@ public class PreferencesController implements Component {
         try {
             uri = UriUtils.parse(proxyUrl.trim());
         } catch (InvalidInputException e) {
-            throw new TelekitException(Messages.get(MSG_INVALID_PARAM, proxyUrl));
+            throw new TelekitException(I18n.t(MSG_INVALID_PARAM, proxyUrl));
         }
 
         UsernamePasswordCredential credential = null;

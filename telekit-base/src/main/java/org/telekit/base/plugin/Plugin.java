@@ -2,6 +2,7 @@ package org.telekit.base.plugin;
 
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.di.DependencyModule;
+import org.telekit.base.i18n.BundleLoader;
 
 import java.net.URL;
 import java.security.CodeSource;
@@ -22,7 +23,7 @@ public interface Plugin {
 
     Collection<? extends DependencyModule> getModules();
 
-    ResourceBundle getBundle(Locale locale);
+    BundleLoader getBundleLoader();
 
     void start();
 
