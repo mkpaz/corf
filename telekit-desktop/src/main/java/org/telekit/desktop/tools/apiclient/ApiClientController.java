@@ -33,7 +33,7 @@ import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.domain.UsernamePasswordCredential;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.event.ProgressIndicatorEvent;
+import org.telekit.base.event.ProgressEvent;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.service.CompletionProvider;
@@ -583,7 +583,7 @@ public class ApiClientController implements Component {
     }
 
     private void toggleProgressIndicator(boolean on) {
-        DefaultEventBus.getInstance().publish(new ProgressIndicatorEvent(on));
+        DefaultEventBus.getInstance().publish(new ProgressEvent(on));
     }
 
     private void reportTaskDone(String message, List<CompletedRequest> result) {

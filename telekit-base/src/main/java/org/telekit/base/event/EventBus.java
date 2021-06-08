@@ -2,7 +2,6 @@ package org.telekit.base.event;
 
 import java.util.function.Consumer;
 
-// TODO: implement event callbacks
 public interface EventBus {
 
     /**
@@ -12,14 +11,14 @@ public interface EventBus {
      * @param subscriber the subscriber which will consume the events.
      * @param <T> the event type class.
      */
-    <T> void subscribe(Class<? extends T> eventType, Consumer<T> subscriber);
+    <T extends Event> void subscribe(Class<? extends T> eventType, Consumer<T> subscriber);
 
     /**
      * Unsubscribe from all event types.
      *
      * @param subscriber the subscriber to unsubscribe.
      */
-    void unsubscribe(Consumer<?> subscriber);
+    <T extends Event> void unsubscribe(Consumer<T> subscriber);
 
     /**
      * Unsubscribe from an event type.
@@ -28,7 +27,7 @@ public interface EventBus {
      * @param subscriber the subscriber to unsubscribe.
      * @param <T> the event type class.
      */
-    <T> void unsubscribe(Class<? extends T> eventType, Consumer<T> subscriber);
+    <T extends Event> void unsubscribe(Class<? extends T> eventType, Consumer<T> subscriber);
 
     /**
      * Publish an event to all subscribers.
@@ -38,6 +37,6 @@ public interface EventBus {
      *
      * @param event the event.
      */
-    void publish(Object event);
+    <T extends Event> void publish(T event);
 
 }

@@ -9,7 +9,7 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.event.ProgressIndicatorEvent;
+import org.telekit.base.event.ProgressEvent;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PasswordGenerator;
@@ -143,7 +143,7 @@ public class PasswordGeneratorController implements Component {
     }
 
     private void toggleProgressIndicator(boolean on) {
-        DefaultEventBus.getInstance().publish(new ProgressIndicatorEvent(on));
+        DefaultEventBus.getInstance().publish(new ProgressEvent(on));
     }
 
     @FXML

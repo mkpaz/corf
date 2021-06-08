@@ -21,27 +21,18 @@ public final class DefaultEventBus implements EventBus {
 
     public DefaultEventBus() {}
 
-    private static class InstanceHolder {
-
-        private static final DefaultEventBus INSTANCE = new DefaultEventBus();
-    }
-
-    public static DefaultEventBus getInstance() {
-        return DefaultEventBus.InstanceHolder.INSTANCE;
-    }
-
     private final Map<Class<?>, Set<Consumer>> subscribers = new ConcurrentHashMap<>();
 
     @Override
-    public <T> void subscribe(Class<? extends T> eventType, Consumer<T> subscriber) {
-        Objects.requireNonNull(eventType, "eventType");
-        Objects.requireNonNull(subscriber, "subscriber");
+    public <E extends Event> void subscribe(Class<? extends E> eventType, Consumer<E> subscriber) {
+        Objects.requireNonNull(eventType);
+        Objects.requireNonNull(subscriber);
 
         Set<Consumer> eventSubscribers = getOrCreateSubscribers(eventType);
         eventSubscribers.add(subscriber);
     }
 
-    private <T> Set<Consumer> getOrCreateSubscribers(Class<T> eventType) {
+    private <E> Set<Consumer> getOrCreateSubscribers(Class<E> eventType) {
         Set<Consumer> eventSubscribers = subscribers.get(eventType);
         if (eventSubscribers == null) {
             eventSubscribers = new CopyOnWriteArraySet<>();
@@ -51,16 +42,16 @@ public final class DefaultEventBus implements EventBus {
     }
 
     @Override
-    public void unsubscribe(Consumer<?> subscriber) {
-        Objects.requireNonNull(subscriber, "subscriber");
+    public <E extends Event> void unsubscribe(Consumer<E> subscriber) {
+        Objects.requireNonNull(subscriber);
 
         subscribers.values().forEach(eventSubscribers -> eventSubscribers.remove(subscriber));
     }
 
     @Override
-    public <T> void unsubscribe(Class<? extends T> eventType, Consumer<T> subscriber) {
-        Objects.requireNonNull(eventType, "eventType");
-        Objects.requireNonNull(subscriber, "subscriber");
+    public <E extends Event> void unsubscribe(Class<? extends E> eventType, Consumer<E> subscriber) {
+        Objects.requireNonNull(eventType);
+        Objects.requireNonNull(subscriber);
 
         subscribers.keySet().stream()
                 .filter(eventType::isAssignableFrom)
@@ -69,8 +60,8 @@ public final class DefaultEventBus implements EventBus {
     }
 
     @Override
-    public void publish(Object event) {
-        Objects.requireNonNull(event, "event");
+    public <E extends Event> void publish(E event) {
+        Objects.requireNonNull(event);
 
         Class<?> eventType = event.getClass();
         subscribers.keySet().stream()
@@ -79,11 +70,22 @@ public final class DefaultEventBus implements EventBus {
                 .forEach(subscriber -> publish(event, subscriber));
     }
 
-    private static void publish(Object event, Consumer subscriber) {
+    private <E extends Event> void publish(E event, Consumer<E> subscriber) {
         try {
             subscriber.accept(event);
         } catch (Exception e) {
             Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
         }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    private static class InstanceHolder {
+
+        private static final DefaultEventBus INSTANCE = new DefaultEventBus();
+    }
+
+    public static DefaultEventBus getInstance() {
+        return DefaultEventBus.InstanceHolder.INSTANCE;
     }
 }

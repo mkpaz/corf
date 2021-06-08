@@ -33,7 +33,7 @@ import org.telekit.base.domain.KeyValue;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
-import org.telekit.base.event.ProgressIndicatorEvent;
+import org.telekit.base.event.ProgressEvent;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.CompletionProvider;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
@@ -484,12 +484,12 @@ public class FileBuilderController implements Component {
         generator.setMode(append ? MODE_APPEND : MODE_REPLACE);
 
         ongoingProperty.set(true);
-        DefaultEventBus.getInstance().publish(new ProgressIndicatorEvent(true));
+        DefaultEventBus.getInstance().publish(new ProgressEvent(true));
 
         CompletableFuture<Void> task = CompletableFuture.runAsync(generator);
         task.whenComplete((result, exception) -> {
             ongoingProperty.set(false);
-            DefaultEventBus.getInstance().publish(new ProgressIndicatorEvent(false));
+            DefaultEventBus.getInstance().publish(new ProgressEvent(false));
 
             if (exception != null) {
                 DefaultEventBus.getInstance().publish(new ExceptionCaughtEvent(exception));

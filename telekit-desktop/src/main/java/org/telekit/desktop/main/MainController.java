@@ -17,7 +17,7 @@ import org.telekit.base.Env;
 import org.telekit.base.desktop.*;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
-import org.telekit.base.event.ProgressIndicatorEvent;
+import org.telekit.base.event.ProgressEvent;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
@@ -84,7 +84,7 @@ public class MainController implements Component {
     public Timer memoryMonitoringTimer;
 
     private Stage primaryStage;
-    private final Set<String> activeTasks = ConcurrentHashMap.newKeySet();
+    private final Set<UUID> activeTasks = ConcurrentHashMap.newKeySet();
     private final ApplicationPreferences preferences;
     private final YAMLMapper yamlMapper;
     private final PluginManager pluginManager;
@@ -105,7 +105,7 @@ public class MainController implements Component {
     @FXML
     public void initialize() {
         // subscriber to events
-        DefaultEventBus.getInstance().subscribe(ProgressIndicatorEvent.class, this::toggleProgressIndicator);
+        DefaultEventBus.getInstance().subscribe(ProgressEvent.class, this::toggleProgressIndicator);
         DefaultEventBus.getInstance().subscribe(ApplicationEvent.class, this::onApplicationEvent);
         DefaultEventBus.getInstance().subscribe(PluginStateChangedEvent.class, this::onPluginStateChangedEvent);
 
@@ -348,7 +348,7 @@ public class MainController implements Component {
     ///////////////////////////////////////////////////////////////////////////
 
     @Listener
-    private synchronized void toggleProgressIndicator(ProgressIndicatorEvent event) {
+    private synchronized void toggleProgressIndicator(ProgressEvent event) {
         if (event.isActive()) {
             activeTasks.add(event.getId());
         } else {
