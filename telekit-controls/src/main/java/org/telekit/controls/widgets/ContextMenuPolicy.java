@@ -1,4 +1,4 @@
-package org.telekit.controls.components;
+package org.telekit.controls.widgets;
 
 public class ContextMenuPolicy {
 

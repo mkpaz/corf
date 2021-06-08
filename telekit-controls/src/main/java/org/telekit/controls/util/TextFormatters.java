@@ -1,4 +1,4 @@
-package org.telekit.controls.format;
+package org.telekit.controls.util;
 
 import javafx.scene.control.TextFormatter;
 import org.telekit.base.telecom.ip.IP4Address;

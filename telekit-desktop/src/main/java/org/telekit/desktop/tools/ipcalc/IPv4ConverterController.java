@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.telecom.ip.IP4Address;
-import org.telekit.controls.format.TextFormatters;
+import org.telekit.controls.util.TextFormatters;
 
 import java.util.function.Function;
 

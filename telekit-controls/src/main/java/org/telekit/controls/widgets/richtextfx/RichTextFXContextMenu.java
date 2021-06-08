@@ -1,10 +1,10 @@
-package org.telekit.controls.components.richtextfx;
+package org.telekit.controls.widgets.richtextfx;
 
 import javafx.scene.control.IndexRange;
 import org.fxmisc.richtext.GenericStyledArea;
 import org.fxmisc.undo.UndoManager;
-import org.telekit.controls.components.AbstractTextInputContextMenu;
-import org.telekit.controls.components.ContextMenuPolicy;
+import org.telekit.controls.widgets.AbstractTextInputContextMenu;
+import org.telekit.controls.widgets.ContextMenuPolicy;
 
 import java.util.ResourceBundle;
 

@@ -11,7 +11,7 @@ import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
-import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.desktop.domain.ExceptionCaughtEvent;
 

@@ -1,9 +1,14 @@
 package org.telekit.controls.util;
 
+import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.shape.Circle;
+import javafx.util.Callback;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -49,5 +54,25 @@ public final class Controls {
         button.getStyleClass().add("menu-icon-button");
         button.getStyleClass().addAll(styleClasses);
         return button;
+    }
+
+    public static <S, T> TableColumn<S, T> tableColumn(String text, String propertyName) {
+        TableColumn<S, T> column = new TableColumn<>(text);
+        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
+        return column;
+    }
+
+    public static <S, T> Callback<TableColumn<S, T>, TableCell<S, T>> indexCellFactory() {
+        return column -> {
+            TableCell<S, T> cell = new TableCell<>();
+            cell.textProperty().bind(Bindings.createStringBinding(() -> {
+                if (cell.isEmpty()) {
+                    return null;
+                } else {
+                    return Integer.toString(cell.getIndex() + 1);
+                }
+            }, cell.emptyProperty(), cell.indexProperty()));
+            return cell;
+        };
     }
 }

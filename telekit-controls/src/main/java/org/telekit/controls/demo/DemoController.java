@@ -16,9 +16,9 @@ import org.fxmisc.richtext.StyleClassedTextArea;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.i18n.I18n;
-import org.telekit.controls.components.ContextMenuPolicy;
-import org.telekit.controls.components.richtextfx.RichTextFXContextMenu;
-import org.telekit.controls.components.richtextfx.RichTextFXHelper;
+import org.telekit.controls.widgets.ContextMenuPolicy;
+import org.telekit.controls.widgets.richtextfx.RichTextFXContextMenu;
+import org.telekit.controls.widgets.richtextfx.RichTextFXHelper;
 
 import java.time.LocalDate;
 import java.util.*;

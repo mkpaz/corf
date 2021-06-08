@@ -21,9 +21,9 @@ import org.telekit.base.service.impl.SequenceGenerator;
 import org.telekit.base.service.impl.SequenceGenerator.Item;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
-import org.telekit.controls.components.dialogs.Dialogs;
-import org.telekit.controls.format.DoubleStringConverter;
-import org.telekit.controls.format.IntegerStringConverter;
+import org.telekit.controls.dialogs.Dialogs;
+import org.telekit.controls.util.DoubleStringConverter;
+import org.telekit.controls.util.IntegerStringConverter;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.domain.ExceptionCaughtEvent;
 

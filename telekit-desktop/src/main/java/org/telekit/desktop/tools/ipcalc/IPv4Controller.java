@@ -20,8 +20,9 @@ import org.telekit.base.telecom.ip.IP4Address;
 import org.telekit.base.telecom.ip.IP4Subnet;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
-import org.telekit.controls.components.dialogs.Dialogs;
-import org.telekit.controls.format.TextFormatters;
+import org.telekit.controls.dialogs.Dialogs;
+import org.telekit.controls.util.Controls;
+import org.telekit.controls.util.TextFormatters;
 import org.telekit.desktop.IconCache;
 
 import java.io.BufferedWriter;
@@ -39,7 +40,6 @@ import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.base.util.StringUtils.stringify;
-import static org.telekit.controls.util.TableUtils.createIndexCellFactory;
 import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 
@@ -130,7 +130,7 @@ public class IPv4Controller implements Component {
         // result table
         ObservableList<TableColumn<Subnet, ?>> columns = tblSplit.getColumns();
         TableColumn<Subnet, String> indexColumn = (TableColumn<Subnet, String>) columns.get(0);
-        indexColumn.setCellFactory(createIndexCellFactory());
+        indexColumn.setCellFactory(Controls.indexCellFactory());
         for (TableColumn<Subnet, ?> column : columns) {
             if (isEmpty(column.getId())) continue;
             String propertyName = extractPropertyNameFromColumnID(column.getId());

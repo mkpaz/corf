@@ -40,7 +40,7 @@ import org.telekit.base.service.impl.KeyValueCompletionProvider;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
-import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.domain.ApplicationEvent;

@@ -1,8 +1,7 @@
-package org.telekit.controls.components.skins;
+package org.telekit.controls.custom;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.skin.TextFieldSkin;
-import org.telekit.controls.components.RevealablePasswordField;
 
 public abstract class RevealablePasswordFieldSkin extends TextFieldSkin {
 

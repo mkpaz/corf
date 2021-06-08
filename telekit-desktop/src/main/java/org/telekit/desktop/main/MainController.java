@@ -51,8 +51,6 @@ import static org.telekit.base.Env.DOCS_DIR;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.Formatter.byteCountToDisplaySize;
 import static org.telekit.controls.i18n.ControlsMessages.VERSION;
-import static org.telekit.controls.util.ControlUtils.addStyleClass;
-import static org.telekit.controls.util.ControlUtils.removeStyleClass;
 import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 
@@ -137,10 +135,10 @@ public class MainController implements Component {
         // change vault icon when vault state changed
         vaultState.addListener((observable, oldValue, newValue) -> {
             if (newValue == null) return;
-            removeStyleClass(vaultStatusIcon, "error");
-            if (newValue.intValue() != VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesome.LOCK);
-            if (newValue.intValue() == VAULT_UNLOCKED) vaultStatusIcon.setIcon(FontAwesome.UNLOCK);
-            if (newValue.intValue() == VAULT_UNLOCK_FAILED) addStyleClass(vaultStatusIcon, "error");
+            vaultStatusIcon.getStyleClass().remove("error");
+            if (newValue.intValue() != VAULT_UNLOCKED) { vaultStatusIcon.setIcon(FontAwesome.LOCK); }
+            if (newValue.intValue() == VAULT_UNLOCKED) { vaultStatusIcon.setIcon(FontAwesome.UNLOCK); }
+            if (newValue.intValue() == VAULT_UNLOCK_FAILED) { vaultStatusIcon.getStyleClass().add( "error"); }
         });
 
         // unlock vault

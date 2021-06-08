@@ -28,8 +28,6 @@ import java.util.function.Consumer;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.telekit.controls.i18n.ControlsMessages.ACTION_CANCEL;
 import static org.telekit.controls.i18n.ControlsMessages.ACTION_SUBMIT;
-import static org.telekit.controls.util.ControlUtils.addStyleClass;
-import static org.telekit.controls.util.ControlUtils.removeStyleClass;
 
 public class FilterTable<S> extends VBox {
 
@@ -111,9 +109,9 @@ public class FilterTable<S> extends VBox {
         Objects.requireNonNull(columns);
         tblData.getColumns().setAll(columns);
         if (columns.size() == 1) {
-            addStyleClass(tblData, "hide-table-header");
+            tblData.getStyleClass().add("hide-table-header");
         } else {
-            removeStyleClass(tblData, "hide-table-header");
+            tblData.getStyleClass().remove("hide-table-header");
         }
     }
 

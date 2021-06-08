@@ -1,4 +1,4 @@
-package org.telekit.controls.components.dialogs;
+package org.telekit.controls.dialogs;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

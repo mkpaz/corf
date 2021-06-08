@@ -19,20 +19,19 @@ module telekit.controls {
     requires wellbehavedfx;
 
     // exports
-    exports org.telekit.controls.components;
-    exports org.telekit.controls.components.dialogs;
-    exports org.telekit.controls.components.richtextfx;
-    exports org.telekit.controls.components.skins;
-    exports org.telekit.controls.format;
+    exports org.telekit.controls.custom;
+    exports org.telekit.controls.dialogs;
     exports org.telekit.controls.theme to telekit.desktop;
     exports org.telekit.controls.util;
     exports org.telekit.controls.widgets;
+    exports org.telekit.controls.widgets.richtextfx;
+
+    exports org.telekit.controls.demo;
+    opens org.telekit.controls.demo;
 
     exports org.telekit.controls.glyphs;
     opens org.telekit.controls.glyphs;
 
-    exports org.telekit.controls.demo;
-    opens org.telekit.controls.demo;
     exports org.telekit.controls.i18n;
     opens org.telekit.controls.i18n;
 }

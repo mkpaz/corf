@@ -15,7 +15,7 @@ import org.telekit.base.desktop.ModalDialog;
 import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.util.PlaceholderReplacer;
-import org.telekit.controls.format.TextFormatters;
+import org.telekit.controls.util.TextFormatters;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.tools.common.Param.Type;

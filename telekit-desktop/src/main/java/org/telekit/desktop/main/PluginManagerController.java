@@ -29,7 +29,7 @@ import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.plugin.internal.PluginState;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.util.TextBuilder;
-import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.desktop.domain.ApplicationEvent;
 import org.telekit.desktop.domain.ApplicationEvent.Type;
 

@@ -6,14 +6,14 @@ import org.telekit.controls.widgets.FilterTable;
 
 import static org.telekit.controls.i18n.ControlsMessages.KEY;
 import static org.telekit.controls.i18n.ControlsMessages.VALUE;
-import static org.telekit.controls.util.TableUtils.createTableColumn;
+import static org.telekit.controls.util.Controls.tableColumn;
 
 public class ParamCompletionController extends FilterTable<KeyValue<String, String>> {
 
     public ParamCompletionController() {
         setColumns(
-                createTableColumn(I18n.t(KEY), "key"),
-                createTableColumn(I18n.t(VALUE), "value")
+                tableColumn(I18n.t(KEY), "key"),
+                tableColumn(I18n.t(VALUE), "value")
         );
         setPredicate((filter, row) -> row.getKey().contains(filter));
     }

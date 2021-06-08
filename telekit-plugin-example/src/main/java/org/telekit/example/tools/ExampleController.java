@@ -7,7 +7,7 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.util.CommonUtils;
-import org.telekit.controls.components.dialogs.Dialogs;
+import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.example.ExamplePlugin;
 import org.telekit.example.service.HelloService;

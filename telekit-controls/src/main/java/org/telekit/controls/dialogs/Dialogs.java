@@ -1,10 +1,6 @@
-package org.telekit.controls.components.dialogs;
+package org.telekit.controls.dialogs;
 
-import javafx.application.Platform;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public final class Dialogs {
 
