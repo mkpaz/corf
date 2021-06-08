@@ -27,7 +27,7 @@ public final class CryptoUtils {
      *
      * @param length nonce length in bytes
      */
-    public static @NotNull byte[] generateNonce(int length) {
+    public static byte[] generateNonce(int length) {
         if (length <= 0) throw new IllegalArgumentException("Invalid length value.");
         byte[] newNonce = new byte[length];
         new SecureRandom().nextBytes(newNonce);

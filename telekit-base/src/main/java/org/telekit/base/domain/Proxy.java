@@ -44,7 +44,7 @@ public class Proxy {
         this.username = username;
     }
 
-    public @Nullable char[] getPassword() {
+    public char[] getPassword() {
         return password;
     }
 

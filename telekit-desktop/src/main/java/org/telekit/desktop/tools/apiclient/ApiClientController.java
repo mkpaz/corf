@@ -238,8 +238,7 @@ public class ApiClientController implements Component {
         });
 
         cbDisplayErrorsOnly.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && tblLog.getItems() instanceof FilteredList) {
-                FilteredList<CompletedRequest> items = (FilteredList<CompletedRequest>) tblLog.getItems();
+            if (newVal != null && tblLog.getItems() instanceof FilteredList<CompletedRequest> items) {
                 items.setPredicate(createLogPredicate(newVal));
             }
         });

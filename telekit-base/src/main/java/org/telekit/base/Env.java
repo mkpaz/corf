@@ -14,8 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.service.Encryptor.Algorithm;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.ensureNotNull;
@@ -174,7 +173,7 @@ public final class Env {
 
     private static @Nullable Dimension parseWindowsSize() {
         String property = getPropertyOrEnv("telekit.window.size", "TELEKIT_WINDOW_SIZE");
-        if (isEmpty(property)) { return null; }
+        if (property == null || property.isEmpty()) { return null; }
 
         String[] bounds = property.split("x");
         if (bounds.length != 2 || !NumberUtils.isDigits(bounds[0]) || !NumberUtils.isDigits(bounds[1])) {

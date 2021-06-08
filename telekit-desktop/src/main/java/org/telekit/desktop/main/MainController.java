@@ -15,7 +15,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.*;
-import org.telekit.base.desktop.Dimension;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.base.event.ProgressIndicatorEvent;
@@ -138,7 +137,7 @@ public class MainController implements Component {
             vaultStatusIcon.getStyleClass().remove("error");
             if (newValue.intValue() != VAULT_UNLOCKED) { vaultStatusIcon.setIcon(FontAwesome.LOCK); }
             if (newValue.intValue() == VAULT_UNLOCKED) { vaultStatusIcon.setIcon(FontAwesome.UNLOCK); }
-            if (newValue.intValue() == VAULT_UNLOCK_FAILED) { vaultStatusIcon.getStyleClass().add( "error"); }
+            if (newValue.intValue() == VAULT_UNLOCK_FAILED) { vaultStatusIcon.getStyleClass().add("error"); }
         });
 
         // unlock vault

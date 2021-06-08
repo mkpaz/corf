@@ -42,7 +42,7 @@ public abstract class AbstractEncryptor implements Encryptor {
     }
 
     @Override
-    public @NotNull byte[] encrypt(byte[] input, Key key) {
+    public byte[] encrypt(byte[] input, Key key) {
         if (input == null || input.length == 0) return new byte[] {};
         Objects.requireNonNull(key);
 
@@ -71,7 +71,7 @@ public abstract class AbstractEncryptor implements Encryptor {
     }
 
     @Override
-    public @NotNull byte[] decrypt(byte[] input, Key key) {
+    public byte[] decrypt(byte[] input, Key key) {
         if (input == null || input.length == 0) return new byte[] {};
         Objects.requireNonNull(key);
 

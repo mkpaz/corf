@@ -38,8 +38,7 @@ import static org.telekit.base.util.NumberUtils.ensureRange;
 
 public class ApacheHttpClient implements HttpClient {
 
-    public static final Set<String> SUPPORTED_SSL_PROTOCOLS =
-            Collections.unmodifiableSet(HttpConstants.SSL_PROTOCOLS);
+    public static final Set<String> SUPPORTED_SSL_PROTOCOLS = HttpConstants.SSL_PROTOCOLS;
 
     private final ResponseHandler<Response> handler = new SpecificResponseHandler();
     private final CloseableHttpClient client;

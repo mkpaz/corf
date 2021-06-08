@@ -236,8 +236,7 @@ public class FileBuilderController implements Component {
     @FXML
     public void handleTemplateAction(ActionEvent event) {
         MenuItem source = (MenuItem) event.getSource();
-        if (!(source.getUserData() instanceof Action)) return;
-        Action action = (Action) source.getUserData();
+        if (!(source.getUserData() instanceof Action action)) { return; }
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
 
         switch (action) {

@@ -19,9 +19,9 @@ public interface Encryptor {
     // each algorithm is identified using 1-byte magic number
     byte ALG_ID_LENGTH = 1;
 
-    @NotNull byte[] encrypt(byte[] input, Key key);
+    byte[] encrypt(byte[] input, Key key);
 
-    @NotNull byte[] decrypt(byte[] input, Key key);
+    byte[] decrypt(byte[] input, Key key);
 
     @NotNull Algorithm getAlg();
 

@@ -8,7 +8,6 @@ import java.net.URL;
 import java.security.CodeSource;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public interface Plugin {
 

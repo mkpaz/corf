@@ -31,7 +31,7 @@ public class UsernamePasswordCredential extends Credential {
         return username;
     }
 
-    public @NotNull char[] getPassword() {
+    public char[] getPassword() {
         return password;
     }
 

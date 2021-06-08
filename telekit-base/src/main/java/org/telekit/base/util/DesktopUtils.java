@@ -14,8 +14,8 @@ import java.util.Objects;
 
 public final class DesktopUtils {
 
-    public static boolean isSupported(Desktop.Action actiom) {
-        return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(actiom);
+    public static boolean isSupported(Desktop.Action action) {
+        return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(action);
     }
 
     public static void open(File file) {

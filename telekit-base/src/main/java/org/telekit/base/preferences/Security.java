@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.telekit.base.domain.SecuredData;
 
 import java.nio.file.Path;
@@ -78,7 +77,7 @@ public class Security {
     }
 
     @JsonIgnore
-    public @Nullable byte[] getDerivedVaultPassword() {
+    public byte[] getDerivedVaultPassword() {
         return vaultPassword != null ? deriveFromPassword(vaultPassword.getData(), keyDerivationType) : null;
     }
 

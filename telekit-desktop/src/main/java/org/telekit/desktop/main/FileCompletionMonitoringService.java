@@ -78,9 +78,8 @@ public class FileCompletionMonitoringService {
 
     private void handle(WatchKey key, WatchEvent<?> event) {
         WatchEvent.Kind<?> eventKind = event.kind();
-        if (key == null || event.context() == null || !(event.context() instanceof Path)) return;
+        if (key == null || event.context() == null || !(event.context() instanceof Path context)) { return; }
 
-        Path context = (Path) event.context();
         Path dir = keys.get(key);
         if (dir == null) return;
 

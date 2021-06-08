@@ -3,21 +3,19 @@ package org.telekit.base.plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Component;
-import org.telekit.base.desktop.mvvm.View;
-import org.telekit.base.desktop.mvvm.ViewModel;
 import org.telekit.base.i18n.I18n;
 
 public interface Tool extends Extension {
 
     /**
      * Tool name represents corresponding menu item.
-     * Use {@link Messages#get} if you want internationalize tool name.
+     * Use {@link I18n#translate(String)} if you want internationalize tool name.
      */
     @NotNull String getName();
 
     /**
      * Group name represents menu group for several tools.
-     * Use {@link Messages#get} if you want internationalize group name.
+     * Use {@link I18n#translate(String)} if you want internationalize group name.
      */
     @Nullable String getGroupName();
 

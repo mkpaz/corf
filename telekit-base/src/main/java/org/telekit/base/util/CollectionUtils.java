@@ -46,8 +46,6 @@ public final class CollectionUtils {
 
     @SafeVarargs
     public static @NotNull <T> List<T> unmodifiableMerge(List<T>... lists) {
-        return Arrays.stream(Objects.requireNonNull(lists))
-                .flatMap(Collection::stream)
-                .collect(Collectors.toUnmodifiableList());
+        return Arrays.stream(Objects.requireNonNull(lists)).flatMap(Collection::stream).toList();
     }
 }

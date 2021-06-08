@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.ObjectUtils;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.i18n.BaseMessages;

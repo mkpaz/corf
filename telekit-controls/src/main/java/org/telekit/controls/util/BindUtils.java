@@ -6,7 +6,6 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableObjectValue;
-import javafx.beans.value.ObservableStringValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -160,6 +159,7 @@ public final class BindUtils {
     }
 
     private static class ListContentMapping<E, F> implements ListChangeListener<E>, WeakListener {
+
         private final WeakReference<List<F>> mappedRef;
         private final Function<? super E, ? extends F> mapper;
 

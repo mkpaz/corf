@@ -1,6 +1,5 @@
 package org.telekit.base.service.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.EncryptionService;
@@ -24,7 +23,7 @@ public class DefaultEncryptionService implements EncryptionService {
     }
 
     @Override
-    public @NotNull byte[] encrypt(byte[] input) {
+    public byte[] encrypt(byte[] input) {
         Key key = keyProvider.getKey();
         if (key == null) {
             throw new TelekitException(I18n.concat(MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA, MGG_CRYPTO_KEY_IS_NOT_PRESENT));
@@ -33,7 +32,7 @@ public class DefaultEncryptionService implements EncryptionService {
     }
 
     @Override
-    public @NotNull byte[] decrypt(byte[] input) {
+    public byte[] decrypt(byte[] input) {
         Key key = keyProvider.getKey();
         if (key == null) {
             throw new TelekitException(I18n.concat(MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA, MGG_CRYPTO_KEY_IS_NOT_PRESENT));

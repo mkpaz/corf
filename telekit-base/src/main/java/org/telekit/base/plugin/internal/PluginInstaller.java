@@ -37,8 +37,7 @@ public class PluginInstaller {
     private final PluginCleaner pluginCleaner;
 
     public PluginInstaller(PluginRepository pluginRepository,
-                           PluginLoader pluginLoader
-    ) {
+                           PluginLoader pluginLoader) {
         this.pluginRepository = pluginRepository;
         this.pluginLoader = pluginLoader;
         this.pluginCleaner = new PluginCleaner();
