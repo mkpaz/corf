@@ -5,6 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -109,6 +110,18 @@ public class Containers {
         Region region = new Region();
         VBox.setVgrow(region, Priority.ALWAYS);
         return region;
+    }
+
+    public static Region horizontalSeparator() {
+        Separator separator = new Separator();
+        HBox.setHgrow(separator, Priority.ALWAYS);
+        return separator;
+    }
+
+    public static Region verticalSeparator() {
+        Separator separator = new Separator();
+        VBox.setVgrow(separator, Priority.ALWAYS);
+        return separator;
     }
 
     public static Region horizontalGap(double value) {

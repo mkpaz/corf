@@ -24,6 +24,8 @@ import static org.telekit.base.util.NumberUtils.ensureRange;
 public final class Env {
 
     public static final String APP_NAME = "Telekit";
+    public static final String APP_PROJECT_PAGE = "https://github.com/mkpaz/telekit";
+
     public static final String AUTOCOMPLETE_DIR_NAME = "autocomplete";
     public static final String CONFIG_DIR_NAME = "config";
     public static final String CACHE_DIR_NAME = "cache";

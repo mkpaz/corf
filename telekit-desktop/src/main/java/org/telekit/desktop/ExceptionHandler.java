@@ -7,13 +7,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.telekit.base.domain.event.Notification;
+import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
-import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.I18n;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.i18n.ControlsMessages;
-import org.telekit.desktop.domain.ExceptionCaughtEvent;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,8 +20,9 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
+import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.CollectionUtils.getLast;
-import static org.telekit.desktop.i18n.DesktopMessages.MAIN_MSG_ERROR_OCCURRED;
+import static org.telekit.desktop.i18n.DesktopMessages.SYSTEM_MSG_ERROR_OCCURRED;
 
 public final class ExceptionHandler {
 
@@ -33,12 +33,16 @@ public final class ExceptionHandler {
 
     public ExceptionHandler(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        DefaultEventBus.getInstance().subscribe(ExceptionCaughtEvent.class, this::handleExceptionEvent);
+        DefaultEventBus.getInstance().subscribe(Notification.class, this::handleExceptionEvent);
     }
 
     @Listener
-    public void handleExceptionEvent(ExceptionCaughtEvent event) {
-        showErrorDialog(event.getCause());
+    public void handleExceptionEvent(Notification event) {
+        // TODO: Implement displaying notifications of other types
+        // Move this listener to MainWindowModel and use toast or snackbar to display message
+        if (event.getType() == Notification.Type.ERROR && event.getThrowable() != null) {
+            showErrorDialog(event.getThrowable());
+        }
     }
 
     public synchronized void showErrorDialog(Throwable throwable) {
@@ -51,7 +55,7 @@ public final class ExceptionHandler {
             Throwable cause = findExactCauseOrRootIfNotPresent(throwable, TelekitException.class);
 
             exceptionDialog.setHeaderText(ensureGrammar(
-                    defaultIfBlank(cause.getMessage(), I18n.t(MAIN_MSG_ERROR_OCCURRED))
+                    defaultIfBlank(cause.getMessage(), t(SYSTEM_MSG_ERROR_OCCURRED))
             ));
 
             exceptionDialog.setStackTrace(
@@ -97,7 +101,7 @@ public final class ExceptionHandler {
 
         public ExceptionDialog() {
             dialog = Dialogs.error()
-                    .title(I18n.t(ControlsMessages.ERROR))
+                    .title(t(ControlsMessages.ERROR))
                     .header(null)
                     .owner(primaryStage)
                     .build();

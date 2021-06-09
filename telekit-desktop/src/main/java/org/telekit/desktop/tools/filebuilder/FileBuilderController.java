@@ -25,15 +25,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.Component;
-import org.telekit.base.desktop.FxmlPath;
-import org.telekit.base.desktop.ModalDialog;
-import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.desktop.Dimension;
+import org.telekit.base.desktop.*;
 import org.telekit.base.domain.KeyValue;
+import org.telekit.base.domain.event.Notification;
+import org.telekit.base.domain.event.TaskProgressEvent;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
-import org.telekit.base.event.ProgressEvent;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.CompletionProvider;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
@@ -43,8 +42,7 @@ import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.IconCache;
-import org.telekit.desktop.domain.ApplicationEvent;
-import org.telekit.desktop.domain.ExceptionCaughtEvent;
+import org.telekit.desktop.event.CompletionRegistryUpdateEvent;
 import org.telekit.desktop.tools.Action;
 import org.telekit.desktop.tools.common.*;
 
@@ -66,7 +64,6 @@ import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
-import static org.telekit.desktop.domain.ApplicationEvent.Type.COMPLETION_REGISTRY_UPDATED;
 import static org.telekit.desktop.tools.Action.NEW;
 import static org.telekit.desktop.tools.filebuilder.Generator.*;
 
@@ -187,9 +184,7 @@ public class FileBuilderController implements Component {
                 (obs, oldVal, newVal) -> itemParamCompletion.setVisible(Param.allowsCompletion(newVal, completionRegistry))
         );
 
-        DefaultEventBus.getInstance().subscribe(ApplicationEvent.class, event -> {
-            if (COMPLETION_REGISTRY_UPDATED.isSameTypeAs(event)) tblParams.refresh();
-        });
+        DefaultEventBus.getInstance().subscribe(CompletionRegistryUpdateEvent.class, e -> tblParams.refresh());
     }
 
     private void initControlButtons() {
@@ -243,7 +238,7 @@ public class FileBuilderController implements Component {
             case NEW, DUPLICATE, EDIT -> {
                 ModalDialog<TemplateController> dialog = getOrCreateTemplateDialog();
                 Template template = action != NEW ? selectedTemplate : null;
-                dialog.getComponent().setData(action, template, templateRepository.getNames());
+                dialog.getController().setData(action, template, templateRepository.getNames());
                 dialog.showAndWait();
             }
             case DELETE -> deleteTemplate(selectedTemplate);
@@ -259,10 +254,11 @@ public class FileBuilderController implements Component {
         TemplateController controller = ViewLoader.load(TemplateController.class);
         templateDialog = ModalDialog.builder(controller, getWindow())
                 .icon(IconCache.get(ICON_APP))
+                .inheritStyles()
                 .resizable(false)
                 .build();
         controller.setOnSubmit(this::updateTemplate);
-        controller.setOnCancel(() -> templateDialog.hide());
+        controller.setOnCloseRequest(() -> templateDialog.hide());
 
         return templateDialog;
     }
@@ -355,19 +351,19 @@ public class FileBuilderController implements Component {
         if (tblParams.getItems() != null) {
             tblParams.getItems().forEach(param -> usedParamNames.add(param.getName()));
         }
-        dialog.getComponent().setData(usedParamNames);
+        dialog.getController().setData(usedParamNames);
         dialog.hide();
     }
 
     private ModalDialog<ParamController> getOrCreateParamDialog() {
         if (paramDialog != null) {
-            paramDialog.getComponent().reset();
+            paramDialog.getController().reset();
             return paramDialog;
         }
 
-        paramDialog = ParamController.createDialog(getWindow());
-        paramDialog.getComponent().setOnSubmit(this::addParam);
-        paramDialog.getComponent().setOnCancel(() -> paramDialog.hide());
+        paramDialog = ParamController.createDialog(Objects.requireNonNull(getWindow()));
+        paramDialog.getController().setOnSubmit(this::addParam);
+        paramDialog.getController().setOnCloseRequest(() -> paramDialog.hide());
 
         return paramDialog;
     }
@@ -411,7 +407,7 @@ public class FileBuilderController implements Component {
 
         ModalDialog<ParamCompletionController> dialog = getOrCreateCompletionDialog();
         List<KeyValue<String, String>> data = new ArrayList<>(((KeyValueCompletionProvider) provider).find(s -> true));
-        dialog.getComponent().setData(data);
+        dialog.getController().setData(data);
         dialog.showAndWait();
     }
 
@@ -421,12 +417,13 @@ public class FileBuilderController implements Component {
         ParamCompletionController controller = new ParamCompletionController();
         paramCompletionDialog = ModalDialog.builder(controller, controller, getWindow())
                 .title(I18n.t(TOOLS_CHOOSE_VALUE))
+                .inheritStyles()
                 .icon(IconCache.get(ICON_APP))
                 .prefSize(new Dimension(480, 400))
                 .resizable(false)
                 .build();
-        paramCompletionDialog.getComponent().setOnSubmit(this::setParamValue);
-        paramCompletionDialog.getComponent().setOnCancel(() -> paramCompletionDialog.hide());
+        paramCompletionDialog.getController().setOnSubmit(this::setParamValue);
+        paramCompletionDialog.getController().setOnCancel(() -> paramCompletionDialog.hide());
 
         return paramCompletionDialog;
     }
@@ -484,17 +481,18 @@ public class FileBuilderController implements Component {
         generator.setMode(append ? MODE_APPEND : MODE_REPLACE);
 
         ongoingProperty.set(true);
-        DefaultEventBus.getInstance().publish(new ProgressEvent(true));
+        DefaultEventBus.getInstance().publish(new TaskProgressEvent(getClass().getCanonicalName(), true));
 
         CompletableFuture<Void> task = CompletableFuture.runAsync(generator);
         task.whenComplete((result, exception) -> {
             ongoingProperty.set(false);
-            DefaultEventBus.getInstance().publish(new ProgressEvent(false));
+            DefaultEventBus.getInstance().publish(new TaskProgressEvent(getClass().getCanonicalName(), false));
 
             if (exception != null) {
-                DefaultEventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
+                DefaultEventBus.getInstance().publish(Notification.error(exception));
                 return;
             }
+
             if (cbOpenAfterGeneration.isSelected()) {
                 DesktopUtils.openQuietly(outputFile);
             } else {

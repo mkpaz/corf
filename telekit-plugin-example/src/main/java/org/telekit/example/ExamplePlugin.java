@@ -8,8 +8,6 @@ import org.telekit.base.plugin.Plugin;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.example.i18n.ExampleMessages;
 import org.telekit.example.service.ExampleDependencyModule;
-import org.telekit.example.tools.DummyOneTool;
-import org.telekit.example.tools.DummyTwoTool;
 import org.telekit.example.tools.HelloTool;
 
 import java.io.InputStreamReader;
@@ -23,7 +21,7 @@ import static org.telekit.base.Env.getPluginDocsDir;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.CommonUtils.localizedFileName;
 
-@Includes({HelloTool.class, DummyOneTool.class, DummyTwoTool.class})
+@Includes(HelloTool.class)
 public class ExamplePlugin implements Plugin {
 
     public static final String ASSETS_PATH = "/org/telekit/example/assets";
@@ -72,7 +70,7 @@ public class ExamplePlugin implements Plugin {
 
     @Override
     public void stop() {
-        System.out.println(className(ExamplePlugin.class) + " start() method called.");
+        System.out.println(className(ExamplePlugin.class) + " stop() method called.");
     }
 
     @Override

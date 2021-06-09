@@ -10,21 +10,21 @@ import javafx.stage.Window;
 
 import java.util.Objects;
 
-public class ModalDialog<T> {
+public class ModalDialog<T extends ModalController> {
 
     private final Stage stage;
     private final Scene scene;
     private final Region root;
-    private final T component;
+    private final T controller;
 
-    public ModalDialog(Region region, T component, Window owner) {
+    public ModalDialog(Region region, T controller, Window owner) {
         Objects.requireNonNull(region);
         Objects.requireNonNull(owner);
 
         this.stage = new Stage();
         this.scene = new Scene(region);
         this.root = region;
-        this.component = component;
+        this.controller = controller;
 
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -37,7 +37,7 @@ public class ModalDialog<T> {
 
     public Region getRoot() { return root; }
 
-    public T getComponent() { return component; }
+    public T getController() { return controller; }
 
     public void show() {
         Platform.runLater(() -> {
@@ -66,23 +66,23 @@ public class ModalDialog<T> {
         });
     }
 
-    public static <T extends Component> Builder<T> builder(T component, Window owner) {
-        return builder(component.getRoot(), component, owner);
+    public static <T extends Component & ModalController> Builder<T> builder(T controller, Window owner) {
+        return builder(controller.getRoot(), controller, owner);
     }
 
-    public static <T> Builder<T> builder(Region region, T controller, Window owner) {
+    public static <T extends ModalController> Builder<T> builder(Region region, T controller, Window owner) {
         return new Builder<>(region, controller, owner);
     }
 
     ///////////////////////////////////////////////////////////////////////////
 
-    public static class Builder<T> {
+    public static class Builder<T extends ModalController> {
 
         private final ModalDialog<T> dialog;
         private final Window owner;
 
-        public Builder(Region region, T component, Window owner) {
-            this.dialog = new ModalDialog<>(region, component, owner);
+        public Builder(Region region, T controller, Window owner) {
+            this.dialog = new ModalDialog<>(region, controller, owner);
             this.owner = owner;
         }
 

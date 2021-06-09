@@ -13,19 +13,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
+import org.telekit.base.domain.event.Notification;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.event.ProgressEvent;
+import org.telekit.base.domain.event.TaskProgressEvent;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.impl.SequenceGenerator;
 import org.telekit.base.service.impl.SequenceGenerator.Item;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.dialogs.Dialogs;
+import org.telekit.controls.util.BindUtils;
 import org.telekit.controls.util.DoubleStringConverter;
 import org.telekit.controls.util.IntegerStringConverter;
-import org.telekit.controls.util.BindUtils;
-import org.telekit.desktop.domain.ExceptionCaughtEvent;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -214,7 +214,7 @@ public class SequenceGeneratorController implements Component {
             toggleProgressIndicator(false);
             Throwable exception = event.getSource().getException();
             if (exception != null) {
-                DefaultEventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
+                DefaultEventBus.getInstance().publish(Notification.error(exception));
             }
         });
 
@@ -223,7 +223,7 @@ public class SequenceGeneratorController implements Component {
     }
 
     private void toggleProgressIndicator(boolean on) {
-        DefaultEventBus.getInstance().publish(new ProgressEvent(on));
+        DefaultEventBus.getInstance().publish(new TaskProgressEvent(getClass().getCanonicalName(), on));
     }
 
     @FXML

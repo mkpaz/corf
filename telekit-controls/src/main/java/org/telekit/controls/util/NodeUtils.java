@@ -2,6 +2,12 @@ package org.telekit.controls.util;
 
 import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public final class NodeUtils {
 
@@ -19,8 +25,19 @@ public final class NodeUtils {
         });
     }
 
-    public static void setVisible(Node node, boolean visible) {
-        node.setVisible(visible);
-        node.setManaged(visible);
+    public static void toggleVisibility(Node node, boolean on) {
+        node.setVisible(on);
+        node.setManaged(on);
+    }
+
+    public static boolean isDoubleClick(MouseEvent e) {
+        return e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2;
+    }
+
+    public static @Nullable <T> T getChildByIndex(Parent parent, int index, Class<T> contentType) {
+        List<Node> children = parent.getChildrenUnmodifiable();
+        if (index < 0 || index >= children.size()) { return null; }
+        Node node = children.get(index);
+        return contentType.isInstance(node) ? contentType.cast(node) : null;
     }
 }

@@ -20,7 +20,7 @@
 
 <VBox fx:id="rootPane" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.desktop.tools.filebuilder.TemplateController">
    <children>
-      <TabPane fx:id="tabPane">
+      <TabPane fx:id="tabPane" styleClass="no-menu-button">
          <tabs>
             <Tab closable="false" text="%Parameters">
                <content>
@@ -42,7 +42,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="3.0">
                            <children>
                               <Label text="%Name" />
-                              <Label styleClass="lbl-mandatory" text="*" />
+                              <Label text="*" />
                               <Label text=":" />
                            </children>
                         </HBox>
@@ -69,15 +69,15 @@
                               <HBox alignment="CENTER_LEFT" spacing="3.0">
                                  <children>
                                     <Label text="%tools.Element" />
-                                    <Label styleClass="lbl-mandatory" text="*" />
+                                    <Label text="*" />
                                     <Label text=":" />
                                  </children>
                               </HBox>
                            </children>
                         </HBox>
                         <TextField fx:id="tfName" GridPane.columnIndex="1" />
-                        <TextArea fx:id="taHeader" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextArea fx:id="taFooter" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextArea fx:id="taHeader" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextArea fx:id="taFooter" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
                                <ComboBox fx:id="cmbDelimiter" prefWidth="200.0">
@@ -98,7 +98,7 @@
                               <Label styleClass="text-sm" text="%tools.file-builder.applied-to-preview-only" />
                            </children>
                         </HBox>
-                        <TextArea fx:id="taPattern" maxHeight="1.7976931348623157E308" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextArea fx:id="taPattern" maxHeight="1.7976931348623157E308" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="5">
                            <children>
                               <Label text="%FileFormat" />

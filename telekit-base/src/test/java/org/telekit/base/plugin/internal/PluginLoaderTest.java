@@ -56,10 +56,11 @@ public class PluginLoaderTest {
                 .containsAll(Set.of(FooExtension.class, BarExtension.class));
     }
 
+    @SuppressWarnings("rawtypes")
     public static abstract class AbstractExtension implements Tool {}
 
+    @SuppressWarnings("rawtypes")
     public interface InterfaceExtension extends Tool {}
 
     public static class UnknownExtension implements Extension {}
-
 }

@@ -37,18 +37,18 @@
                         <Label text=":" />
                      </children>
                   </HBox>
-                  <TextField fx:id="tfIPCanonical" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" />
-                  <TextField fx:id="tfIPBinary" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="tfIPCanonical" alignment="CENTER" styleClass="monospace" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfIPBinary" alignment="CENTER" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="tfIPHex" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <TextField fx:id="tfIPHex" alignment="CENTER" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="tfIPInteger" alignment="CENTER" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <TextField fx:id="tfIPInteger" alignment="CENTER" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>

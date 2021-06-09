@@ -17,7 +17,7 @@
         <bld.descriptor>windows.xml</bld.descriptor>
         <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
         <bld.docsTargetDirectory>${project.build.directory}/docs</bld.docsTargetDirectory>
-        <bld.mainClass>org.telekit.desktop.Launcher</bld.mainClass>
+        <bld.mainClass>org.telekit.desktop.startup.Launcher</bld.mainClass>
         <bld.modulesDirectory>${project.build.directory}/modules</bld.modulesDirectory>
         <bld.platform>win64</bld.platform>
         <bld.runtimeImagesDirectory>${project.build.directory}/runtime-images</bld.runtimeImagesDirectory>

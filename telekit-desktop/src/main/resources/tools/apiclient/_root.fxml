@@ -60,7 +60,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                            <children>
                               <ComboBox fx:id="cmbTemplate" maxWidth="1.7976931348623157E308" onAction="#displaySelectedTemplateParams" HBox.hgrow="ALWAYS" />
-                              <MenuButton mnemonicParsing="false" styleClass="btn-flat-dropdown">
+                              <MenuButton mnemonicParsing="false" styleClass="link-button">
                                 <items>
                                   <MenuItem fx:id="itemPreviewTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%Preview" />
                                   <SeparatorMenuItem mnemonicParsing="false" />
@@ -145,7 +145,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1">
                            <children>
                               <Label styleClass="subtitle" text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
-                              <MenuButton mnemonicParsing="false" styleClass="btn-flat-dropdown">
+                              <MenuButton mnemonicParsing="false" styleClass="link-button">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
                                   <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="%tools.PasteColumnsRight" />
@@ -170,7 +170,7 @@
                               </Label>
                            </children>
                         </HBox>
-                        <TextArea fx:id="taCsv" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4" />
+                        <TextArea fx:id="taCsv" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="4" />
                         <TableView fx:id="tblParams" editable="true" styleClass="editable" GridPane.rowIndex="3">
                           <columns>
                               <TableColumn fx:id="colParamIndicator" editable="false" maxWidth="-1.0" minWidth="30.0" prefWidth="-1.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" />
@@ -238,7 +238,7 @@
                         <VBox minWidth="300.0" spacing="5.0">
                            <children>
                               <Label styleClass="subtitle" text="%Details" />
-                              <TextArea fx:id="taRequestDetails" editable="false" styleClass="monospaced" VBox.vgrow="ALWAYS" />
+                              <TextArea fx:id="taRequestDetails" editable="false" styleClass="monospace" VBox.vgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets left="5.0" right="5.0" />
@@ -258,7 +258,7 @@
             <Insets top="10.0" />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="btn-main" text="%action.Start">
+            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#startHTTPClient" styleClass="large" text="%action.Start">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
@@ -266,7 +266,7 @@
                      </children>
                   </StackPane>
                </graphic></Button>
-            <Button fx:id="btnStop" mnemonicParsing="false" onAction="#stopHTTPClient" styleClass="btn-main" text="%action.Stop">
+            <Button fx:id="btnStop" mnemonicParsing="false" onAction="#stopHTTPClient" styleClass="large" text="%action.Stop">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>

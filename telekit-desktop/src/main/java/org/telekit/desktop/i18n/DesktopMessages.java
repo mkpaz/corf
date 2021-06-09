@@ -7,11 +7,16 @@ import org.telekit.controls.i18n.ControlsMessages;
 // TODO: Add all entries from messages file (for now ignore test warnings)
 public interface DesktopMessages extends BaseMessages, ControlsMessages {
 
-    String MAIN_ABOUT = "main.About";
-    String MAIN_PLUGIN_MANAGER = "main.PluginManager";
-    String MAIN_RESTART_REQUIRED = "main.restart-required";
-    String MAIN_MSG_ERROR_OCCURRED = "main.msg.error-occurred";
-    String MAIN_TRAY_OPEN = "main.tray.Open";
+    String SYSTEM_HOME = "system.Home";
+    String SYSTEM_PROJECT_PAGE = "system.ProjectPage";
+    String SYSTEM_OPEN_DATA_DIR = "system.OpenDataDirectory";
+    String SYSTEM_OPEN_PLUGINS_DIR = "system.OpenPluginsDirectory";
+    String SYSTEM_MSG_ERROR_OCCURRED = "system.msg.error-occurred";
+    String SYSTEM_RESTART_REQUIRED = "system.RestartRequired";
+
+    String PREFERENCES_GENERAL = "preferences.General";
+    String PREFERENCES_PROXY = "preferences.Proxy";
+    String PREFERENCES_REQUIRES_RESTART = "preferences.requires-restart";
 
     String PLUGIN_MANAGER_MSG_INSTALL_SUCCESS = "plugin-manager.msg.install-success";
     String PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM = "plugin-manager.msg.uninstall-confirm";

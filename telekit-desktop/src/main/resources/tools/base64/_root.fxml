@@ -36,8 +36,8 @@
             </ComboBox>
          </children>
       </HBox>
-      <TextArea fx:id="taText" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.rowIndex="1" />
-      <TextArea fx:id="taBase64" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <TextArea fx:id="taText" prefHeight="200.0" prefWidth="200.0" styleClass="monospace" GridPane.rowIndex="1" />
+      <TextArea fx:id="taBase64" prefHeight="200.0" prefWidth="200.0" styleClass="monospace" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#encode">

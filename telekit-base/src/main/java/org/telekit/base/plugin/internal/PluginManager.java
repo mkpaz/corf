@@ -4,6 +4,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.di.Injector;
 import org.telekit.base.event.DefaultEventBus;
+import org.telekit.base.event.EventBus;
 import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Extension;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,7 @@ public class PluginManager {
     private final PluginLoader pluginLoader;
     private final PluginInstaller pluginInstaller;
     private final ApplicationPreferences preferences;
+    private final EventBus eventBus = new DefaultEventBus();
 
     public PluginManager(ApplicationPreferences preferences) {
         this.pluginLoader = new PluginLoader();
@@ -97,7 +100,7 @@ public class PluginManager {
                 errorFlag = true;
             }
         }
-        if (errorFlag) throw new PluginException(PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STARTED);
+        if (errorFlag) { throw new PluginException(PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STARTED); }
     }
 
     /**
@@ -122,7 +125,7 @@ public class PluginManager {
                 errorFlag = true;
             }
         }
-        if (errorFlag) throw new PluginException(PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STOPPED);
+        if (errorFlag) { throw new PluginException(PLUGIN_MSG_SOME_PLUGINS_WERE_NOT_STOPPED); }
     }
 
     /**
@@ -132,6 +135,11 @@ public class PluginManager {
         List<PluginBox> plugins = pluginRepository.findAll();
         plugins.sort(ALPHABETICAL_COMPARATOR);
         return plugins;
+    }
+
+    /** Returns plugin info */
+    public Optional<PluginBox> find(Class<? extends Plugin> pluginClass) {
+        return pluginRepository.get(pluginClass);
     }
 
     /**
@@ -159,7 +167,7 @@ public class PluginManager {
 
         try {
             // notify about plugin stopped to reload UI
-            DefaultEventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
+            eventBus.publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
 
             pluginInstaller.uninstall(pluginClass, deleteResources);
         } catch (Throwable t) {
@@ -177,12 +185,10 @@ public class PluginManager {
         PluginBox pluginBox = pluginBoxOpt.get();
         LOGGER.fine("Enabling plugin: " + className(pluginBox.getPluginClass()));
         pluginBox.setState(LOADED);
-        if (pluginBox.getState() == LOADED || pluginBox.getState() == STOPPED) {
-            startPlugin(pluginBox);
-        }
+        startPlugin(pluginBox);
 
         // notify about plugin started to reload UI
-        DefaultEventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STARTED));
+        eventBus.publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STARTED));
     }
 
     public void disablePlugin(Class<? extends Plugin> pluginClass) throws PluginException {
@@ -196,7 +202,7 @@ public class PluginManager {
         }
 
         // notify about plugin stopped to reload UI
-        DefaultEventBus.getInstance().publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
+        eventBus.publish(new PluginStateChangedEvent(pluginBox.getPluginClass(), STOPPED));
 
         pluginBox.setState(DISABLED);
     }
@@ -226,6 +232,10 @@ public class PluginManager {
     public Optional<Class<? extends Plugin>> whatPluginProvides(Class<? extends Extension> implClass) {
         return pluginRepository.whatPluginProvides(implClass)
                 .map(PluginBox::getPluginClass);
+    }
+
+    public void addEventListener(Consumer<PluginStateChangedEvent> listener) {
+        eventBus.subscribe(PluginStateChangedEvent.class, Objects.requireNonNull(listener));
     }
 
     private void startPlugin(PluginBox pluginBox) throws PluginException {

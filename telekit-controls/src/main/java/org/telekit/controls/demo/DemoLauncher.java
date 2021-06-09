@@ -9,7 +9,7 @@ import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.i18n.BaseMessages;
 import org.telekit.base.i18n.I18n;
 import org.telekit.controls.i18n.ControlsMessages;
-import org.telekit.controls.theme.ThemeLoader;
+import org.telekit.controls.theme.DefaultTheme;
 
 import java.util.Locale;
 
@@ -31,8 +31,7 @@ public class DemoLauncher extends Application {
         DemoController controller = ViewLoader.load(DemoController.class);
 
         Scene scene = new Scene(controller.getRoot(), 1024, 768);
-        ThemeLoader themeLoader = new ThemeLoader();
-        scene.getStylesheets().addAll(themeLoader.getStylesheets(""));
+        scene.getStylesheets().addAll(new DefaultTheme().getResources());
 
         primaryStage.setTitle("Components Overview");
         primaryStage.setScene(scene);

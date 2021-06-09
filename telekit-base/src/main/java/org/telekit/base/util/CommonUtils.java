@@ -11,10 +11,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.function.Function;
 
 import static org.telekit.base.util.StringUtils.ensureNotNull;
 
 public final class CommonUtils {
+
+    public static <T, R> R extract(T t, Function<T, R> func) {
+        return t != null ? func.apply(t) : null;
+    }
 
     public static @NotNull Properties loadProperties(File file) {
         return loadProperties(file, StandardCharsets.UTF_8);

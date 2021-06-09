@@ -197,23 +197,24 @@ public class IPv4Controller implements Component {
     @FXML
     public void showConverterDialog() {
         ModalDialog<IPv4ConverterController> dialog = getOrCreateConverterDialog();
-        dialog.getComponent().setData(getEnteredAddress().longValue());
+        dialog.getController().setData(getEnteredAddress().longValue());
         dialog.showAndWait();
     }
 
     private ModalDialog<IPv4ConverterController> getOrCreateConverterDialog() {
         if (converterDialog != null) {
-            converterDialog.getComponent().reset();
+            converterDialog.getController().reset();
             return converterDialog;
         }
 
         IPv4ConverterController controller = ViewLoader.load(IPv4ConverterController.class);
         converterDialog = ModalDialog.builder(controller, getWindow())
                 .title(I18n.t(TOOLS_IPCALC_TASK_REPORT))
+                .inheritStyles()
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();
-        controller.setOnClose(() -> converterDialog.hide());
+        controller.setOnCloseRequest(() -> converterDialog.hide());
 
         return converterDialog;
     }

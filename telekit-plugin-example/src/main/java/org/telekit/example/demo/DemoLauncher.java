@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.telekit.base.Env;
+import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.di.Injector;
 import org.telekit.base.i18n.BaseMessages;
 import org.telekit.base.i18n.I18n;
@@ -43,8 +44,8 @@ public class DemoLauncher extends Application {
 
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
 
-        Tool exampleTool = new HelloTool();
-        ExampleController controller = (ExampleController) exampleTool.createComponent();
+        Tool<ExampleController> tool = new HelloTool();
+        ExampleController controller = ViewLoader.load(tool.getComponent());
         Scene scene = new Scene(controller.getRoot(), 800, 600);
 
         primaryStage.setTitle(Env.APP_NAME);

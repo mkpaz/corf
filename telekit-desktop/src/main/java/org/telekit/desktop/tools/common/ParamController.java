@@ -9,14 +9,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Window;
 import org.apache.commons.lang3.StringUtils;
-import org.telekit.base.desktop.Component;
-import org.telekit.base.desktop.FxmlPath;
-import org.telekit.base.desktop.ModalDialog;
-import org.telekit.base.desktop.ViewLoader;
+import org.telekit.base.desktop.*;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.util.PlaceholderReplacer;
-import org.telekit.controls.util.TextFormatters;
 import org.telekit.controls.util.BindUtils;
+import org.telekit.controls.util.TextFormatters;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.tools.common.Param.Type;
 
@@ -30,7 +27,7 @@ import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_ADD_PARAM;
 
 @FxmlPath("/org/telekit/desktop/tools/common/param.fxml")
-public class ParamController implements Component {
+public class ParamController implements Component, ModalController {
 
     public @FXML GridPane rootPane;
     public @FXML TextField tfName;
@@ -112,12 +109,17 @@ public class ParamController implements Component {
 
     public void setOnSubmit(Consumer<Param> handler) { this.onSubmitCallback = handler; }
 
-    public void setOnCancel(Runnable handler) { this.onCancelCallback = handler; }
+    @Override
+    public Runnable getOnCloseRequest() { return onCancelCallback; }
+
+    @Override
+    public void setOnCloseRequest(Runnable handler) { this.onCancelCallback = handler; }
 
     public static ModalDialog<ParamController> createDialog(Window window) {
         ParamController controller = ViewLoader.load(ParamController.class);
         return ModalDialog.builder(controller, window.getScene().getWindow())
                 .title(I18n.t(TOOLS_ADD_PARAM))
+                .inheritStyles()
                 .icon(IconCache.get(ICON_APP))
                 .resizable(false)
                 .build();

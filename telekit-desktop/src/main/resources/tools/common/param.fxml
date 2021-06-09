@@ -26,7 +26,7 @@
       <HBox alignment="CENTER_LEFT" spacing="3.0">
          <children>
             <Label text="%Name" />
-            <Label styleClass="lbl-mandatory" text="*" />
+            <Label text="*" />
             <Label text=":" />
          </children>
       </HBox>

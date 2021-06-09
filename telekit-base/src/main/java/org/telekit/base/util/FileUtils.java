@@ -57,7 +57,11 @@ public final class FileUtils {
 
     public static @NotNull List<Path> findFilesByPrefix(Path path, String prefix) {
         if (!dirExists(path)) return Collections.emptyList();
-        return Arrays.stream(path.toFile().listFiles((dir, name) -> name.startsWith(prefix)))
+
+        File[] files = path.toFile().listFiles((dir, name) -> name.startsWith(prefix));
+        if (files == null || files.length == 0) { return Collections.emptyList(); }
+
+        return Arrays.stream(files)
                 .filter(File::isFile)
                 .map(File::toPath)
                 .collect(Collectors.toList());

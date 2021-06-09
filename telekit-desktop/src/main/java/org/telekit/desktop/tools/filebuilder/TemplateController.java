@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
+import org.telekit.base.desktop.ModalController;
 import org.telekit.base.domain.Encoding;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.i18n.I18n;
@@ -24,8 +25,8 @@ import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_EDIT_TEMPLATE;
 import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_NEW_TEMPLATE;
 
-@FxmlPath("/org/telekit/desktop/tools/filebuilder/_root.fxml")
-public class TemplateController implements Component {
+@FxmlPath("/org/telekit/desktop/tools/filebuilder/template.fxml")
+public class TemplateController implements Component, ModalController {
 
     public @FXML VBox rootPane;
     public @FXML TabPane tabPane;
@@ -48,6 +49,9 @@ public class TemplateController implements Component {
 
     @FXML
     public void initialize() {
+        // full width tabs
+        tabPane.tabMinWidthProperty().bind(tabPane.widthProperty().divide(tabPane.getTabs().size()).subtract(20));
+
         cmbDelimiter.setConverter(new DelimiterStringConverter());
         cmbEncoding.getItems().setAll(Encoding.values());
         cmbLineSeparator.getItems().setAll(LineSeparator.values());
@@ -121,5 +125,9 @@ public class TemplateController implements Component {
 
     public void setOnSubmit(BiConsumer<Action, Template> handler) { this.onSubmitCallback = handler; }
 
-    public void setOnCancel(Runnable handler) { this.onCancelCallback = handler; }
+    @Override
+    public Runnable getOnCloseRequest() { return onCancelCallback; }
+
+    @Override
+    public void setOnCloseRequest(Runnable handler) { this.onCancelCallback = handler; }
 }

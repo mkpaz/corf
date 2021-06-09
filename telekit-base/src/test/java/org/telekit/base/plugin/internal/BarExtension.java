@@ -1,30 +1,22 @@
 package org.telekit.base.plugin.internal;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.telekit.base.desktop.mvvm.View;
+import javafx.scene.Node;
+import org.telekit.base.desktop.Component;
 import org.telekit.base.plugin.Tool;
+import org.telekit.base.plugin.ToolGroup;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("ALL")
 public class BarExtension implements Tool {
-    
-    @Override
-    public @NotNull String getName() {
-        return null;
-    }
 
     @Override
-    public @Nullable String getGroupName() {
-        return null;
-    }
+    public String getName() { return null; }
 
     @Override
-    public @NotNull View<?> createComponent() {
-        return null;
-    }
+    public ToolGroup getGroup() { return null; }
 
     @Override
-    public boolean isModal() {
-        return false;
-    }
+    public Class<? extends Component> getComponent() { return null; }
+
+    @Override
+    public Node getIcon() { return null; }
 }

@@ -190,7 +190,7 @@ public class ApplicationPreferences {
             }
             throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         } finally {
-            if (backup != null) hush(() -> deleteFile(backup));
+            if (backup != null) { hush(() -> deleteFile(backup)); }
         }
     }
 }

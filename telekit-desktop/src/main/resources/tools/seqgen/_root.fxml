@@ -83,7 +83,7 @@
             </Label>
          </children>
       </HBox>
-      <TextArea fx:id="taResult" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="monospaced" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="9" />
+      <TextArea fx:id="taResult" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="monospace" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="9" />
       <HBox GridPane.columnIndex="1" GridPane.rowIndex="10">
          <children>
             <Label fx:id="lbRowLimit" opacity="0.75" styleClass="text-sm" text="%tools.only-first-N-rows-will-be-shown" />
@@ -107,7 +107,7 @@
             <Insets top="10.0" />
          </GridPane.margin>
          <children>
-            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" styleClass="btn-main" text="%action.Generate">
+            <Button fx:id="btnGenerate" mnemonicParsing="false" onAction="#generate" styleClass="large" text="%action.Generate">
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>

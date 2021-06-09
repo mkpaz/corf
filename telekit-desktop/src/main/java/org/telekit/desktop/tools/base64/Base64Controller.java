@@ -13,8 +13,8 @@ import javafx.scene.layout.Region;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
 import org.telekit.base.domain.LineSeparator;
+import org.telekit.base.domain.event.Notification;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.desktop.domain.ExceptionCaughtEvent;
 
 import java.util.Arrays;
 import java.util.Base64;
@@ -86,7 +86,7 @@ public class Base64Controller implements Component {
         task.setOnFailed(event -> {
             Throwable exception = event.getSource().getException();
             if (exception != null) {
-                DefaultEventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
+                DefaultEventBus.getInstance().publish(Notification.error(exception));
             }
         });
         return task;

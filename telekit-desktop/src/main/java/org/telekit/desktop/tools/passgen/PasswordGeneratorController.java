@@ -7,17 +7,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
+import org.telekit.base.domain.event.Notification;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.event.ProgressEvent;
+import org.telekit.base.domain.event.TaskProgressEvent;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PasswordGenerator;
 import org.telekit.controls.dialogs.Dialogs;
-import org.telekit.controls.util.IntegerStringConverter;
 import org.telekit.controls.util.BindUtils;
-import org.telekit.desktop.Launcher;
-import org.telekit.desktop.domain.ExceptionCaughtEvent;
+import org.telekit.controls.util.IntegerStringConverter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,9 +25,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
+import static org.telekit.desktop.startup.config.Config.DESKTOP_MODULE_PATH;
 
 @FxmlPath("/org/telekit/desktop/tools/passgen/_root.fxml")
 public class PasswordGeneratorController implements Component {
@@ -36,7 +37,7 @@ public class PasswordGeneratorController implements Component {
     private static final String TYPE_RANDOM = "RANDOM";
     private static final String TYPE_KATAKANA = "KATAKANA";
     private static final String TYPE_XKCD = "XKCD";
-    private static final String XKCD_DICT_PATH = "/assets/dict/words_en";
+    private static final String XKCD_DICT_PATH = DESKTOP_MODULE_PATH.concat("assets/dict/words_en").toString();
 
     private static final List<Character> SIMILAR_CHARS = List.of(
             'i', 'I', 'L', 'l', '1', '0', 'o', 'O'
@@ -134,7 +135,7 @@ public class PasswordGeneratorController implements Component {
             toggleProgressIndicator(false);
             Throwable exception = event.getSource().getException();
             if (exception != null) {
-                DefaultEventBus.getInstance().publish(new ExceptionCaughtEvent(exception));
+                DefaultEventBus.getInstance().publish(Notification.error(exception));
             }
         });
 
@@ -143,7 +144,7 @@ public class PasswordGeneratorController implements Component {
     }
 
     private void toggleProgressIndicator(boolean on) {
-        DefaultEventBus.getInstance().publish(new ProgressEvent(on));
+        DefaultEventBus.getInstance().publish(new TaskProgressEvent(getClass().getCanonicalName(), on));
     }
 
     @FXML
@@ -201,8 +202,8 @@ public class PasswordGeneratorController implements Component {
     }
 
     private void loadXKCDDict() {
-        xkcdDict = new BufferedReader(new InputStreamReader(Launcher.getResourceAsStream(XKCD_DICT_PATH)))
-                .lines().toList();
+        InputStreamReader reader = new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(XKCD_DICT_PATH)));
+        xkcdDict = new BufferedReader(reader).lines().toList();
     }
 
     @Override

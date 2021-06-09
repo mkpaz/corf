@@ -1,0 +1,172 @@
+/* Utils
+**********************************************************/
+
+.monospace   { -fx-font-family: 'Fira Mono'; }
+
+.text-center { -fx-alignment: CENTER; }
+
+.text-sm { -fx-font-size: 0.9em; }
+.text-xs { -fx-font-size: 0.8em; }
+
+.text-success { -fx-fill: -fx-color-success; }
+.text-warning { -fx-fill: -fx-color-warning; }
+.text-error   { -fx-fill: -fx-color-error;   }
+
+.hide-table-header .column-header-background {
+    -fx-max-height:  0;
+    -fx-pref-height: 0;
+    -fx-min-height:  0;
+}
+
+.tab-pane.no-menu-button > .tab-header-area > .control-buttons-tab > .container > .tab-down-button {
+    -fx-padding: 0;
+}
+.tab-pane.no-menu-button > .tab-header-area > .control-buttons-tab > .container > .tab-down-button > .arrow {
+    -fx-padding: 0;
+}
+
+.subtitle {
+    -fx-text-fill: derive(-fx-text-background-color, 15%);
+}
+
+/* Panes
+**********************************************************/
+
+/* remove focus glow around titled pane arrow */
+.titled-pane:focused > .title > .arrow-button > .arrow {
+    -fx-background-insets: 0;
+    -fx-effect: none;
+}
+
+/* remove hover effect from titled pane */
+.titled-pane > .title:hover {
+    -fx-color: -fx-base;
+}
+
+/* Buttons
+**********************************************************/
+
+/* link button or menu button with transparent bg */
+.button.link-button,
+.menu-button.link-button {
+    -fx-background-color: transparent;
+}
+.menu-button.link-button > .label {
+    -fx-padding: 0 0.666667em 0 0.666667em;
+}
+.menu-button.link-button > .arrow-button {
+    -fx-padding: 0;
+}
+.menu-button.link-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+}
+
+/* circle icon button with transparent bg */
+.button.circle-icon-button {
+    -fx-background-color: transparent;
+}
+.button.circle-icon-button:hover {
+    -fx-background-color: -fx-hover-base;
+}
+
+/* menu icon button with normal bg but w/o dropdown indicator */
+.menu-icon-button > .arrow-button,
+.menu-icon-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+}
+
+.button.large {
+    -fx-padding: 10 15 10 15;
+}
+.button.large StackPane {
+    -fx-padding: 0 4 0 0;
+}
+
+/* RichTextFX
+**********************************************************/
+
+.styled-text-area .text {
+    -fx-font-family: 'Fira Mono';
+    -fx-font-size: 1.1em;
+}
+
+.virtualized-scroll-pane {
+    -fx-background-color:
+        linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        -fx-color;
+    -fx-background-insets: -1, 0; /* border width */
+    -fx-background-radius: 3, 2;
+    -fx-padding: 0;
+}
+.virtualized-scroll-pane:focused {
+    -fx-background-color:
+        -fx-focus-color,
+        -fx-control-inner-background,
+        -fx-faint-focus-color,
+        -fx-color;
+    -fx-background-insets: -1.2, 0, -1.4, 3; /* focus border width */
+    -fx-background-radius: 3, 2, 4, 0;
+    -fx-prompt-text-fill: transparent;
+}
+.virtualized-scroll-pane > .scroll-bar:horizontal {
+    -fx-background-radius: 0 0 2 2;
+}
+.virtualized-scroll-pane > .scroll-bar:vertical {
+    -fx-background-radius: 0 2 2 0;
+}
+.virtualized-scroll-pane .styled-text-area {
+    -fx-background-color:
+        linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+        linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-padding: 0.333333em 0.583em 0.333333em 0.583em; /* 4 7 4 7 */
+    -fx-cursor: text;
+    -fx-background-radius: 2;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-control-inner-background, -20%);
+}
+.text-input:focused,
+.styled-text-area .selection {
+    /* There is an old bug: "-fx-highlight-text-fill" doesn't work in RichTextFX
+     * https://github.com/FXMisc/RichTextFX/issues/303
+     *
+     * The "workaround" is do not use brighter background selection color. Seems reasonable
+     * to also apply that policy to JavaFX text controls for the sake of uniform look. */
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-accent, 85%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+}
+.virtualized-scroll-pane:focused .styled-text-area .paragraph-box:has-caret .paragraph-text {
+    -fx-background-color: -textarea-highlight-color;
+}
+.virtualized-scroll-pane .styled-text-area.rtfx-fea-line-numbers {
+    -fx-padding: 0;
+    -fx-cursor: text;
+    -fx-background-radius: 2;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-control-inner-background, -20%);
+}
+.styled-text-area.rtfx-fea-line-numbers .lineno {
+    -fx-background-color: derive(-fx-base, -5%);
+    -fx-padding: 0 0.583em 0 0.583em;
+    -fx-cursor: default;
+    -fx-text-fill: -fx-text-inner-color;
+}
+.styled-text-area.rtfx-fea-line-numbers .paragraph-box:first-paragraph .lineno {
+     -fx-padding: 0.333333em 0.583em 0 0.583em;
+}
+.styled-text-area.rtfx-fea-line-numbers .paragraph-box:last-paragraph .lineno {
+     -fx-padding: 0 0.583em 0.333333em 0.583em;
+}
+.styled-text-area.rtfx-fea-line-numbers .paragraph-box:first-paragraph .paragraph-text {
+    -fx-padding: 0.333333em 0 0 0.583em;
+}
+.styled-text-area.rtfx-fea-line-numbers .paragraph-box:last-paragraph .paragraph-text {
+    -fx-padding: 0 0 0.333333em 0.583em;
+}
+.styled-text-area.rtfx-fea-line-numbers .paragraph-text {
+    -fx-padding: 0 0 0 0.583em;
+}

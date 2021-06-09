@@ -62,7 +62,7 @@ public class FilterTable<S> extends VBox {
         btnFilter = new Button();
         btnFilter.setGraphic(new FontAwesomeIcon(FontAwesome.SEARCH));
         btnFilter.setOnAction(event -> filter());
-        btnFilter.getStyleClass().add("btn-icon");
+        btnFilter.getStyleClass().add("link-button");
 
         HBox paneFilter = new HBox();
         paneFilter.setSpacing(0);

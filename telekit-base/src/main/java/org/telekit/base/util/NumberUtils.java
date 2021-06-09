@@ -65,4 +65,9 @@ public final class NumberUtils {
     public static int largestBitValue(int bitLength) {
         return (1 << bitLength) - 1; // = 2 ^ n - 1
     }
+
+    public static double round(double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
 }

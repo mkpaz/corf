@@ -1,32 +1,21 @@
 package org.telekit.base.plugin;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javafx.scene.Node;
 import org.telekit.base.desktop.Component;
-import org.telekit.base.i18n.I18n;
 
-public interface Tool extends Extension {
+public interface Tool<C extends Component> extends Extension {
 
-    /**
-     * Tool name represents corresponding menu item.
-     * Use {@link I18n#translate(String)} if you want internationalize tool name.
-     */
-    @NotNull String getName();
+    /* Use {@link I18n#translate(String)} if you want to internationalize tool name */
+    String getName();
 
-    /**
-     * Group name represents menu group for several tools.
-     * Use {@link I18n#translate(String)} if you want internationalize group name.
-     */
-    @Nullable String getGroupName();
+    /* Use {@link I18n#translate(String)} if you want to internationalize tool name */
+    ToolGroup getGroup();
 
-    /**
-     * JavaFX controller for the tool stage. It will be created only when user
-     * will actually choose to run this tool.
-     */
-    @NotNull Component createComponent();
+    Class<C> getComponent();
 
-    /**
-     * Specifies will tool be opened in modal window or not.
-     */
-    boolean isModal();
+    Node getIcon();
+
+    default String id() {
+        return getClass().getCanonicalName();
+    }
 }

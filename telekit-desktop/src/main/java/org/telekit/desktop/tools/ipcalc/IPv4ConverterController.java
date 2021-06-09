@@ -9,6 +9,7 @@ import javafx.scene.layout.Region;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.FxmlPath;
+import org.telekit.base.desktop.ModalController;
 import org.telekit.base.telecom.ip.IP4Address;
 import org.telekit.controls.util.TextFormatters;
 
@@ -19,7 +20,7 @@ import static org.apache.commons.lang3.StringUtils.leftPad;
 import static org.telekit.base.util.StringUtils.splitEqually;
 
 @FxmlPath("/org/telekit/desktop/tools/ipcalc/ipv4-conv.fxml")
-public class IPv4ConverterController implements Component {
+public class IPv4ConverterController implements Component, ModalController {
 
     public @FXML HBox rootPane;
     public @FXML TextField tfIPCanonical;
@@ -128,5 +129,9 @@ public class IPv4ConverterController implements Component {
     @Override
     public void reset() {}
 
-    public void setOnClose(Runnable handler) { this.onCloseCallback = handler; }
+    @Override
+    public Runnable getOnCloseRequest() { return onCloseCallback; }
+
+    @Override
+    public void setOnCloseRequest(Runnable handler) { this.onCloseCallback = handler; }
 }

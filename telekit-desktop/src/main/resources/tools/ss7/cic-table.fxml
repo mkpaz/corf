@@ -27,8 +27,8 @@
     <RowConstraints vgrow="ALWAYS" />
   </rowConstraints>
    <children>
-      <ListView fx:id="listE1" prefWidth="120.0" styleClass="monospaced" GridPane.rowIndex="1" GridPane.rowSpan="6" />
-      <ListView fx:id="listTimeslots" prefWidth="120.0" styleClass="monospaced" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="6" />
+      <ListView fx:id="listE1" prefWidth="120.0" styleClass="monospace" GridPane.rowIndex="1" GridPane.rowSpan="6" />
+      <ListView fx:id="listTimeslots" prefWidth="120.0" styleClass="monospace" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="6" />
       <Label styleClass="subtitle" text="E1" />
       <Label styleClass="subtitle" text="Timeslot - CIC" GridPane.columnIndex="3" />
       <HBox spacing="3.0" GridPane.columnIndex="1" GridPane.rowIndex="4">

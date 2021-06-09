@@ -1,33 +1,21 @@
 package org.telekit.example.tools;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.telekit.base.desktop.Component;
-import org.telekit.base.desktop.ViewLoader;
-import org.telekit.base.i18n.I18n;
+import javafx.scene.Node;
 import org.telekit.base.plugin.Tool;
+import org.telekit.base.plugin.ToolGroup;
 import org.telekit.example.ExamplePlugin;
-import org.telekit.example.i18n.ExampleMessages;
 
-public class HelloTool implements Tool {
-
-    @Override
-    public @NotNull String getName() {
-        return ExamplePlugin.class.getSimpleName() + ": " + I18n.t(ExampleMessages.HELLO);
-    }
+public class HelloTool implements Tool<ExampleController> {
 
     @Override
-    public @Nullable String getGroupName() {
-        return null;
-    }
+    public String getName() { return ExamplePlugin.class.getSimpleName(); }
 
     @Override
-    public @NotNull Component createComponent() {
-        return ViewLoader.load(ExampleController.class);
-    }
+    public ToolGroup getGroup() { return null; }
 
     @Override
-    public boolean isModal() {
-        return false;
-    }
+    public Class<ExampleController> getComponent() { return ExampleController.class; }
+
+    @Override
+    public Node getIcon() { return null; }
 }

@@ -6,7 +6,6 @@ module telekit.desktop {
     // not modularized dependencies
     requires org.apache.commons.lang3;
     requires org.apache.httpcomponents.httpcore;
-    requires org.apache.httpcomponents.httpclient;
 
     requires j2html;
 
@@ -18,14 +17,16 @@ module telekit.desktop {
     requires org.apache.commons.codec;
 
     // exports
-    exports org.telekit.desktop.domain;
-    opens org.telekit.desktop.domain;
-
-    exports org.telekit.desktop.main;
-    opens org.telekit.desktop.main;
-
     exports org.telekit.desktop;
-    opens org.telekit.desktop;
+    exports org.telekit.desktop.event;
+    exports org.telekit.desktop.views.layout;
+    exports org.telekit.desktop.views.system;
+    exports org.telekit.desktop.startup;
+    exports org.telekit.desktop.startup.config;
+    exports org.telekit.desktop.views;
+
+    exports org.telekit.desktop.i18n;
+    opens org.telekit.desktop.i18n;
 
     // tools
     exports org.telekit.desktop.tools;
@@ -57,6 +58,4 @@ module telekit.desktop {
 
     exports org.telekit.desktop.tools.translit;
     opens org.telekit.desktop.tools.translit;
-    exports org.telekit.desktop.i18n;
-    opens org.telekit.desktop.i18n;
 }
