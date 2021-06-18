@@ -1,6 +1,5 @@
 package org.telekit.base.plugin.internal;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.plugin.Extension;
 import org.telekit.base.plugin.Plugin;
@@ -24,17 +23,17 @@ public class PluginBox {
     private PluginState state;
     private final Map<Class<? extends Extension>, Set<Class<? extends Extension>>> extensionTypes;
 
-    public PluginBox(@NotNull Plugin plugin, @NotNull PluginState state) {
+    public PluginBox(Plugin plugin, PluginState state) {
         this.plugin = plugin;
         this.state = state;
         this.extensionTypes = PluginLoader.resolveExtensionTypes(getPluginClass());
     }
 
-    public @NotNull Plugin getPlugin() {
+    public Plugin getPlugin() {
         return plugin;
     }
 
-    public @NotNull Class<? extends Plugin> getPluginClass() {
+    public Class<? extends Plugin> getPluginClass() {
         return plugin.getClass();
     }
 
@@ -42,7 +41,7 @@ public class PluginBox {
         return state;
     }
 
-    public void setState(@NotNull PluginState state) {
+    public void setState(PluginState state) {
         this.state = state;
     }
 
@@ -71,7 +70,7 @@ public class PluginBox {
      *
      * @param extensionType extension type (interface)
      */
-    public @NotNull Collection<Class<? extends Extension>> getExtensionsOfType(
+    public Collection<Class<? extends Extension>> getExtensionsOfType(
             Class<? extends Extension> extensionType) {
         return extensionTypes.containsKey(extensionType) ?
                 new ArrayList<>(extensionTypes.get(extensionType)) :
@@ -93,7 +92,7 @@ public class PluginBox {
         return Files.exists(configDir) && !isDirEmpty(configDir);
     }
 
-    public @NotNull Collection<Path> getConfigs() {
+    public Collection<Path> getConfigs() {
         Path configDir = getPluginConfigDir(plugin.getClass());
         if (!Files.exists(configDir)) { return Collections.emptyList(); }
 

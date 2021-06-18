@@ -1,7 +1,6 @@
 package org.telekit.base.util;
 
 import org.apache.commons.lang3.SystemUtils;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.Env;
 
 import java.awt.*;
@@ -98,7 +97,7 @@ public final class DesktopUtils {
     }
 
     // if $XDG_CONFIG_HOME is either not set or empty, a default equal to $HOME/.config should be used.
-    public static @NotNull Path getXdgConfigDir() {
+    public static Path getXdgConfigDir() {
         String value = System.getenv("XDG_CONFIG_HOME");
         if (value == null || value.isBlank()) {
             return Env.HOME_DIR.resolve(".config");
@@ -106,7 +105,7 @@ public final class DesktopUtils {
         return Paths.get(value);
     }
 
-    public static @NotNull Path getLocalAppDataDir() {
+    public static Path getLocalAppDataDir() {
         String value = System.getenv("LOCALAPPDATA");
         if (value == null || value.isBlank()) {
             return Env.HOME_DIR.resolve("AppData").resolve("Local");

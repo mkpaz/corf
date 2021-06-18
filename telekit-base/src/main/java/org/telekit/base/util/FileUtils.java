@@ -1,6 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -18,7 +17,7 @@ import static org.telekit.base.Env.TEMP_DIR;
 
 public final class FileUtils {
 
-    public static @NotNull File urlToFile(URL url) {
+    public static File urlToFile(URL url) {
         try {
             return new File(Objects.requireNonNull(url).toURI());
         } catch (URISyntaxException e) {
@@ -26,7 +25,7 @@ public final class FileUtils {
         }
     }
 
-    public static @NotNull String sanitizeFileName(String filename) {
+    public static String sanitizeFileName(String filename) {
         if (filename == null || filename.isBlank()) { return ""; }
         return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
     }
@@ -36,7 +35,7 @@ public final class FileUtils {
      *
      * @param path absolute path to the target file
      */
-    public static @NotNull String getFileName(Path path) {
+    public static String getFileName(Path path) {
         if (path == null) { return ""; }
         return substringBeforeLast(path.getFileName().toString(), ".");
     }
@@ -46,16 +45,16 @@ public final class FileUtils {
      *
      * @param path absolute path to the target file
      */
-    public static @NotNull String getFileExtension(Path path) {
+    public static String getFileExtension(Path path) {
         if (path == null) { return ""; }
         return substringAfterLast(path.getFileName().toString(), ".");
     }
 
-    public static @NotNull Path ensureNotNull(String path, Path defaultValue) {
+    public static Path ensureNotNull(String path, Path defaultValue) {
         return path != null ? Paths.get(path) : Objects.requireNonNull(defaultValue);
     }
 
-    public static @NotNull List<Path> findFilesByPrefix(Path path, String prefix) {
+    public static List<Path> findFilesByPrefix(Path path, String prefix) {
         if (!dirExists(path)) { return Collections.emptyList(); }
 
         File[] files = path.toFile().listFiles((dir, name) -> name.startsWith(prefix));
@@ -67,11 +66,11 @@ public final class FileUtils {
                 .collect(Collectors.toList());
     }
 
-    public static @NotNull Path createTempFilePath() {
+    public static Path createTempFilePath() {
         return createTempPath(null, ".tmp");
     }
 
-    public static @NotNull Path createTempDirPath() {
+    public static Path createTempDirPath() {
         return createTempPath("tmp-", null);
     }
 
@@ -79,18 +78,18 @@ public final class FileUtils {
      * This method does not create nor empty temp file nor directory,
      * but only returns its path.
      */
-    public static @NotNull Path createTempPath(String prefix, String suffix) {
+    public static Path createTempPath(String prefix, String suffix) {
         String filename = UUID.randomUUID().toString().replace("-", "");
         prefix = StringUtils.ensureNotNull(prefix, "");
         suffix = StringUtils.ensureNotNull(suffix, "");
         return TEMP_DIR.resolve(prefix + filename + suffix);
     }
 
-    public static @NotNull Path createTempFile() {
+    public static Path createTempFile() {
         return createTempFile(null, null);
     }
 
-    public static @NotNull Path createTempFile(String prefix, String suffix) {
+    public static Path createTempFile(String prefix, String suffix) {
         try {
             return Files.createTempFile(prefix, suffix);
         } catch (IOException e) {
@@ -98,11 +97,11 @@ public final class FileUtils {
         }
     }
 
-    public static @NotNull Path createTempDir() {
+    public static Path createTempDir() {
         return createTempDir(null);
     }
 
-    public static @NotNull Path createTempDir(String prefix) {
+    public static Path createTempDir(String prefix) {
         try {
             return Files.createTempDirectory(prefix);
         } catch (IOException e) {

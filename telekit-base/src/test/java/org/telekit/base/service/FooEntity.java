@@ -1,6 +1,5 @@
 package org.telekit.base.service;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
 
 import java.util.Comparator;
@@ -15,16 +14,16 @@ public class FooEntity extends Entity<FooEntity, UUID> {
         super(UUID.randomUUID());
     }
 
-    public FooEntity(@NotNull UUID id) {
+    public FooEntity(UUID id) {
         super(id);
     }
 
-    public FooEntity(@NotNull UUID id, String name) {
+    public FooEntity(UUID id, String name) {
         super(id);
         this.name = name;
     }
 
-    public FooEntity(@NotNull FooEntity that) {
+    public FooEntity(FooEntity that) {
         super(that);
         this.name = that.getName();
     }
@@ -43,7 +42,7 @@ public class FooEntity extends Entity<FooEntity, UUID> {
     }
 
     @Override
-    public int compareTo(@NotNull FooEntity that) {
+    public int compareTo(FooEntity that) {
         return COMPARATOR.compare(this, that);
     }
 

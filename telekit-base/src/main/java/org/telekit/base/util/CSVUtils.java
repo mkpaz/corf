@@ -1,6 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.LineSeparator;
 
 import java.util.Arrays;
@@ -22,7 +21,7 @@ public final class CSVUtils {
     /**
      * Splits CSV text to matrix by using specified separator.
      */
-    public static @NotNull String[][] textToTable(String text, String valueSeparator) {
+    public static String[][] textToTable(String text, String valueSeparator) {
         Objects.requireNonNull(text);
         Objects.requireNonNull(valueSeparator);
 
@@ -39,7 +38,7 @@ public final class CSVUtils {
         return Arrays.copyOfRange(table, 0, nonEmptyRows);
     }
 
-    public static @NotNull String addColumnsTheRight(String origText, String addedText, String valueSeparator) {
+    public static String addColumnsTheRight(String origText, String addedText, String valueSeparator) {
         boolean isOrigBlank = isBlank(origText);
         boolean isAddedBlank = isBlank(addedText);
 

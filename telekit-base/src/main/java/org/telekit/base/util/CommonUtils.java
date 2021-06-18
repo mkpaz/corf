@@ -1,7 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,11 +19,11 @@ public final class CommonUtils {
         return t != null ? func.apply(t) : null;
     }
 
-    public static @NotNull Properties loadProperties(File file) {
+    public static Properties loadProperties(File file) {
         return loadProperties(file, StandardCharsets.UTF_8);
     }
 
-    public static @NotNull Properties loadProperties(File file, Charset charset) {
+    public static Properties loadProperties(File file, Charset charset) {
         try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), charset)) {
             Properties properties = new Properties();
             properties.load(reader);
@@ -35,15 +33,15 @@ public final class CommonUtils {
         }
     }
 
-    public static @NotNull String className(Class<?> cls) {
+    public static String className(Class<?> cls) {
         return Objects.requireNonNull(cls).getCanonicalName();
     }
 
-    public static @NotNull String objectClassName(Object object) {
+    public static String objectClassName(Object object) {
         return Objects.requireNonNull(object).getClass().getCanonicalName();
     }
 
-    public static @NotNull String localizedFileName(String fileName, String fileExtension) {
+    public static String localizedFileName(String fileName, String fileExtension) {
         return localizedFileName(fileName, fileExtension, Locale.getDefault());
     }
 
@@ -52,7 +50,7 @@ public final class CommonUtils {
      * region tag is not included. Example: {@code config.txt > config_en.txt}.
      * If locale is null, then just plain file name returned.
      */
-    public static @NotNull String localizedFileName(String fileName, String fileExtension, Locale locale) {
+    public static String localizedFileName(String fileName, String fileExtension, Locale locale) {
         if (locale == null) { return fileName + fileExtension; }
         return ensureNotNull(fileName) + "_" + locale.getLanguage() + ensureNotNull(fileExtension);
     }

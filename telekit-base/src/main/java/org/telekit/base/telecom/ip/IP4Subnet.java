@@ -4,7 +4,6 @@ import inet.ipaddr.AddressStringException;
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressString;
 import inet.ipaddr.ipv4.IPv4Address;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class IP4Subnet {
     /**
      * Returns the first address in this subnet.
      */
-    public @NotNull IP4Address getHostAddress() {
+    public IP4Address getHostAddress() {
         return new IP4Address(ip);
     }
 
@@ -101,18 +100,18 @@ public class IP4Subnet {
         return MAX_LEN - ip.getPrefixLength();
     }
 
-    public @NotNull IP4Address getNetmask() {
+    public IP4Address getNetmask() {
         return new IP4Address(ip.getNetwork().getNetworkMask(ip.getNetworkPrefixLength()));
     }
 
-    public @NotNull IP4Address getMinHost() {
+    public IP4Address getMinHost() {
         if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN || ip.getNetworkPrefixLength() == MAX_LEN) {
             return new IP4Address(ip);
         }
         return new IP4Address(ip.increment(1));
     }
 
-    public @NotNull IP4Address getMaxHost() {
+    public IP4Address getMaxHost() {
         if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN) { return new IP4Address(ip.toMaxHost()); }
         if (ip.getNetworkPrefixLength() == MAX_LEN) { return new IP4Address(ip); }
         return new IP4Address(ip.toMaxHost().increment(-1));

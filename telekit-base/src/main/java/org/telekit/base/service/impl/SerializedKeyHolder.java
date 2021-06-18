@@ -1,7 +1,6 @@
 package org.telekit.base.service.impl;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.service.KeyProvider;
 
 import java.security.Key;
@@ -17,7 +16,7 @@ public class SerializedKeyHolder implements KeyProvider {
     }
 
     @Override
-    public @NotNull Key getKey() {
+    public Key getKey() {
         return SerializationUtils.deserialize(data);
     }
 }

@@ -1,7 +1,5 @@
 package org.telekit.base.domain;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 public abstract class Credential {
@@ -12,7 +10,7 @@ public abstract class Credential {
         this.name = Objects.requireNonNull(name);
     }
 
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 

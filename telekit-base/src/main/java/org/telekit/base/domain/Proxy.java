@@ -3,7 +3,6 @@ package org.telekit.base.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.net.Scheme;
 
@@ -32,7 +31,7 @@ public class Proxy {
         this.password = proxy.getPassword();
     }
 
-    public @NotNull URI getUri() {
+    public URI getUri() {
         return uri;
     }
 
@@ -102,11 +101,11 @@ public class Proxy {
         return password != null && password.length > 0;
     }
 
-    public static Proxy of(@NotNull URI uri) {
+    public static Proxy of(URI uri) {
         return of(uri, parseUserInfo(uri.getUserInfo()));
     }
 
-    public static Proxy of(@NotNull URI uri, @Nullable UsernamePasswordCredential credential) {
+    public static Proxy of(URI uri, @Nullable UsernamePasswordCredential credential) {
         Proxy proxy = new Proxy(uri);
         if (credential != null) {
             proxy.setUsername(credential.getUsername());

@@ -1,7 +1,6 @@
 package org.telekit.base.plugin.internal;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.di.Injector;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.EventBus;
@@ -216,7 +215,7 @@ public class PluginManager {
      * {@link Injector} is used. If object is not found in {@link Injector}
      * it will be created via no-arg constructor.
      */
-    public @NotNull List<ExtensionBox> getExtensionsOfType(Class<? extends Extension> extensionType) {
+    public List<ExtensionBox> getExtensionsOfType(Class<? extends Extension> extensionType) {
         LOGGER.fine("Querying extension of type: " + className(extensionType));
         Collection<PluginBox> matchedPlugins = pluginRepository.findPluginsThatProvide(extensionType);
         if (matchedPlugins.isEmpty()) { return Collections.emptyList(); }
@@ -278,7 +277,7 @@ public class PluginManager {
         }
     }
 
-    private @NotNull Collection<ExtensionBox> createExtensionsOfType(
+    private Collection<ExtensionBox> createExtensionsOfType(
             PluginBox pluginBox,
             Class<? extends Extension> extensionType
     ) {

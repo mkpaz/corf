@@ -1,6 +1,5 @@
 package org.telekit.base.plugin.internal;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.plugin.Extension;
 import org.telekit.base.plugin.Plugin;
 
@@ -38,7 +37,7 @@ public class PluginRepository {
         plugins.remove(pluginClass);
     }
 
-    public @NotNull Collection<PluginBox> findPluginsThatProvide(Class<? extends Extension> extensionType) {
+    public Collection<PluginBox> findPluginsThatProvide(Class<? extends Extension> extensionType) {
         return plugins.values().stream()
                 .filter(container -> container.providesExtensionsOfType(extensionType))
                 .collect(Collectors.toList());

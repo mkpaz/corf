@@ -6,7 +6,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.Dimension;
@@ -49,7 +48,7 @@ public class ApplicationPreferences {
 
     public ApplicationPreferences() {}
 
-    public @NotNull Language getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
@@ -65,7 +64,7 @@ public class ApplicationPreferences {
         this.systemTray = systemTray;
     }
 
-    public @NotNull Proxy getProxy() {
+    public Proxy getProxy() {
         return proxy != null ? proxy : NO_PROXY;
     }
 
@@ -73,7 +72,7 @@ public class ApplicationPreferences {
         this.proxy = NO_PROXY.equals(proxy) ? null : proxy;
     }
 
-    public @NotNull Security getSecurity() {
+    public Security getSecurity() {
         return security;
     }
 
@@ -81,7 +80,7 @@ public class ApplicationPreferences {
         this.security = security != null ? security : new Security();
     }
 
-    public @NotNull Set<String> getDisabledPlugins() {
+    public Set<String> getDisabledPlugins() {
         return disabledPlugins;
     }
 
@@ -90,7 +89,7 @@ public class ApplicationPreferences {
     }
 
     @JsonIgnore
-    public @NotNull Locale getLocale() {
+    public Locale getLocale() {
         // env variable is only needed to simplify app testing
         return defaultIfNull(Env.LOCALE, language.getLocale());
     }

@@ -1,7 +1,5 @@
 package org.telekit.base.service;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Collection;
 import java.util.Optional;
 
@@ -15,15 +13,15 @@ public interface Repository<T> {
 
     boolean contains(T entity);
 
-    void add(@NotNull T entity);
+    void add(T entity);
 
-    void add(@NotNull Collection<T> entity);
+    void add(Collection<T> entity);
 
-    void update(@NotNull T entity);
+    void update(T entity);
 
-    void remove(@NotNull T entity);
+    void remove(T entity);
 
-    void remove(@NotNull Collection<T> entities);
+    void remove(Collection<T> entities);
 
     void clear();
 }

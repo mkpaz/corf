@@ -20,7 +20,6 @@ import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.net.HttpConstants.AuthScheme;
 
 import javax.net.ssl.SSLContext;
@@ -50,7 +49,7 @@ public class ApacheHttpClient implements HttpClient {
     }
 
     @Override
-    public @NotNull Response execute(Request request) {
+    public Response execute(Request request) {
         try {
             HttpRequestBase httpRequest = createHttpRequest(request);
             Response response = client.execute(httpRequest, handler, localContext);

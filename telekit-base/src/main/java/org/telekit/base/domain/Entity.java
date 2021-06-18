@@ -18,7 +18,7 @@ public abstract class Entity<T extends Entity<T, ID>, ID> implements Comparable<
         this.id = Objects.requireNonNull(that).getId();
     }
 
-    public @NotNull ID getId() {
+    public ID getId() {
         return id;
     }
 

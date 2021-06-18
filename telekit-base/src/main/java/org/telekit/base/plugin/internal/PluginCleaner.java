@@ -1,7 +1,6 @@
 package org.telekit.base.plugin.internal;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.Env;
 
 import java.io.*;
@@ -14,8 +13,8 @@ import java.util.logging.Logger;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.util.FileUtils.deleteFile;
 import static org.telekit.base.util.FileUtils.deleteDir;
+import static org.telekit.base.util.FileUtils.deleteFile;
 
 public class PluginCleaner {
 
@@ -30,7 +29,7 @@ public class PluginCleaner {
 
     public PluginCleaner() {}
 
-    public void appendTask(@NotNull Path path) {
+    public void appendTask(Path path) {
         if (!Files.exists(path)) { return; }
 
         try (Writer writer = newOutputStream(true)) {

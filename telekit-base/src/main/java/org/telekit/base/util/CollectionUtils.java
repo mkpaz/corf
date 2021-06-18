@@ -1,6 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -17,11 +16,11 @@ public final class CollectionUtils {
         return collection != null && !collection.isEmpty();
     }
 
-    public static @NotNull <T> List<T> ensureNotNull(List<T> list) {
+    public static <T> List<T> ensureNotNull(List<T> list) {
         return list != null ? list : Collections.emptyList();
     }
 
-    public static @NotNull <T> Set<T> ensureNotNull(Set<T> set) {
+    public static <T> Set<T> ensureNotNull(Set<T> set) {
         return set != null ? set : Collections.emptySet();
     }
 
@@ -33,19 +32,19 @@ public final class CollectionUtils {
         return list != null && !list.isEmpty() ? list.get(list.size() - 1) : null;
     }
 
-    public static @NotNull List<Integer> generate(int startInclusive, int endInclusive) {
+    public static List<Integer> generate(int startInclusive, int endInclusive) {
         return IntStream.range(startInclusive, endInclusive + 1).boxed().collect(Collectors.toList());
     }
 
     @SafeVarargs
-    public static @NotNull <T> List<T> merge(List<T>... lists) {
+    public static <T> List<T> merge(List<T>... lists) {
         return Arrays.stream(Objects.requireNonNull(lists))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
     @SafeVarargs
-    public static @NotNull <T> List<T> unmodifiableMerge(List<T>... lists) {
+    public static <T> List<T> unmodifiableMerge(List<T>... lists) {
         return Arrays.stream(Objects.requireNonNull(lists)).flatMap(Collection::stream).toList();
     }
 }

@@ -1,6 +1,5 @@
 package org.telekit.base.plugin.internal;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.event.Event;
 import org.telekit.base.plugin.Plugin;
 
@@ -17,11 +16,11 @@ public class PluginStateChangedEvent extends Event {
         this.pluginState = Objects.requireNonNull(pluginState);
     }
 
-    public @NotNull Class<? extends Plugin> getPluginClass() {
+    public Class<? extends Plugin> getPluginClass() {
         return pluginClass;
     }
 
-    public @NotNull PluginState getPluginState() {
+    public PluginState getPluginState() {
         return pluginState;
     }
 

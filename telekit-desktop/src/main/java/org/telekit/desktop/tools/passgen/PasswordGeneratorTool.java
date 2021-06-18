@@ -1,7 +1,6 @@
 package org.telekit.desktop.tools.passgen;
 
 import javafx.scene.Node;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.plugin.ToolGroup;
 import org.telekit.desktop.i18n.DesktopMessages;
@@ -19,7 +18,7 @@ public final class PasswordGeneratorTool implements Tool<PasswordGeneratorContro
     public ToolGroup getGroup() { return null; }
 
     @Override
-    public @NotNull Class<PasswordGeneratorController> getComponent() { return PasswordGeneratorController.class; }
+    public Class<PasswordGeneratorController> getComponent() { return PasswordGeneratorController.class; }
 
     @Override
     public Node getIcon() { return null; }

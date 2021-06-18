@@ -1,6 +1,5 @@
 package org.telekit.base.service.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -49,7 +48,7 @@ public class SequenceGenerator<ID, V> {
         this.converter = Objects.requireNonNull(converter);
     }
 
-    public @NotNull List<Map<ID, V>> generate() {
+    public List<Map<ID, V>> generate() {
         Objects.requireNonNull(converter);
         if (items.isEmpty()) { return Collections.emptyList(); }
 
@@ -95,7 +94,7 @@ public class SequenceGenerator<ID, V> {
 
     public static class Item<ID> {
 
-        public final @NotNull ID id;
+        public final ID id;
         public final double start;
         public final int step;
         public final int count;

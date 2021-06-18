@@ -1,6 +1,5 @@
 package org.telekit.base.net;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.net.HttpConstants.Method;
 
 import java.net.URI;
@@ -17,7 +16,7 @@ public interface HttpClient {
     int CONNECT_TIMEOUT = 5000;
     int RESPONSE_TIMEOUT = 5000;
 
-    @NotNull Response execute(Request request);
+    Response execute(Request request);
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -35,19 +34,19 @@ public interface HttpClient {
             this.body = ensureNotNull(body);
         }
 
-        public @NotNull Method method() {
+        public Method method() {
             return method;
         }
 
-        public @NotNull URI uri() {
+        public URI uri() {
             return uri;
         }
 
-        public @NotNull Map<String, String> headers() {
+        public Map<String, String> headers() {
             return headers;
         }
 
-        public @NotNull String body() {
+        public String body() {
             return body;
         }
 
@@ -80,15 +79,15 @@ public interface HttpClient {
             return statusCode;
         }
 
-        public @NotNull String reasonPhrase() {
+        public String reasonPhrase() {
             return reasonPhrase;
         }
 
-        public @NotNull Map<String, String> headers() {
+        public Map<String, String> headers() {
             return headers;
         }
 
-        public @NotNull String body() {
+        public String body() {
             return body;
         }
 

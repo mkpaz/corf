@@ -1,6 +1,5 @@
 package org.telekit.base.plugin.internal;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.plugin.Extension;
 import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Plugin;
@@ -53,7 +52,7 @@ public class PluginLoader {
      * </ul>
      * All data is extracted from {@link org.telekit.base.plugin.Includes} annotation.
      */
-    public static @NotNull Map<Class<? extends Extension>, Set<Class<? extends Extension>>> resolveExtensionTypes(
+    public static Map<Class<? extends Extension>, Set<Class<? extends Extension>>> resolveExtensionTypes(
             Class<? extends Plugin> pluginClass
     ) {
         Includes includes = pluginClass.getAnnotation(Includes.class);

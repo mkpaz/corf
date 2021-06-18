@@ -1,6 +1,5 @@
 package org.telekit.base.service;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
@@ -23,7 +22,7 @@ public interface Encryptor {
 
     byte[] decrypt(byte[] input, Key key);
 
-    @NotNull Algorithm getAlg();
+    Algorithm getAlg();
 
     enum Algorithm {
 
@@ -90,11 +89,11 @@ public interface Encryptor {
         return CryptoUtils.generateNonce(alg.getNonceLength());
     }
 
-    static @NotNull Encryptor createEncryptor() {
+    static Encryptor createEncryptor() {
         return createEncryptor(null);
     }
 
-    static @NotNull Encryptor createEncryptor(@Nullable Algorithm alg) {
+    static Encryptor createEncryptor(@Nullable Algorithm alg) {
         if (alg == null) { return new AesGcmEncryptor(); }
         return switch (alg) {
             case AES_GCM -> new AesGcmEncryptor();

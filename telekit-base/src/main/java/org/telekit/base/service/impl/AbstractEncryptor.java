@@ -1,6 +1,5 @@
 package org.telekit.base.service.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.Encryptor;
@@ -98,7 +97,7 @@ public abstract class AbstractEncryptor implements Encryptor {
     }
 
     @Override
-    public @NotNull Algorithm getAlg() {
+    public Algorithm getAlg() {
         return alg;
     }
 

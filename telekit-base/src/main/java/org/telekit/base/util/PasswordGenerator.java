@@ -1,7 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -47,7 +45,7 @@ public final class PasswordGenerator {
     public static final List<Character> ASCII_LOWER_UPPER_DIGITS = unmodifiableMerge(ASCII_LOWER, ASCII_UPPER, ASCII_DIGITS);
     public static final List<Character> ASCII_ALL = unmodifiableMerge(ASCII_LOWER, ASCII_UPPER, ASCII_DIGITS, ASCII_SPECIAL_CHARS);
 
-    public static @NotNull String random(int length, List<Character> sequence) {
+    public static String random(int length, List<Character> sequence) {
         if (length <= 0) { length = DEFAULT_PASSWORD_LENGTH; }
         if (sequence == null || sequence.isEmpty()) { sequence = ASCII_LOWER_UPPER_DIGITS; }
 
@@ -59,11 +57,11 @@ public final class PasswordGenerator {
         return result.toString();
     }
 
-    public static @NotNull String random() {
+    public static String random() {
         return random(DEFAULT_PASSWORD_LENGTH, ASCII_LOWER_UPPER_DIGITS);
     }
 
-    public static @NotNull String katakana(int length, boolean pascalCase) {
+    public static String katakana(int length, boolean pascalCase) {
         if (length <= 0) { length = DEFAULT_PASSWORD_LENGTH; }
 
         StringBuilder result = new StringBuilder();
@@ -77,15 +75,15 @@ public final class PasswordGenerator {
         return result.substring(0, length);
     }
 
-    public static @NotNull String katakana(int length) {
+    public static String katakana(int length) {
         return katakana(length, true);
     }
 
-    public static @NotNull String katakana() {
+    public static String katakana() {
         return katakana(DEFAULT_PASSWORD_LENGTH);
     }
 
-    public static @NotNull String xkcd(int wordsCount, String separator, List<String> dict) {
+    public static String xkcd(int wordsCount, String separator, List<String> dict) {
         if (wordsCount <= 0 || dict == null || dict.isEmpty()) { return ""; }
 
         StringBuilder result = new StringBuilder();
@@ -100,7 +98,7 @@ public final class PasswordGenerator {
         return result.toString();
     }
 
-    public static @NotNull <T> T pickRandomFrom(List<T> list) {
+    public static <T> T pickRandomFrom(List<T> list) {
         return Objects.requireNonNull(list).get(RANDOM.nextInt(list.size()));
     }
 }

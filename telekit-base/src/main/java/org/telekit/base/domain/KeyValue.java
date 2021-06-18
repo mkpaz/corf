@@ -1,6 +1,5 @@
 package org.telekit.base.domain;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -15,7 +14,7 @@ public class KeyValue<K, V> {
         this.value = value;
     }
 
-    public @NotNull K getKey() {
+    public K getKey() {
         return key;
     }
 

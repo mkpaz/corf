@@ -3,7 +3,6 @@ package org.telekit.base.preferences;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.SecuredData;
 
 import java.nio.file.Path;
@@ -71,7 +70,7 @@ public class Security {
     }
 
     @JsonIgnore
-    public @NotNull Path getVaultFilePath() {
+    public Path getVaultFilePath() {
         Path tmpPath = Paths.get(vaultPath);
         return tmpPath.isAbsolute() ? tmpPath : CONFIG_DIR.resolve(tmpPath);
     }

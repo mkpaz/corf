@@ -1,6 +1,5 @@
 package org.telekit.base.service;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.Entity;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
@@ -20,7 +19,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     private Transaction transaction; // always use single Transaction object (or pool) to avoid inner class memory leak
 
     @Override
-    public @NotNull List<T> getAll() {
+    public List<T> getAll() {
         return new ArrayList<>(repository.values());
     }
 
@@ -30,32 +29,32 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     }
 
     @Override
-    public Optional<T> find(@NotNull T entity) {
+    public Optional<T> find(T entity) {
         return findById(entity.getId());
     }
 
     @Override
-    public boolean contains(@NotNull T entity) {
+    public boolean contains(T entity) {
         return containsId(entity.getId());
     }
 
     @Override
-    public Optional<T> findById(@NotNull ID id) {
+    public Optional<T> findById(ID id) {
         return Optional.ofNullable(repository.get(id));
     }
 
     @Override
-    public boolean containsId(@NotNull ID id) {
+    public boolean containsId(ID id) {
         return repository.containsKey(id);
     }
 
     @Override
-    public void add(@NotNull T entity) {
+    public void add(T entity) {
         add(List.of(entity));
     }
 
     @Override
-    public void add(@NotNull Collection<T> entities) {
+    public void add(Collection<T> entities) {
         if (entities.isEmpty()) { return; }
 
         entities.forEach(entity -> {
@@ -69,30 +68,30 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     }
 
     @Override
-    public void update(@NotNull T entity) {
+    public void update(T entity) {
         requireNotEmptyFields(entity);
         repository.replace(entity.getId(), entity.deepCopy());
     }
 
     @Override
-    public void removeById(@NotNull ID id) {
+    public void removeById(ID id) {
         repository.remove(id);
     }
 
     @Override
-    public void removeById(@NotNull Collection<ID> ids) {
+    public void removeById(Collection<ID> ids) {
         if (ids.isEmpty()) { return; }
         ids.forEach(Objects::requireNonNull);
         repository.keySet().removeAll(ids);
     }
 
     @Override
-    public void remove(@NotNull T entity) {
+    public void remove(T entity) {
         removeById(entity.getId());
     }
 
     @Override
-    public void remove(@NotNull Collection<T> entities) {
+    public void remove(Collection<T> entities) {
         removeById(
                 entities.stream()
                         .map(Entity::getId)
@@ -119,14 +118,14 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
         return transaction;
     }
 
-    public Transaction beginTransaction(@NotNull T entity) {
+    public Transaction beginTransaction(T entity) {
         transaction = transaction == null ? new Transaction() : transaction;
         transaction.begin(entity);
         return transaction;
     }
 
     protected void requireNotEmptyFields(T entity) {
-        // this check is somewhat redundant, because all constructors and setters mark ID with @NotNull annotation
+        // this check is somewhat redundant, because all constructors and setters mark ID with annotation
         // so you'll get IllegalArgumentException for free, but still it can be overridden
         Objects.requireNonNull(entity.getId());
     }

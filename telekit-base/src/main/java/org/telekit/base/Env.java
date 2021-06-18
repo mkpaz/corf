@@ -3,7 +3,6 @@ package org.telekit.base;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.plugin.Plugin;
@@ -14,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.service.Encryptor.Algorithm;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.ensureNotNull;
@@ -44,7 +43,7 @@ public final class Env {
      * which is not reliable. The latter should only happen in unit tests, so don't really
      * matter.
      */
-    public static final @NotNull Path APP_DIR = findAppDir();
+    public static final Path APP_DIR = findAppDir();
 
     /**
      * This is where all application data (both config and plugins) are stored. We use single
@@ -66,23 +65,23 @@ public final class Env {
      * |-- logging.properties
      * </pre>
      */
-    public static final @NotNull Path DATA_DIR = findDataDir();
+    public static final Path DATA_DIR = findDataDir();
 
     /** This is where all application configs are stored. */
-    public static final @NotNull Path CONFIG_DIR = DATA_DIR.resolve(CONFIG_DIR_NAME);
+    public static final Path CONFIG_DIR = DATA_DIR.resolve(CONFIG_DIR_NAME);
 
     /** Documentation is updated with the application, so it resides in the app dir. */
-    public static final @NotNull Path DOCS_DIR = APP_DIR.resolve(DOCS_DIR_NAME);
+    public static final Path DOCS_DIR = APP_DIR.resolve(DOCS_DIR_NAME);
 
-    public static final @NotNull Path AUTOCOMPLETE_DIR = DATA_DIR.resolve(AUTOCOMPLETE_DIR_NAME);
-    public static final @NotNull Path CACHE_DIR = DATA_DIR.resolve(CACHE_DIR_NAME);
-    public static final @NotNull Path LOGS_DIR = APP_DIR;
-    public static final @NotNull Path PLUGINS_DIR = DATA_DIR.resolve(PLUGINS_DIR_NAME);
+    public static final Path AUTOCOMPLETE_DIR = DATA_DIR.resolve(AUTOCOMPLETE_DIR_NAME);
+    public static final Path CACHE_DIR = DATA_DIR.resolve(CACHE_DIR_NAME);
+    public static final Path LOGS_DIR = APP_DIR;
+    public static final Path PLUGINS_DIR = DATA_DIR.resolve(PLUGINS_DIR_NAME);
 
-    public static final @NotNull Path HOME_DIR = findHomeDir();
-    public static final @NotNull Path TEMP_DIR = findTempDir();
+    public static final Path HOME_DIR = findHomeDir();
+    public static final Path TEMP_DIR = findTempDir();
 
-    public static @NotNull Path findAppDir() {
+    public static Path findAppDir() {
         // normally, env var or property is ALWAYS set, except for unit tests
         String envValue = getPropertyOrEnv("telekit.app.dir", "TELEKIT_APP_DIR");
         if (envValue != null && !envValue.isBlank()) { return Paths.get(envValue); }
@@ -96,7 +95,7 @@ public final class Env {
         return findTempDir().resolve(APP_NAME.toLowerCase());
     }
 
-    public static @NotNull Path findDataDir() {
+    public static Path findDataDir() {
         String envValue = getPropertyOrEnv("telekit.data.dir", "TELEKIT_DATA_DIR");
 
         // store data in the user home directory
@@ -112,29 +111,29 @@ public final class Env {
         return APP_DIR.resolve(DATA_DIR_NAME);
     }
 
-    public static @NotNull Path findHomeDir() {
+    public static Path findHomeDir() {
         // ensureNotNull() is just a formality to avoid NPE in any case
         return ensureNotNull(System.getProperty("user.home"), Paths.get("home"));
     }
 
-    public static @NotNull Path findTempDir() {
+    public static Path findTempDir() {
         // ensureNotNull() is just a formality to avoid NPE in any case
         return ensureNotNull(System.getProperty("java.io.tmpdir"), Paths.get("tmp"));
     }
 
-    public static @NotNull Path getPluginDataDir(Class<? extends Plugin> pluginClass) {
+    public static Path getPluginDataDir(Class<? extends Plugin> pluginClass) {
         return PLUGINS_DIR.resolve(className(pluginClass));
     }
 
-    public static @NotNull Path getPluginConfigDir(Class<? extends Plugin> pluginClass) {
+    public static Path getPluginConfigDir(Class<? extends Plugin> pluginClass) {
         return getPluginDataDir(pluginClass).resolve(CONFIG_DIR_NAME);
     }
 
-    public static @NotNull Path getPluginDocsDir(Class<? extends Plugin> pluginClass) {
+    public static Path getPluginDocsDir(Class<? extends Plugin> pluginClass) {
         return getPluginDataDir(pluginClass).resolve(DOCS_DIR_NAME);
     }
 
-    public static @NotNull Path getPluginLibDir(Class<? extends Plugin> pluginClass) {
+    public static Path getPluginLibDir(Class<? extends Plugin> pluginClass) {
         return getPluginDataDir(pluginClass).resolve(LIB_DIR_NAME);
     }
 

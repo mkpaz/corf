@@ -1,7 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -51,7 +49,7 @@ public final class PlaceholderReplacer {
         return EXPRESSION.matcher(fmt).find();
     }
 
-    public static @NotNull String removePlaceholders(String str) {
+    public static String removePlaceholders(String str) {
         return isNotBlank(str) ? str.replaceAll(PLACEHOLDER_PATTERN, "") : str;
     }
 }

@@ -1,7 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -25,7 +23,7 @@ public final class StringUtils {
      * Splits {@code text} to the chunks of equal {@code chunkSize}, e.g.
      * <code>"retina" -> List.of("re", "ti", "na")</code>.
      */
-    public static @NotNull List<String> splitEqually(String text, int chunkSize) {
+    public static List<String> splitEqually(String text, int chunkSize) {
         if (text == null || text.isEmpty()) { return Collections.emptyList(); }
         if (chunkSize <= 0 || chunkSize >= text.length()) { return List.of(text); }
 
@@ -54,33 +52,33 @@ public final class StringUtils {
         return Arrays.copyOf(byteBuffer.array(), byteBuffer.limit());
     }
 
-    public static @NotNull String toBase64(String str) {
+    public static String toBase64(String str) {
         return toBase64(str, StandardCharsets.UTF_8);
     }
 
-    public static @NotNull String toBase64(String str, Charset charset) {
+    public static String toBase64(String str, Charset charset) {
         if (str == null) { return ""; }
         return new String(Base64.getEncoder().encode(str.getBytes(charset)), charset);
     }
 
-    public static @NotNull String fromBase64(String str) {
+    public static String fromBase64(String str) {
         return toBase64(str, StandardCharsets.UTF_8);
     }
 
-    public static @NotNull String fromBase64(String str, Charset charset) {
+    public static String fromBase64(String str, Charset charset) {
         if (str == null) { return ""; }
         return new String(Base64.getDecoder().decode(str.getBytes(charset)), charset);
     }
 
-    public static @NotNull <T> String stringify(T object) {
+    public static <T> String stringify(T object) {
         return stringify(object, "");
     }
 
-    public static @NotNull <T> String stringify(T object, String defaultStr) {
+    public static <T> String stringify(T object, String defaultStr) {
         return stringify(object, defaultStr, String::valueOf);
     }
 
-    public static @NotNull <T> String stringify(T object, String defaultStr, Function<T, String> converter) {
+    public static <T> String stringify(T object, String defaultStr, Function<T, String> converter) {
         if (object == null) { return defaultStr; }
         return converter.apply(object);
     }

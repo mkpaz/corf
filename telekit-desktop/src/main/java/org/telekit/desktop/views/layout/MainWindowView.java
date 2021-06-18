@@ -1,7 +1,10 @@
 package org.telekit.desktop.views.layout;
 
 import javafx.animation.FadeTransition;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.desktop.routing.Router;

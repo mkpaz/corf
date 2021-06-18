@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +34,7 @@ public class FontAwesomeIcon extends GlyphIcon<FontAwesome> {
 
     static {
         try {
-            Font.loadFont(FontAwesomeIcon.class.getResource(TTF_PATH).openStream(), 10.0d);
+            Font.loadFont(Objects.requireNonNull(FontAwesomeIcon.class.getResource(TTF_PATH)).openStream(), 10.0d);
         } catch (IOException e) {
             Logger.getLogger(FontAwesomeIcon.class.getName()).log(Level.SEVERE, null, e);
         }

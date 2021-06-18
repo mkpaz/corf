@@ -1,7 +1,5 @@
 package org.telekit.base.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,7 +11,7 @@ import java.util.Arrays;
 
 public final class CryptoUtils {
 
-    public static @NotNull SecretKeySpec generateKey(String keyAlg, int keyLength)
+    public static SecretKeySpec generateKey(String keyAlg, int keyLength)
             throws NoSuchAlgorithmException {
         KeyGenerator keyGen = KeyGenerator.getInstance(keyAlg);
         keyGen.init(keyLength, SecureRandom.getInstanceStrong());

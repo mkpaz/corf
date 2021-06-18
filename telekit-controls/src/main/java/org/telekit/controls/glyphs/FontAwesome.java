@@ -14,8 +14,6 @@
  */
 package org.telekit.controls.glyphs;
 
-import org.telekit.controls.glyphs.GlyphIcons;
-
 /**
  * Icon Enum based on Font-Awesome v4.7.0
  * <p>

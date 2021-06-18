@@ -1,7 +1,6 @@
 package org.telekit.base.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.jetbrains.annotations.NotNull;
 
 import java.net.PasswordAuthentication;
 import java.util.Objects;
@@ -23,11 +22,11 @@ public class UsernamePasswordCredential extends Credential {
     }
 
     @Override
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 
-    public @NotNull String getUsername() {
+    public String getUsername() {
         return username;
     }
 
@@ -36,12 +35,12 @@ public class UsernamePasswordCredential extends Credential {
     }
 
     @JsonIgnore
-    public @NotNull String getPasswordAsString() {
+    public String getPasswordAsString() {
         return new String(password);
     }
 
     @JsonIgnore
-    public @NotNull PasswordAuthentication toPasswordAuthentication() {
+    public PasswordAuthentication toPasswordAuthentication() {
         return new PasswordAuthentication(username, password);
     }
 
@@ -54,7 +53,7 @@ public class UsernamePasswordCredential extends Credential {
                 "} " + super.toString();
     }
 
-    public static UsernamePasswordCredential of(@NotNull String username, @NotNull String password) {
+    public static UsernamePasswordCredential of(String username, String password) {
         return new UsernamePasswordCredential(username.trim(), password.trim().toCharArray());
     }
 }

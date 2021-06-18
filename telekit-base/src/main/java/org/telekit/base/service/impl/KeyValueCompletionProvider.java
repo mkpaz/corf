@@ -1,6 +1,5 @@
 package org.telekit.base.service.impl;
 
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.KeyValue;
 import org.telekit.base.service.CompletionProvider;
 
@@ -25,26 +24,26 @@ public class KeyValueCompletionProvider implements CompletionProvider<KeyValue<S
     }
 
     @Override
-    public @NotNull String key() {
+    public String key() {
         return key;
     }
 
     @Override
-    public @NotNull Collection<KeyValue<String, String>> startsWith(String str) {
+    public Collection<KeyValue<String, String>> startsWith(String str) {
         return find(key -> key.startsWith(str));
     }
 
     @Override
-    public @NotNull Collection<KeyValue<String, String>> contains(String str) {
+    public Collection<KeyValue<String, String>> contains(String str) {
         return find(key -> key.contains(str));
     }
 
     @Override
-    public @NotNull Collection<KeyValue<String, String>> matches(String pattern) {
+    public Collection<KeyValue<String, String>> matches(String pattern) {
         return find(key -> key.matches(pattern));
     }
 
-    public @NotNull Collection<KeyValue<String, String>> find(Predicate<String> predicate) {
+    public Collection<KeyValue<String, String>> find(Predicate<String> predicate) {
         List<KeyValue<String, String>> result = new ArrayList<>();
         if (!Files.exists(filePath) || !Files.isRegularFile(filePath)) { return Collections.emptyList(); }
 

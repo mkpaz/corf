@@ -14,7 +14,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.di.Initializable;
 import org.telekit.controls.util.Containers;
@@ -86,7 +85,7 @@ public class Overlay extends StackPane implements Initializable {
         return NodeUtils.getChildByIndex(getContentWrapper(), 0, Pane.class);
     }
 
-    private @NotNull Pane getContentWrapper() {
+    private Pane getContentWrapper() {
         return currentContentPos == HPos.CENTER ? centerContentWrapper : edgeContentWrapper;
     }
 

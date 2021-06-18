@@ -149,12 +149,9 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         maxBtn.setOnAction(e -> mainStage.maximize());
 
         Button closeBtn = circleIconButton(Material2OutlinedAL.CLOSE);
-        closeBtn.setOnAction(e -> {
-            System.out.println(Dimension.of(mainStage.getStage()));
-            DefaultEventBus.getInstance().publish(
-                    new CloseRequestEvent(Dimension.of(mainStage.getStage()))
-            );
-        });
+        closeBtn.setOnAction(e -> DefaultEventBus.getInstance().publish(
+                new CloseRequestEvent(Dimension.of(mainStage.getStage()))
+        ));
 
         box.getChildren().addAll(minBtn, maxBtn, closeBtn);
 

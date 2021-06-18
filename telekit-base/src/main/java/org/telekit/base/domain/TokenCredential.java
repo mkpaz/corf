@@ -1,7 +1,6 @@
 package org.telekit.base.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -20,7 +19,7 @@ public class TokenCredential extends Credential {
     }
 
     @JsonIgnore
-    public @NotNull String getTokenAsString() {
+    public String getTokenAsString() {
         return new String(token);
     }
 
@@ -32,7 +31,7 @@ public class TokenCredential extends Credential {
                 "} " + super.toString();
     }
 
-    public static TokenCredential of(@NotNull String name, @NotNull String token) {
+    public static TokenCredential of(String name, String token) {
         return new TokenCredential(name.trim(), token.trim().toCharArray());
     }
 }

@@ -2,7 +2,6 @@ package org.telekit.desktop.tools.filebuilder;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.FileBasedRepository;
@@ -68,7 +67,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
         }
     }
 
-    public void importFromFile(@NotNull File inputFile) {
+    public void importFromFile(File inputFile) {
         try (InputStream inputStream = Files.newInputStream(inputFile.toPath())) {
             for (Template template : yamlSerializer.deserialize(inputStream)) {
                 if (contains(template)) {
@@ -82,7 +81,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
         }
     }
 
-    public void exportToFile(@NotNull Collection<Template> templates, @NotNull File outputFile) {
+    public void exportToFile(Collection<Template> templates, File outputFile) {
         try (OutputStream outputStream = Files.newOutputStream(outputFile.toPath())) {
             yamlSerializer.serialize(outputStream, templates);
         } catch (IOException e) {

@@ -1,11 +1,11 @@
 package org.telekit.desktop.tools.common;
 
-import org.telekit.controls.glyphs.FontAwesome;
-import org.telekit.controls.glyphs.FontAwesomeIcon;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableRow;
 import javafx.scene.image.Image;
 import org.telekit.base.CompletionRegistry;
+import org.telekit.controls.glyphs.FontAwesome;
+import org.telekit.controls.glyphs.FontAwesomeIcon;
 
 public class ParamIndicatorTableCell extends TableCell<Param, Image> {
 
