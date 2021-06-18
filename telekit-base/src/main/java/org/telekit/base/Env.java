@@ -85,11 +85,11 @@ public final class Env {
     public static @NotNull Path findAppDir() {
         // normally, env var or property is ALWAYS set, except for unit tests
         String envValue = getPropertyOrEnv("telekit.app.dir", "TELEKIT_APP_DIR");
-        if (envValue != null && !envValue.isBlank()) return Paths.get(envValue);
+        if (envValue != null && !envValue.isBlank()) { return Paths.get(envValue); }
 
         try {
             URL url = Env.class.getProtectionDomain().getCodeSource().getLocation();
-            if (url != null) return urlToFile(url).toPath();
+            if (url != null) { return urlToFile(url).toPath(); }
         } catch (Exception ignored) {}
 
         // just a formality to avoid NPE in any case
@@ -101,12 +101,12 @@ public final class Env {
 
         // store data in the user home directory
         if ("$HOME".equalsIgnoreCase(envValue)) {
-            if (SystemUtils.IS_OS_UNIX) return DesktopUtils.getXdgConfigDir().resolve(APP_NAME);
-            if (SystemUtils.IS_OS_WINDOWS) return DesktopUtils.getLocalAppDataDir().resolve(APP_NAME);
+            if (SystemUtils.IS_OS_UNIX) { return DesktopUtils.getXdgConfigDir().resolve(APP_NAME); }
+            if (SystemUtils.IS_OS_WINDOWS) { return DesktopUtils.getLocalAppDataDir().resolve(APP_NAME); }
         }
 
         // save data in user specified directory
-        if (envValue != null && !envValue.isBlank()) return Paths.get(envValue);
+        if (envValue != null && !envValue.isBlank()) { return Paths.get(envValue); }
 
         // store data in the program installation directory
         return APP_DIR.resolve(DATA_DIR_NAME);

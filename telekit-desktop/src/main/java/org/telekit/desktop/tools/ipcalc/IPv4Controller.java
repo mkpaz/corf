@@ -98,7 +98,7 @@ public class IPv4Controller implements Component {
         tblNetmasks.setItems(observableArrayList(NETMASKS));
         ObservableList<TableColumn<Subnet, ?>> columns = tblNetmasks.getColumns();
         for (TableColumn<Subnet, ?> column : columns) {
-            if (isEmpty(column.getId())) continue;
+            if (isEmpty(column.getId())) { continue; }
             String propertyName = extractPropertyNameFromColumnID(column.getId());
             column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
         }
@@ -132,7 +132,7 @@ public class IPv4Controller implements Component {
         TableColumn<Subnet, String> indexColumn = (TableColumn<Subnet, String>) columns.get(0);
         indexColumn.setCellFactory(Controls.indexCellFactory());
         for (TableColumn<Subnet, ?> column : columns) {
-            if (isEmpty(column.getId())) continue;
+            if (isEmpty(column.getId())) { continue; }
             String propertyName = extractPropertyNameFromColumnID(column.getId());
             column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
         }
@@ -178,10 +178,10 @@ public class IPv4Controller implements Component {
 
         text.appendLine(pad("Remarks:"), "class " + subnet.getNetworkClass() + "-based;");
         List<String> remarks = new ArrayList<>();
-        if (subnet.isLoopback()) remarks.add("localhost");
-        if (subnet.isLinkLocal()) remarks.add("link-local (APIPA)");
-        if (subnet.isMulticast()) remarks.add("multicast");
-        if (subnet.isPrivate()) remarks.add("private network (RFC1918)");
+        if (subnet.isLoopback()) { remarks.add("localhost"); }
+        if (subnet.isLinkLocal()) { remarks.add("link-local (APIPA)"); }
+        if (subnet.isMulticast()) { remarks.add("multicast"); }
+        if (subnet.isPrivate()) { remarks.add("private network (RFC1918)"); }
         remarks.forEach(remark -> text.appendLine(" ".repeat(NAME_PADDING) + remark + ";"));
         text.newLine();
 
@@ -227,7 +227,7 @@ public class IPv4Controller implements Component {
                 .initialFileName(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
                 .showSaveDialog(getWindow());
-        if (outputFile == null || subnets.isEmpty()) return;
+        if (outputFile == null || subnets.isEmpty()) { return; }
 
         try (FileOutputStream fos = new FileOutputStream(outputFile);
              OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
@@ -273,7 +273,7 @@ public class IPv4Controller implements Component {
 
     private String extractPropertyNameFromColumnID(String colID) {
         // fail fast
-        if (isBlank(colID)) throw new IllegalArgumentException("Invalid column ID");
+        if (isBlank(colID)) { throw new IllegalArgumentException("Invalid column ID"); }
         // all column ids start with "col", e.g. "colBroadcast"
         // the latter part must be identical to corresponding field name
         return StringUtils.uncapitalize(colID.substring(3));

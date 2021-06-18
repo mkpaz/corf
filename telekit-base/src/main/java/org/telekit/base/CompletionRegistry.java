@@ -19,7 +19,7 @@ public class CompletionRegistry {
     }
 
     public boolean isSupported(String key) {
-        if (key == null) return false;
+        if (key == null) { return false; }
         return providers.containsKey(key);
     }
 
@@ -28,7 +28,7 @@ public class CompletionRegistry {
     }
 
     public Optional<CompletionProvider<?>> getProviderFor(String key) {
-        if (key == null) return Optional.empty();
+        if (key == null) { return Optional.empty(); }
         return Optional.ofNullable(providers.get(key));
     }
 

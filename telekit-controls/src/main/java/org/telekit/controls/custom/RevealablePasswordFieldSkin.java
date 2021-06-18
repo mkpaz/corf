@@ -11,7 +11,7 @@ public abstract class RevealablePasswordFieldSkin extends TextFieldSkin {
 
     @Override
     protected String maskText(String txt) {
-        if (revealPasswordProperty().get()) return txt;
+        if (revealPasswordProperty().get()) { return txt; }
         return String.valueOf(((RevealablePasswordField) getNode()).getBullet()).repeat(txt.length());
     }
 

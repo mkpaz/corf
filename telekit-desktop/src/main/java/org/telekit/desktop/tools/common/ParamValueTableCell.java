@@ -15,7 +15,7 @@ public class ParamValueTableCell extends TextFieldTableCell<Param, String> {
         super.updateItem(value, empty);
 
         TableRow<Param> row = getTableRow();
-        if (row == null) return;
+        if (row == null) { return; }
 
         Param param = row.getItem();
         String text;

@@ -89,7 +89,7 @@ public class PluginManager {
      */
     public void startAllPlugins() throws PluginException {
         List<PluginBox> loadedPlugins = pluginRepository.find(pluginBox -> pluginBox.getState() == LOADED);
-        if (loadedPlugins.isEmpty()) return;
+        if (loadedPlugins.isEmpty()) { return; }
 
         LOGGER.fine("Starting plugins");
         boolean errorFlag = false;
@@ -114,7 +114,7 @@ public class PluginManager {
      */
     public void stopAllPlugins() throws PluginException {
         List<PluginBox> startedPlugins = pluginRepository.find(pluginBox -> pluginBox.getState() == STARTED);
-        if (startedPlugins.isEmpty()) return;
+        if (startedPlugins.isEmpty()) { return; }
 
         LOGGER.fine("Stopping plugins");
         boolean errorFlag = false;
@@ -154,7 +154,7 @@ public class PluginManager {
 
     public void uninstallPlugin(Class<? extends Plugin> pluginClass, boolean deleteResources) {
         Optional<PluginBox> pluginBoxOpt = pluginRepository.get(pluginClass);
-        if (pluginBoxOpt.isEmpty()) return;
+        if (pluginBoxOpt.isEmpty()) { return; }
 
         PluginBox pluginBox = pluginBoxOpt.get();
 
@@ -180,7 +180,7 @@ public class PluginManager {
 
     public void enablePlugin(Class<? extends Plugin> pluginClass) throws PluginException {
         Optional<PluginBox> pluginBoxOpt = pluginRepository.get(pluginClass);
-        if (pluginBoxOpt.isEmpty()) return;
+        if (pluginBoxOpt.isEmpty()) { return; }
 
         PluginBox pluginBox = pluginBoxOpt.get();
         LOGGER.fine("Enabling plugin: " + className(pluginBox.getPluginClass()));
@@ -193,7 +193,7 @@ public class PluginManager {
 
     public void disablePlugin(Class<? extends Plugin> pluginClass) throws PluginException {
         Optional<PluginBox> pluginBoxOpt = pluginRepository.get(pluginClass);
-        if (pluginBoxOpt.isEmpty()) return;
+        if (pluginBoxOpt.isEmpty()) { return; }
 
         PluginBox pluginBox = pluginBoxOpt.get();
         LOGGER.fine("Disabling plugin: " + className(pluginBox.getPluginClass()));
@@ -219,7 +219,7 @@ public class PluginManager {
     public @NotNull List<ExtensionBox> getExtensionsOfType(Class<? extends Extension> extensionType) {
         LOGGER.fine("Querying extension of type: " + className(extensionType));
         Collection<PluginBox> matchedPlugins = pluginRepository.findPluginsThatProvide(extensionType);
-        if (matchedPlugins.isEmpty()) return Collections.emptyList();
+        if (matchedPlugins.isEmpty()) { return Collections.emptyList(); }
 
         LOGGER.fine("Extension providers found: " + matchedPlugins);
         return matchedPlugins.stream()
@@ -283,7 +283,7 @@ public class PluginManager {
             Class<? extends Extension> extensionType
     ) {
         Collection<Class<? extends Extension>> extensionClasses = pluginBox.getExtensionsOfType(extensionType);
-        if (extensionClasses.isEmpty()) return Collections.emptyList();
+        if (extensionClasses.isEmpty()) { return Collections.emptyList(); }
 
         List<ExtensionBox> extensions = new ArrayList<>();
         Injector injector = Injector.getInstance();

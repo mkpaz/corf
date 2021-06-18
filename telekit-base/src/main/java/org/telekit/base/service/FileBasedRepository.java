@@ -56,7 +56,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
 
     @Override
     public void add(@NotNull Collection<T> entities) {
-        if (entities.isEmpty()) return;
+        if (entities.isEmpty()) { return; }
 
         entities.forEach(entity -> {
             requireNotEmptyFields(entity);
@@ -81,7 +81,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
 
     @Override
     public void removeById(@NotNull Collection<ID> ids) {
-        if (ids.isEmpty()) return;
+        if (ids.isEmpty()) { return; }
         ids.forEach(Objects::requireNonNull);
         repository.keySet().removeAll(ids);
     }

@@ -28,7 +28,7 @@ public final class CryptoUtils {
      * @param length nonce length in bytes
      */
     public static byte[] generateNonce(int length) {
-        if (length <= 0) throw new IllegalArgumentException("Invalid length value.");
+        if (length <= 0) { throw new IllegalArgumentException("Invalid length value."); }
         byte[] newNonce = new byte[length];
         new SecureRandom().nextBytes(newNonce);
         return newNonce;
@@ -48,7 +48,7 @@ public final class CryptoUtils {
             NoSuchFieldException,
             SecurityException {
 
-        if (key == null) return;
+        if (key == null) { return; }
         Field keyField = key.getClass().getDeclaredField("key");
         keyField.setAccessible(true);
         byte[] encodedKey = (byte[]) keyField.get(key);

@@ -31,7 +31,7 @@ public class PluginCleaner {
     public PluginCleaner() {}
 
     public void appendTask(@NotNull Path path) {
-        if (!Files.exists(path)) return;
+        if (!Files.exists(path)) { return; }
 
         try (Writer writer = newOutputStream(true)) {
             String pathToDelete = path.toAbsolutePath().toString();
@@ -49,12 +49,12 @@ public class PluginCleaner {
     }
 
     public void executeAll() throws IOException {
-        if (!Files.exists(configFilePath)) return;
+        if (!Files.exists(configFilePath)) { return; }
 
         LOGGER.fine("Executing tasks:");
         List<String> tasks = Files.readAllLines(configFilePath, StandardCharsets.UTF_8);
         for (String task : tasks) {
-            if (isBlank(task)) continue;
+            if (isBlank(task)) { continue; }
             String[] args = trim(task).split(ARG_SEPARATOR);
             execute(args);
         }
@@ -96,7 +96,7 @@ public class PluginCleaner {
 
     private void execute(String[] args) {
         String action = args[0];
-        if (args.length <= 1) return;
+        if (args.length <= 1) { return; }
 
         Path pathToDelete = Paths.get(args[1]);
         switch (action) {

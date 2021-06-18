@@ -138,16 +138,16 @@ public class SequenceGeneratorController implements Component {
         IntegerStringConverter.createFor(countD);
 
         cbA.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) toggleSpinners(boxA, newVal);
+            if (newVal != null) { toggleSpinners(boxA, newVal); }
         });
         cbB.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) toggleSpinners(boxB, newVal);
+            if (newVal != null) { toggleSpinners(boxB, newVal); }
         });
         cbC.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) toggleSpinners(boxC, newVal);
+            if (newVal != null) { toggleSpinners(boxC, newVal); }
         });
         cbD.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) toggleSpinners(boxD, newVal);
+            if (newVal != null) { toggleSpinners(boxD, newVal); }
         });
 
         cbA.setSelected(true);
@@ -163,7 +163,7 @@ public class SequenceGeneratorController implements Component {
 
     private void toggleSpinners(HBox parentPane, boolean enabled) {
         for (Node child : parentPane.getChildren()) {
-            if (child instanceof Spinner) child.setDisable(!enabled);
+            if (child instanceof Spinner) { child.setDisable(!enabled); }
         }
     }
 
@@ -186,7 +186,7 @@ public class SequenceGeneratorController implements Component {
         }
 
         // additional check, generate button is disabled if these conditions don't match
-        if (isBlank(pattern) || items.isEmpty()) return;
+        if (isBlank(pattern) || items.isEmpty()) { return; }
 
         long sequenceSize = items.stream().
                 map(item -> item.count)
@@ -233,7 +233,7 @@ public class SequenceGeneratorController implements Component {
                 .initialFileName(FileUtils.sanitizeFileName("sequence.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
-        if (outputFile == null) return;
+        if (outputFile == null) { return; }
 
         try {
             Files.writeString(outputFile.toPath(), totalResult);

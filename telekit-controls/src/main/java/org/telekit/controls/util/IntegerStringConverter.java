@@ -47,32 +47,28 @@ public class IntegerStringConverter extends StringConverter<Integer> {
      * within [{@code min}, {@code max}] when invalid text is committed.
      *
      * @param input the {@link TextField} providing user-edited strings
-     * @param min the smallest valid {@link Integer} value
-     * @param max the greatest valid {@link Integer} value
-     *
+     * @param min   the smallest valid {@link Integer} value
+     * @param max   the greatest valid {@link Integer} value
      * @throws NullPointerException if {@code input} is {@code null}
      */
     public IntegerStringConverter(TextField input, int min, int max) {
-        if (input == null)
-            throw new NullPointerException("input");
+        if (input == null) { throw new NullPointerException("input"); }
 
         final int resetValue = Math.min(Math.max(0, min), max);
         _reset = () -> input.setText(Integer.toString(resetValue));
 
         // bound JavaFX properties cannot be explicitly set
-//        if (!input.tooltipProperty().isBound())
-//            input.setTooltip(new Tooltip(String.format(
-//                    "Enter a value between %d and %d", min, max)));
+        // if (!input.tooltipProperty().isBound()) {
+        //    input.setTooltip(new Tooltip(String.format("Enter a value between %d and %d", min, max)));
+        // }
 
         // restrict direct input to valid numerical characters
         input.textProperty().addListener((ov, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty())
-                return;
+            if (newValue == null || newValue.isEmpty()) { return; }
 
             // special case: minus sign if negative values allowed
             if (min < 0 && newValue.endsWith("-")) {
-                if (newValue.length() > 1)
-                    Platform.runLater(() -> input.setText("-"));
+                if (newValue.length() > 1) { Platform.runLater(() -> input.setText("-")); }
                 return;
             }
 
@@ -92,11 +88,10 @@ public class IntegerStringConverter extends StringConverter<Integer> {
 
             // redundant for Spinner but not harmful
             final int restricted = Math.min(Math.max(value, min), max);
-            if (value != restricted)
-                input.setText(Integer.toString(restricted));
+            if (value != restricted) { input.setText(Integer.toString(restricted)); }
 
             // required for Spinner which handles onAction
-            if (oldHandler != null) oldHandler.handle(t);
+            if (oldHandler != null) { oldHandler.handle(t); }
         });
     }
 
@@ -107,9 +102,7 @@ public class IntegerStringConverter extends StringConverter<Integer> {
      * on its {@link SpinnerValueFactory.IntegerSpinnerValueFactory}.
      *
      * @param spinner the {@link Spinner} to create an {@link IntegerStringConverter} for
-     *
      * @return the new {@link IntegerStringConverter}
-     *
      * @throws NullPointerException if {@code spinner} is {@code null}
      */
     public static IntegerStringConverter createFor(Spinner<Integer> spinner) {
@@ -136,7 +129,6 @@ public class IntegerStringConverter extends StringConverter<Integer> {
      * will overwrite this functionality.
      *
      * @param reset the {@link Runnable} to call upon {@link NumberFormatException}
-     *
      * @see #fromString
      */
     public void setReset(Runnable reset) {
@@ -149,22 +141,20 @@ public class IntegerStringConverter extends StringConverter<Integer> {
      * and also executes the editor reset callback, if any.
      *
      * @param s the {@link String} to convert
-     *
      * @return the {@link Integer} value of {@code s}
-     *
      * @see #setReset
      */
     @Override
     public Integer fromString(String s) {
         if (s == null || s.isEmpty()) {
-            if (_reset != null) _reset.run();
+            if (_reset != null) { _reset.run(); }
             return 0;
         }
 
         try {
             return Integer.valueOf(s);
         } catch (NumberFormatException e) {
-            if (_reset != null) _reset.run();
+            if (_reset != null) { _reset.run(); }
             return 0;
         }
     }
@@ -174,12 +164,11 @@ public class IntegerStringConverter extends StringConverter<Integer> {
      * A {@code null} argument is converted into the literal string "0".
      *
      * @param value the {@link Integer} to convert
-     *
      * @return the {@link String} form of {@code value}
      */
     @Override
     public String toString(Integer value) {
-        if (value == null) return "0";
+        if (value == null) { return "0"; }
         return Integer.toString(value);
     }
 }

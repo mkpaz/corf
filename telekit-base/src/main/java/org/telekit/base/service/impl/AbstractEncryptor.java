@@ -43,7 +43,7 @@ public abstract class AbstractEncryptor implements Encryptor {
 
     @Override
     public byte[] encrypt(byte[] input, Key key) {
-        if (input == null || input.length == 0) return new byte[] {};
+        if (input == null || input.length == 0) { return new byte[] {}; }
         Objects.requireNonNull(key);
 
         try {
@@ -72,7 +72,7 @@ public abstract class AbstractEncryptor implements Encryptor {
 
     @Override
     public byte[] decrypt(byte[] input, Key key) {
-        if (input == null || input.length == 0) return new byte[] {};
+        if (input == null || input.length == 0) { return new byte[] {}; }
         Objects.requireNonNull(key);
 
         try {

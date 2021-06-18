@@ -99,12 +99,12 @@ public class Template extends Entity<Template, UUID> {
     }
 
     public void addParam(Param param) {
-        if (this.params == null) this.params = new TreeSet<>();
+        if (this.params == null) { this.params = new TreeSet<>(); }
         this.params.add(param);
     }
 
     public void removeParam(Param param) {
-        if (this.params != null) this.params.remove(param);
+        if (this.params != null) { this.params.remove(param); }
     }
 
     public String getDescription() {
@@ -133,7 +133,7 @@ public class Template extends Entity<Template, UUID> {
 
     @Override
     public int compareTo(@NotNull Template that) {
-        if (this == that) return 0;
+        if (this == that) { return 0; }
         return String.valueOf(name).compareTo(String.valueOf(that.getName()));
     }
 

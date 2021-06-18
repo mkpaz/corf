@@ -23,8 +23,8 @@ public final class PreviewRenderer {
         Tag<?> templateHTML;
         if (isNotBlank(template.getDelimiter())) {
             String delimiter = template.getDelimiter();
-            if ("\\t".equals(delimiter)) delimiter = "\t";
-            if ("\\s".equals(delimiter)) delimiter = "\s";
+            if ("\\t".equals(delimiter)) { delimiter = "\t"; }
+            if ("\\s".equals(delimiter)) { delimiter = "\s"; }
 
             List<Row> theadRows = splitHeaderToTable(template.getHeader(), delimiter);
             List<Row> tbodyRows = splitTextToTable(template.getPattern(), delimiter);
@@ -85,7 +85,7 @@ public final class PreviewRenderer {
     }
 
     private static List<Row> splitHeaderToTable(String text, String delimiter) {
-        if (text == null || text.isBlank()) return Collections.emptyList();
+        if (text == null || text.isBlank()) { return Collections.emptyList(); }
 
         List<Row> rows = new ArrayList<>();
         for (String line : text.split(LineSeparator.LINE_SPLIT_PATTERN)) {
@@ -97,13 +97,13 @@ public final class PreviewRenderer {
                     cells.add(new Cell(trim(cellContent), 1));
                 } else {
                     Cell lastCell = CollectionUtils.getLast(cells);
-                    if (lastCell != null) lastCell.colspan++;
+                    if (lastCell != null) { lastCell.colspan++; }
                 }
 
                 // last cell spans all remaining columns
                 if (cellIdx == chunks.length - 1) {
                     Cell lastCell = CollectionUtils.getLast(cells);
-                    if (lastCell != null) lastCell.colspan = 999;
+                    if (lastCell != null) { lastCell.colspan = 999; }
                 }
             }
             rows.add(new Row(cells));
@@ -113,7 +113,7 @@ public final class PreviewRenderer {
     }
 
     private static List<Row> splitTextToTable(String text, String delimiter) {
-        if (text == null || text.isBlank()) return Collections.emptyList();
+        if (text == null || text.isBlank()) { return Collections.emptyList(); }
 
         List<Row> rows = new ArrayList<>();
         for (String line : text.split(LineSeparator.LINE_SPLIT_PATTERN)) {
@@ -130,8 +130,8 @@ public final class PreviewRenderer {
     private static String[] splitLineToCells(String line, String delimiter) {
         line = StringUtils.defaultString(line, "").trim();
 
-        if (line.startsWith(delimiter)) line = line.substring(line.indexOf(delimiter) + 1);
-        if (line.endsWith(delimiter)) line = line.substring(0, line.lastIndexOf(delimiter));
+        if (line.startsWith(delimiter)) { line = line.substring(line.indexOf(delimiter) + 1); }
+        if (line.endsWith(delimiter)) { line = line.substring(0, line.lastIndexOf(delimiter)); }
         return line.split(Pattern.quote(delimiter), -1);
     }
 

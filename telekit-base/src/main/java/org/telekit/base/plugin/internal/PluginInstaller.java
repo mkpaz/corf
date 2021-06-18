@@ -73,7 +73,7 @@ public class PluginInstaller {
 
     public void uninstall(Class<? extends Plugin> pluginClass, boolean deleteResources) {
         Optional<PluginBox> pluginBoxOpt = pluginRepository.get(pluginClass);
-        if (pluginBoxOpt.isEmpty() || pluginBoxOpt.get().getState() == PluginState.UNINSTALLED) return;
+        if (pluginBoxOpt.isEmpty() || pluginBoxOpt.get().getState() == PluginState.UNINSTALLED) { return; }
 
         LOGGER.info("Uninstalling " + pluginClass);
         PluginBox pluginBox = pluginBoxOpt.get();
@@ -116,9 +116,9 @@ public class PluginInstaller {
         Metadata meta = plugin.getMetadata();
 
         // check metadata
-        if (meta == null) fireInstallFailed(PLUGIN_MSG_INVALID_METADATA);
-        if (isBlank(meta.getName())) fireInstallFailed(PLUGIN_MSG_INVALID_NAME);
-        if (isBlank(meta.getVersion())) fireInstallFailed(PLUGIN_MSG_INVALID_VERSION);
+        if (meta == null) { fireInstallFailed(PLUGIN_MSG_INVALID_METADATA); }
+        if (isBlank(meta.getName())) { fireInstallFailed(PLUGIN_MSG_INVALID_NAME); }
+        if (isBlank(meta.getVersion())) { fireInstallFailed(PLUGIN_MSG_INVALID_VERSION); }
 
         // check required platform version
         if (!isSupportedPlatformVersion(meta.getPlatformVersion())) {
@@ -133,8 +133,8 @@ public class PluginInstaller {
 
     public boolean isSupportedPlatformVersion(String requiredPlatformVersion) {
         // bypass check, plugin has no version requirements
-        if (isBlank(requiredPlatformVersion)) return true;
-        if (!Version.isValidVersion(requiredPlatformVersion)) fireInstallFailed(PLUGIN_MSG_INVALID_METADATA);
+        if (isBlank(requiredPlatformVersion)) { return true; }
+        if (!Version.isValidVersion(requiredPlatformVersion)) { fireInstallFailed(PLUGIN_MSG_INVALID_METADATA); }
         return Version.parseVersion(Objects.requireNonNull(Env.getAppVersion()))
                 .compareTo(Version.parseVersion(requiredPlatformVersion)) >= 0;
     }
@@ -146,8 +146,8 @@ public class PluginInstaller {
                 .forEachRemaining(foundPlugins::add);
 
         LOGGER.info("Installation begin");
-        if (foundPlugins.isEmpty()) fireInstallFailed(PLUGIN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS);
-        if (foundPlugins.size() > 1) fireInstallFailed(PLUGIN_MSG_ONLY_ONE_PLUGIN_PER_DIR_ALLOWED);
+        if (foundPlugins.isEmpty()) { fireInstallFailed(PLUGIN_MSG_PATH_DOES_NOT_CONTAIN_PLUGINS); }
+        if (foundPlugins.size() > 1) { fireInstallFailed(PLUGIN_MSG_ONLY_ONE_PLUGIN_PER_DIR_ALLOWED); }
 
         Plugin plugin = foundPlugins.get(0);
         if (plugin.getMetadata() != null) {
@@ -176,8 +176,8 @@ public class PluginInstaller {
             }
 
             LOGGER.info("Copying plugin resources");
-            if (Files.exists(sourceConfigPath)) copyDir(sourceConfigPath, destConfigPath, false);
-            if (Files.exists(sourceDocsPath)) copyDir(sourceDocsPath, destDocsPath, false);
+            if (Files.exists(sourceConfigPath)) { copyDir(sourceConfigPath, destConfigPath, false); }
+            if (Files.exists(sourceDocsPath)) { copyDir(sourceDocsPath, destDocsPath, false); }
 
         } catch (Throwable t) {
             LOGGER.severe("Unable to copy plugin files to application directory");

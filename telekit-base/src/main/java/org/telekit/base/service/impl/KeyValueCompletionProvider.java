@@ -46,16 +46,16 @@ public class KeyValueCompletionProvider implements CompletionProvider<KeyValue<S
 
     public @NotNull Collection<KeyValue<String, String>> find(Predicate<String> predicate) {
         List<KeyValue<String, String>> result = new ArrayList<>();
-        if (!Files.exists(filePath) || !Files.isRegularFile(filePath)) return Collections.emptyList();
+        if (!Files.exists(filePath) || !Files.isRegularFile(filePath)) { return Collections.emptyList(); }
 
         try (final BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new FileInputStream(filePath.toFile()), StandardCharsets.UTF_8))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.isBlank() || line.charAt(0) == '#') continue;
+                if (line.isBlank() || line.charAt(0) == '#') { continue; }
                 String[] chunks = line.split("=");
-                if (chunks.length == 0) continue;
+                if (chunks.length == 0) { continue; }
 
                 String key = chunks[0];
                 String value = chunks.length > 1 ? chunks[1] : "";

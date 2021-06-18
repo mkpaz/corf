@@ -53,31 +53,28 @@ public class DoubleStringConverter extends StringConverter<Double> {
      * within [{@code min}, {@code max}] when invalid text is committed.
      *
      * @param input the {@link TextField} providing user-edited strings
-     * @param min the smallest valid {@link Double} value
-     * @param max the greatest valid {@link Double} value
-     *
+     * @param min   the smallest valid {@link Double} value
+     * @param max   the greatest valid {@link Double} value
      * @throws NullPointerException if {@code input} is {@code null}
      */
     public DoubleStringConverter(TextField input, double min, double max) {
-        if (input == null)
-            throw new NullPointerException("input");
+        if (input == null) { throw new NullPointerException("input"); }
 
         final double resetValue = Math.min(Math.max(0, min), max);
         _reset = () -> input.setText(_format.format(resetValue));
 
         // bound JavaFX properties cannot be explicitly set
-        // if (!input.tooltipProperty().isBound())
+        // if (!input.tooltipProperty().isBound()) {
         //     input.setTooltip(new Tooltip(String.format("Enter a value between %.2f and %.2f", min, max)));
+        // }
 
         // restrict direct input to valid numerical characters
         input.textProperty().addListener((ov, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty())
-                return;
+            if (newValue == null || newValue.isEmpty()) { return; }
 
             // special case: minus sign if negative values allowed
             if (min < 0 && newValue.endsWith("-")) {
-                if (newValue.length() > 1)
-                    Platform.runLater(() -> input.setText("-"));
+                if (newValue.length() > 1) { Platform.runLater(() -> input.setText("-")); }
                 return;
             }
 
@@ -97,11 +94,10 @@ public class DoubleStringConverter extends StringConverter<Double> {
 
             // redundant for Spinner but not harmful
             final double restricted = Math.min(Math.max(value, min), max);
-            if (value != restricted)
-                input.setText(_format.format(restricted));
+            if (value != restricted) { input.setText(_format.format(restricted)); }
 
             // required for Spinner which handles onAction
-            if (oldHandler != null) oldHandler.handle(t);
+            if (oldHandler != null) { oldHandler.handle(t); }
         });
     }
 
@@ -112,9 +108,7 @@ public class DoubleStringConverter extends StringConverter<Double> {
      * on its {@link SpinnerValueFactory.DoubleSpinnerValueFactory}.
      *
      * @param spinner the {@link Spinner} to create a {@link DoubleStringConverter} for
-     *
      * @return the new {@link DoubleStringConverter}
-     *
      * @throws NullPointerException if {@code spinner} is {@code null}
      */
     public static DoubleStringConverter createFor(Spinner<Double> spinner) {
@@ -141,7 +135,6 @@ public class DoubleStringConverter extends StringConverter<Double> {
      * will overwrite this functionality.
      *
      * @param reset the {@link Runnable} to call upon {@link NumberFormatException}
-     *
      * @see #fromString
      */
     public void setReset(Runnable reset) {
@@ -154,22 +147,20 @@ public class DoubleStringConverter extends StringConverter<Double> {
      * and also executes the editor reset callback, if any.
      *
      * @param s the {@link String} to convert
-     *
      * @return the {@link Double} value of {@code s}
-     *
      * @see #setReset
      */
     @Override
     public Double fromString(String s) {
         if (s == null || s.isEmpty()) {
-            if (_reset != null) _reset.run();
+            if (_reset != null) { _reset.run(); }
             return 0.0;
         }
 
         try {
             return Double.valueOf(s);
         } catch (NumberFormatException e) {
-            if (_reset != null) _reset.run();
+            if (_reset != null) { _reset.run(); }
             return 0.0;
         }
     }
@@ -179,12 +170,11 @@ public class DoubleStringConverter extends StringConverter<Double> {
      * A {@code null} argument is converted into the literal string "0".
      *
      * @param value the {@link Double} to convert
-     *
      * @return the {@link String} form of {@code value}
      */
     @Override
     public String toString(Double value) {
-        if (value == null) return "0";
+        if (value == null) { return "0"; }
         return _format.format(value);
     }
 }

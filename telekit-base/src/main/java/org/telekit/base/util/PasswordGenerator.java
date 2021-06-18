@@ -48,8 +48,8 @@ public final class PasswordGenerator {
     public static final List<Character> ASCII_ALL = unmodifiableMerge(ASCII_LOWER, ASCII_UPPER, ASCII_DIGITS, ASCII_SPECIAL_CHARS);
 
     public static @NotNull String random(int length, List<Character> sequence) {
-        if (length <= 0) length = DEFAULT_PASSWORD_LENGTH;
-        if (sequence == null || sequence.isEmpty()) sequence = ASCII_LOWER_UPPER_DIGITS;
+        if (length <= 0) { length = DEFAULT_PASSWORD_LENGTH; }
+        if (sequence == null || sequence.isEmpty()) { sequence = ASCII_LOWER_UPPER_DIGITS; }
 
         StringBuilder result = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
@@ -64,12 +64,12 @@ public final class PasswordGenerator {
     }
 
     public static @NotNull String katakana(int length, boolean pascalCase) {
-        if (length <= 0) length = DEFAULT_PASSWORD_LENGTH;
+        if (length <= 0) { length = DEFAULT_PASSWORD_LENGTH; }
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < length; i += 2) {
             char consonant = pickRandomFrom(CONSONANTS);
-            if (pascalCase) consonant = Character.toUpperCase(consonant);
+            if (pascalCase) { consonant = Character.toUpperCase(consonant); }
             result.append(consonant);              // odd pos
             result.append(pickRandomFrom(VOWELS)); // even pos
         }
@@ -86,7 +86,7 @@ public final class PasswordGenerator {
     }
 
     public static @NotNull String xkcd(int wordsCount, String separator, List<String> dict) {
-        if (wordsCount <= 0 || dict == null || dict.isEmpty()) return "";
+        if (wordsCount <= 0 || dict == null || dict.isEmpty()) { return ""; }
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < wordsCount; i++) {

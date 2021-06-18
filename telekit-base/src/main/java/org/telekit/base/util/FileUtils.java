@@ -27,7 +27,7 @@ public final class FileUtils {
     }
 
     public static @NotNull String sanitizeFileName(String filename) {
-        if (filename == null || filename.isBlank()) return "";
+        if (filename == null || filename.isBlank()) { return ""; }
         return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
     }
 
@@ -37,7 +37,7 @@ public final class FileUtils {
      * @param path absolute path to the target file
      */
     public static @NotNull String getFileName(Path path) {
-        if (path == null) return "";
+        if (path == null) { return ""; }
         return substringBeforeLast(path.getFileName().toString(), ".");
     }
 
@@ -47,7 +47,7 @@ public final class FileUtils {
      * @param path absolute path to the target file
      */
     public static @NotNull String getFileExtension(Path path) {
-        if (path == null) return "";
+        if (path == null) { return ""; }
         return substringAfterLast(path.getFileName().toString(), ".");
     }
 
@@ -56,7 +56,7 @@ public final class FileUtils {
     }
 
     public static @NotNull List<Path> findFilesByPrefix(Path path, String prefix) {
-        if (!dirExists(path)) return Collections.emptyList();
+        if (!dirExists(path)) { return Collections.emptyList(); }
 
         File[] files = path.toFile().listFiles((dir, name) -> name.startsWith(prefix));
         if (files == null || files.length == 0) { return Collections.emptyList(); }
@@ -112,7 +112,7 @@ public final class FileUtils {
 
     public static void createDir(Path path) {
         try {
-            if (!exists(path)) Files.createDirectory(path);
+            if (!exists(path)) { Files.createDirectory(path); }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -120,7 +120,7 @@ public final class FileUtils {
 
     public static void createDirs(Path path) {
         try {
-            if (!exists(path)) Files.createDirectories(path);
+            if (!exists(path)) { Files.createDirectories(path); }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -153,7 +153,7 @@ public final class FileUtils {
     }
 
     public static void deleteFile(Path path) {
-        if (!fileExists(path)) return;
+        if (!fileExists(path)) { return; }
         try {
             Files.delete(path);
         } catch (IOException e) {
@@ -162,7 +162,7 @@ public final class FileUtils {
     }
 
     public static void deleteDir(Path path) {
-        if (!dirExists(path)) return;
+        if (!dirExists(path)) { return; }
         try {
             //noinspection ResultOfMethodCallIgnored
             Files.walk(path)
@@ -175,7 +175,7 @@ public final class FileUtils {
     }
 
     public static boolean isDirEmpty(Path dir) {
-        if (!dirExists(dir)) return true;
+        if (!dirExists(dir)) { return true; }
         try (DirectoryStream<Path> folderStream = Files.newDirectoryStream(dir)) {
             return !folderStream.iterator().hasNext();
         } catch (Throwable ignored) {
@@ -203,7 +203,7 @@ public final class FileUtils {
      * @return a path to temp file or null if copying has failed.
      */
     public static @Nullable Path backupFile(Path source) {
-        if (!exists(source)) return null;
+        if (!exists(source)) { return null; }
 
         Path tmp = createTempFilePath();
         try {

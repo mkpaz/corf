@@ -66,7 +66,7 @@ public class TemplateController implements Component, ModalController {
         this.action = Objects.requireNonNull(action);
 
         usedTemplateNames.clear();
-        if (templateNames != null) usedTemplateNames.addAll(templateNames);
+        if (templateNames != null) { usedTemplateNames.addAll(templateNames); }
 
         if (sourceTemplate == null) {
             template = new Template();

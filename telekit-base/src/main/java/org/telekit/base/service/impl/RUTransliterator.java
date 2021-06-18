@@ -108,7 +108,7 @@ public class RUTransliterator implements Transliterator {
 
             if (isLetter) {
                 word.add(current);
-                if (endOfText) transliterateWord(word, result);
+                if (endOfText) { transliterateWord(word, result); }
             } else {
                 if (!word.isEmpty()) {
                     transliterateWord(word, result);
@@ -145,9 +145,9 @@ public class RUTransliterator implements Transliterator {
             // - ые endings = -ye (Набережные Челны = Naberezhnye Chelny)
             if (equalsIgnoreCase(current, 'е') && !equalsIgnoreCase(prev, 'ы') &&
                     (startOfWord || isVowel(prev) || equalsIgnoreCase(prev, 'ъ') || equalsIgnoreCase(prev, 'ь'))) {
-                if (current == 'Е' && putAsUppercase) textAccumulator.append("YE");
-                if (current == 'Е' && !putAsUppercase) textAccumulator.append("Ye");
-                if (current == 'е') textAccumulator.append("ye");
+                if (current == 'Е' && putAsUppercase) { textAccumulator.append("YE"); }
+                if (current == 'Е' && !putAsUppercase) { textAccumulator.append("Ye"); }
+                if (current == 'е') { textAccumulator.append("ye"); }
                 continue;
             }
 

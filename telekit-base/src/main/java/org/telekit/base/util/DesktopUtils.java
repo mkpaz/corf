@@ -78,9 +78,9 @@ public final class DesktopUtils {
 
     public static boolean xdgCurrentDesktopMatches(String... desktopEnvNames) {
         String xdgCurrentDesktop = System.getenv("XDG_CURRENT_DESKTOP");
-        if (xdgCurrentDesktop == null) return false;
+        if (xdgCurrentDesktop == null) { return false; }
         for (String name : desktopEnvNames) {
-            if (xdgCurrentDesktop.contains(name)) return true;
+            if (xdgCurrentDesktop.contains(name)) { return true; }
         }
         return false;
     }

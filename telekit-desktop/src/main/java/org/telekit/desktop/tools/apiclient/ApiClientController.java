@@ -154,7 +154,9 @@ public class ApiClientController implements Component {
         cmbTemplate.setButtonCell(new TemplateListCell());
         cmbTemplate.setCellFactory(property -> new TemplateListCell());
         cmbTemplate.setItems(templates);
-        taCsv.focusedProperty().addListener((obs, oldVal, newVal) -> { if (!newVal) countCsvLines(); });
+        taCsv.focusedProperty().addListener((obs, old, value) -> {
+            if (!value) { countCsvLines(); }
+        });
 
         cmbAuthType.setItems(FXCollections.observableArrayList(AuthScheme.BASIC));
         cmbAuthType.getSelectionModel().select(AuthScheme.BASIC);
@@ -256,7 +258,7 @@ public class ApiClientController implements Component {
 
     private void copyLogsTableToClipboard() {
         List<CompletedRequest> selectedRows = tblLog.getSelectionModel().getSelectedItems();
-        if (selectedRows == null || selectedRows.isEmpty()) return;
+        if (selectedRows == null || selectedRows.isEmpty()) { return; }
 
         StringBuilder sb = new StringBuilder();
         String separator = " | ";
@@ -276,7 +278,7 @@ public class ApiClientController implements Component {
     }
 
     private void displayRequestDetails(CompletedRequest request) {
-        if (request != null) taRequestDetails.setText(request.print());
+        if (request != null) { taRequestDetails.setText(request.print()); }
     }
 
     private Predicate<CompletedRequest> createLogPredicate(boolean errorsOnly) {
@@ -295,7 +297,7 @@ public class ApiClientController implements Component {
         List<Template> loadedTemplates = templateRepository.getAll();
         loadedTemplates.sort(Template::compareTo);
         templates.setAll(loadedTemplates); // even if list is empty it have to be set
-        if (templates.isEmpty()) return;
+        if (templates.isEmpty()) { return; }
 
         int selectedIndex = selectedTemplate != null ? templates.indexOf(selectedTemplate) : 0;
         cmbTemplate.getSelectionModel().select(selectedIndex);
@@ -361,7 +363,7 @@ public class ApiClientController implements Component {
         Optional<ButtonType> confirmation = dialog.showAndWait();
 
         confirmation.ifPresent(buttonType -> {
-            if (buttonType != ButtonType.OK) return;
+            if (buttonType != ButtonType.OK) { return; }
             templateRepository.beginTransaction(false).rollbackOnException(() -> {
                 templateRepository.removeById(template.getId());
                 templateRepository.saveAll();
@@ -372,7 +374,7 @@ public class ApiClientController implements Component {
 
     public void showPreview() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
-        if (selectedTemplate == null || !DesktopUtils.isSupported(Desktop.Action.BROWSE)) return;
+        if (selectedTemplate == null || !DesktopUtils.isSupported(Desktop.Action.BROWSE)) { return; }
 
         File outputFile = TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
         String html = PreviewRenderer.render(selectedTemplate);
@@ -389,7 +391,7 @@ public class ApiClientController implements Component {
                 .addFilter(I18n.t(FILE_DIALOG_YAML), "*.yaml", "*.yml")
                 .build()
                 .showOpenDialog(getWindow());
-        if (inputFile == null) return;
+        if (inputFile == null) { return; }
 
         templateRepository.beginTransaction(false).rollbackOnException(() -> {
             templateRepository.importFromFile(inputFile);
@@ -404,7 +406,7 @@ public class ApiClientController implements Component {
                 .initialFileName(FileUtils.sanitizeFileName(template.getName()) + ".yaml")
                 .build()
                 .showSaveDialog(getWindow());
-        if (outputFile == null) return;
+        if (outputFile == null) { return; }
 
         templateRepository.exportToFile(List.of(template), outputFile);
     }
@@ -475,7 +477,7 @@ public class ApiClientController implements Component {
     public void removeParam() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
         Param selectedParam = tblParams.getSelectionModel().getSelectedItem();
-        if (selectedTemplate == null || selectedParam == null) return;
+        if (selectedTemplate == null || selectedParam == null) { return; }
 
         Template updatedTemplate = selectedTemplate.deepCopy();
         updatedTemplate.removeParam(selectedParam);
@@ -489,10 +491,10 @@ public class ApiClientController implements Component {
     @FXML
     public void showParamCompletions(ActionEvent event) {
         Param selectedParam = tblParams.getSelectionModel().getSelectedItem();
-        if (selectedParam == null) return;
+        if (selectedParam == null) { return; }
 
         CompletionProvider<?> provider = completionRegistry.getProviderFor(selectedParam.getName()).orElse(null);
-        if (!(provider instanceof KeyValueCompletionProvider)) return;
+        if (!(provider instanceof KeyValueCompletionProvider)) { return; }
 
         ModalDialog<ParamCompletionController> dialog = getOrCreateCompletionDialog();
         List<KeyValue<String, String>> data = new ArrayList<>(((KeyValueCompletionProvider) provider).find(s -> true));
@@ -529,17 +531,17 @@ public class ApiClientController implements Component {
     @FXML
     public void startHTTPClient() {
         // protect from multiple concurrent starts
-        if (ongoingProperty.get()) return;
+        if (ongoingProperty.get()) { return; }
 
         // replacement source data
         Template template = cmbTemplate.getSelectionModel().getSelectedItem();
         String text = taCsv.getText();
-        if (template == null || isBlank(text)) return;
+        if (template == null || isBlank(text)) { return; }
         String[][] csv = textToTable(text, COMMA_OR_SEMICOLON);
 
         // validate
         boolean inputValid = validateInputData(template, csv);
-        if (!inputValid) return;
+        if (!inputValid) { return; }
 
         // task
         executor = new Executor(template, csv);
@@ -610,12 +612,12 @@ public class ApiClientController implements Component {
 
     @FXML
     public void stopHTTPClient() {
-        if (executor != null) executor.cancel();
+        if (executor != null) { executor.cancel(); }
     }
 
     private boolean validateInputData(Template template, String[][] csv) {
         List<String> warnings = validate(template, csv);
-        if (warnings.isEmpty()) return true;
+        if (warnings.isEmpty()) { return true; }
 
         Alert dialog = Dialogs.confirm()
                 .title(I18n.t(WARNING))
@@ -645,7 +647,7 @@ public class ApiClientController implements Component {
                 .initialFileName(FileUtils.sanitizeFileName("api-client-log.txt"))
                 .build()
                 .showSaveDialog(getWindow());
-        if (outputFile == null) return;
+        if (outputFile == null) { return; }
 
         List<CompletedRequest> log = tblLog.getItems();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
@@ -676,7 +678,7 @@ public class ApiClientController implements Component {
     @FXML
     public void pasteFromExcel() {
         String clipboardText = Clipboard.getSystemClipboard().getString();
-        if (isBlank(clipboardText)) return;
+        if (isBlank(clipboardText)) { return; }
 
         String newText = trim(clipboardText.replaceAll("\t", ","));
         taCsv.replaceText(0, taCsv.getText().length(), newText);
@@ -685,7 +687,7 @@ public class ApiClientController implements Component {
     @FXML
     public void pasteAsColumns() {
         String clipboardText = trim(Clipboard.getSystemClipboard().getString());
-        if (isBlank(clipboardText)) return;
+        if (isBlank(clipboardText)) { return; }
 
         int origLen = taCsv.getText().length();
         String origText = trim(taCsv.getText());

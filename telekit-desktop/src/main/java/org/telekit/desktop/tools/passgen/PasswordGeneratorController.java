@@ -83,13 +83,13 @@ public class PasswordGeneratorController implements Component {
 
         // update password when accordion pane expanded
         paneRandom.expandedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) updateExample(TYPE_RANDOM);
+            if (newVal) { updateExample(TYPE_RANDOM); }
         });
         paneKatakana.expandedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) updateExample(TYPE_KATAKANA);
+            if (newVal) { updateExample(TYPE_KATAKANA); }
         });
         paneXKCD.expandedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) updateExample(TYPE_XKCD);
+            if (newVal) { updateExample(TYPE_XKCD); }
         });
 
         // set default opened pane
@@ -114,7 +114,7 @@ public class PasswordGeneratorController implements Component {
 
         // update global settings
         alphabet = updateAlphabet();
-        if (xkcdDict == null) loadXKCDDict();
+        if (xkcdDict == null) { loadXKCDDict(); }
 
         int length = switch (passwordType) {
             case TYPE_RANDOM -> spnRandomLength.getValue();
@@ -154,7 +154,7 @@ public class PasswordGeneratorController implements Component {
                 .initialFileName(FileUtils.sanitizeFileName("passwords.txt"))
                 .build()
                 .showSaveDialog(rootPane.getScene().getWindow());
-        if (outputFile == null) return;
+        if (outputFile == null) { return; }
 
         try {
             Files.writeString(outputFile.toPath(), totalResult);
@@ -173,7 +173,7 @@ public class PasswordGeneratorController implements Component {
             case TYPE_RANDOM -> lbRandomExample.setText(generatePassword(passwordType, 16));
             case TYPE_KATAKANA -> lbKatakanaExample.setText(generatePassword(passwordType, 12));
             case TYPE_XKCD -> {
-                if (xkcdDict == null) loadXKCDDict();
+                if (xkcdDict == null) { loadXKCDDict(); }
                 lbXKCDExample.setText(generatePassword(passwordType, 2));
             }
         }
@@ -193,11 +193,11 @@ public class PasswordGeneratorController implements Component {
 
     private List<Character> updateAlphabet() {
         List<Character> chars = new ArrayList<>();
-        if (cbRandomDigits.isSelected()) chars.addAll(PasswordGenerator.ASCII_DIGITS);
-        if (cbRandomLowercase.isSelected()) chars.addAll(PasswordGenerator.ASCII_LOWER);
-        if (cbRandomUppercase.isSelected()) chars.addAll(PasswordGenerator.ASCII_UPPER);
-        if (cbRandomSpecialChars.isSelected()) chars.addAll(PasswordGenerator.ASCII_SPECIAL_CHARS);
-        if (cbRandomExcludeSimilar.isSelected()) chars.removeAll(SIMILAR_CHARS);
+        if (cbRandomDigits.isSelected()) { chars.addAll(PasswordGenerator.ASCII_DIGITS); }
+        if (cbRandomLowercase.isSelected()) { chars.addAll(PasswordGenerator.ASCII_LOWER); }
+        if (cbRandomUppercase.isSelected()) { chars.addAll(PasswordGenerator.ASCII_UPPER); }
+        if (cbRandomSpecialChars.isSelected()) { chars.addAll(PasswordGenerator.ASCII_SPECIAL_CHARS); }
+        if (cbRandomExcludeSimilar.isSelected()) { chars.removeAll(SIMILAR_CHARS); }
         return Collections.unmodifiableList(chars);
     }
 

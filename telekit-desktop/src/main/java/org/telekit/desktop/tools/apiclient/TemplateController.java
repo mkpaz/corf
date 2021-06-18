@@ -71,7 +71,7 @@ public class TemplateController implements Component, ModalController {
         );
 
         spnBatchSize.valueProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue == null) return;
+            if (newValue == null) { return; }
             String batchWrapperText = taBatchWrapper.getText();
             if (newValue > 1 && isBlank(batchWrapperText)) {
                 taBatchWrapper.setText(DEFAULT_BATCH_WRAPPER);
@@ -93,7 +93,7 @@ public class TemplateController implements Component, ModalController {
         this.action = Objects.requireNonNull(action);
 
         usedTemplateNames.clear();
-        if (templateNames != null) usedTemplateNames.addAll(templateNames);
+        if (templateNames != null) { usedTemplateNames.addAll(templateNames); }
 
         if (sourceTemplate == null) {
             template = new Template();

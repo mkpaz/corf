@@ -25,12 +25,12 @@ public class KeyValue<K, V> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
 
         KeyValue<?, ?> keyValue = (KeyValue<?, ?>) o;
 
-        if (!key.equals(keyValue.key)) return false;
+        if (!key.equals(keyValue.key)) { return false; }
         return Objects.equals(value, keyValue.value);
     }
 

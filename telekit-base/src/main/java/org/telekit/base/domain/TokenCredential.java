@@ -12,7 +12,7 @@ public class TokenCredential extends Credential {
     public TokenCredential(String name, char[] token) {
         super(name);
         this.token = Objects.requireNonNull(token);
-        if (token.length == 0) throw new IllegalArgumentException("Token can't be empty.");
+        if (token.length == 0) { throw new IllegalArgumentException("Token can't be empty."); }
     }
 
     public char[] getToken() {

@@ -38,7 +38,7 @@ public final class NumberUtils {
     }
 
     public static boolean isInteger(String str) {
-        if (str == null || str.isEmpty()) return false;
+        if (str == null || str.isEmpty()) { return false; }
         try {
             Integer.parseInt(str);
             return true;
@@ -48,7 +48,7 @@ public final class NumberUtils {
     }
 
     public static boolean isHex(String str) {
-        if (str == null || str.isEmpty()) return false;
+        if (str == null || str.isEmpty()) { return false; }
         try {
             Integer.parseInt(str, 16);
             return true;
@@ -58,7 +58,7 @@ public final class NumberUtils {
     }
 
     public static boolean isBinary(String str) {
-        if (str == null || str.isEmpty()) return false;
+        if (str == null || str.isEmpty()) { return false; }
         return str.chars().allMatch(c -> c == '0' || c == '1');
     }
 

@@ -205,16 +205,14 @@ public class ApacheHttpClient implements HttpClient {
             httpBuilder.setDefaultCredentialsProvider(credentialsProvider);
 
             // preemptive auth puts auth headers into each request to omit challenge (401) stage
-            if (!preemptive) return this;
+            if (!preemptive) { return this; }
 
             // BasicAuthCache doesn't mean "for basic auth", it's just a misleading name choice
             AuthCache authCache = new BasicAuthCache();
             HttpHost targetHost = HttpHost.create(uri.getHost());
 
-            if (authScheme == AuthScheme.BASIC) {
-                authCache.put(targetHost, new BasicScheme());
-            }
-            if (authScheme == AuthScheme.DIGEST) authCache.put(targetHost, new DigestScheme());
+            if (authScheme == AuthScheme.BASIC) { authCache.put(targetHost, new BasicScheme()); }
+            if (authScheme == AuthScheme.DIGEST) { authCache.put(targetHost, new DigestScheme()); }
 
             localContext.setAuthCache(authCache);
 

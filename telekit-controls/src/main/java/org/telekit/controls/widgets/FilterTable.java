@@ -127,7 +127,7 @@ public class FilterTable<S> extends VBox {
     public void setData(List<S> data) {
         Objects.requireNonNull(data);
         rows.setAll(data);
-        if (!data.isEmpty()) tblData.getSelectionModel().selectFirst();
+        if (!data.isEmpty()) { tblData.getSelectionModel().selectFirst(); }
     }
 
     public void setPredicate(BiPredicate<String, S> predicate) {

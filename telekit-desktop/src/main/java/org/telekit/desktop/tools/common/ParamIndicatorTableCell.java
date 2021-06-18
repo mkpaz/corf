@@ -21,10 +21,10 @@ public class ParamIndicatorTableCell extends TableCell<Param, Image> {
         setGraphic(null);
 
         TableRow<Param> row = getTableRow();
-        if (row == null) return;
+        if (row == null) { return; }
 
         Param param = row.getItem();
-        if (param == null) return;
+        if (param == null) { return; }
 
         if (Param.allowsCompletion(param, completionRegistry)) {
             setGraphic(new FontAwesomeIcon(FontAwesome.LIGHTBULB_ALT));

@@ -92,7 +92,7 @@ public class ParamController implements Component, ModalController {
         // usedParamNames is a part of boolean binding,
         // if link is updated binding should be updated too
         usedParamNames.clear();
-        if (paramNames != null) usedParamNames.addAll(paramNames);
+        if (paramNames != null) { usedParamNames.addAll(paramNames); }
     }
 
     private Param createDefaultParam() {

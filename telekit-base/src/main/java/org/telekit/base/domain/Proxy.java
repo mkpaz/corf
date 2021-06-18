@@ -74,8 +74,8 @@ public class Proxy {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
         Proxy proxy = (Proxy) o;
         return uri.equals(proxy.uri);
     }
@@ -116,7 +116,7 @@ public class Proxy {
     }
 
     private static @Nullable UsernamePasswordCredential parseUserInfo(String userInfo) {
-        if (userInfo == null) return null;
+        if (userInfo == null) { return null; }
         String[] userPass = userInfo.split(":");
         return userPass.length == 2 ? UsernamePasswordCredential.of(userPass[0], userPass[1]) : null;
     }

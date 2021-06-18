@@ -28,8 +28,8 @@ public abstract class Entity<T extends Entity<T, ID>, ID> implements Comparable<
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
         Entity<?, ?> that = (Entity<?, ?>) o;
         return id.equals(that.id);
     }
@@ -42,7 +42,7 @@ public abstract class Entity<T extends Entity<T, ID>, ID> implements Comparable<
     @Override
     public int compareTo(@NotNull Entity that) {
         Objects.requireNonNull(that);
-        if (this == that) return 0;
+        if (this == that) { return 0; }
         return String.valueOf(id).compareTo(String.valueOf(that.getId()));
     }
 

@@ -26,8 +26,8 @@ public final class StringUtils {
      * <code>"retina" -> List.of("re", "ti", "na")</code>.
      */
     public static @NotNull List<String> splitEqually(String text, int chunkSize) {
-        if (text == null || text.isEmpty()) return Collections.emptyList();
-        if (chunkSize <= 0 || chunkSize >= text.length()) return List.of(text);
+        if (text == null || text.isEmpty()) { return Collections.emptyList(); }
+        if (chunkSize <= 0 || chunkSize >= text.length()) { return List.of(text); }
 
         List<String> result = new ArrayList<>((text.length() + chunkSize - 1) / chunkSize);
         for (int start = 0; start < text.length(); start += chunkSize) {
@@ -40,7 +40,7 @@ public final class StringUtils {
      * Checks whether trimmed strings are equal.
      */
     public static boolean trimEquals(String s1, String s2) {
-        if (s1 == null || s2 == null) return false;
+        if (s1 == null || s2 == null) { return false; }
         return trim(s1).equals(trim(s2));
     }
 
@@ -59,7 +59,7 @@ public final class StringUtils {
     }
 
     public static @NotNull String toBase64(String str, Charset charset) {
-        if (str == null) return "";
+        if (str == null) { return ""; }
         return new String(Base64.getEncoder().encode(str.getBytes(charset)), charset);
     }
 
@@ -68,7 +68,7 @@ public final class StringUtils {
     }
 
     public static @NotNull String fromBase64(String str, Charset charset) {
-        if (str == null) return "";
+        if (str == null) { return ""; }
         return new String(Base64.getDecoder().decode(str.getBytes(charset)), charset);
     }
 
@@ -81,7 +81,7 @@ public final class StringUtils {
     }
 
     public static @NotNull <T> String stringify(T object, String defaultStr, Function<T, String> converter) {
-        if (object == null) return defaultStr;
+        if (object == null) { return defaultStr; }
         return converter.apply(object);
     }
 }

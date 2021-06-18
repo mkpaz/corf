@@ -175,7 +175,7 @@ public class PrefixTrie<T> implements Iterable<PrefixTrie.Entry<T>> {
     }
 
     private void expand(Node<T> node, int depth, T value) {
-        if (depth == 0) return;
+        if (depth == 0) { return; }
         for (int index = 0; index < Node.MAX_CHILDREN; index++) {
             Node<T> child = node.setChild(index, depth == 1);
 
@@ -363,8 +363,8 @@ public class PrefixTrie<T> implements Iterable<PrefixTrie.Entry<T>> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) { return true; }
+            if (o == null || getClass() != o.getClass()) { return false; }
 
             Entry<?> entry = (Entry<?>) o;
 
@@ -448,7 +448,7 @@ public class PrefixTrie<T> implements Iterable<PrefixTrie.Entry<T>> {
         }
 
         public String getDigits() {
-            if (isRoot()) return null;
+            if (isRoot()) { return null; }
 
             StringBuilder sb = new StringBuilder();
             sb.append(numeral);

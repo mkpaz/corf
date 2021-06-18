@@ -54,14 +54,14 @@ public class IPv4ConverterController implements Component, ModalController {
     }
 
     private @Nullable IP4Address parseIPAddress(String ipaddr, int radix) {
-        if (isBlank(ipaddr)) return null;
+        if (isBlank(ipaddr)) { return null; }
         try {
             // parse from octet string
-            if (radix == -1) return new IP4Address(ipaddr);
+            if (radix == -1) { return new IP4Address(ipaddr); }
 
             // parse from number (remove octet separators before parsing)
             long longValue = Long.parseLong(ipaddr, radix);
-            if (longValue < IP4Address.MIN_VALUE || longValue > IP4Address.MAX_VALUE) return null;
+            if (longValue < IP4Address.MIN_VALUE || longValue > IP4Address.MAX_VALUE) { return null; }
 
             return new IP4Address((int) longValue);
         } catch (Throwable e) {
@@ -71,7 +71,7 @@ public class IPv4ConverterController implements Component, ModalController {
 
     private void update(TextField textField, String value) {
         // don't update focused field, because user edits it in that very moment
-        if (textField.isFocused()) return;
+        if (textField.isFocused()) { return; }
         Platform.runLater(() -> textField.setText(value));
     }
 
@@ -98,12 +98,12 @@ public class IPv4ConverterController implements Component, ModalController {
     }
 
     private static String ensureNotNull(IP4Address ip, Function<IP4Address, String> converter) {
-        if (ip == null) return "";
+        if (ip == null) { return ""; }
         return converter.apply(ip);
     }
 
     private static String cleanup(String str) {
-        if (str == null) return null;
+        if (str == null) { return null; }
         return str.replaceAll("[.]", "");
     }
 

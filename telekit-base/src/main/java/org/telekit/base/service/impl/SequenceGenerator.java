@@ -51,7 +51,7 @@ public class SequenceGenerator<ID, V> {
 
     public @NotNull List<Map<ID, V>> generate() {
         Objects.requireNonNull(converter);
-        if (items.isEmpty()) return Collections.emptyList();
+        if (items.isEmpty()) { return Collections.emptyList(); }
 
         List<Map<ID, V>> sequence = new ArrayList<>();
         iterate(Objects.requireNonNull(nextItem(null)), sequence);
@@ -88,7 +88,7 @@ public class SequenceGenerator<ID, V> {
 
     private @Nullable Item<ID> nextItem(Item<ID> currentItem) {
         // next item is current item + 1 or null if there's no next item
-        if (currentItem == null) return items.get(0);
+        if (currentItem == null) { return items.get(0); }
         int currentIndex = items.indexOf(currentItem);
         return currentIndex < items.size() - 1 ? items.get(currentIndex + 1) : null;
     }
@@ -109,8 +109,8 @@ public class SequenceGenerator<ID, V> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) { return true; }
+            if (o == null || getClass() != o.getClass()) { return false; }
 
             Item<?> item = (Item<?>) o;
             return id.equals(item.id);

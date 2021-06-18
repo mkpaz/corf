@@ -19,7 +19,7 @@ public class UsernamePasswordCredential extends Credential {
         super(name);
         this.username = Objects.requireNonNull(username);
         this.password = Objects.requireNonNull(password);
-        if (password.length == 0) throw new IllegalArgumentException("Password can't be empty.");
+        if (password.length == 0) { throw new IllegalArgumentException("Password can't be empty."); }
     }
 
     @Override

@@ -113,8 +113,8 @@ public class IP4Subnet {
     }
 
     public @NotNull IP4Address getMaxHost() {
-        if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN) return new IP4Address(ip.toMaxHost());
-        if (ip.getNetworkPrefixLength() == MAX_LEN) return new IP4Address(ip);
+        if (ip.getNetworkPrefixLength() == LINK_LOCAL_LEN) { return new IP4Address(ip.toMaxHost()); }
+        if (ip.getNetworkPrefixLength() == MAX_LEN) { return new IP4Address(ip); }
         return new IP4Address(ip.toMaxHost().increment(-1));
     }
 
@@ -127,11 +127,11 @@ public class IP4Subnet {
 
     public @Nullable String getNetworkClass() {
         String binary = ip.toBinaryString();
-        if (binary.startsWith("1111")) return "E";
-        if (binary.startsWith("1110")) return "D";
-        if (binary.startsWith("110")) return "C";
-        if (binary.startsWith("10")) return "B";
-        if (binary.startsWith("0")) return "A";
+        if (binary.startsWith("1111")) { return "E"; }
+        if (binary.startsWith("1110")) { return "D"; }
+        if (binary.startsWith("110")) { return "C"; }
+        if (binary.startsWith("10")) { return "B"; }
+        if (binary.startsWith("0")) { return "A"; }
         return null;
     }
 

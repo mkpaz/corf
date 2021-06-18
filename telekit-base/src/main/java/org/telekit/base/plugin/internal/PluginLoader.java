@@ -57,7 +57,7 @@ public class PluginLoader {
             Class<? extends Plugin> pluginClass
     ) {
         Includes includes = pluginClass.getAnnotation(Includes.class);
-        if (includes == null) return Collections.emptyMap();
+        if (includes == null) { return Collections.emptyMap(); }
 
         Map<Class<? extends Extension>, Set<Class<? extends Extension>>> extensionsMap = new HashMap<>();
 

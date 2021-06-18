@@ -85,8 +85,8 @@ public class Param implements Comparable<Param>, Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
         Param param = (Param) o;
         return name.equals(param.name);
     }

@@ -39,7 +39,7 @@ public final class PlaceholderReplacer {
      * @return The formatted string.
      */
     public static String format(String fmt, Map<String, String> values) {
-        if (isBlank(fmt)) return "";
+        if (isBlank(fmt)) { return ""; }
         return EXPRESSION.matcher(fmt)
                 .replaceAll(match -> match.group(1) != null ?
                         match.group(1) :

@@ -54,7 +54,7 @@ public class Base64Controller implements Component {
         byte mode = (byte) toggleMode.getSelectedToggle().getUserData();
         String text = trim(taText.getText());
         EncoderType type = encoderType.getSelectionModel().getSelectedItem();
-        if (isEmpty(text) || type == null) return;
+        if (isEmpty(text) || type == null) { return; }
 
         final ConvertTask task = createTask(text, OPERATION_ENCODE, mode, type);
         task.setOnSucceeded(event -> Platform.runLater(() -> taBase64.setText(task.getValue())));
@@ -66,7 +66,7 @@ public class Base64Controller implements Component {
         byte mode = (byte) toggleMode.getSelectedToggle().getUserData();
         String base64Text = trim(taBase64.getText());
         EncoderType type = encoderType.getSelectionModel().getSelectedItem();
-        if (isEmpty(base64Text) || type == null) return;
+        if (isEmpty(base64Text) || type == null) { return; }
 
         final ConvertTask task = createTask(base64Text, OPERATION_DECODE, mode, type);
         task.setOnSucceeded(event -> Platform.runLater(() -> taText.setText(task.getValue())));

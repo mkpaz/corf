@@ -34,7 +34,7 @@ public class SPCConverterController implements Component {
     public void initialize() {
         cmbType.getItems().addAll(Type.values());
         cmbType.getSelectionModel().selectedItemProperty().addListener((observable, oldVal, newVal) -> {
-            if (newVal != null) onTypeChanged(newVal);
+            if (newVal != null) { onTypeChanged(newVal); }
         });
 
         cmbFormat.setButtonCell(new SPCFormatCell());
@@ -64,7 +64,7 @@ public class SPCConverterController implements Component {
         Type type = cmbType.getSelectionModel().getSelectedItem();
         Format fmt = cmbFormat.getSelectionModel().getSelectedItem();
 
-        if (isEmpty(spcStr) || fmt == null) return;
+        if (isEmpty(spcStr) || fmt == null) { return; }
 
         try {
             SignallingPointCode spc = SignallingPointCode.parse(spcStr, type, fmt);

@@ -80,7 +80,7 @@ public class PluginBox {
 
     public @Nullable Path getJarPath() {
         URL jarLocation = plugin.getLocation();
-        if (jarLocation == null) return null;
+        if (jarLocation == null) { return null; }
         try {
             return Paths.get(jarLocation.toURI());
         } catch (URISyntaxException e) {
@@ -95,7 +95,7 @@ public class PluginBox {
 
     public @NotNull Collection<Path> getConfigs() {
         Path configDir = getPluginConfigDir(plugin.getClass());
-        if (!Files.exists(configDir)) return Collections.emptyList();
+        if (!Files.exists(configDir)) { return Collections.emptyList(); }
 
         try {
             return Files.walk(configDir)

@@ -53,7 +53,7 @@ public final class CommonUtils {
      * If locale is null, then just plain file name returned.
      */
     public static @NotNull String localizedFileName(String fileName, String fileExtension, Locale locale) {
-        if (locale == null) return fileName + fileExtension;
+        if (locale == null) { return fileName + fileExtension; }
         return ensureNotNull(fileName) + "_" + locale.getLanguage() + ensureNotNull(fileExtension);
     }
 

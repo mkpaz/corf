@@ -41,7 +41,7 @@ public class CICTableController implements Component {
         });
 
         listE1.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal == null) return;
+            if (newVal == null) { return; }
             // E1 numbers starts from 0, but list values starts from 1
             updateCICInfo(newVal - 1);
             listTimeslots.scrollTo(0);

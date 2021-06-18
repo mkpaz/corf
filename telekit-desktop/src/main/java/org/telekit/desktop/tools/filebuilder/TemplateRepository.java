@@ -44,10 +44,10 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
 
     public void reloadAll() {
         // if database file doesn't exist we just start with empty repository
-        if (!Files.exists(DATA_FILE_PATH)) return;
+        if (!Files.exists(DATA_FILE_PATH)) { return; }
 
         try (InputStream inputStream = Files.newInputStream(DATA_FILE_PATH)) {
-            if (size() > 0) clear();
+            if (size() > 0) { clear(); }
             load(inputStream, yamlSerializer);
         } catch (IOException e) {
             throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
@@ -64,7 +64,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
             }
             throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         } finally {
-            if (backup != null) hush(() -> deleteFile(backup));
+            if (backup != null) { hush(() -> deleteFile(backup)); }
         }
     }
 

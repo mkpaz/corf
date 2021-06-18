@@ -95,7 +95,7 @@ public interface Encryptor {
     }
 
     static @NotNull Encryptor createEncryptor(@Nullable Algorithm alg) {
-        if (alg == null) return new AesGcmEncryptor();
+        if (alg == null) { return new AesGcmEncryptor(); }
         return switch (alg) {
             case AES_GCM -> new AesGcmEncryptor();
             case CHACHA20 -> new ChaCha20Encryptor();

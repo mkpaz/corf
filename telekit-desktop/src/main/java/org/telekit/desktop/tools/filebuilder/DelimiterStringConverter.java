@@ -21,13 +21,13 @@ public class DelimiterStringConverter extends StringConverter<String> {
 
     @Override
     public String toString(String punctuationMark) {
-        if (punctuationMark == null || punctuationMark.isEmpty() || !VALUES.containsKey(punctuationMark)) return "";
+        if (punctuationMark == null || punctuationMark.isEmpty() || !VALUES.containsKey(punctuationMark)) { return ""; }
         return punctuationMark + SEPARATOR + I18n.t(VALUES.get(punctuationMark));
     }
 
     @Override
     public String fromString(String comboBoxValue) {
-        if (comboBoxValue == null || comboBoxValue.isEmpty()) return "";
+        if (comboBoxValue == null || comboBoxValue.isEmpty()) { return ""; }
         return comboBoxValue.split(SEPARATOR)[0];
     }
 }

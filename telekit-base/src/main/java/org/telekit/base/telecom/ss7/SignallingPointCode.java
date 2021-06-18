@@ -178,7 +178,7 @@ public class SignallingPointCode {
     }
 
     private static boolean isStructInteger(String str, int length) {
-        if (isEmpty(str)) return false;
+        if (isEmpty(str)) { return false; }
         String[] parts = str.split(STRUCT_SEPARATOR, -1);
         return parts.length == length && Arrays.stream(parts).allMatch(s -> isNotEmpty(s) && isInteger(s));
     }

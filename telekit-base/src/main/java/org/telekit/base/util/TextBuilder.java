@@ -34,7 +34,7 @@ public class TextBuilder {
     }
 
     public TextBuilder appendIf(boolean condition, String str) {
-        if (condition) append(str);
+        if (condition) { append(str); }
         return this;
     }
 
@@ -53,12 +53,12 @@ public class TextBuilder {
     }
 
     public TextBuilder appendLineIf(boolean condition, String str) {
-        if (condition) appendLine(str);
+        if (condition) { appendLine(str); }
         return this;
     }
 
     public TextBuilder appendLineIf(boolean condition, String... strings) {
-        if (condition) appendLine(strings);
+        if (condition) { appendLine(strings); }
         return this;
     }
 
@@ -70,7 +70,7 @@ public class TextBuilder {
     }
 
     public TextBuilder appendLinesIf(boolean condition, Collection<String> lines) {
-        if (condition) appendLines(lines);
+        if (condition) { appendLines(lines); }
         return this;
     }
 
@@ -80,7 +80,7 @@ public class TextBuilder {
     }
 
     public TextBuilder newLineIf(boolean condition) {
-        if (condition) newLine();
+        if (condition) { newLine(); }
         return this;
     }
 

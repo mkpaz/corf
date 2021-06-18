@@ -90,7 +90,7 @@ public abstract class AbstractTextInputContextMenu extends ContextMenu {
     protected void afterContextMenuVisible() {}
 
     protected void onContextMenuRequested(boolean contextMenuVisible) {
-        if (!contextMenuVisible) return;
+        if (!contextMenuVisible) { return; }
 
         // initialize vars that needed to pass below checks here
         afterContextMenuVisible();

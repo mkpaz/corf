@@ -28,8 +28,8 @@ public abstract class Event {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
         Event event = (Event) o;
         return id.equals(event.id);
     }

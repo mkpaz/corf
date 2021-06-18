@@ -26,13 +26,13 @@ public final class CSVUtils {
         Objects.requireNonNull(text);
         Objects.requireNonNull(valueSeparator);
 
-        if (text.isBlank() || valueSeparator.isBlank()) return new String[][] {};
+        if (text.isBlank() || valueSeparator.isBlank()) { return new String[][] {}; }
 
         String[] rows = text.split(LineSeparator.LINE_SPLIT_PATTERN);
         String[][] table = new String[rows.length][];
         int nonEmptyRows = 0;
         for (String row : rows) {
-            if (isBlank(row)) continue;
+            if (isBlank(row)) { continue; }
             table[nonEmptyRows] = row.split(valueSeparator);
             nonEmptyRows++;
         }
@@ -43,9 +43,9 @@ public final class CSVUtils {
         boolean isOrigBlank = isBlank(origText);
         boolean isAddedBlank = isBlank(addedText);
 
-        if (isOrigBlank && isAddedBlank) return "";
-        if (isOrigBlank) return addedText;
-        if (isAddedBlank) return origText;
+        if (isOrigBlank && isAddedBlank) { return ""; }
+        if (isOrigBlank) { return addedText; }
+        if (isAddedBlank) { return origText; }
 
         String[][] origColumns = textToTable(origText, valueSeparator);
         String[][] addedColumns = textToTable(addedText, valueSeparator);

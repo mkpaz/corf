@@ -80,7 +80,7 @@ public class FileCompletionMonitoringService {
         if (key == null || event.context() == null || !(event.context() instanceof Path context)) { return; }
 
         Path dir = keys.get(key);
-        if (dir == null) return;
+        if (dir == null) { return; }
 
         Path path = dir.resolve(context);
         if (ENTRY_CREATE.equals(eventKind)) {
@@ -119,13 +119,13 @@ public class FileCompletionMonitoringService {
     }
 
     private void registerProvider(Path path) {
-        if (!fileExists(path)) return;
+        if (!fileExists(path)) { return; }
 
         String providerName = getFileName(path);
 
         // silently ignore invalid names files and existing providers,
         // or it will write to the log after each file edit because of temporary files
-        if (!isValidKey(providerName) || completionRegistry.isSupported(providerName)) return;
+        if (!isValidKey(providerName) || completionRegistry.isSupported(providerName)) { return; }
 
         if ("properties".equalsIgnoreCase(getFileExtension(path))) {
             completionRegistry.registerProvider(new KeyValueCompletionProvider(providerName, path));
@@ -135,7 +135,7 @@ public class FileCompletionMonitoringService {
     }
 
     private void unregisterProvider(Path path) {
-        if (path == null) return;
+        if (path == null) { return; }
         String providerName = getFileName(path);
         if (completionRegistry.isSupported(providerName)) {
             completionRegistry.unregisterProvider(providerName);

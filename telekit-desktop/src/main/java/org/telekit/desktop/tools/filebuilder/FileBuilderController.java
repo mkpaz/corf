@@ -134,7 +134,7 @@ public class FileBuilderController implements Component {
         cmbTemplate.setCellFactory(property -> new TemplateListCell());
         cmbTemplate.setItems(templates);
         taCsv.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) countCsvLines();
+            if (!newValue) { countCsvLines(); }
         });
         tfDestPath.setText(OUT_FILE_PATH.toFile().getAbsolutePath());
 
@@ -208,7 +208,7 @@ public class FileBuilderController implements Component {
         List<Template> loadedTemplates = templateRepository.getAll();
         templates.sort(Template::compareTo);
         templates.setAll(loadedTemplates); // even if list is empty it have to be set
-        if (templates.isEmpty()) return;
+        if (templates.isEmpty()) { return; }
 
         int selectedIndex = selectedTemplate != null ? templates.indexOf(selectedTemplate) : 0;
         cmbTemplate.getSelectionModel().select(selectedIndex);
@@ -249,7 +249,7 @@ public class FileBuilderController implements Component {
     }
 
     private ModalDialog<TemplateController> getOrCreateTemplateDialog() {
-        if (templateDialog != null) return templateDialog;
+        if (templateDialog != null) { return templateDialog; }
 
         TemplateController controller = ViewLoader.load(TemplateController.class);
         templateDialog = ModalDialog.builder(controller, getWindow())
@@ -274,7 +274,7 @@ public class FileBuilderController implements Component {
         Optional<ButtonType> confirmation = dialog.showAndWait();
 
         confirmation.ifPresent(buttonType -> {
-            if (buttonType != ButtonType.OK) return;
+            if (buttonType != ButtonType.OK) { return; }
             templateRepository.beginTransaction(false).rollbackOnException(() -> {
                 templateRepository.removeById(template.getId());
                 templateRepository.saveAll();
@@ -285,7 +285,7 @@ public class FileBuilderController implements Component {
 
     public void showPreview() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
-        if (selectedTemplate == null || !DesktopUtils.isSupported(Desktop.Action.BROWSE)) return;
+        if (selectedTemplate == null || !DesktopUtils.isSupported(Desktop.Action.BROWSE)) { return; }
 
         File outputFile = TEMP_DIR.resolve(PREVIEW_FILE_NAME).toFile();
         String html = PreviewRenderer.render(selectedTemplate);
@@ -302,7 +302,7 @@ public class FileBuilderController implements Component {
                 .addFilter(I18n.t(FILE_DIALOG_YAML), "*.yaml", "*.yml")
                 .build()
                 .showOpenDialog(getWindow());
-        if (inputFile == null) return;
+        if (inputFile == null) { return; }
 
         templateRepository.beginTransaction(false).rollbackOnException(() -> {
             templateRepository.importFromFile(inputFile);
@@ -317,7 +317,7 @@ public class FileBuilderController implements Component {
                 .initialFileName(FileUtils.sanitizeFileName(template.getName()) + ".yaml")
                 .build()
                 .showSaveDialog(getWindow());
-        if (outputFile == null) return;
+        if (outputFile == null) { return; }
 
         templateRepository.exportToFile(List.of(template), outputFile);
     }
@@ -370,7 +370,7 @@ public class FileBuilderController implements Component {
 
     private void addParam(Param param) {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
-        if (selectedTemplate == null || param == null) return;
+        if (selectedTemplate == null || param == null) { return; }
 
         Template updatedTemplate = selectedTemplate.deepCopy();
         updatedTemplate.addParam(param);
@@ -386,7 +386,7 @@ public class FileBuilderController implements Component {
     public void removeParam() {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
         Param selectedParam = tblParams.getSelectionModel().getSelectedItem();
-        if (selectedTemplate == null || selectedParam == null) return;
+        if (selectedTemplate == null || selectedParam == null) { return; }
 
         Template updatedTemplate = selectedTemplate.deepCopy();
         updatedTemplate.removeParam(selectedParam);
@@ -400,10 +400,10 @@ public class FileBuilderController implements Component {
     @FXML
     public void showParamCompletions(ActionEvent event) {
         Param selectedParam = tblParams.getSelectionModel().getSelectedItem();
-        if (selectedParam == null) return;
+        if (selectedParam == null) { return; }
 
         CompletionProvider<?> provider = completionRegistry.getProviderFor(selectedParam.getName()).orElse(null);
-        if (!(provider instanceof KeyValueCompletionProvider)) return;
+        if (!(provider instanceof KeyValueCompletionProvider)) { return; }
 
         ModalDialog<ParamCompletionController> dialog = getOrCreateCompletionDialog();
         List<KeyValue<String, String>> data = new ArrayList<>(((KeyValueCompletionProvider) provider).find(s -> true));
@@ -442,7 +442,7 @@ public class FileBuilderController implements Component {
                 .addFilter(I18n.t(FILE_DIALOG_TEXT), "*.txt")
                 .build()
                 .showSaveDialog(getWindow());
-        if (destFile == null) return;
+        if (destFile == null) { return; }
 
         tfDestPath.setText(destFile.getAbsolutePath());
     }
@@ -450,18 +450,18 @@ public class FileBuilderController implements Component {
     @FXML
     public void generateImportFile() {
         // protect from multiple concurrent starts
-        if (ongoingProperty.get()) return;
+        if (ongoingProperty.get()) { return; }
 
-        if (cmbTemplate.getSelectionModel().isEmpty() || StringUtils.isBlank(taCsv.getText())) return;
+        if (cmbTemplate.getSelectionModel().isEmpty() || StringUtils.isBlank(taCsv.getText())) { return; }
 
         Template template = cmbTemplate.getSelectionModel().getSelectedItem();
         String text = taCsv.getText();
-        if (template == null || isBlank(text)) return;
+        if (template == null || isBlank(text)) { return; }
         String[][] csv = textToTable(text, COMMA_OR_SEMICOLON);
 
         // validate
         boolean inputValid = validateInputData(template, csv);
-        if (!inputValid) return;
+        if (!inputValid) { return; }
 
         int saveType = (int) toggleSaveType.getSelectedToggle().getUserData();
         File outputFile = OUT_FILE_PREDEFINED == saveType ?
@@ -470,7 +470,7 @@ public class FileBuilderController implements Component {
                         .initialFileName(OUT_FILE_PATH.getFileName().toString())
                         .build()
                         .showSaveDialog(getWindow());
-        if (outputFile == null) return;
+        if (outputFile == null) { return; }
 
         boolean append = OUT_FILE_PREDEFINED == saveType && cbAppendFile.isSelected() && outputFile.exists();
 
@@ -508,7 +508,7 @@ public class FileBuilderController implements Component {
 
     private boolean validateInputData(Template template, String[][] csv) {
         List<String> warnings = validate(template, csv);
-        if (warnings.isEmpty()) return true;
+        if (warnings.isEmpty()) { return true; }
 
         Alert dialog = Dialogs.confirm()
                 .title(I18n.t(WARNING))
@@ -534,7 +534,7 @@ public class FileBuilderController implements Component {
     @FXML
     public void pasteFromExcel() {
         String clipboardText = Clipboard.getSystemClipboard().getString();
-        if (isBlank(clipboardText)) return;
+        if (isBlank(clipboardText)) { return; }
 
         String newText = trim(clipboardText.replaceAll("\t", ","));
         taCsv.replaceText(0, taCsv.getText().length(), newText);
@@ -543,7 +543,7 @@ public class FileBuilderController implements Component {
     @FXML
     public void pasteAsColumns() {
         String clipboardText = trim(Clipboard.getSystemClipboard().getString());
-        if (isBlank(clipboardText)) return;
+        if (isBlank(clipboardText)) { return; }
 
         int origLen = taCsv.getText().length();
         String origText = trim(taCsv.getText());
