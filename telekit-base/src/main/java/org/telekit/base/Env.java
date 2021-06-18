@@ -2,7 +2,6 @@ package org.telekit.base;
 
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.plugin.Plugin;
@@ -18,7 +17,6 @@ import static org.telekit.base.service.Encryptor.Algorithm;
 import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.ensureNotNull;
 import static org.telekit.base.util.FileUtils.urlToFile;
-import static org.telekit.base.util.NumberUtils.ensureRange;
 
 public final class Env {
 
@@ -169,25 +167,4 @@ public final class Env {
 
     // special value that means window is maximized
     public static final Dimension WINDOW_MAXIMIZED = new Dimension(0, 0);
-
-    public static final Dimension FORCED_WINDOW_SIZE = parseWindowsSize();
-
-    private static @Nullable Dimension parseWindowsSize() {
-        String property = getPropertyOrEnv("telekit.window.size", "TELEKIT_WINDOW_SIZE");
-        if (property == null || property.isEmpty()) { return null; }
-
-        String[] bounds = property.split("x");
-        if (bounds.length != 2 || !NumberUtils.isDigits(bounds[0]) || !NumberUtils.isDigits(bounds[1])) {
-            return null;
-        }
-
-        int userWidth = Integer.parseInt(bounds[0]);
-        int userHeight = Integer.parseInt(bounds[1]);
-
-        // be sensible
-        userWidth = ensureRange(userWidth, 256, 4096, 1024);
-        userHeight = ensureRange(userHeight, 256, 4096, 768);
-
-        return new Dimension(userWidth, userHeight);
-    }
 }

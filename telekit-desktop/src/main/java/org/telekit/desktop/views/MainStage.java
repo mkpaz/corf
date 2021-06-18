@@ -180,10 +180,7 @@ public class MainStage {
     }
 
     private static Dimension getSceneSize(ApplicationPreferences preferences) {
-        // force window size via env variable
-        if (FORCED_WINDOW_SIZE != null) { return FORCED_WINDOW_SIZE; }
-
-        // or use last remembered window size
+        // use last remembered window size
         Dimension storedSize = preferences.getMainWindowSize();
         if (storedSize != null) { return storedSize; }
 
