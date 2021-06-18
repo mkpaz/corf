@@ -45,7 +45,7 @@ public class PreferencesView extends VBox implements Initializable, View<Prefere
     private static final String RESTART_MARK = "*";
 
     TabPane tabs;
-    Button applyBtn;
+    Button commitBtn;
     Button cancelBtn;
 
     ComboBox<Language> langChoice;
@@ -81,10 +81,10 @@ public class PreferencesView extends VBox implements Initializable, View<Prefere
                 createPluginsTab()
         );
 
-        applyBtn = new Button(t(DesktopMessages.ACTION_APPLY));
-        applyBtn.setDefaultButton(true);
+        commitBtn = Controls.create(() -> new Button(t(ACTION_OK)), "form-action");
+        commitBtn.setDefaultButton(true);
 
-        cancelBtn = new Button(t(DesktopMessages.ACTION_CANCEL));
+        cancelBtn = Controls.create(() -> new Button(t(ACTION_CANCEL)), "form-action");
 
         HBox controlsBox = Containers.create(HBox::new, "controls");
         controlsBox.setAlignment(Pos.CENTER_LEFT);
@@ -92,7 +92,7 @@ public class PreferencesView extends VBox implements Initializable, View<Prefere
         controlsBox.getChildren().addAll(
                 new Label(RESTART_MARK + " - " + t(DesktopMessages.PREFERENCES_REQUIRES_RESTART)),
                 horizontalSpacer(),
-                applyBtn,
+                commitBtn,
                 cancelBtn
         );
 
@@ -214,8 +214,8 @@ public class PreferencesView extends VBox implements Initializable, View<Prefere
 
         // CONTROLS
 
-        applyBtn.setOnAction(e -> {
-            model.applyCommand().execute();
+        commitBtn.setOnAction(e -> {
+            model.commitCommand().execute();
             close();
         });
 

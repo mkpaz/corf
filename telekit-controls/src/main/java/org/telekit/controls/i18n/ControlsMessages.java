@@ -65,6 +65,7 @@ public interface ControlsMessages {
     String ACTION_GENERATE ="action.Generate";
     String ACTION_IMPORT ="action.Import";
     String ACTION_INSTALL ="action.Install";
+    String ACTION_OK ="action.OK";
     String ACTION_PASTE = "action.Paste";
     String ACTION_QUIT ="action.Quit";
     String ACTION_REDO = "action.Redo";

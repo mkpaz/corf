@@ -50,13 +50,13 @@ public class TemplateController implements Component, ModalController {
     public @FXML TextArea taBatchWrapper;
     public @FXML ComboBox<BatchSeparator> cmbBatchSeparator;
     public @FXML TextArea taDescription;
-    public @FXML Button btnSubmit;
+    public @FXML Button btnCommit;
 
     private final Set<String> usedTemplateNames = new HashSet<>();
     private Action action;
     private Template template;
 
-    private BiConsumer<Action, Template> onSubmitCallback;
+    private BiConsumer<Action, Template> onCommitCallback;
     private Runnable onCancelCallback;
 
     @FXML
@@ -64,7 +64,7 @@ public class TemplateController implements Component, ModalController {
         // full width tabs
         tabPane.tabMinWidthProperty().bind(tabPane.widthProperty().divide(tabPane.getTabs().size()).subtract(20));
 
-        btnSubmit.disableProperty().bind(BindUtils.or(
+        btnCommit.disableProperty().bind(BindUtils.or(
                 BindUtils.isBlank(tfName.textProperty()),
                 BindUtils.isBlank(tfURI.textProperty()),
                 BindUtils.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim))
@@ -130,7 +130,7 @@ public class TemplateController implements Component, ModalController {
     }
 
     @FXML
-    public void submit() {
+    public void commit() {
         template.setName(trim(tfName.getText()));
         template.setMethod(cmbMethod.getSelectionModel().getSelectedItem());
         template.setUri(trim(tfURI.getText()));
@@ -142,7 +142,7 @@ public class TemplateController implements Component, ModalController {
         template.setBatchSeparator(cmbBatchSeparator.getSelectionModel().getSelectedItem());
         template.setWaitTimeout(spnWaitTimeout.getValue());
 
-        if (onSubmitCallback != null) { onSubmitCallback.accept(action, new Template(template)); }
+        if (onCommitCallback != null) { onCommitCallback.accept(action, new Template(template)); }
     }
 
     @FXML
@@ -156,7 +156,7 @@ public class TemplateController implements Component, ModalController {
     @Override
     public void reset() {}
 
-    public void setOnSubmit(BiConsumer<Action, Template> handler) { this.onSubmitCallback = handler; }
+    public void setOnCommit(BiConsumer<Action, Template> handler) { this.onCommitCallback = handler; }
 
     @Override
     public Runnable getOnCloseRequest() { return onCancelCallback; }

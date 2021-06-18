@@ -33,11 +33,11 @@ public class ParamController implements Component, ModalController {
     public @FXML TextField tfName;
     public @FXML ComboBox<Type> cmbType;
     public @FXML Spinner<Integer> spnLength;
-    public @FXML Button btnSubmit;
+    public @FXML Button btnCommit;
 
     private final Set<String> usedParamNames = new HashSet<>();
     private Param param;
-    private Consumer<Param> onSubmitCallback;
+    private Consumer<Param> onCommitCallback;
     private Runnable onCancelCallback;
 
     @FXML
@@ -45,7 +45,7 @@ public class ParamController implements Component, ModalController {
         param = createDefaultParam();
         // param name must not contain special characters
         tfName.setTextFormatter(TextFormatters.matches(Pattern.compile(PlaceholderReplacer.PLACEHOLDER_CHARACTERS)));
-        btnSubmit.disableProperty().bind(BindUtils.or(
+        btnCommit.disableProperty().bind(BindUtils.or(
                 BindUtils.isBlank(tfName.textProperty()),
                 // "_" is reserved for internal params
                 BindUtils.startsWith(tfName.textProperty(), "_", StringUtils::trim),
@@ -64,7 +64,7 @@ public class ParamController implements Component, ModalController {
     }
 
     @FXML
-    public void submit() {
+    public void commit() {
         Type type = cmbType.getSelectionModel().getSelectedItem();
         param.setName(trim(tfName.getText()));
         param.setType(type);
@@ -75,7 +75,7 @@ public class ParamController implements Component, ModalController {
             param.setLength(0);
         }
 
-        if (onSubmitCallback != null) { onSubmitCallback.accept(new Param(param)); }
+        if (onCommitCallback != null) { onCommitCallback.accept(new Param(param)); }
     }
 
     @FXML
@@ -107,7 +107,7 @@ public class ParamController implements Component, ModalController {
     @Override
     public Region getRoot() { return rootPane; }
 
-    public void setOnSubmit(Consumer<Param> handler) { this.onSubmitCallback = handler; }
+    public void setOnCommit(Consumer<Param> handler) { this.onCommitCallback = handler; }
 
     @Override
     public Runnable getOnCloseRequest() { return onCancelCallback; }

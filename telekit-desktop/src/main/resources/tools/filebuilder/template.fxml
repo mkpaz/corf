@@ -129,8 +129,8 @@
       </TabPane>
       <HBox alignment="CENTER_RIGHT" spacing="10.0">
          <children>
-            <Button fx:id="btnSubmit" defaultButton="true" mnemonicParsing="false" onAction="#submit" text="%action.Submit" />
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="%action.Cancel" />
+            <Button fx:id="btnCommit" styleClass="form-action" defaultButton="true" mnemonicParsing="false" onAction="#commit" text="%action.OK" />
+            <Button cancelButton="true" styleClass="form-action" mnemonicParsing="false" onAction="#cancel" text="%action.Cancel" />
          </children>
          <VBox.margin>
             <Insets top="5.0" />

@@ -37,14 +37,14 @@ public class TemplateController implements Component, ModalController {
     public @FXML TextArea taPattern;
     public @FXML ComboBox<Encoding> cmbEncoding;
     public @FXML ComboBox<LineSeparator> cmbLineSeparator;
-    public @FXML Button btnSubmit;
+    public @FXML Button btnCommit;
     public @FXML TextArea taDescription;
 
     private final Set<String> usedTemplateNames = new HashSet<>();
     private Action action;
     private Template template;
 
-    private BiConsumer<Action, Template> onSubmitCallback;
+    private BiConsumer<Action, Template> onCommitCallback;
     private Runnable onCancelCallback;
 
     @FXML
@@ -55,7 +55,7 @@ public class TemplateController implements Component, ModalController {
         cmbDelimiter.setConverter(new DelimiterStringConverter());
         cmbEncoding.getItems().setAll(Encoding.values());
         cmbLineSeparator.getItems().setAll(LineSeparator.values());
-        btnSubmit.disableProperty().bind(BindUtils.or(
+        btnCommit.disableProperty().bind(BindUtils.or(
                 BindUtils.isBlank(tfName.textProperty()),
                 BindUtils.isBlank(taPattern.textProperty()),
                 BindUtils.contains(tfName.textProperty(), usedTemplateNames, StringUtils::trim)
@@ -99,7 +99,7 @@ public class TemplateController implements Component, ModalController {
     }
 
     @FXML
-    public void submit() {
+    public void commit() {
         template.setName(trim(tfName.getText()));
         template.setHeader(trim(taHeader.getText()));
         template.setFooter(trim(taFooter.getText()));
@@ -109,7 +109,7 @@ public class TemplateController implements Component, ModalController {
         template.setEncoding(cmbEncoding.getSelectionModel().getSelectedItem());
         template.setLineSeparator(cmbLineSeparator.getSelectionModel().getSelectedItem());
 
-        if (onSubmitCallback != null) { onSubmitCallback.accept(action, new Template(template)); }
+        if (onCommitCallback != null) { onCommitCallback.accept(action, new Template(template)); }
     }
 
     @FXML
@@ -123,7 +123,7 @@ public class TemplateController implements Component, ModalController {
     @Override
     public void reset() {}
 
-    public void setOnSubmit(BiConsumer<Action, Template> handler) { this.onSubmitCallback = handler; }
+    public void setOnCommit(BiConsumer<Action, Template> handler) { this.onCommitCallback = handler; }
 
     @Override
     public Runnable getOnCloseRequest() { return onCancelCallback; }

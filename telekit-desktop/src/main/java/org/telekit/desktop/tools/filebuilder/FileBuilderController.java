@@ -257,7 +257,7 @@ public class FileBuilderController implements Component {
                 .inheritStyles()
                 .resizable(false)
                 .build();
-        controller.setOnSubmit(this::updateTemplate);
+        controller.setOnCommit(this::updateTemplate);
         controller.setOnCloseRequest(() -> templateDialog.hide());
 
         return templateDialog;
@@ -362,7 +362,7 @@ public class FileBuilderController implements Component {
         }
 
         paramDialog = ParamController.createDialog(Objects.requireNonNull(getWindow()));
-        paramDialog.getController().setOnSubmit(this::addParam);
+        paramDialog.getController().setOnCommit(this::addParam);
         paramDialog.getController().setOnCloseRequest(() -> paramDialog.hide());
 
         return paramDialog;
@@ -422,7 +422,7 @@ public class FileBuilderController implements Component {
                 .prefSize(new Dimension(480, 400))
                 .resizable(false)
                 .build();
-        paramCompletionDialog.getController().setOnSubmit(this::setParamValue);
+        paramCompletionDialog.getController().setOnCommit(this::setParamValue);
         paramCompletionDialog.getController().setOnCancel(() -> paramCompletionDialog.hide());
 
         return paramCompletionDialog;

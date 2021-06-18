@@ -82,6 +82,11 @@
     -fx-padding: 0 4 0 0;
 }
 
+/* supposed to be applied to button which commit, apply, save or cancel form */
+.button.form-action {
+    -fx-min-width: 60;
+}
+
 /* RichTextFX
 **********************************************************/
 

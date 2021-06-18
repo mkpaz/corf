@@ -8,15 +8,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.NotImplementedException;
-import org.telekit.base.i18n.I18n;
 import org.telekit.controls.glyphs.FontAwesome;
 import org.telekit.controls.glyphs.FontAwesomeIcon;
+import org.telekit.controls.util.Controls;
+import org.telekit.controls.util.NodeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,21 +26,22 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.controls.i18n.ControlsMessages.ACTION_CANCEL;
-import static org.telekit.controls.i18n.ControlsMessages.ACTION_SUBMIT;
+import static org.telekit.controls.i18n.ControlsMessages.ACTION_OK;
 
 public class FilterTable<S> extends VBox {
 
     protected TextField tfFilter;
     protected Button btnFilter;
     protected TableView<S> tblData;
-    protected Button btnSubmit;
+    protected Button btnCommit;
     protected Button btnCancel;
 
     protected final ObservableList<S> rows = FXCollections.observableArrayList();
     protected final FilteredList<S> filteredRows = new FilteredList<>(rows);
     protected BiPredicate<String, S> predicate = (filter, row) -> String.valueOf(row).contains(filter);
-    protected Consumer<S> onSubmitCallback;
+    protected Consumer<S> onCommitCallback;
     protected Runnable onCancelCallback;
 
     public FilterTable() {
@@ -74,20 +75,18 @@ public class FilterTable<S> extends VBox {
         tblData = new TableView<>(filteredRows);
         tblData.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tblData.setOnMouseClicked((MouseEvent event) -> {
-            // submit selection on row double click
-            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
-                submit();
-            }
+            // commit selection on row double click
+            if (NodeUtils.isDoubleClick(event)) { commit(); }
         });
 
         // control area
-        btnSubmit = new Button(I18n.t(ACTION_SUBMIT));
-        btnSubmit.setDefaultButton(true);
-        btnSubmit.setOnAction(event -> {
-            if (onSubmitCallback != null) { onSubmitCallback.accept(submit()); }
+        btnCommit = Controls.create(() -> new Button(t(ACTION_OK)), "form-action");
+        btnCommit.setDefaultButton(true);
+        btnCommit.setOnAction(event -> {
+            if (onCommitCallback != null) { onCommitCallback.accept(commit()); }
         });
 
-        btnCancel = new Button(I18n.t(ACTION_CANCEL));
+        btnCancel = Controls.create(() -> new Button(t(ACTION_CANCEL)), "form-action");
         btnCancel.setOnAction(event -> {
             if (onCancelCallback != null) { onCancelCallback.run(); }
         });
@@ -96,7 +95,7 @@ public class FilterTable<S> extends VBox {
         paneControl.setSpacing(10);
         paneControl.setPadding(new Insets(5, 0, 0, 0));
         paneControl.setAlignment(Pos.CENTER_RIGHT);
-        paneControl.getChildren().setAll(btnSubmit, btnCancel);
+        paneControl.getChildren().setAll(btnCommit, btnCancel);
 
         setPadding(new Insets(10));
         setSpacing(10);
@@ -140,8 +139,8 @@ public class FilterTable<S> extends VBox {
         throw new NotImplementedException();
     }
 
-    public void setOnSubmit(Consumer<S> handler) {
-        this.onSubmitCallback = handler;
+    public void setOnCommit(Consumer<S> handler) {
+        this.onCommitCallback = handler;
     }
 
     public void setOnCancel(Runnable handler) {
@@ -157,7 +156,7 @@ public class FilterTable<S> extends VBox {
         }
     }
 
-    protected S submit() {
+    protected S commit() {
         return tblData.getSelectionModel().getSelectedItem();
     }
 }

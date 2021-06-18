@@ -125,7 +125,7 @@ public class PreferencesViewModel implements Initializable, ViewModel {
     // Commands                                                              //
     ///////////////////////////////////////////////////////////////////////////
 
-    private final Command applyCommand = new CommandBase() {
+    private final Command commitCommand = new CommandBase() {
         @Override
         protected void doExecute() {
             boolean restartRequired = false;
@@ -143,7 +143,7 @@ public class PreferencesViewModel implements Initializable, ViewModel {
         }
     };
 
-    public Command applyCommand() { return applyCommand; }
+    public Command commitCommand() { return commitCommand; }
 
     private final Command togglePluginCommand = new CommandBase() {
 
