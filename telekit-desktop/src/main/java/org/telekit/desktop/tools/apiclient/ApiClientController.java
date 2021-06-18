@@ -215,6 +215,7 @@ public class ApiClientController implements Component {
 
         itemAddParam.disableProperty().bind(cmbTemplate.valueProperty().isNull());
         itemRemoveParam.disableProperty().bind(Bindings.isEmpty(selectionModel.getSelectedItems()));
+        itemParamCompletion.setVisible(false);
         selectionModel.selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> itemParamCompletion.setVisible(Param.allowsCompletion(newVal, completionRegistry))
         );
