@@ -9,9 +9,6 @@ import org.telekit.desktop.tools.filebuilder.FileBuilderTool;
 import org.telekit.desktop.tools.ipcalc.IPv4CalcTool;
 import org.telekit.desktop.tools.passgen.PasswordGeneratorTool;
 import org.telekit.desktop.tools.seqgen.SequenceGeneratorTool;
-import org.telekit.desktop.tools.ss7.CICTableTool;
-import org.telekit.desktop.tools.ss7.SPCConverterTool;
-import org.telekit.desktop.tools.translit.TranslitTool;
 import org.telekit.desktop.views.system.WelcomeView;
 
 import java.io.InputStream;
@@ -31,10 +28,7 @@ public interface Config {
                 new FileBuilderTool(),
                 new IPv4CalcTool(),
                 new PasswordGeneratorTool(),
-                new SequenceGeneratorTool(),
-                new CICTableTool(),
-                new SPCConverterTool(),
-                new TranslitTool()
+                new SequenceGeneratorTool()
         );
     }
 

@@ -52,10 +52,4 @@ module telekit.desktop {
 
     exports org.telekit.desktop.tools.seqgen;
     opens org.telekit.desktop.tools.seqgen;
-
-    exports org.telekit.desktop.tools.ss7;
-    opens org.telekit.desktop.tools.ss7;
-
-    exports org.telekit.desktop.tools.translit;
-    opens org.telekit.desktop.tools.translit;
 }
