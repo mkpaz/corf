@@ -141,13 +141,13 @@ public class MainStage {
         }
     }
 
-    public void close() {
-        stage.close();
-    }
+    public void close() { stage.close(); }
 
-    public void show() {
-        stage.show();
-    }
+    public void show() { stage.show(); }
+
+    public void toFront() { stage.toFront(); }
+
+    public void toBack() { stage.toBack(); }
 
     public static MainStage createUndecorated(Stage primaryStage, ApplicationPreferences preferences) {
         Dimension initialSize = getSceneSize(preferences);

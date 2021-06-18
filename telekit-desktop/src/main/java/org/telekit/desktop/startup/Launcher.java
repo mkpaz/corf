@@ -52,9 +52,9 @@ public class Launcher extends Application {
         mainStage.setContent(mainView);
 
         // show application
-        mainStage.show();
         Platform.runLater(() -> {
-            primaryStage.toFront();
+            mainStage.show();
+            mainStage.toFront();
             primaryStage.requestFocus();
         });
     }
