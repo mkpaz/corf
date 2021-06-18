@@ -64,7 +64,10 @@ public final class LogConfig implements Config {
             log.info("OS arch=" + System.getProperty("os.arch"));
 
             Screen.getScreens().forEach(screen -> log.info(
-                    "Screen: bounds=" + screen.getVisualBounds() + "; dpi=" + screen.getDpi()
+                    "Screen: bounds=" + screen.getVisualBounds() +
+                            "; dpi=" + screen.getDpi() +
+                            "; scaleX=" + screen.getOutputScaleX() +
+                            "; scaleY=" + screen.getOutputScaleY()
             ));
 
             log.fine("Supported locales:");

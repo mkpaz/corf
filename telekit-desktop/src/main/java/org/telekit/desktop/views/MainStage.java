@@ -28,7 +28,7 @@ public class MainStage {
 
     public static final String APP_ICON_PATH = "assets/images/telekit.png";
     public static final Dimension MIN_SIZE = new Dimension(800, 600);
-    public static final Dimension PREF_SIZE = new Dimension(1440, 900);
+    public static final Dimension PREF_SIZE = new Dimension(1280, 800);
 
     // set these values carefully, mouse cursor have to switch its type
     // from RESIZE to DEFAULT when hovering over title bar border
@@ -188,7 +188,10 @@ public class MainStage {
         if (storedSize != null) { return storedSize; }
 
         // or compute window size in depends of the screen size
-        Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-        return PREF_SIZE.lt(screenSize) ? PREF_SIZE : MIN_SIZE;
+        Dimension visualBounds = Dimension.of(Screen.getPrimary().getVisualBounds());
+
+        // make sure that window size less than visual screen bounds
+        // the latter is calculated based on display resolution, output scale and taskbar height
+        return PREF_SIZE.gt(visualBounds) ? visualBounds : PREF_SIZE;
     }
 }
