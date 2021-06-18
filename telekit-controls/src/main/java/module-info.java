@@ -27,11 +27,8 @@ module telekit.controls {
     exports org.telekit.controls.widgets;
     exports org.telekit.controls.widgets.richtextfx;
 
-    exports org.telekit.controls.demo to javafx.fxml;
-    opens org.telekit.controls.demo to javafx.fxml;
-
-    exports org.telekit.controls.glyphs;
-    opens org.telekit.controls.glyphs;
+    exports org.telekit.controls.demo;
+    opens org.telekit.controls.demo;
 
     exports org.telekit.controls.i18n;
     opens org.telekit.controls.i18n;

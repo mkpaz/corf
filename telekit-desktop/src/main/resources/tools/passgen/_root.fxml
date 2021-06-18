@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="5.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.desktop.tools.passgen.PasswordGeneratorController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="300.0" />
@@ -130,7 +130,7 @@
                      <children>
                         <StackPane alignment="BOTTOM_LEFT">
                            <children>
-                              <FontAwesomeIcon glyphName="RANDOM" />
+                               <FontIcon iconLiteral="mdmz-shuffle"/>
                            </children>
                         </StackPane>
                      </children>

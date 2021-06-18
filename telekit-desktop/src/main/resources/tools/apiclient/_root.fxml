@@ -2,11 +2,9 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import org.telekit.controls.custom.RevealablePasswordField?>
-<?import org.telekit.controls.glyphs.*?>
 <GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" stylesheets="@_root.css" vgap="5.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.desktop.tools.apiclient.ApiClientController">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
@@ -50,7 +48,7 @@
                                   <MenuItem fx:id="itemExportTemplate" mnemonicParsing="false" onAction="#handleTemplateAction" text="%action.Export" />
                                 </items>
                                  <graphic>
-                                     <FontIcon iconLiteral="fas-ellipsis-v" />
+                                     <FontIcon iconLiteral="mdmz-more_vert" />
                                  </graphic>
                               </MenuButton>
                            </children>
@@ -71,15 +69,12 @@
                                     <TextField fx:id="tfUsername" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                     <StackPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                                        <children>
-                                          <RevealablePasswordField fx:id="pfPassword" />
-                                          <FontAwesomeIcon fx:id="toggleRevealPassword" glyphName="EYE_SLASH" onMouseClicked="#togglePassword" StackPane.alignment="CENTER_RIGHT">
-                                             <StackPane.margin>
-                                                <Insets right="10.0" />
-                                             </StackPane.margin>
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </FontAwesomeIcon>
+                                           <RevealablePasswordField fx:id="pfPassword" />
+                                           <FontIcon fx:id="toggleRevealPassword" iconLiteral="mdmz-visibility_off" onMouseClicked="#togglePassword" StackPane.alignment="CENTER_RIGHT">
+                                               <StackPane.margin>
+                                                   <Insets right="10.0" />
+                                               </StackPane.margin>
+                                           </FontIcon>
                                        </children>
                                     </StackPane>
                                     <HBox alignment="CENTER_LEFT" spacing="3.0" GridPane.rowIndex="1">
@@ -119,16 +114,16 @@
                               <Insets top="5.0" />
                            </GridPane.margin>
                         </TitledPane>
-                        <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1">
+                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
                            <children>
                               <Label styleClass="subtitle" text="%tools.ListForReplacement" HBox.hgrow="NEVER" />
-                              <MenuButton mnemonicParsing="false" styleClass="link-button">
+                              <MenuButton mnemonicParsing="false" styleClass="link-button" style="-fx-cursor:hand;">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#pasteFromExcel" text="%tools.PasteFromExcel" />
                                   <MenuItem mnemonicParsing="false" onAction="#pasteAsColumns" text="%tools.PasteColumnsRight" />
                                 </items>
                                  <graphic>
-                                    <FontAwesomeIcon glyphName="CLIPBOARD" />
+                                     <FontIcon iconLiteral="mdal-content_paste"/>
                                  </graphic>
                                  <tooltip>
                                     <Tooltip text="%tools.Clipboard" wrapText="true" />
@@ -178,7 +173,7 @@
                   </GridPane>
                </content>
                <graphic>
-                  <FontAwesomeIcon glyphName="COG" />
+                   <FontIcon iconLiteral="mdmz-settings"/>
                </graphic>
             </Tab>
             <Tab closable="false" text="%Log">
@@ -225,7 +220,7 @@
                   </SplitPane>
                </content>
                <graphic>
-                  <FontAwesomeIcon glyphName="LIST_OL" />
+                   <FontIcon iconLiteral="mdmz-reorder"/>
                </graphic>
             </Tab>
          </tabs>
@@ -239,7 +234,7 @@
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
-                        <FontAwesomeIcon glyphName="PLAY" />
+                         <FontIcon iconLiteral="mdmz-play_arrow"/>
                      </children>
                   </StackPane>
                </graphic></Button>
@@ -247,7 +242,7 @@
                <graphic>
                   <StackPane alignment="BOTTOM_LEFT">
                      <children>
-                        <FontAwesomeIcon glyphName="STOP" />
+                         <FontIcon iconLiteral="mdmz-stop"/>
                      </children>
                   </StackPane>
                </graphic></Button>

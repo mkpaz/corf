@@ -13,8 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.NotImplementedException;
-import org.telekit.controls.glyphs.FontAwesome;
-import org.telekit.controls.glyphs.FontAwesomeIcon;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2MZ;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.NodeUtils;
 
@@ -61,7 +61,7 @@ public class FilterTable<S> extends VBox {
             }
         });
         btnFilter = new Button();
-        btnFilter.setGraphic(new FontAwesomeIcon(FontAwesome.SEARCH));
+        btnFilter.setGraphic(new FontIcon(Material2MZ.SEARCH));
         btnFilter.setOnAction(event -> filter());
         btnFilter.getStyleClass().add("link-button");
 

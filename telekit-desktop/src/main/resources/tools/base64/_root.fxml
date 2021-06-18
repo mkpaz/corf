@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.telekit.controls.glyphs.FontAwesomeIcon?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 <GridPane fx:id="rootPane" hgap="10.0" prefHeight="768.0" prefWidth="1280.0" vgap="5.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.desktop.tools.base64.Base64Controller">
   <columnConstraints>
      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -30,14 +30,8 @@
       <TextArea fx:id="taBase64" prefHeight="200.0" prefWidth="200.0" styleClass="monospace" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <VBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#encode">
-               <graphic>
-                  <FontAwesomeIcon glyphName="ANGLE_DOUBLE_RIGHT" />
-               </graphic></Button>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#decode">
-               <graphic>
-                  <FontAwesomeIcon glyphName="ANGLE_DOUBLE_LEFT" />
-               </graphic></Button>
+            <Button maxWidth="1.7976931348623157E308" text="&gt;&gt;" mnemonicParsing="false" onAction="#encode"/>
+            <Button maxWidth="1.7976931348623157E308" text="&lt;&lt;" mnemonicParsing="false" onAction="#decode"/>
             <VBox spacing="10.0">
                <children>
                   <HBox>

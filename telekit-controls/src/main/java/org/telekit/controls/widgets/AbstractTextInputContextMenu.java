@@ -2,8 +2,9 @@ package org.telekit.controls.widgets;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import org.telekit.controls.glyphs.FontAwesome;
-import org.telekit.controls.glyphs.FontAwesomeIcon;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2AL;
+import org.kordamp.ikonli.material2.Material2MZ;
 import org.telekit.controls.i18n.ControlsMessages;
 
 import java.util.ResourceBundle;
@@ -68,11 +69,11 @@ public abstract class AbstractTextInputContextMenu extends ContextMenu {
         miSelectAll = new MenuItem(textSelectAll);
 
         if (policy.isShowIcons()) {
-            miUndo.setGraphic(new FontAwesomeIcon(FontAwesome.UNDO));
-            miRedo.setGraphic(new FontAwesomeIcon(FontAwesome.REPEAT));
-            miCut.setGraphic(new FontAwesomeIcon(FontAwesome.SCISSORS));
-            miCopy.setGraphic(new FontAwesomeIcon(FontAwesome.COPY));
-            miPaste.setGraphic(new FontAwesomeIcon(FontAwesome.CLIPBOARD));
+            miUndo.setGraphic(new FontIcon(Material2MZ.UNDO));
+            miRedo.setGraphic(new FontIcon(Material2MZ.REPEAT));
+            miCut.setGraphic(new FontIcon(Material2AL.CONTENT_CUT));
+            miCopy.setGraphic(new FontIcon(Material2AL.CONTENT_COPY));
+            miPaste.setGraphic(new FontIcon(Material2AL.CONTENT_PASTE));
         }
 
         // item order matters

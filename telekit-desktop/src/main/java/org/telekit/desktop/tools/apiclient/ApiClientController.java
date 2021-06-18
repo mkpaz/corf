@@ -24,6 +24,8 @@ import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.util.converter.DefaultStringConverter;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2MZ;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.Dimension;
@@ -44,7 +46,6 @@ import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.custom.RevealablePasswordField;
 import org.telekit.controls.dialogs.Dialogs;
-import org.telekit.controls.glyphs.FontAwesomeIcon;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.event.CompletionRegistryUpdateEvent;
@@ -96,7 +97,7 @@ public class ApiClientController implements Component {
     public @FXML ComboBox<AuthScheme> cmbAuthType;
     public @FXML TextField tfUsername;
     public @FXML RevealablePasswordField pfPassword;
-    public @FXML FontAwesomeIcon toggleRevealPassword;
+    public @FXML FontIcon toggleRevealPassword;
 
     // params
     public @FXML TableView<Param> tblParams;
@@ -161,11 +162,13 @@ public class ApiClientController implements Component {
         cmbAuthType.setItems(FXCollections.observableArrayList(AuthScheme.BASIC));
         cmbAuthType.getSelectionModel().select(AuthScheme.BASIC);
         // TODO: Replace with custom ToggleIcon component
+        toggleRevealPassword.setIconCode(Material2MZ.VISIBILITY_OFF);
+        toggleRevealPassword.toFront();
         pfPassword.revealPasswordProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && newVal) {
-                toggleRevealPassword.setGlyphName("EYE");
+                toggleRevealPassword.setIconCode(Material2MZ.VISIBILITY);
             } else {
-                toggleRevealPassword.setGlyphName("EYE_SLASH");
+                toggleRevealPassword.setIconCode(Material2MZ.VISIBILITY_OFF);
             }
         });
 
