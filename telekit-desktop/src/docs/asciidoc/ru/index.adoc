@@ -96,13 +96,3 @@ include::tools/password_generator/index.adoc[]
 === Генератор последовательностей
 
 include::tools/sequence_generator/index.adoc[]
-
-
-=== ОКС-7
-
-include::tools/ss7/index.adoc[]
-
-
-=== Транслитерация
-
-include::tools/transliterator/index.adoc[]

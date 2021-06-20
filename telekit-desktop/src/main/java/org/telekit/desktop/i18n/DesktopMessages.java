@@ -28,10 +28,6 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_IP4_CALC = "tools.IPCalculator";
     String TOOLS_PASS_GEN = "tools.PasswordGenerator";
     String TOOLS_SEQ_GEN = "tools.SequenceGenerator";
-    String TOOLS_SS7_CIC_TABLE = "tools.CICTable";
-    String TOOLS_SS7_SPC_CONV = "tools.SPCConverter";
-    String TOOLS_TRANSLIT = "tools.Transliterator";
-    String TOOLS_GROUP_SS7 = "tools.group.SS7";
 
     String TOOLS_CHOOSE_VALUE = "tools.ChooseValue";
     String TOOLS_COMMA = "tools.comma";

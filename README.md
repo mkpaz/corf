@@ -44,10 +44,6 @@ Base app provides the following tools:
 
   Generates complex numeric sequences by predefined template.
 
-- SS7 Utils
-    * CIC Table - ISUP channel identification code helper;
-    * SPC Converter - MTP3 signalling point code converter. Supports ITU and ANSI formats.
-
 ### Plugins
 
 App features can be extended via plugins. If you want to write your own one, clone this repo and use
