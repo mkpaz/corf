@@ -31,10 +31,9 @@
                     <mainClass>${launcherClass}</mainClass>
                     <executable>${java.home}/bin/java</executable>
                 </configuration>
-                <!-- Sampler -->
                 <executions>
                     <execution>
-                        <id>overview</id>
+                        <id>demo</id>
                         <configuration>
                             <mainClass>${launcherClass}</mainClass>
                         </configuration>

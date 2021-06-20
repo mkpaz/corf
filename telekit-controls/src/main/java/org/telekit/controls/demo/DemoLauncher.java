@@ -1,41 +1,26 @@
 package org.telekit.controls.demo;
 
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.telekit.base.Env;
-import org.telekit.base.desktop.ViewLoader;
-import org.telekit.base.i18n.BaseMessages;
-import org.telekit.base.i18n.I18n;
-import org.telekit.controls.i18n.ControlsMessages;
-import org.telekit.controls.theme.DefaultTheme;
+import org.telekit.base.desktop.Component;
+import org.telekit.base.i18n.BundleLoader;
+import org.telekit.controls.BaseLauncher;
 
-import java.util.Locale;
+import java.util.Collection;
+import java.util.Collections;
 
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-
-public class DemoLauncher extends Application {
+public class DemoLauncher extends BaseLauncher {
 
     public static void main(String[] args) { launch(args); }
 
     @Override
-    public void start(Stage primaryStage) {
-        Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
+    protected Class<? extends Component> getComponent() { return DemoController.class; }
 
-        Locale.setDefault(defaultIfNull(Env.LOCALE, Locale.getDefault()));
-        I18n.getInstance().register(BaseMessages.getLoader());
-        I18n.getInstance().register(ControlsMessages.getLoader());
-        I18n.getInstance().reload();
+    @Override
+    protected Collection<BundleLoader> getBundleLoaders() { return Collections.emptyList(); }
 
-        DemoController controller = ViewLoader.load(DemoController.class);
-
-        Scene scene = new Scene(controller.getRoot(), 1024, 768);
-        scene.getStylesheets().addAll(new DefaultTheme().getResources());
-
-        primaryStage.setTitle("Components Overview");
-        primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(t -> Platform.exit());
-        primaryStage.show();
+    @Override
+    protected void initLauncher(Stage stage, Scene scene) {
+        stage.setTitle("Components Overview");
     }
 }
