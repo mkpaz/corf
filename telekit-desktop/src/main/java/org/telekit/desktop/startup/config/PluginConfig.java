@@ -7,9 +7,13 @@ import org.telekit.base.plugin.internal.PluginCleaner;
 import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 
 public final class PluginConfig implements Config {
 
@@ -44,9 +48,20 @@ public final class PluginConfig implements Config {
         List<DependencyModule> modules = new ArrayList<>();
         for (PluginBox container : pluginManager.getAllPlugins()) {
             Plugin plugin = container.getPlugin();
-            modules.addAll(plugin.getModules());
+            Collection<? extends DependencyModule> pluginModules = plugin.getModules();
+            if (isNotEmpty(pluginModules)) { modules.addAll(pluginModules); }
         }
         return modules;
+    }
+
+    public List<String> getStylesheets() {
+        List<String> stylesheets = new ArrayList<>();
+        for (PluginBox container : pluginManager.getAllPlugins()) {
+            Plugin plugin = container.getPlugin();
+            Collection<String> pluginsStylesheets = plugin.getStylesheets();
+            if (isNotEmpty(pluginsStylesheets)) { stylesheets.addAll(pluginsStylesheets); }
+        }
+        return stylesheets;
     }
 
     public void startPlugins() {

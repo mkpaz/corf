@@ -5,6 +5,7 @@ import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
+import org.telekit.base.service.ArtifactRepository;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.example.i18n.ExampleMessages;
 import org.telekit.example.service.ExampleDependencyModule;
@@ -62,6 +63,12 @@ public class ExamplePlugin implements Plugin {
     public BundleLoader getBundleLoader() {
         return BundleLoader.of(ExampleMessages.class);
     }
+
+    @Override
+    public Collection<String> getStylesheets() { return Collections.emptyList(); }
+
+    @Override
+    public ArtifactRepository getRepository() { return null; }
 
     @Override
     public void start() {

@@ -95,6 +95,7 @@ public class Launcher extends Application {
         servicesConfig.startServices();
 
         MainStage mainStage = MainStage.createUndecorated(primaryStage, preferences);
+        mainStage.getScene().getStylesheets().addAll(pluginConfig.getStylesheets());
 
         // collect all modules and initialize injector
         List<DependencyModule> modules = new ArrayList<>();

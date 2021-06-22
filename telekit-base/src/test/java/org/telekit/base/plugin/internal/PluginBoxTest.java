@@ -12,7 +12,9 @@ import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
+import org.telekit.base.service.ArtifactRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,6 +72,12 @@ public class PluginBoxTest {
         public BundleLoader getBundleLoader() {
             return null;
         }
+
+        @Override
+        public Collection<String> getStylesheets() { return null; }
+
+        @Override
+        public ArtifactRepository getRepository() { return null; }
 
         @Override
         public void start() {}
