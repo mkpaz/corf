@@ -61,7 +61,8 @@ public class MainStage {
         scene.getStylesheets().addAll(new DefaultTheme().getResources());
         scene.getStylesheets().addAll(
                 Config.getResource("assets/css/layout.css"),
-                Config.getResource("assets/css/system.css")
+                Config.getResource("assets/css/system.css"),
+                Config.getResource("assets/css/tools.css")
         );
     }
 

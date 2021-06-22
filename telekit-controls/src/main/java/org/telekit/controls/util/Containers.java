@@ -1,11 +1,14 @@
 package org.telekit.controls.util;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -16,6 +19,14 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
 public class Containers {
+
+    public static final ColumnConstraints HGROW_NEVER = columnConstraints(Priority.NEVER);
+    public static final ColumnConstraints HGROW_SOMETIMES = columnConstraints(Priority.SOMETIMES);
+    public static final ColumnConstraints HGROW_ALWAYS = columnConstraints(Priority.ALWAYS);
+
+    public static final RowConstraints VGROW_NEVER = rowConstraints(Priority.NEVER);
+    public static final RowConstraints VGROW_SOMETIMES = rowConstraints(Priority.SOMETIMES);
+    public static final RowConstraints VGROW_ALWAYS = rowConstraints(Priority.ALWAYS);
 
     public static <T extends Pane> T create(Supplier<T> supplier, String... styleClasses) {
         T pane = supplier.get();
@@ -55,10 +66,10 @@ public class Containers {
     }
 
     public static void setAnchors(Stage stage, Rectangle2D bounds) {
-        stage.setHeight(bounds.getHeight());
-        stage.setY(bounds.getMinY());
         stage.setWidth(bounds.getWidth());
         stage.setX(bounds.getMinX());
+        stage.setHeight(bounds.getHeight());
+        stage.setY(bounds.getMinY());
     }
 
     public static void setScrollConstraints(ScrollPane scrollPane,
@@ -75,22 +86,60 @@ public class Containers {
     }
 
     public static ColumnConstraints columnConstraints(double minWidth, Priority hgrow) {
-        return columnConstraints(minWidth, USE_COMPUTED_SIZE, hgrow == Priority.ALWAYS ? Double.MAX_VALUE : USE_PREF_SIZE, hgrow);
-    }
-
-    public static ColumnConstraints columnConstraints(double minWidth,
-                                                      double prefWidth,
-                                                      double maxWidth,
-                                                      Priority hgrow) {
-        ColumnConstraints constraints = new ColumnConstraints(minWidth, prefWidth, maxWidth);
+        double maxWidth = hgrow == Priority.ALWAYS ? Double.MAX_VALUE : USE_PREF_SIZE;
+        ColumnConstraints constraints = new ColumnConstraints(minWidth, USE_COMPUTED_SIZE, maxWidth);
         constraints.setHgrow(hgrow);
         return constraints;
     }
 
     public static RowConstraints rowConstraints(Priority vgrow) {
-        RowConstraints constraints = new RowConstraints(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE, vgrow == Priority.ALWAYS ? Double.MAX_VALUE : USE_PREF_SIZE);
+        return rowConstraints(USE_COMPUTED_SIZE, vgrow);
+    }
+
+    public static RowConstraints rowConstraints(double minHeight, Priority vgrow) {
+        double maxHeight = vgrow == Priority.ALWAYS ? Double.MAX_VALUE : USE_PREF_SIZE;
+        RowConstraints constraints = new RowConstraints(minHeight, USE_COMPUTED_SIZE, maxHeight);
         constraints.setVgrow(vgrow);
         return constraints;
+    }
+
+    public static HBox hbox(double spacing, Pos alignment, Insets padding, String... styleClasses) {
+        HBox box = new HBox();
+        box.setSpacing(spacing);
+        box.setAlignment(alignment);
+        box.setPadding(padding);
+        box.getStyleClass().addAll(styleClasses);
+        return box;
+    }
+
+    public static VBox vbox(double spacing, Pos alignment, Insets padding, String... styleClasses) {
+        VBox box = new VBox();
+        box.setSpacing(spacing);
+        box.setAlignment(alignment);
+        box.setPadding(padding);
+        box.getStyleClass().addAll(styleClasses);
+        return box;
+    }
+
+    public static GridPane gridPane(double hgap, double vgap, Insets padding, String... styleClasses) {
+        GridPane grid = new GridPane();
+        grid.setHgap(hgap);
+        grid.setVgap(vgap);
+        grid.setPadding(padding);
+        grid.getStyleClass().addAll(styleClasses);
+        return grid;
+    }
+
+    public static TabPane stretchedTabPane(Tab... tabs) {
+        TabPane tabPane = new TabPane();
+        tabPane.getStyleClass().add("no-menu-button");
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        tabPane.getTabs().setAll(tabs);
+        // should be set after adding tabs
+        tabPane.tabMinWidthProperty().bind(
+                tabPane.widthProperty().divide(tabPane.getTabs().size()).subtract(20)
+        );
+        return tabPane;
     }
 
     public static Screen getScreenForStage(Stage stage) {

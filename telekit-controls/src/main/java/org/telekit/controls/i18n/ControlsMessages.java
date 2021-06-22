@@ -5,6 +5,7 @@ import org.telekit.base.i18n.BundleLoader;
 // Should contain basic words or phrases which can appear in controls or widgets.
 public interface ControlsMessages {
 
+    String AUTHENTICATION="Authentication";
     String CONFIRMATION="Confirmation";
     String COUNT="Count";
     String DELIMITER="Delimiter";
@@ -67,6 +68,7 @@ public interface ControlsMessages {
     String ACTION_INSTALL ="action.Install";
     String ACTION_OK ="action.OK";
     String ACTION_PASTE = "action.Paste";
+    String ACTION_PREVIEW = "action.Preview";
     String ACTION_QUIT ="action.Quit";
     String ACTION_REDO = "action.Redo";
     String ACTION_REMOVE ="action.Remove";

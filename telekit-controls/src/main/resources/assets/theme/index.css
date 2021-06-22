@@ -37,3 +37,8 @@
 
     -textarea-highlight-color: #F9FBE7;
 }
+
+/* default font size is too small */
+.ikonli-font-icon {
+    -fx-font-size: 1.2em;
+}

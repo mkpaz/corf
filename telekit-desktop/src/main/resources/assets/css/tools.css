@@ -1,0 +1,14 @@
+/* API Client
+**********************************************************/
+
+#api-client .table-row-cell:failed .table-cell {
+    -fx-text-fill: -fx-color-error;
+}
+
+#api-client .table-row-cell:forwarded .table-cell {
+    -fx-text-fill: -fx-color-warning;
+}
+
+#api-client .table-row-cell:selected .table-cell {
+    -fx-text-fill: -fx-light-text-color;
+}

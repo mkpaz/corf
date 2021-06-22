@@ -28,11 +28,14 @@
 /* Scrollbar
 **********************************************************/
 
-.scroll-bar:vertical,
-.scroll-bar:horizontal {
-    /* beware, dynamic scrollbar width won't work, because VirtualFlow
-       not always reduces it back on hover or pressed exit */
+.scroll-bar:vertical {
+    /* beware, dynamic scrollbar width won't work well,
+       because VirtualFlow not always reduces it back on hover exit */
     -fx-pref-width: 6;
+    -fx-opacity: 0.5;
+}
+.scroll-bar:horizontal {
+    -fx-pref-height: 6;
     -fx-opacity: 0.5;
 }
 .scroll-bar:hover,
@@ -41,7 +44,7 @@
     -fx-opacity: 1;
 }
 .scroll-bar:horizontal .track,
-.scroll-bar:vertical .track{
+.scroll-bar:vertical .track {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-background-radius: 0.0em;
@@ -65,7 +68,7 @@
     -fx-padding: 0.15em 0.0;
 }
  .scroll-bar:vertical .increment-arrow,
- .scroll-bar:vertical .decrement-arrow{
+ .scroll-bar:vertical .decrement-arrow {
     -fx-shape: " ";
     -fx-padding: 0.0 0.15em;
 }
@@ -206,9 +209,20 @@
     -fx-cell-size: 2em;
 }
 
-/* row height should fit text field height for editable tables */
+/* row height must fit text field height for editable tables
+   (you supposed to add "editable" class to table manually) */
 .table-view.editable .table-row-cell {
     -fx-cell-size: 2.6em;
+}
+
+/* fix glyph font color */
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected .ikonli-font-icon,
+.tree-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-cell:filled:selected .ikonli-font-icon,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell:filled:selected .ikonli-font-icon,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:selected .ikonli-font-icon,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell .table-cell:selected .ikonli-font-icon,
+.tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell .tree-table-cell:selected .ikonli-font-icon {
+    -fx-fill: -fx-light-text-color;
 }
 
 /* Menus

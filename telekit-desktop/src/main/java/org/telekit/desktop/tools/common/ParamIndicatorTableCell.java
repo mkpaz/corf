@@ -27,7 +27,7 @@ public class ParamIndicatorTableCell extends TableCell<Param, Image> {
         Param param = row.getItem();
         if (param == null) { return; }
 
-        if (Param.allowsCompletion(param, completionRegistry)) {
+        if (Param.doesSupportCompletion(param, completionRegistry)) {
             setGraphic(new FontIcon(Material2AL.LIGHTBULB));
             return;
         }

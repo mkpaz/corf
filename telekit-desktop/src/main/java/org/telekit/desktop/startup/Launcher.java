@@ -37,15 +37,15 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // set exception handler first
+        // create exception handler and set it to the main/FX thread
         ExceptionHandler exceptionHandler = new ExceptionHandler(primaryStage);
-        Thread.currentThread().setUncaughtExceptionHandler((thread, e) -> exceptionHandler.showErrorDialog(e));
+        Thread.currentThread().setUncaughtExceptionHandler(exceptionHandler.getUncaughtExceptionHandler());
 
         // subscribe on close events
         DefaultEventBus.getInstance().subscribe(CloseRequestEvent.class, this::close);
 
         // configure application and set class-level variables
-        final MainStage mainStage = configure(primaryStage);
+        final MainStage mainStage = configure(primaryStage, exceptionHandler);
 
         // init view hierarchy
         MainWindowView mainView = ViewLoader.load(MainWindowView.class);
@@ -77,7 +77,7 @@ public class Launcher extends Application {
         Platform.exit();
     }
 
-    private MainStage configure(Stage primaryStage) {
+    private MainStage configure(Stage primaryStage, ExceptionHandler exceptionHandler) {
         LogConfig logConfig = new LogConfig();
         logConfig.logEnvironmentInfo();
 
@@ -91,7 +91,7 @@ public class Launcher extends Application {
         pluginManager = pluginConfig.getPluginManager();
         pluginConfig.startPlugins();
 
-        ServicesConfig servicesConfig = new ServicesConfig();
+        ServicesConfig servicesConfig = new ServicesConfig(exceptionHandler);
         servicesConfig.startServices();
 
         MainStage mainStage = MainStage.createUndecorated(primaryStage, preferences);

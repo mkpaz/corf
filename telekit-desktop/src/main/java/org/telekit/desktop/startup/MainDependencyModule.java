@@ -25,6 +25,9 @@ import org.telekit.desktop.views.system.WelcomeView;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
 
@@ -81,6 +84,20 @@ public final class MainDependencyModule implements DependencyModule {
         KeyProvider keyProvider = new VaultKeyProvider(vault(), securityPreferences, MASTER_KEY_ALIAS);
         Encryptor encryptor = Encryptor.createEncryptor(Env.DEFAULT_ENCRYPTION_ALG);
         return new DefaultEncryptionService(encryptor, keyProvider);
+    }
+
+    @Provides
+    @Singleton
+    public ExecutorService executorService() {
+        ThreadFactory threadFactory = r -> {
+            final Thread thread = new Thread(r);
+            thread.setUncaughtExceptionHandler(
+                    servicesConfig.getExceptionHandler().getUncaughtExceptionHandler()
+            );
+            return thread;
+        };
+
+        return Executors.newCachedThreadPool(threadFactory);
     }
 
     @Provides

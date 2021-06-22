@@ -55,7 +55,7 @@
 
 .router-pane {
     -fx-background-color: -fx-background;
-    -fx-padding: 10;
+    -fx-padding: 0;
 }
 
 /* Status Bar

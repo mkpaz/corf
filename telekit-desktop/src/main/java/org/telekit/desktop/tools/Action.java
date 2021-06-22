@@ -2,5 +2,5 @@ package org.telekit.desktop.tools;
 
 public enum Action {
 
-    NEW, EDIT, DUPLICATE, DELETE, PREVIEW, IMPORT, EXPORT
+    ADD, EDIT, DUPLICATE, REMOVE, PREVIEW, IMPORT, EXPORT
 }

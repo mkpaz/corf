@@ -21,7 +21,7 @@ import org.telekit.base.telecom.ip.IP4Subnet;
 import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.dialogs.Dialogs;
-import org.telekit.controls.util.Controls;
+import org.telekit.controls.util.Tables;
 import org.telekit.controls.util.TextFormatters;
 import org.telekit.desktop.IconCache;
 
@@ -130,7 +130,7 @@ public class IPv4Controller implements Component {
         // result table
         ObservableList<TableColumn<Subnet, ?>> columns = tblSplit.getColumns();
         TableColumn<Subnet, String> indexColumn = (TableColumn<Subnet, String>) columns.get(0);
-        indexColumn.setCellFactory(Controls.indexCellFactory());
+        indexColumn.setCellFactory(Tables.indexCellFactory());
         for (TableColumn<Subnet, ?> column : columns) {
             if (isEmpty(column.getId())) { continue; }
             String propertyName = extractPropertyNameFromColumnID(column.getId());

@@ -14,6 +14,7 @@ import org.telekit.base.event.Listener;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.i18n.ControlsMessages;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -28,19 +29,26 @@ public final class ExceptionHandler {
 
     private static final Logger LOGGER = Logger.getLogger(ExceptionHandler.class.getName());
 
+    private final UncaughtExceptionHandler uncaughtExceptionHandler =
+            (thread, e) -> showErrorDialog(e);
+
     private final Stage primaryStage;
     private ExceptionDialog exceptionDialog;
 
     public ExceptionHandler(Stage primaryStage) {
         this.primaryStage = primaryStage;
+
         DefaultEventBus.getInstance().subscribe(Notification.class, this::handleExceptionEvent);
     }
+
+    public UncaughtExceptionHandler getUncaughtExceptionHandler() { return uncaughtExceptionHandler; }
 
     @Listener
     public void handleExceptionEvent(Notification event) {
         // TODO: Implement displaying notifications of other types
         // Move this listener to MainWindowModel and use toast or snackbar to display message
         if (event.getType() == Notification.Type.ERROR && event.getThrowable() != null) {
+            event.getThrowable().printStackTrace();
             showErrorDialog(event.getThrowable());
         }
     }
@@ -92,6 +100,7 @@ public final class ExceptionHandler {
 
     ///////////////////////////////////////////////////////////////////////////
 
+    // TODO: This should be moved to the main view
     private class ExceptionDialog {
 
         private static final int DIALOG_WIDTH = 440;

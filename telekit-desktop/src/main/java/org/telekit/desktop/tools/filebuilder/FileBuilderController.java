@@ -64,7 +64,7 @@ import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
-import static org.telekit.desktop.tools.Action.NEW;
+import static org.telekit.desktop.tools.Action.ADD;
 import static org.telekit.desktop.tools.filebuilder.Generator.*;
 
 @FxmlPath("/org/telekit/desktop/tools/filebuilder/_root.fxml")
@@ -117,8 +117,8 @@ public class FileBuilderController implements Component {
     private final SimpleBooleanProperty ongoingProperty = new SimpleBooleanProperty(false);
 
     private ModalDialog<TemplateController> templateDialog = null;
-    private ModalDialog<ParamController> paramDialog = null;
-    private ModalDialog<ParamCompletionController> paramCompletionDialog = null;
+//    private ModalDialog<ParamController> paramDialog = null;
+//    private ModalDialog<ParamCompletionController> paramCompletionDialog = null;
 
     private TemplateRepository templateRepository;
 
@@ -150,10 +150,10 @@ public class FileBuilderController implements Component {
 
     private void initTemplatesMenu() {
         itemPreviewTemplate.setUserData(Action.PREVIEW);
-        itemNewTemplate.setUserData(Action.NEW);
+        itemNewTemplate.setUserData(Action.ADD);
         itemEditTemplate.setUserData(Action.EDIT);
         itemDuplicateTemplate.setUserData(Action.DUPLICATE);
-        itemDeleteTemplate.setUserData(Action.DELETE);
+        itemDeleteTemplate.setUserData(Action.REMOVE);
         itemImportTemplate.setUserData(Action.IMPORT);
         itemExportTemplate.setUserData(Action.EXPORT);
 
@@ -182,7 +182,7 @@ public class FileBuilderController implements Component {
         itemRemoveParam.disableProperty().bind(Bindings.isEmpty(selectionModel.getSelectedItems()));
         itemParamCompletion.setVisible(false);
         selectionModel.selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> itemParamCompletion.setVisible(Param.allowsCompletion(newVal, completionRegistry))
+                (obs, oldVal, newVal) -> itemParamCompletion.setVisible(Param.doesSupportCompletion(newVal, completionRegistry))
         );
 
         DefaultEventBus.getInstance().subscribe(CompletionRegistryUpdateEvent.class, e -> tblParams.refresh());
@@ -236,13 +236,13 @@ public class FileBuilderController implements Component {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
 
         switch (action) {
-            case NEW, DUPLICATE, EDIT -> {
+            case ADD, DUPLICATE, EDIT -> {
                 ModalDialog<TemplateController> dialog = getOrCreateTemplateDialog();
-                Template template = action != NEW ? selectedTemplate : null;
+                Template template = action != ADD ? selectedTemplate : null;
                 dialog.getController().setData(action, template, templateRepository.getNames());
                 dialog.showAndWait();
             }
-            case DELETE -> deleteTemplate(selectedTemplate);
+            case REMOVE -> deleteTemplate(selectedTemplate);
             case PREVIEW -> showPreview();
             case IMPORT -> importTemplate();
             case EXPORT -> exportTemplate(selectedTemplate);
@@ -328,7 +328,7 @@ public class FileBuilderController implements Component {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
 
         switch (action) {
-            case NEW, DUPLICATE -> {
+            case ADD, DUPLICATE -> {
                 templateRepository.beginTransaction(false).rollbackOnException(() -> {
                     templateRepository.add(template);
                     templateRepository.saveAll();
@@ -347,27 +347,27 @@ public class FileBuilderController implements Component {
 
     @FXML
     public void showParamDialog() {
-        ModalDialog<ParamController> dialog = getOrCreateParamDialog();
-        Set<String> usedParamNames = new HashSet<>();
-        if (tblParams.getItems() != null) {
-            tblParams.getItems().forEach(param -> usedParamNames.add(param.getName()));
-        }
-        dialog.getController().setData(usedParamNames);
-        dialog.hide();
+//        ModalDialog<ParamController> dialog = getOrCreateParamDialog();
+//        Set<String> usedParamNames = new HashSet<>();
+//        if (tblParams.getItems() != null) {
+//            tblParams.getItems().forEach(param -> usedParamNames.add(param.getName()));
+//        }
+//        dialog.getController().setData(usedParamNames);
+//        dialog.hide();
     }
 
-    private ModalDialog<ParamController> getOrCreateParamDialog() {
-        if (paramDialog != null) {
-            paramDialog.getController().reset();
-            return paramDialog;
-        }
-
-        paramDialog = ParamController.createDialog(Objects.requireNonNull(getWindow()));
-        paramDialog.getController().setOnCommit(this::addParam);
-        paramDialog.getController().setOnCloseRequest(() -> paramDialog.hide());
-
-        return paramDialog;
-    }
+//    private ModalDialog<ParamController> getOrCreateParamDialog() {
+//        if (paramDialog != null) {
+//            paramDialog.getController().reset();
+//            return paramDialog;
+//        }
+//
+//        paramDialog = ParamController.createDialog(Objects.requireNonNull(getWindow()));
+//        paramDialog.getController().setOnCommit(this::addParam);
+//        paramDialog.getController().setOnCloseRequest(() -> paramDialog.hide());
+//
+//        return paramDialog;
+//    }
 
     private void addParam(Param param) {
         Template selectedTemplate = cmbTemplate.getSelectionModel().getSelectedItem();
@@ -379,7 +379,7 @@ public class FileBuilderController implements Component {
         templateRepository.beginTransaction(selectedTemplate)
                 .rollbackOnException(() -> templateRepository.saveAll());
 
-        paramDialog.hide();
+//        paramDialog.hide();
         reloadTemplates(updatedTemplate);
     }
 
@@ -406,35 +406,35 @@ public class FileBuilderController implements Component {
         CompletionProvider<?> provider = completionRegistry.getProviderFor(selectedParam.getName()).orElse(null);
         if (!(provider instanceof KeyValueCompletionProvider)) { return; }
 
-        ModalDialog<ParamCompletionController> dialog = getOrCreateCompletionDialog();
-        List<KeyValue<String, String>> data = new ArrayList<>(((KeyValueCompletionProvider) provider).find(s -> true));
-        dialog.getController().setData(data);
-        dialog.showAndWait();
+//        ModalDialog<ParamCompletionController> dialog = getOrCreateCompletionDialog();
+//        List<KeyValue<String, String>> data = new ArrayList<>(((KeyValueCompletionProvider) provider).find(s -> true));
+//        dialog.getController().setData(data);
+//        dialog.showAndWait();
     }
 
-    private ModalDialog<ParamCompletionController> getOrCreateCompletionDialog() {
-        if (paramCompletionDialog != null) { return paramCompletionDialog; }
-
-        ParamCompletionController controller = new ParamCompletionController();
-        paramCompletionDialog = ModalDialog.builder(controller, controller, getWindow())
-                .title(I18n.t(TOOLS_CHOOSE_VALUE))
-                .inheritStyles()
-                .icon(IconCache.get(ICON_APP))
-                .prefSize(new Dimension(480, 400))
-                .resizable(false)
-                .build();
-        paramCompletionDialog.getController().setOnCommit(this::setParamValue);
-        paramCompletionDialog.getController().setOnCancel(() -> paramCompletionDialog.hide());
-
-        return paramCompletionDialog;
-    }
+//    private ModalDialog<ParamCompletionController> getOrCreateCompletionDialog() {
+//        if (paramCompletionDialog != null) { return paramCompletionDialog; }
+//
+//        ParamCompletionController controller = new ParamCompletionController();
+//        paramCompletionDialog = ModalDialog.builder(controller, controller, getWindow())
+//                .title(I18n.t(TOOLS_CHOOSE_VALUE))
+//                .inheritStyles()
+//                .icon(IconCache.get(ICON_APP))
+//                .prefSize(new Dimension(480, 400))
+//                .resizable(false)
+//                .build();
+////        paramCompletionDialog.getController().setOnCommit(this::setParamValue);
+////        paramCompletionDialog.getController().setOnCancel(() -> paramCompletionDialog.hide());
+//
+//        return paramCompletionDialog;
+//    }
 
     private void setParamValue(KeyValue<String, String> kv) {
         if (kv != null) {
             tblParams.getSelectionModel().getSelectedItem().setValue(kv.getValue());
             tblParams.refresh();
         }
-        paramCompletionDialog.hide();
+//        paramCompletionDialog.hide();
     }
 
     @FXML

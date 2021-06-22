@@ -40,6 +40,6 @@ public final class Notification extends Event {
     }
 
     public static Notification error(String text, Throwable t) {
-        return new Notification(Type.INFO, text, t);
+        return new Notification(Type.ERROR, text, t);
     }
 }

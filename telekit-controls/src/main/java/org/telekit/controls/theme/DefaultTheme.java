@@ -9,9 +9,10 @@ import java.util.Set;
 public class DefaultTheme implements Theme {
 
     private static final List<String> PATHS = Arrays.asList(
-            "assets/theme/index.css",   // color variables and defaults
-            "assets/theme/tweaks.css",  // modena tweaks
-            "assets/theme/controls.css" // custom controls
+            "assets/theme/index.css",    // color variables and defaults
+            "assets/theme/tweaks.css",   // modena tweaks
+            "assets/theme/controls.css", // custom controls and utils
+            "assets/theme/widgets.css"
     );
 
     public DefaultTheme() {}

@@ -118,7 +118,7 @@ public class Param implements Comparable<Param>, Cloneable {
         UUID
     }
 
-    public static boolean allowsCompletion(Param param, CompletionRegistry registry) {
+    public static boolean doesSupportCompletion(Param param, CompletionRegistry registry) {
         return param != null &&
                 param.getType() != null &&
                 param.getType() == Type.CONSTANT &&

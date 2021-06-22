@@ -30,15 +30,22 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_SEQ_GEN = "tools.SequenceGenerator";
 
     String TOOLS_CHOOSE_VALUE = "tools.ChooseValue";
+    String TOOLS_BATCH = "tools.Batch";
     String TOOLS_COMMA = "tools.comma";
     String TOOLS_COLON = "tools.colon";
+    String TOOLS_LIST_FOR_REPLACEMENT = "tools.ListForReplacement";
+    String TOOLS_LINES = "tools.lines";
     String TOOLS_PIPE = "tools.pipe";
     String TOOLS_SEMICOLON = "tools.semicolon";
+    String TOOLS_SECONDS = "tools.seconds";
     String TOOLS_TAB = "tools.tab";
+    String TOOLS_TEMPLATE = "tools.Template";
 
     String TOOLS_ADD_PARAM = "tools.AddParam";
     String TOOLS_NEW_TEMPLATE = "tools.NewTemplate";
     String TOOLS_EDIT_TEMPLATE = "tools.EditTemplate";
+    String TOOLS_PASTE_COLUMNS_RIGHT = "tools.PasteColumnsRight";
+    String TOOLS_PASTE_FROM_EXCEL = "tools.PasteFromExcel";
     String TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN = "tools.only-first-N-rows-will-be-shown";
     String TOOLS_MSG_DELETE_TEMPLATE = "tools.msg.delete-template";
     String TOOLS_MSG_YOU_HAVE_NO_TEMPLATES_TO_PREVIEW = "tools.msg.you-have-no-templates-to-preview";
@@ -49,7 +56,16 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_MSG_VALIDATION_CSV_THRESHOLD_EXCEEDED = "tools.msg.validation.csv-threshold-exceeded";
     String TOOLS_MSG_VALIDATION_TAIL = "tools.msg.validation.tail";
 
+    String TOOLS_APICLIENT_BATCH_SIZE = "tools.api-client.BatchSize";
+    String TOOLS_APICLIENT_BATCH_WRAPPER = "tools.api-client.BatchWrapper";
+    String TOOLS_APICLIENT_COMPLETED_REQUESTS = "tools.api-client.CompletedRequests";
+    String TOOLS_APICLIENT_BODY = "tools.api-client.Body";
+    String TOOLS_APICLIENT_WAIT_TIMEOUT = "tools.api-client.WaitTimeout";
+    String TOOLS_APICLIENT_HTTP_HEADERS = "tools.api-client.HTTPHeaders";
     String TOOLS_APICLIENT_TASK_REPORT = "tools.api-client.task-report";
+    String TOOLS_APICLIENT_REQUEST_LINE = "tools.api-client.RequestLine";
+    String TOOLS_APICLIENT_SHOW_UNSUCCESSFUL_REQUESTS_ONLY = "tools.api-client.show-unsuccessful-requests-only";
+    String TOOLS_APICLIENT_SHOW_TIMEOUT_BETWEEN_REQUESTS = "tools.api-client.timeout-between-requests";
     String TOOLS_IPCALC_TASK_REPORT = "tools.ipcalc.IPFormatConverter";
     String TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS = "tools.ipcalc.msg.invalid-ip-address";
     String TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT = "tools.seq-gen.msg.sequence-size-exceeds-limit";

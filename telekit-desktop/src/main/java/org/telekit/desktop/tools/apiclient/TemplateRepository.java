@@ -3,7 +3,6 @@ package org.telekit.desktop.tools.apiclient;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.FileBasedRepository;
 import org.telekit.base.service.Serializer;
 import org.telekit.base.service.impl.JacksonYamlSerializer;
@@ -23,6 +22,7 @@ import java.util.stream.Collectors;
 import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
+import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileUtils.*;
 
@@ -49,7 +49,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
             if (size() > 0) { clear(); }
             load(inputStream, yamlSerializer);
         } catch (IOException e) {
-            throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
+            throw new TelekitException(t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
         }
     }
 
@@ -61,7 +61,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
             if (backup != null) {
                 copyFile(backup, DATA_FILE_PATH, StandardCopyOption.REPLACE_EXISTING);
             }
-            throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+            throw new TelekitException(t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         } finally {
             if (backup != null) { hush(() -> deleteFile(backup)); }
         }
@@ -77,7 +77,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
                 }
             }
         } catch (IOException e) {
-            throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
+            throw new TelekitException(t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);
         }
     }
 
@@ -85,7 +85,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
         try (OutputStream outputStream = Files.newOutputStream(outputFile.toPath())) {
             yamlSerializer.serialize(outputStream, templates);
         } catch (IOException e) {
-            throw new TelekitException(I18n.t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+            throw new TelekitException(t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
         }
     }
 }

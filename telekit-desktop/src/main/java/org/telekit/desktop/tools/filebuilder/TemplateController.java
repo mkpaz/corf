@@ -75,7 +75,7 @@ public class TemplateController implements Component, ModalController {
         }
 
         String titleKey = "";
-        if (action == Action.NEW || action == Action.DUPLICATE) {
+        if (action == Action.ADD || action == Action.DUPLICATE) {
             template.setId(UUID.randomUUID());
             titleKey = TOOLS_NEW_TEMPLATE;
         }

@@ -1,12 +1,13 @@
 package org.telekit.controls.util;
 
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 import org.kordamp.ikonli.Ikon;
@@ -22,25 +23,28 @@ public final class Controls {
         return control;
     }
 
-    public static FontIcon fontIcon(Ikon iconCode, String... styleClasses) {
-        FontIcon icon = new FontIcon(iconCode);
-        icon.getStyleClass().add("font-icon");
-        icon.getStyleClass().addAll(styleClasses);
-        return icon;
+    public static FontIcon fontIcon(Ikon icon, String... styleClasses) {
+        FontIcon fontIcon = new FontIcon(icon);
+        fontIcon.getStyleClass().add("font-icon");
+        fontIcon.getStyleClass().addAll(styleClasses);
+        return fontIcon;
     }
 
-    public static Button iconButton(Ikon iconCode, String... styleClasses) {
-        Button button = new Button();
-        button.setGraphic(fontIcon(iconCode));
-        button.getStyleClass().add("icon-button");
+    public static Button button(String text, Ikon icon, String... styleClasses) {
+        Button button = new Button(text);
+        if (icon != null) { button.setGraphic(fontIcon(icon)); }
         button.getStyleClass().addAll(styleClasses);
         return button;
     }
 
-    public static Button circleIconButton(Ikon iconCode, String... styleClasses) {
-        Button button = new Button();
-        button.setGraphic(fontIcon(iconCode));
-        button.getStyleClass().add("circle-icon-button");
+    public static Button iconButton(Ikon icon, String... styleClasses) {
+        Button button = button(null, icon, "icon-button");
+        button.getStyleClass().addAll(styleClasses);
+        return button;
+    }
+
+    public static Button circleIconButton(Ikon icon, String... styleClasses) {
+        Button button = button(null, icon, "circle-icon-button");
         button.getStyleClass().addAll(styleClasses);
         // radius should be > 0, but exact value doesn't matter
         // it will be adjusted to the font size automatically
@@ -48,31 +52,26 @@ public final class Controls {
         return button;
     }
 
-    public static MenuButton menuIconButton(Ikon iconCode, String... styleClasses) {
+    public static MenuButton menuIconButton(Ikon icon, String... styleClasses) {
         MenuButton button = new MenuButton();
-        button.setGraphic(fontIcon(iconCode));
+        button.setGraphic(fontIcon(icon));
         button.getStyleClass().add("menu-icon-button");
         button.getStyleClass().addAll(styleClasses);
         return button;
     }
 
-    public static <S, T> TableColumn<S, T> tableColumn(String text, String propertyName) {
-        TableColumn<S, T> column = new TableColumn<>(text);
-        column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        return column;
+    public static MenuItem menuItem(String text, Node graphic, EventHandler<ActionEvent> handler) {
+        MenuItem item = new MenuItem(text);
+        if (graphic != null) { item.setGraphic(graphic); }
+        item.setOnAction(handler);
+        return item;
     }
 
-    public static <S, T> Callback<TableColumn<S, T>, TableCell<S, T>> indexCellFactory() {
-        return column -> {
-            TableCell<S, T> cell = new TableCell<>();
-            cell.textProperty().bind(Bindings.createStringBinding(() -> {
-                if (cell.isEmpty()) {
-                    return null;
-                } else {
-                    return Integer.toString(cell.getIndex() + 1);
-                }
-            }, cell.emptyProperty(), cell.indexProperty()));
-            return cell;
-        };
+    public static Label gridLabel(String text, HPos hpos, Node node) {
+        Label label = new Label(text);
+        label.setLabelFor(node);
+        label.setWrapText(false);
+        GridPane.setHalignment(label, hpos);
+        return label;
     }
 }
