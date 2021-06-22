@@ -1,7 +1,7 @@
 ![](.screenshots/welcome.png)
 ![](https://img.shields.io/github/license/mkpaz/telekit)
 ![](https://img.shields.io/github/v/release/mkpaz/telekit)
-![](https://img.shields.io/github/last-commit/mkpaz/telekit)
+![](https://img.shields.io/github/last-commit/mkpaz/telekit/dev)
 
 <p align="center">
   <a href="https://github.com/mkpaz/telekit#features">Features</a> &#65372;
@@ -46,8 +46,9 @@ Base app provides the following tools:
 
 ### Plugins
 
-App features can be extended via plugins. If you want to write your own one, clone this repo and use
-`telekit-plugin-example` as starting point.
+App features can be extended via plugins. You can find extra plugins [here](https://github.com/mkpaz/telekit-plugins).
+
+If you want to write your own plugin, clone this repo and use `telekit-plugin-example` as the starting point.
 
 ## Setup
 
