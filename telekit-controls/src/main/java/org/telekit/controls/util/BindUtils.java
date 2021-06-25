@@ -69,6 +69,7 @@ public final class BindUtils {
                                                  Predicate<E> predicate,
                                                  Function<E, E> transformer) {
         return Bindings.createBooleanBinding(() -> {
+
             if (isNull(property)) { return false; }
             E val = transformer == null ? property.get() : transformer.apply(property.get());
             return predicate.test(Objects.requireNonNull(val));
@@ -76,7 +77,7 @@ public final class BindUtils {
     }
 
     private static boolean isNull(ObservableObjectValue<?> property) {
-        return !isNotNull(property);
+        return property == null || property.get() == null;
     }
 
     private static boolean isNotNull(ObservableObjectValue<?> property) {
@@ -84,11 +85,11 @@ public final class BindUtils {
     }
 
     public static BooleanBinding isBlank(ObservableObjectValue<String> property) {
-        return ofPredicate(property, String::isBlank);
+        return Bindings.createBooleanBinding(() -> isNull(property) || property.get().isBlank(), property);
     }
 
     public static BooleanBinding isNotBlank(ObservableObjectValue<String> property) {
-        return ofPredicate(property, value -> !value.isBlank());
+        return Bindings.createBooleanBinding(() -> isNotNull(property) && !property.get().isBlank(), property);
     }
 
     public static BooleanBinding startsWith(ObservableObjectValue<String> value, String prefix) {

@@ -18,22 +18,22 @@ import java.util.Objects;
  * properties. For entities it usually means that change event won't be
  * fired unless object ID/PK changes, which is unacceptable.
  * <p>
- * This is an observable property implementation which will also notify
- * listeners when value identity changes.
+ * This is an observable property implementation which will notify
+ * listeners every time value set, whether it changed or not.
  */
-public class IdentityObjectProperty<T> extends SimpleObjectProperty<T> {
+public class HastyObjectProperty<T> extends SimpleObjectProperty<T> {
 
     private List<ChangeListener<? super T>> changeListeners;
 
-    public IdentityObjectProperty(T initialValue) {
+    public HastyObjectProperty(T initialValue) {
         super(initialValue);
     }
 
-    public IdentityObjectProperty(Object bean, String name) {
+    public HastyObjectProperty(Object bean, String name) {
         super(bean, name);
     }
 
-    public IdentityObjectProperty(Object bean, String name, T initialValue) {
+    public HastyObjectProperty(Object bean, String name, T initialValue) {
         super(bean, name, initialValue);
     }
 
@@ -44,7 +44,8 @@ public class IdentityObjectProperty<T> extends SimpleObjectProperty<T> {
         // base implementation only notifies listeners if values are not equal
         super.set(newValue);
 
-        if (changeListeners != null && Objects.equals(oldValue, newValue) && oldValue != newValue) {
+        // notify when a.equals(b) && (a != b | a == b)
+        if (changeListeners != null && Objects.equals(oldValue, newValue)) {
             changeListeners.forEach(l -> l.changed(this, oldValue, newValue));
         }
     }

@@ -1,22 +1,18 @@
-package org.telekit.desktop.tools.apiclient;
+package org.telekit.desktop.tools.filebuilder;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import javafx.beans.property.*;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import org.apache.commons.lang3.StringUtils;
+import javafx.scene.control.Toggle;
 import org.telekit.base.CompletionRegistry;
+import org.telekit.base.Env;
 import org.telekit.base.desktop.mvvm.*;
 import org.telekit.base.di.Initializable;
-import org.telekit.base.domain.LineSeparator;
-import org.telekit.base.domain.UsernamePasswordCredential;
-import org.telekit.base.domain.event.Notification;
 import org.telekit.base.domain.event.TaskProgressEvent;
-import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.base.service.CompletionProvider;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
+import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.controls.util.HastyObjectProperty;
 import org.telekit.controls.util.Promise;
@@ -25,43 +21,35 @@ import org.telekit.desktop.tools.common.Param;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.time.format.DateTimeFormatter;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
-import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.net.HttpConstants.AuthScheme;
 import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
 import static org.telekit.base.util.CSVUtils.textToTable;
 import static org.telekit.controls.util.BindUtils.isNotBlank;
+import static org.telekit.desktop.tools.filebuilder.Generator.MODE_APPEND;
+import static org.telekit.desktop.tools.filebuilder.Generator.MODE_REPLACE;
 
 @Singleton
-public class ApiClientViewModel implements Initializable, ViewModel {
+public class FileBuilderViewModel implements Initializable, ViewModel {
 
-    static final String PREVIEW_FILE_NAME = "api-client.preview.html";
+    static final String PREVIEW_FILE_NAME = "import-file-builder.preview.html";
+    static final Path DEFAULT_PATH = Env.HOME_DIR.resolve("import.txt");
+    static final int SAVE_TYPE_DYNAMIC = 0;
+    static final int SAVE_TYPE_PREDEFINED = 1;
 
-    private final ApplicationPreferences preferences;
     private final CompletionRegistry completionRegistry;
     private final TemplateRepository templateRepository;
     private final ExecutorService threadPool;
 
-    private Executor executor;
-
     @Inject
-    public ApiClientViewModel(ApplicationPreferences preferences,
-                              YAMLMapper yamlMapper,
-                              CompletionRegistry completionRegistry,
-                              ExecutorService threadPool) {
-        this.preferences = preferences;
+    public FileBuilderViewModel(YAMLMapper yamlMapper,
+                                CompletionRegistry completionRegistry,
+                                ExecutorService threadPool) {
         this.completionRegistry = completionRegistry;
         this.templateRepository = new TemplateRepository(yamlMapper);
         this.threadPool = threadPool;
@@ -70,11 +58,6 @@ public class ApiClientViewModel implements Initializable, ViewModel {
     @Override
     public void initialize() {
         templates.getSortedList().setComparator(Template::compareTo);
-        log.getItems().addListener(new LogStatListener());
-
-        logErrorsOnly.addListener((obs, old, value) -> {
-            if (value != null) { log.getFilteredList().setPredicate(request -> !value || !request.isSucceeded()); }
-        });
 
         // Note: double check if you will want to run this from another thread
         // can cause ComboBox updating issues
@@ -107,7 +90,7 @@ public class ApiClientViewModel implements Initializable, ViewModel {
     }
 
     public List<String> validate() {
-        return Executor.validate(selectedTemplate.get(), textToTable(csvText.get(), COMMA_OR_SEMICOLON));
+        return Generator.validate(selectedTemplate.get(), textToTable(csvText.get(), COMMA_OR_SEMICOLON));
     }
 
     private void updateTemplate(Consumer<Template> mutator) {
@@ -138,6 +121,7 @@ public class ApiClientViewModel implements Initializable, ViewModel {
     }
 
     private void toggleProgressIndicator(boolean on) {
+        ongoing.set(on);
         DefaultEventBus.getInstance().publish(new TaskProgressEvent(getClass().getCanonicalName(), on));
     }
 
@@ -158,24 +142,14 @@ public class ApiClientViewModel implements Initializable, ViewModel {
     private final StringProperty csvText = new SimpleStringProperty(this, "csvText");
     public StringProperty csvTextProperty() { return csvText; }
 
-    private final StringProperty authUsername = new SimpleStringProperty(this, "authUsername");
-    public StringProperty authUsernameProperty() { return authUsername; }
+    private final ObjectProperty<Toggle> saveType = new SimpleObjectProperty<>(this, "saveType");
+    public ObjectProperty<Toggle> saveTypeProperty() { return saveType; }
 
-    private final StringProperty authPassword = new SimpleStringProperty(this, "authPassword");
-    public StringProperty authPasswordProperty() { return authPassword; }
+    private final BooleanProperty appendToFile = new SimpleBooleanProperty(this, "appendToFile");
+    public BooleanProperty appendToFileProperty() { return appendToFile; }
 
-    private final IntegerProperty timeout = new SimpleIntegerProperty(this, "timeout");
-    public IntegerProperty timeoutProperty() { return timeout; }
-
-    private final TransformationListHandle<CompletedRequest> log = new TransformationListHandle<>();
-    public ObservableList<CompletedRequest> getFilteredLog() { return log.getFilteredList(); }
-    public ObservableList<CompletedRequest> getFullLog() { return log.getItems(); }
-
-    private final ReadOnlyObjectWrapper<LogStat> logStat = new ReadOnlyObjectWrapper<>(this, "logStat", LogStat.EMPTY);
-    public ReadOnlyObjectProperty<LogStat> logStatProperty() { return logStat.getReadOnlyProperty(); }
-
-    private final BooleanProperty logErrorsOnly = new SimpleBooleanProperty(this, "logErrorsOnly");
-    public BooleanProperty logErrorsOnlyProperty() { return logErrorsOnly; }
+    private final BooleanProperty openAfterGeneration = new SimpleBooleanProperty(this, "openAfterGeneration", true);
+    public BooleanProperty openAfterGenerationProperty() { return openAfterGeneration; }
     //@formatter:on
 
     ///////////////////////////////////////////////////////////////////////////
@@ -303,125 +277,32 @@ public class ApiClientViewModel implements Initializable, ViewModel {
 
     // ~
 
-    public ConsumerCommand<File> exportLogCommand() { return exportLogCommand; }
+    public ConsumerCommand<File> generateCommand() { return generateCommand; }
 
-    private final ConsumerCommand<File> exportLogCommand = new ConsumerCommandBase<>() {
-
-        { executable.bind(selectedTemplate.isNotNull()); }
-
-        @Override
-        protected void doExecute(File file) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-            final String separator = " | ";
-            final String EOL = LineSeparator.UNIX.getCharacters();
-
-            Promise.runAsync(() -> {
-                try (FileOutputStream outputStream = new FileOutputStream(file);
-                     OutputStreamWriter writer = new OutputStreamWriter(outputStream, UTF_8);
-                     BufferedWriter out = new BufferedWriter(writer)) {
-
-                    for (CompletedRequest request : log.getItems()) {
-                        out.write(request.getDateTime().format(formatter));
-                        out.write(separator);
-                        out.write(String.valueOf(request.getStatusCode()));
-                        out.write(separator);
-                        out.write(request.getUserData());
-                        out.write(EOL);
-                        out.write(EOL);
-                        out.write(request.print().replaceAll("(?m)^", "\t"));
-                        out.write(EOL);
-                        out.write(EOL);
-                    }
-                } catch (Exception e) {
-                    throw new TelekitException(t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
-                }
-            }).start(threadPool);
-        }
-    };
-
-    // ~
-
-    public Command startCommand() { return startCommand; }
-
-    private final Command startCommand = new CommandBase() {
+    private final ConsumerCommand<File> generateCommand = new ConsumerCommandBase<>() {
 
         { executable.bind(BindUtils.and(ongoing.not(), selectedTemplate.isNotNull(), isNotBlank(csvText))); }
 
         @Override
-        protected void doExecute() {
+        protected void doExecute(File file) {
             Template template = selectedTemplate.get();
             String[][] csv = textToTable(csvText.get(), COMMA_OR_SEMICOLON);
 
             // configure task
-            executor = new Executor(template, csv, log.getItems());
-            executor.setTimeoutBetweenRequests(timeout.getValue());
-            executor.setProxy(preferences.getProxy());
+            Generator generator = new Generator(template, csv, file);
 
-            String username = trim(authUsername.get());
-            String password = trim(authPassword.get());
-            if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
-                executor.setPasswordBasedAuth(AuthScheme.BASIC, UsernamePasswordCredential.of(username, password));
-            }
-
-            // prepare properties
-            BindUtils.rebind(ongoing, executor.runningProperty());
-            log.getItems().clear(); // this will also set logStat value to LogStat.EMPTY
-            logStat.set(new LogStat(executor.getPlannedRequestCount(), 0, 0));
-
-            executor.setOnSucceeded(event -> toggleProgressIndicator(false));
-            executor.setOnCancelled(event -> toggleProgressIndicator(false));
-            executor.setOnFailed(event -> {
-                toggleProgressIndicator(false);
-                Throwable exception = event.getSource().getException();
-                if (exception != null) { DefaultEventBus.getInstance().publish(Notification.error(exception)); }
-            });
+            generator.setCharset(template.getEncoding().getCharset(), template.getEncoding().requiresBOM());
+            generator.setLineSeparator(template.getLineSeparator().getCharacters());
+            generator.setMode(appendToFile.get() ? MODE_APPEND : MODE_REPLACE);
 
             // start task
             toggleProgressIndicator(true);
-            threadPool.execute(executor);
-        }
-    };
-
-    // ~
-
-    public Command stopCommand() { return stopCommand; }
-
-    private final Command stopCommand = new CommandBase() {
-
-        { executable.bind(ongoing); }
-
-        @Override
-        protected void doExecute() {
-            if (executor != null) { executor.cancel(); }
-        }
-    };
-
-    ////////////////////////////////////////////////////////////
-
-    class LogStatListener implements ListChangeListener<CompletedRequest> {
-
-        @Override
-        public void onChanged(Change<? extends CompletedRequest> change) {
-            LogStat old = logStat.get();
-
-            while (change.next()) {
-                if (old == null) {
-                    logStat.set(LogStat.EMPTY);
-                    return;
+            Promise.runAsync(generator).then(() -> {
+                toggleProgressIndicator(false);
+                if (openAfterGeneration.get()) {
+                    DesktopUtils.openQuietly(file);
                 }
-
-                // log must only be cleared or appended
-                if (!change.wasAdded()) { return; }
-
-                change.getAddedSubList().forEach(r -> {
-                    if (r.isSucceeded() || r.isForwarded()) {
-                        logStat.set(old.withIncrementedSuccessCount());
-                    }
-                    if (r.isFailed() || !r.isResponded()) {
-                        logStat.set(old.withIncrementedFailedCount());
-                    }
-                });
-            }
+            }).start(threadPool);
         }
-    }
+    };
 }

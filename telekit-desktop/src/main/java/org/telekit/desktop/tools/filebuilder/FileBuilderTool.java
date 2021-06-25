@@ -7,7 +7,7 @@ import org.telekit.desktop.i18n.DesktopMessages;
 
 import static org.telekit.base.i18n.I18n.t;
 
-public final class FileBuilderTool implements Tool<FileBuilderController> {
+public final class FileBuilderTool implements Tool<FileBuilderView> {
 
     @Override
     public String getName() { return t(DesktopMessages.TOOLS_FILE_BUILDER); }
@@ -16,7 +16,7 @@ public final class FileBuilderTool implements Tool<FileBuilderController> {
     public ToolGroup getGroup() { return null; }
 
     @Override
-    public Class<FileBuilderController> getComponent() { return FileBuilderController.class; }
+    public Class<FileBuilderView> getComponent() { return FileBuilderView.class; }
 
     @Override
     public Node getIcon() { return null; }

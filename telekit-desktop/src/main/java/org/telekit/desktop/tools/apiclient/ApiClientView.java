@@ -9,7 +9,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import org.kordamp.ikonli.material2.Material2MZ;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
@@ -42,7 +41,6 @@ public class ApiClientView extends VBox implements Initializable, View<ApiClient
     Button startBtn;
     Button stopBtn;
     Spinner<Integer> timeoutSpinner;
-    StatisticsText statText;
 
     private final ApiClientViewModel model;
     private final Overlay overlay;
@@ -102,6 +100,7 @@ public class ApiClientView extends VBox implements Initializable, View<ApiClient
 
     @Override
     public void initialize() {
+        startBtn.setDisable(true);
         startBtn.disableProperty().bind(BindUtils.or(
                 model.selectedTemplateProperty().isNull(),
                 model.ongoingProperty(),
@@ -115,9 +114,12 @@ public class ApiClientView extends VBox implements Initializable, View<ApiClient
         model.logStatProperty().addListener((obs, old, value) -> {
             if (value != null) { progressBar.setProgress(value.getProgress()); }
         });
+
+        // refresh params table
+        model.selectFirstTemplate();
     }
 
-    public void start() {
+    private void start() {
         List<String> warnings = model.validate();
         if (!warnings.isEmpty()) {
             TextBuilder text = new TextBuilder();
@@ -173,32 +175,5 @@ public class ApiClientView extends VBox implements Initializable, View<ApiClient
         MenuItem item = Controls.menuItem(text, null, handler);
         if (disableCondition != null) { item.disableProperty().bind(disableCondition); }
         return item;
-    }
-
-    static class StatisticsText extends HBox {
-
-        final Text successText;
-        final Text failedText;
-        final Text summaryText;
-
-        public StatisticsText() {
-            successText = new Text("0");
-            successText.getStyleClass().add("text-success");
-
-            failedText = new Text("0");
-            failedText.getStyleClass().add("text-error");
-
-            summaryText = new Text("0");
-
-            setAlignment(Pos.CENTER_LEFT);
-            getChildren().setAll(
-                    successText,
-                    new Text(" : "),
-                    failedText,
-                    new Text(" : "),
-                    summaryText,
-                    new Text(" " + "processed")
-            );
-        }
     }
 }

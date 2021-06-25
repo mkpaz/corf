@@ -40,6 +40,12 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_SECONDS = "tools.seconds";
     String TOOLS_TAB = "tools.tab";
     String TOOLS_TEMPLATE = "tools.Template";
+    String TOOLS_SHOW_SAVE_DIALOG = "tools.ShowSaveDialog";
+    String TOOLS_SAVE_AS = "tools.SaveAs";
+    String TOOLS_APPEND_IF_EXISTS = "tools.append-if-exists";
+    String TOOLS_DOCUMENT_START = "tools.DocumentStart";
+    String TOOLS_DOCUMENT_END = "tools.DocumentEnd";
+    String TOOLS_ELEMENT = "tools.Element";
 
     String TOOLS_ADD_PARAM = "tools.AddParam";
     String TOOLS_NEW_TEMPLATE = "tools.NewTemplate";
@@ -69,6 +75,7 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_IPCALC_TASK_REPORT = "tools.ipcalc.IPFormatConverter";
     String TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS = "tools.ipcalc.msg.invalid-ip-address";
     String TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT = "tools.seq-gen.msg.sequence-size-exceeds-limit";
+    String TOOLS_FILE_BUILDER_OPEN_FILE_AFTER_GENERATION = "tools.file-builder.open-file-after-generation";
 
     static BundleLoader getLoader() { return BundleLoader.of(DesktopMessages.class); }
 }

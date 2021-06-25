@@ -1,9 +1,7 @@
-package org.telekit.desktop.tools.apiclient;
+package org.telekit.desktop.tools.filebuilder;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.collections.FXCollections;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -11,23 +9,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.util.converter.DefaultStringConverter;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.net.HttpConstants.AuthScheme;
 import org.telekit.base.util.DesktopUtils;
-import org.telekit.controls.custom.RevealablePasswordField;
-import org.telekit.controls.custom.ToggleIcon;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.Tables;
@@ -43,7 +37,6 @@ import java.util.List;
 import java.util.*;
 
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
-import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Env.TEMP_DIR;
@@ -56,15 +49,14 @@ import static org.telekit.base.util.FileUtils.sanitizeFileName;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
-import static org.telekit.controls.util.Controls.gridLabel;
 import static org.telekit.controls.util.Tables.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.tools.Action.PREVIEW;
 import static org.telekit.desktop.tools.Action.*;
-import static org.telekit.desktop.tools.apiclient.ApiClientView.createMenuItem;
-import static org.telekit.desktop.tools.apiclient.ApiClientViewModel.PREVIEW_FILE_NAME;
+import static org.telekit.desktop.tools.filebuilder.FileBuilderView.createMenuItem;
+import static org.telekit.desktop.tools.filebuilder.FileBuilderViewModel.PREVIEW_FILE_NAME;
 
-public final class SettingsTab extends Tab {
+public final class SettingsPane extends AnchorPane {
 
     ComboBox<Template> templateChoice;
     TableView<Param> paramTable;
@@ -73,19 +65,14 @@ public final class SettingsTab extends Tab {
     TextArea csvText;
     Label csvLineCountLabel;
 
-    ComboBox<AuthScheme> authType;
-    TextField authUsernameField;
-    RevealablePasswordField authPasswordField;
-    ToggleIcon revealPasswordToggle;
-
     TemplateEditor templateEditor = null;
     ParamEditor paramEditor = null;
     ParamCompletionDialog paramCompletionDialog = null;
 
-    private final ApiClientView view;
-    private final ApiClientViewModel model;
+    private final FileBuilderView view;
+    private final FileBuilderViewModel model;
 
-    public SettingsTab(ApiClientView view) {
+    public SettingsPane(FileBuilderView view) {
         this.view = view;
         this.model = view.getViewModel();
 
@@ -125,9 +112,6 @@ public final class SettingsTab extends Tab {
             paramTable.getSelectionModel().selectFirst();
         });
 
-        TitledPane authPane = createAuthPane();
-        authPane.setPadding(new Insets(5, 0, 0, 0));
-
         // COLUMN 1
 
         MenuButton clipboardMenu = Controls.create(MenuButton::new, "link-button");
@@ -164,7 +148,6 @@ public final class SettingsTab extends Tab {
         grid.add(templateBox, 0, 1);
         grid.add(paramsLabel, 0, 2);
         grid.add(paramTable, 0, 3);
-        grid.add(authPane, 0, 4);
 
         grid.add(replacementBox, 1, 0);
         grid.add(csvText, 1, 1, 1, GridPane.REMAINING);
@@ -182,8 +165,8 @@ public final class SettingsTab extends Tab {
                 VGROW_NEVER
         );
 
-        setText(t(SETTINGS));
-        setContent(grid);
+        getChildren().setAll(grid);
+        setAnchors(grid, Insets.EMPTY);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -406,48 +389,6 @@ public final class SettingsTab extends Tab {
         paramCompletionDialog.setOnCloseRequest(view::hideOverlay);
 
         return paramCompletionDialog;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    // AUTH                                                                  //
-    ///////////////////////////////////////////////////////////////////////////
-
-    private TitledPane createAuthPane() {
-        authType = new ComboBox<>(FXCollections.observableArrayList(AuthScheme.BASIC));
-        authType.getSelectionModel().select(AuthScheme.BASIC);
-        authType.setMaxWidth(Double.MAX_VALUE);
-
-        authUsernameField = new TextField();
-        authUsernameField.textProperty().bindBidirectional(model.authUsernameProperty());
-
-        authPasswordField = new RevealablePasswordField();
-        authPasswordField.textProperty().bindBidirectional(model.authPasswordProperty());
-
-        revealPasswordToggle = new ToggleIcon(Material2MZ.VISIBILITY_OFF, Material2MZ.VISIBILITY);
-        revealPasswordToggle.setCursor(Cursor.HAND);
-        revealPasswordToggle.toFront();
-        authPasswordField.revealPasswordProperty().bind(revealPasswordToggle.toggledProperty());
-
-        StackPane authPasswordPane = new StackPane();
-        authPasswordPane.getChildren().addAll(authPasswordField, revealPasswordToggle);
-        authPasswordPane.setAlignment(Pos.CENTER_RIGHT);
-        StackPane.setMargin(revealPasswordToggle, new Insets(0, 10, 0, 0));
-
-        GridPane grid = gridPane(20, 10, new Insets(10));
-
-        grid.add(gridLabel(t(TYPE), HPos.RIGHT, authType), 0, 0);
-        grid.add(authType, 1, 0);
-
-        grid.add(gridLabel(t(USERNAME), HPos.RIGHT, authUsernameField), 0, 1);
-        grid.add(authUsernameField, 1, 1);
-
-        grid.add(gridLabel(t(PASSWORD), HPos.RIGHT, authPasswordField), 0, 2);
-        grid.add(authPasswordPane, 1, 2);
-
-        grid.getColumnConstraints().addAll(HGROW_NEVER, HGROW_ALWAYS);
-        grid.getRowConstraints().addAll(VGROW_NEVER, VGROW_NEVER, VGROW_NEVER);
-
-        return new TitledPane(t(AUTHENTICATION), grid);
     }
 
     ///////////////////////////////////////////////////////////////////////////

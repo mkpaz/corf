@@ -105,10 +105,10 @@ public class TemplateEditor extends OverlayDialog {
         methodBox.getChildren().addAll(methodChoice, uriText);
 
         headersText = Controls.create(TextArea::new, "monospace");
-        headersText.setPrefHeight(80);
+        headersText.setPrefHeight(60);
 
         bodyText = Controls.create(TextArea::new, "monospace");
-        bodyText.setPrefHeight(200);
+        bodyText.setPrefHeight(120);
 
         waitTimeoutSpinner = new Spinner<>(1, 100, 3, 1);
         waitTimeoutSpinner.setPrefWidth(200);
@@ -135,8 +135,18 @@ public class TemplateEditor extends OverlayDialog {
         grid.add(gridLabel(t(TOOLS_APICLIENT_WAIT_TIMEOUT), HPos.RIGHT, waitTimeoutSpinner), 0, 4);
         grid.add(waitTimeoutBox, 1, 4);
 
-        grid.getColumnConstraints().addAll(columnConstraints(80, Priority.SOMETIMES), HGROW_ALWAYS);
-        grid.getRowConstraints().addAll(VGROW_NEVER, VGROW_NEVER, VGROW_NEVER, VGROW_ALWAYS, VGROW_NEVER);
+        grid.getColumnConstraints().addAll(
+                columnConstraints(80, Priority.SOMETIMES),
+                HGROW_ALWAYS
+        );
+
+        grid.getRowConstraints().addAll(
+                VGROW_NEVER,
+                VGROW_NEVER,
+                VGROW_NEVER,
+                VGROW_ALWAYS,
+                VGROW_NEVER
+        );
 
         return new Tab(t(PARAMETERS), grid);
     }
