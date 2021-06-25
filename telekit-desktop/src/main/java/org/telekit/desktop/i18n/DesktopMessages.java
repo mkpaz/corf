@@ -76,6 +76,8 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS = "tools.ipcalc.msg.invalid-ip-address";
     String TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT = "tools.seq-gen.msg.sequence-size-exceeds-limit";
     String TOOLS_FILE_BUILDER_OPEN_FILE_AFTER_GENERATION = "tools.file-builder.open-file-after-generation";
+    String TOOLS_BASE64_AS_TEXT = "tools.base64.as-text";
+    String TOOLS_BASE64_LINE_BY_LINE = "tools.base64.line-by-line";
 
     static BundleLoader getLoader() { return BundleLoader.of(DesktopMessages.class); }
 }
