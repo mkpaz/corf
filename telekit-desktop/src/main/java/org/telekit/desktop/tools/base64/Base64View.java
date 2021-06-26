@@ -143,9 +143,7 @@ public class Base64View extends GridPane implements Initializable, Component {
         ConvertTask task = new ConvertTask(sourceText, operation, mode, codec);
         task.setOnFailed(event -> {
             Throwable exception = event.getSource().getException();
-            if (exception != null) {
-                DefaultEventBus.getInstance().publish(Notification.error(exception));
-            }
+            if (exception != null) { DefaultEventBus.getInstance().publish(Notification.error(exception)); }
         });
         return task;
     }

@@ -5,6 +5,8 @@
 
 .text-center { -fx-alignment: CENTER; }
 
+.text-bold { -fx-font-weight: bold; }
+
 .text-sm { -fx-font-size: 0.9em; }
 .text-xs { -fx-font-size: 0.8em; }
 

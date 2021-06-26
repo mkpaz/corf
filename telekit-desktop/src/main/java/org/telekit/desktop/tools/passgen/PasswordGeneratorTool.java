@@ -7,7 +7,7 @@ import org.telekit.desktop.i18n.DesktopMessages;
 
 import static org.telekit.base.i18n.I18n.t;
 
-public final class PasswordGeneratorTool implements Tool<PasswordGeneratorController> {
+public final class PasswordGeneratorTool implements Tool<PasswordGeneratorView> {
 
     @Override
     public String getName() {
@@ -18,7 +18,7 @@ public final class PasswordGeneratorTool implements Tool<PasswordGeneratorContro
     public ToolGroup getGroup() { return null; }
 
     @Override
-    public Class<PasswordGeneratorController> getComponent() { return PasswordGeneratorController.class; }
+    public Class<PasswordGeneratorView> getComponent() { return PasswordGeneratorView.class; }
 
     @Override
     public Node getIcon() { return null; }

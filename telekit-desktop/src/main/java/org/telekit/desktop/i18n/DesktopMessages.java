@@ -46,6 +46,9 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_DOCUMENT_START = "tools.DocumentStart";
     String TOOLS_DOCUMENT_END = "tools.DocumentEnd";
     String TOOLS_ELEMENT = "tools.Element";
+    String TOOLS_CHARACTERS = "tools.characters";
+    String TOOLS_WORDS = "tools.words";
+    String TOOLS_ITEMS = "tools.items";
 
     String TOOLS_ADD_PARAM = "tools.AddParam";
     String TOOLS_NEW_TEMPLATE = "tools.NewTemplate";
@@ -78,6 +81,10 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_FILE_BUILDER_OPEN_FILE_AFTER_GENERATION = "tools.file-builder.open-file-after-generation";
     String TOOLS_BASE64_AS_TEXT = "tools.base64.as-text";
     String TOOLS_BASE64_LINE_BY_LINE = "tools.base64.line-by-line";
+    String TOOLS_PASSGEN_EXCLUDE_SIMILAR_CHARS = "tools.pass-gen.exclude-similar-chars";
+    String TOOLS_PASSGEN_KATAKANA = "tools.pass-gen.Katakana";
+    String TOOLS_PASSGEN_XKCD = "tools.pass-gen.XKCD";
+    String TOOLS_PASSGEN_PASSWORD_TYPE = "tools.pass-gen.PasswordType";
 
     static BundleLoader getLoader() { return BundleLoader.of(DesktopMessages.class); }
 }
