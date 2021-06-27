@@ -85,6 +85,7 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_PASSGEN_KATAKANA = "tools.pass-gen.Katakana";
     String TOOLS_PASSGEN_XKCD = "tools.pass-gen.XKCD";
     String TOOLS_PASSGEN_PASSWORD_TYPE = "tools.pass-gen.PasswordType";
+    String TOOLS_SEQGEN_PARAMETERS_HEADER = "tools.seqgen.parameters-header";
 
     static BundleLoader getLoader() { return BundleLoader.of(DesktopMessages.class); }
 }

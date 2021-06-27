@@ -37,8 +37,12 @@ import java.util.function.BiFunction;
 public class SequenceGenerator<ID, V> {
 
     private final List<Item<ID>> items;
-    // converter function can use item ID and its current number value to obtain any
-    // required output value type (including strings and objects)
+
+    // Converter function should be used to transform generator output to any format.
+    // (ID, double) -> V, where
+    // - ID - item ID
+    // - double - next item value in sequence
+    // - V - calculated output value
     private final BiFunction<ID, Double, V> converter;
 
     private final Map<ID, V> valuesAccumulator = new HashMap<>();
@@ -73,7 +77,7 @@ public class SequenceGenerator<ID, V> {
             // by the end of the recursion cycle all old values will be replaced to the new ones
             valuesAccumulator.put(currentItem.id, converter.apply(id, value));
 
-            // if next item is not null go deeper to fill values accu,ulator
+            // if next item is not null go deeper to fill values accumulator
             if (nextItem != null) {
                 iterate(nextItem, sequenceAccumulator);
             } else {

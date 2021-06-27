@@ -40,6 +40,7 @@ public interface ControlsMessages {
     String SEPARATOR="Separator";
     String SETTINGS="Settings";
     String STATUS="Status";
+    String START="Start";
     String STEP="Step";
     String TEXT="Text";
     String TOOLS="Tools";

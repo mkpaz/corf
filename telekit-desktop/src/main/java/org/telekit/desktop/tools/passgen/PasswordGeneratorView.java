@@ -66,7 +66,6 @@ public class PasswordGeneratorView extends GridPane implements Initializable, Co
 
     Accordion accordion;
     TextArea generatedText;
-    Label rowLimitLabel;
     Button exportBtn;
     Button generateBtn;
     Spinner<Integer> countSpinner;
@@ -182,15 +181,18 @@ public class PasswordGeneratorView extends GridPane implements Initializable, Co
         // RIGHT
 
         generatedText = Controls.create(TextArea::new, "monospace");
-
-        rowLimitLabel = new Label(t(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT));
+        generatedText.setEditable(false);
 
         exportBtn = new Button(t(ACTION_EXPORT));
         exportBtn.setOnAction(e -> export());
         exportBtn.disableProperty().bind(BindUtils.isBlank(generatedText.textProperty()));
 
         HBox exportBox = hbox(0, Pos.CENTER_LEFT, Insets.EMPTY);
-        exportBox.getChildren().setAll(rowLimitLabel, horizontalSpacer(), exportBtn);
+        exportBox.getChildren().setAll(
+                new Label(t(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT)),
+                horizontalSpacer(),
+                exportBtn
+        );
 
         // GRID
 
@@ -265,15 +267,15 @@ public class PasswordGeneratorView extends GridPane implements Initializable, Co
         final int count = countSpinner.getValue();
 
         Promise.supplyAsync(() -> {
-            StringBuilder result = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             int mark = 0;
 
             for (int i = 0; i < count; i++) {
-                result.append(passgen.get()).append("\n");
-                if (i < TEXTAREA_ROW_LIMIT) { mark = result.length(); }
+                sb.append(passgen.get()).append("\n");
+                if (i < TEXTAREA_ROW_LIMIT) { mark = sb.length(); }
             }
 
-            return ImmutablePair.of(result.toString(), mark);
+            return ImmutablePair.of(sb.toString(), mark);
         }).then(pair -> {
             String passwords = pair.getLeft();
             int mark = pair.getRight();

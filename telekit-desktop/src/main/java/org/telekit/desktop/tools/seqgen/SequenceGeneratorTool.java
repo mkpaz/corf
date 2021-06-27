@@ -7,7 +7,7 @@ import org.telekit.desktop.i18n.DesktopMessages;
 
 import static org.telekit.base.i18n.I18n.t;
 
-public final class SequenceGeneratorTool implements Tool<SequenceGeneratorController> {
+public final class SequenceGeneratorTool implements Tool<SequenceGeneratorView> {
 
     @Override
     public String getName() { return t(DesktopMessages.TOOLS_SEQ_GEN); }
@@ -16,7 +16,7 @@ public final class SequenceGeneratorTool implements Tool<SequenceGeneratorContro
     public ToolGroup getGroup() { return null; }
 
     @Override
-    public Class<SequenceGeneratorController> getComponent() { return SequenceGeneratorController.class; }
+    public Class<SequenceGeneratorView> getComponent() { return SequenceGeneratorView.class; }
 
     @Override
     public Node getIcon() { return null; }
