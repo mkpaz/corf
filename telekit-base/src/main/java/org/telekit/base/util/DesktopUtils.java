@@ -1,5 +1,7 @@
 package org.telekit.base.util;
 
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import org.apache.commons.lang3.SystemUtils;
 import org.telekit.base.Env;
 
@@ -84,12 +86,19 @@ public final class DesktopUtils {
         return false;
     }
 
+    public static void copyToClipboard(String s) {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(s);
+        clipboard.setContent(content);
+    }
+
     public static void xdgOpen(String fileOrURL) {
         Objects.requireNonNull(fileOrURL);
 
         try {
-            if (Runtime.getRuntime().exec(new String[] {"which", "xdg-open"}).getInputStream().read() != -1) {
-                Runtime.getRuntime().exec(new String[] {"xdg-open", fileOrURL});
+            if (Runtime.getRuntime().exec(new String[]{"which", "xdg-open"}).getInputStream().read() != -1) {
+                Runtime.getRuntime().exec(new String[]{"xdg-open", fileOrURL});
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

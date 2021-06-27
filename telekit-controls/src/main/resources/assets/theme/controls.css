@@ -10,9 +10,9 @@
 .text-sm { -fx-font-size: 0.9em; }
 .text-xs { -fx-font-size: 0.8em; }
 
-.text-success { -fx-fill: -fx-color-success; }
-.text-warning { -fx-fill: -fx-color-warning; }
-.text-error   { -fx-fill: -fx-color-error;   }
+.text-success { -fx-fill: -fx-color-success; -fx-text-fill: -fx-color-success; }
+.text-warning { -fx-fill: -fx-color-warning; -fx-text-fill: -fx-color-warning; }
+.text-error   { -fx-fill: -fx-color-error;   -fx-text-fill: -fx-color-error; }
 
 .hide-table-header .column-header-background {
     -fx-max-height:  0;

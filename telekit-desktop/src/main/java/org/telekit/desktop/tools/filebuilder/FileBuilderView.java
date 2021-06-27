@@ -32,7 +32,7 @@ import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderViewModel.*;
 
 @Singleton
-public class FileBuilderView extends VBox implements Initializable, View<FileBuilderViewModel> {
+public final class FileBuilderView extends VBox implements Initializable, View<FileBuilderViewModel> {
 
     SettingsPane settingsPane;
 

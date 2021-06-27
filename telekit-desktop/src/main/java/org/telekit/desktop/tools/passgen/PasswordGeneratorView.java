@@ -42,7 +42,7 @@ import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.startup.config.Config.DESKTOP_MODULE_PATH;
 
 @Singleton
-public class PasswordGeneratorView extends GridPane implements Initializable, Component {
+public final class PasswordGeneratorView extends GridPane implements Initializable, Component {
 
     static final int TYPE_RANDOM = 0;
     static final int TYPE_KATAKANA = 1;

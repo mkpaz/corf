@@ -45,7 +45,7 @@ import static org.telekit.base.util.CSVUtils.textToTable;
 import static org.telekit.controls.util.BindUtils.isNotBlank;
 
 @Singleton
-public class ApiClientViewModel implements Initializable, ViewModel {
+public final class ApiClientViewModel implements Initializable, ViewModel {
 
     static final String PREVIEW_FILE_NAME = "api-client.preview.html";
 
@@ -179,7 +179,7 @@ public class ApiClientViewModel implements Initializable, ViewModel {
     //@formatter:on
 
     ///////////////////////////////////////////////////////////////////////////
-    // Event Bus                                                             //
+    // Commands                                                              //
     ///////////////////////////////////////////////////////////////////////////
 
     public ConsumerCommand<Template> addTemplateCommand() { return addTemplateCommand; }

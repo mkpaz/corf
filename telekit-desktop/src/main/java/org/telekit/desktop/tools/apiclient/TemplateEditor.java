@@ -245,7 +245,6 @@ public class TemplateEditor extends OverlayDialog {
         tabPane.getSelectionModel().selectFirst();
     }
 
-    @FXML
     public void commit() {
         template.setName(trim(nameText.getText()));
         template.setMethod(methodChoice.getSelectionModel().getSelectedItem());

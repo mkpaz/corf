@@ -16,7 +16,11 @@ import static org.telekit.base.util.StringUtils.ensureNotNull;
 public final class CommonUtils {
 
     public static <T, R> R extract(T t, Function<T, R> func) {
-        return t != null ? func.apply(t) : null;
+        return extract(t, func, null);
+    }
+
+    public static <T, R> R extract(T t, Function<T, R> func, R defaultValue) {
+        return t != null ? func.apply(t) : defaultValue;
     }
 
     public static Properties loadProperties(File file) {

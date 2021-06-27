@@ -35,7 +35,7 @@ import static org.telekit.desktop.tools.filebuilder.Generator.MODE_APPEND;
 import static org.telekit.desktop.tools.filebuilder.Generator.MODE_REPLACE;
 
 @Singleton
-public class FileBuilderViewModel implements Initializable, ViewModel {
+public final class FileBuilderViewModel implements Initializable, ViewModel {
 
     static final String PREVIEW_FILE_NAME = "import-file-builder.preview.html";
     static final Path DEFAULT_PATH = Env.HOME_DIR.resolve("import.txt");

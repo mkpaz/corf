@@ -14,6 +14,8 @@ import org.telekit.base.domain.event.Notification;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.controls.util.Controls;
 
+import javax.inject.Singleton;
+
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.trim;
@@ -25,7 +27,8 @@ import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_BASE64_AS_TEXT;
 import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_BASE64_LINE_BY_LINE;
 import static org.telekit.desktop.tools.base64.ConvertTask.*;
 
-public class Base64View extends GridPane implements Initializable, Component {
+@Singleton
+public final class Base64View extends GridPane implements Initializable, Component {
 
     TextArea origText;
 

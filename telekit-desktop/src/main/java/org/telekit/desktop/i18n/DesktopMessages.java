@@ -75,8 +75,9 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_APICLIENT_REQUEST_LINE = "tools.api-client.RequestLine";
     String TOOLS_APICLIENT_SHOW_UNSUCCESSFUL_REQUESTS_ONLY = "tools.api-client.show-unsuccessful-requests-only";
     String TOOLS_APICLIENT_SHOW_TIMEOUT_BETWEEN_REQUESTS = "tools.api-client.timeout-between-requests";
-    String TOOLS_IPCALC_TASK_REPORT = "tools.ipcalc.IPFormatConverter";
-    String TOOLS_IPCALC_MSG_INVALID_IP_ADDRESS = "tools.ipcalc.msg.invalid-ip-address";
+    String TOOLS_IPCALC_SPLIT_TO_0 = "tools.ipcalc.split-to.0";
+    String TOOLS_IPCALC_IP_ADDRESS_CONVERTER = "tools.ipcalc.IPAddressConverter";
+    String TOOLS_IPCALC_SPLIT_TO_1 = "tools.ipcalc.split-to.1";
     String TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT = "tools.seq-gen.msg.sequence-size-exceeds-limit";
     String TOOLS_FILE_BUILDER_OPEN_FILE_AFTER_GENERATION = "tools.file-builder.open-file-after-generation";
     String TOOLS_BASE64_AS_TEXT = "tools.base64.as-text";

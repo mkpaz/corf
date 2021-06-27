@@ -132,6 +132,8 @@ public class LogTab extends Tab {
                 details
         );
 
+        // ROOT
+
         SplitPane splitPane = new SplitPane();
         splitPane.setDividerPositions(0.7);
         splitPane.setOrientation(Orientation.HORIZONTAL);

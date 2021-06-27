@@ -20,6 +20,7 @@ import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.*;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.button;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 
+@Singleton
 public final class SequenceGeneratorView extends GridPane implements Initializable, Component {
 
     static final int MAX_STEP = 1_000;
@@ -109,7 +111,6 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
         exportBtn = new Button(t(ACTION_EXPORT));
         exportBtn.setOnAction(e -> export());
         exportBtn.disableProperty().bind(BindUtils.isBlank(generatedText.textProperty()));
-        GridPane.setValignment(exportBtn, VPos.TOP);
 
         HBox exportBox = hbox(0, Pos.CENTER_LEFT, Insets.EMPTY);
         exportBox.getChildren().setAll(

@@ -31,7 +31,7 @@ import static org.telekit.controls.util.Controls.button;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 
 @Singleton
-public class ApiClientView extends VBox implements Initializable, View<ApiClientViewModel> {
+public final class ApiClientView extends VBox implements Initializable, View<ApiClientViewModel> {
 
     TabPane tabPane;
     SettingsTab settingsTab;

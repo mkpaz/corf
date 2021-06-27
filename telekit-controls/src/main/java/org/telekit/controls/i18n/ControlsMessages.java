@@ -6,6 +6,7 @@ import org.telekit.base.i18n.BundleLoader;
 public interface ControlsMessages {
 
     String AUTHENTICATION="Authentication";
+    String COMMENT="Comment";
     String CONFIRMATION="Confirmation";
     String COUNT="Count";
     String DELIMITER="Delimiter";
@@ -19,6 +20,7 @@ public interface ControlsMessages {
     String HEADER="Header";
     String HELP="Help";
     String INFO="Info";
+    String IP_ADDRESS="IpAddress";
     String KEY="Key";
     String LANGUAGE="Language";
     String LENGTH="Length";
@@ -26,6 +28,9 @@ public interface ControlsMessages {
     String MODE="Mode";
     String NAME="Name";
     String NEW="New";
+    String NETMASK="Netmask";
+    String NETWORK="Network";
+    String PARAMETER="Parameter";
     String PARAMETERS="Parameters";
     String PASSWORD="Password";
     String PASSWORDS="Passwords";

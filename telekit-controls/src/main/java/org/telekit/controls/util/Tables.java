@@ -4,9 +4,14 @@ import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
 import javafx.util.Callback;
+import org.telekit.base.util.DesktopUtils;
+
+import java.util.List;
+import java.util.function.Function;
 
 public final class Tables {
 
@@ -48,5 +53,18 @@ public final class Tables {
             }, cell.emptyProperty(), cell.indexProperty()));
             return cell;
         };
+    }
+
+    public static <S> void copySelectedRowsToClipboard(TableView<S> table, Function<S, String> converter) {
+        List<Integer> rowIndices = table.getSelectionModel().getSelectedIndices();
+        if (rowIndices == null || rowIndices.isEmpty()) { return; }
+
+        StringBuilder sb = new StringBuilder();
+        for (Integer rowIndex : rowIndices) {
+            sb.append(converter.apply(table.getItems().get(rowIndex)));
+            sb.append('\n');
+        }
+
+        DesktopUtils.copyToClipboard(sb.toString());
     }
 }
