@@ -5,8 +5,8 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -74,8 +74,8 @@ public class Overlay extends StackPane implements Initializable {
         // hide overlay by clicking outside content area
         setOnMouseClicked(e -> {
             Pane content = getContent();
-            Point2D coordinates = new Point2D(e.getX(), e.getY());
-            if (e.getButton() == MouseButton.PRIMARY && content != null && !content.contains(coordinates)) {
+            Node eventSource = e.getPickResult().getIntersectedNode();
+            if (e.getButton() == MouseButton.PRIMARY && content != null && !NodeUtils.isDescendantOf(content, eventSource)) {
                 hideAndConsume.accept(e);
             }
         });
