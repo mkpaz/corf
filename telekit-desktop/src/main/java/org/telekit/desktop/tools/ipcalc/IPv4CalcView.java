@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
+import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
 import org.telekit.base.domain.exception.TelekitException;
@@ -172,6 +173,8 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
     @Override
     public void initialize() {
+        Component.propagateMouseEventsToParent(this);
+
         ipText.textProperty().bindBidirectional(model.ipAddressProperty());
         netmaskChoice.valueProperty().bindBidirectional(model.netmaskProperty());
 
