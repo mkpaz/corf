@@ -4,6 +4,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.Env;
+import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.routing.Router;
 import org.telekit.base.di.DependencyModule;
 import org.telekit.base.di.Provides;
@@ -20,6 +21,7 @@ import org.telekit.base.service.impl.DefaultEncryptionService;
 import org.telekit.base.util.Mappers;
 import org.telekit.desktop.startup.config.*;
 import org.telekit.desktop.views.MainStage;
+import org.telekit.desktop.views.layout.OverlayBase;
 import org.telekit.desktop.views.system.WelcomeView;
 
 import javax.inject.Named;
@@ -74,6 +76,12 @@ public final class MainDependencyModule implements DependencyModule {
         router.registerRoute(WelcomeView.ROUTE.getName(), WelcomeView.class);
         Config.getBuiltinTools().forEach(tool -> router.registerRoute(tool.id(), tool.getComponent()));
         return router;
+    }
+
+    @Provides
+    @Singleton
+    public Overlay overlay() {
+        return new OverlayBase();
     }
 
     @Provides

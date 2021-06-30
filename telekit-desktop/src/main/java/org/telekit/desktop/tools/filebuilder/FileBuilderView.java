@@ -3,19 +3,18 @@ package org.telekit.desktop.tools.filebuilder;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
 import org.telekit.base.util.TextBuilder;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.controls.util.Controls;
-import org.telekit.desktop.views.layout.Overlay;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -174,13 +173,11 @@ public final class FileBuilderView extends VBox implements Initializable, View<F
     ///////////////////////////////////////////////////////////////////////////
 
     void showOverlay(Pane content) {
-        overlay.setContent(content, HPos.CENTER);
-        overlay.toFront();
+        overlay.show(content);
     }
 
     void hideOverlay() {
-        overlay.removeContent();
-        overlay.toBack();
+        overlay.hide();
     }
 
     static MenuItem createMenuItem(String text, EventHandler<ActionEvent> handler, BooleanBinding disableCondition) {

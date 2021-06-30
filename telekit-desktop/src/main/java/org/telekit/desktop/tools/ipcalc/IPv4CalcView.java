@@ -1,7 +1,6 @@
 package org.telekit.desktop.tools.ipcalc;
 
 import javafx.beans.binding.Bindings;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -15,6 +14,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.telekit.base.desktop.Component;
+import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
 import org.telekit.base.domain.exception.TelekitException;
@@ -27,7 +27,6 @@ import org.telekit.controls.util.Promise;
 import org.telekit.controls.util.Tables;
 import org.telekit.controls.util.TextFormatters;
 import org.telekit.desktop.tools.ipcalc.IPv4NetworkInfo.SplitVariant;
-import org.telekit.desktop.views.layout.Overlay;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -381,8 +380,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         converterDialog = getOrCreateConverterDialog();
         converterDialog.setData(model.ipAddressProperty().get());
 
-        overlay.setContent(converterDialog, HPos.CENTER);
-        overlay.toFront();
+        overlay.show(converterDialog);
     }
 
     private IPv4ConverterDialog getOrCreateConverterDialog() {
@@ -391,13 +389,9 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         converterDialog = new IPv4ConverterDialog();
         converterDialog.setOnCommit(ipStr -> {
             if (IPv4AddressWrapper.isValidString(ipStr)) { ipText.setText(ipStr); }
-            overlay.removeContent();
-            overlay.toBack();
+            overlay.hide();
         });
-        converterDialog.setOnCloseRequest(() -> {
-            overlay.removeContent();
-            overlay.toBack();
-        });
+        converterDialog.setOnCloseRequest(overlay::hide);
 
         return converterDialog;
     }
