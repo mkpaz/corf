@@ -90,7 +90,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
         ipConverterBtn = Controls.iconButton(Material2OutlinedAL.CALCULATE);
         ipConverterBtn.setMaxHeight(Double.MAX_VALUE);
-        ipConverterBtn.setTooltip(new Tooltip(t(TOOLS_IPCALC_IP_ADDRESS_CONVERTER)));
+        ipConverterBtn.setTooltip(new Tooltip(t(IPCALC_IP_ADDRESS_CONVERTER)));
         ipConverterBtn.setOnAction(e -> showIPConverter());
 
         ipText = Controls.create(TextField::new, "monospace");
@@ -136,9 +136,9 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
         HBox splitBox = hbox(10, Pos.CENTER_LEFT, new Insets(20, 0, 0, 0));
         splitBox.getChildren().setAll(
-                new Label(t(TOOLS_IPCALC_SPLIT_TO_0)),
+                new Label(t(IPCALC_SPLIT_TO_0)),
                 splitSubnetsChoice,
-                new Label(t(TOOLS_IPCALC_SPLIT_TO_1)),
+                new Label(t(IPCALC_SPLIT_TO_1)),
                 horizontalSpacer(),
                 bitUsageLabel
         );

@@ -11,7 +11,7 @@ public final class PasswordGeneratorTool implements Tool<PasswordGeneratorView> 
 
     @Override
     public String getName() {
-        return t(DesktopMessages.TOOLS_PASS_GEN);
+        return t(DesktopMessages.TOOL_PASSWORD_GENERATOR);
     }
 
     @Override

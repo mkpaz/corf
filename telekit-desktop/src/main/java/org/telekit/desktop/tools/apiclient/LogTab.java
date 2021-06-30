@@ -87,7 +87,7 @@ public class LogTab extends Tab {
 
         HBox leftTopBox = hbox(5, CENTER_LEFT, Insets.EMPTY);
         leftTopBox.getChildren().setAll(
-                new Label(t(TOOLS_APICLIENT_COMPLETED_REQUESTS)),
+                new Label(t(APICLIENT_COMPLETED_REQUESTS)),
                 horizontalSpacer(),
                 statBox
         );
@@ -96,7 +96,7 @@ public class LogTab extends Tab {
         logTable.setItems(model.getFilteredLog());
         VBox.setVgrow(logTable, Priority.ALWAYS);
 
-        errorsOnlyCheckBox = new CheckBox(t(TOOLS_APICLIENT_SHOW_UNSUCCESSFUL_REQUESTS_ONLY));
+        errorsOnlyCheckBox = new CheckBox(t(APICLIENT_SHOW_UNSUCCESSFUL_REQUESTS_ONLY));
         errorsOnlyCheckBox.selectedProperty().bindBidirectional(model.logErrorsOnlyProperty());
 
         exportBtn = new Button(t(ACTION_EXPORT));
@@ -150,7 +150,7 @@ public class LogTab extends Tab {
         TableColumn<CompletedRequest, String> statusColumn = Tables.column(t(STATUS), "statusCode");
         setColumnConstraints(statusColumn, 100, USE_COMPUTED_SIZE, false, Pos.CENTER);
 
-        TableColumn<CompletedRequest, String> dataColumn = Tables.column(t(TOOLS_APICLIENT_REQUEST_LINE), "userData");
+        TableColumn<CompletedRequest, String> dataColumn = Tables.column(t(APICLIENT_REQUEST_LINE), "userData");
         Tables.setColumnConstraints(dataColumn, 200, USE_COMPUTED_SIZE, true, CENTER_LEFT);
 
         TableView<CompletedRequest> table = new TableView<>();

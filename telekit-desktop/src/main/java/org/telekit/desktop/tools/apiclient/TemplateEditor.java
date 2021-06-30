@@ -2,7 +2,6 @@ package org.telekit.desktop.tools.apiclient;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -126,13 +125,13 @@ public class TemplateEditor extends OverlayDialog {
         grid.add(gridLabel("* URI", HPos.RIGHT, uriText), 0, 1);
         grid.add(methodBox, 1, 1);
 
-        grid.add(gridLabel(t(TOOLS_APICLIENT_HTTP_HEADERS), HPos.RIGHT, headersText), 0, 2);
+        grid.add(gridLabel(t(APICLIENT_HTTP_HEADERS), HPos.RIGHT, headersText), 0, 2);
         grid.add(headersText, 1, 2);
 
-        grid.add(gridLabel(t(TOOLS_APICLIENT_BODY), HPos.RIGHT, bodyText), 0, 3);
+        grid.add(gridLabel(t(APICLIENT_BODY), HPos.RIGHT, bodyText), 0, 3);
         grid.add(bodyText, 1, 3);
 
-        grid.add(gridLabel(t(TOOLS_APICLIENT_WAIT_TIMEOUT), HPos.RIGHT, waitTimeoutSpinner), 0, 4);
+        grid.add(gridLabel(t(APICLIENT_WAIT_TIMEOUT), HPos.RIGHT, waitTimeoutSpinner), 0, 4);
         grid.add(waitTimeoutBox, 1, 4);
 
         grid.getColumnConstraints().addAll(
@@ -179,10 +178,10 @@ public class TemplateEditor extends OverlayDialog {
 
         GridPane grid = Containers.gridPane(20, 10, new Insets(10));
 
-        grid.add(gridLabel(t(TOOLS_APICLIENT_BATCH_SIZE), HPos.RIGHT, batchSizeSpinner), 0, 0);
+        grid.add(gridLabel(t(APICLIENT_BATCH_SIZE), HPos.RIGHT, batchSizeSpinner), 0, 0);
         grid.add(batchSizeSpinner, 1, 0);
 
-        grid.add(gridLabel(t(TOOLS_APICLIENT_BATCH_WRAPPER), HPos.RIGHT, batchWrapperText), 0, 1);
+        grid.add(gridLabel(t(APICLIENT_BATCH_WRAPPER), HPos.RIGHT, batchWrapperText), 0, 1);
         grid.add(batchWrapperText, 1, 1);
 
         grid.add(gridLabel(t(SEPARATOR), HPos.RIGHT, batchSeparatorChoice), 0, 2);

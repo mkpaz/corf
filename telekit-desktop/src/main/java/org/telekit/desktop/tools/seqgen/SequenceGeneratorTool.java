@@ -10,7 +10,7 @@ import static org.telekit.base.i18n.I18n.t;
 public final class SequenceGeneratorTool implements Tool<SequenceGeneratorView> {
 
     @Override
-    public String getName() { return t(DesktopMessages.TOOLS_SEQ_GEN); }
+    public String getName() { return t(DesktopMessages.TOOL_SEQUENCE_GENERATOR); }
 
     @Override
     public ToolGroup getGroup() { return null; }

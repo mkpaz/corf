@@ -10,7 +10,7 @@ import static org.telekit.base.i18n.I18n.t;
 public final class IPv4CalcTool implements Tool<IPv4CalcView> {
 
     @Override
-    public String getName() { return t(DesktopMessages.TOOLS_IP4_CALC); }
+    public String getName() { return t(DesktopMessages.TOOL_IPV4_CALCULATOR); }
 
     @Override
     public ToolGroup getGroup() { return null; }

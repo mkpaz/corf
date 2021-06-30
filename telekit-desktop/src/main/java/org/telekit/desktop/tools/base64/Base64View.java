@@ -23,8 +23,8 @@ import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.controls.i18n.ControlsMessages.MODE;
 import static org.telekit.controls.i18n.ControlsMessages.TEXT;
 import static org.telekit.controls.util.Containers.*;
-import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_BASE64_AS_TEXT;
-import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_BASE64_LINE_BY_LINE;
+import static org.telekit.desktop.i18n.DesktopMessages.BASE64_AS_TEXT;
+import static org.telekit.desktop.i18n.DesktopMessages.BASE64_LINE_BY_LINE;
 import static org.telekit.desktop.tools.base64.ConvertTask.*;
 
 @Singleton
@@ -65,11 +65,11 @@ public final class Base64View extends GridPane implements Initializable, Compone
 
         modeToggle = new ToggleGroup();
 
-        lineModeCheck = new RadioButton(t(TOOLS_BASE64_LINE_BY_LINE));
+        lineModeCheck = new RadioButton(t(BASE64_LINE_BY_LINE));
         lineModeCheck.setToggleGroup(modeToggle);
         lineModeCheck.setUserData(MODE_BY_LINE);
 
-        textModeCheck = new RadioButton(t(TOOLS_BASE64_AS_TEXT));
+        textModeCheck = new RadioButton(t(BASE64_AS_TEXT));
         textModeCheck.setToggleGroup(modeToggle);
         textModeCheck.setUserData(MODE_AS_TEXT);
 

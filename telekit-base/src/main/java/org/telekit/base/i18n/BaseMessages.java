@@ -4,11 +4,11 @@ package org.telekit.base.i18n;
 // both in services and desktop dialogs.
 public interface BaseMessages {
 
+    // COMMON MESSAGES
+
     String MSG_GENERIC_IO_ERROR = "msg.generic-io-error";
     String MSG_INVALID_PARAM = "msg.invalid-param";
     String MSG_KEY_IS_NOT_UNIQUE = "msg.key-is-not-unique";
-    String MSG_TASK_COMPLETED = "msg.task-completed";
-    String MSG_TASK_CANCELED = "msg.task-canceled";
     String MGG_UNABLE_TO_EXTRACT_FILE = "msg.unable-to-extract-file";
     String MGG_UNABLE_TO_LOAD_DATA_FROM_FILE = "msg.unable-to-load-data-from-file";
     String MGG_UNABLE_TO_SAVE_DATA_TO_FILE = "msg.unable-to-save-data-to-file";
@@ -17,6 +17,8 @@ public interface BaseMessages {
     String MGG_CRYPTO_KEY_VAULT_IS_LOCKED = "msg.crypto.key-vault-is-locked";
     String MGG_CRYPTO_UNABLE_TO_ENCRYPT_DATA = "msg.crypto.unable-to-encrypt-data";
     String MGG_CRYPTO_UNABLE_TO_DECRYPT_DATA = "msg.crypto.unable-to-decrypt-data";
+
+    // PLUGINS
 
     String PLUGIN_MSG_ALREADY_INSTALLED = "plugin.msg.already-installed";
     String PLUGIN_MSG_ERROR_WHILE_START = "plugin.msg.error-while-start";

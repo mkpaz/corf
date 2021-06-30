@@ -81,7 +81,7 @@ public final class FileBuilderView extends VBox implements Initializable, View<F
         appendToFileCheck = Controls.create(() -> new CheckBox(t(TOOLS_APPEND_IF_EXISTS)), "text-sm");
         appendToFileCheck.selectedProperty().bindBidirectional(model.appendToFileProperty());
 
-        openAfterGenerationCheck = Controls.create(() -> new CheckBox(t(TOOLS_FILE_BUILDER_OPEN_FILE_AFTER_GENERATION)), "text-sm");
+        openAfterGenerationCheck = Controls.create(() -> new CheckBox(t(FILEBUILDER_OPEN_FILE_AFTER_GENERATION)), "text-sm");
         openAfterGenerationCheck.selectedProperty().bindBidirectional(model.openAfterGenerationProperty());
 
         generateBtn = button(t(ACTION_GENERATE), Material2MZ.SHUFFLE, "large");

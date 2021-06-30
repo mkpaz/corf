@@ -20,16 +20,16 @@ public interface ControlsMessages {
     String HEADER="Header";
     String HELP="Help";
     String INFO="Info";
-    String IP_ADDRESS="IpAddress";
+    String IP_ADDRESS="IPAddress";
     String KEY="Key";
     String LANGUAGE="Language";
     String LENGTH="Length";
     String LOG="Log";
     String MODE="Mode";
     String NAME="Name";
-    String NEW="New";
     String NETMASK="Netmask";
     String NETWORK="Network";
+    String NEW="New";
     String PARAMETER="Parameter";
     String PARAMETERS="Parameters";
     String PASSWORD="Password";
@@ -44,11 +44,10 @@ public interface ControlsMessages {
     String SEARCH="Search";
     String SEPARATOR="Separator";
     String SETTINGS="Settings";
-    String STATUS="Status";
     String START="Start";
+    String STATUS="Status";
     String STEP="Step";
     String TEXT="Text";
-    String TOOLS="Tools";
     String TYPE="Type";
     String USERNAME="Username";
     String VALUE="Value";
@@ -56,14 +55,16 @@ public interface ControlsMessages {
     String WARNING="Warning";
     String WINDOW="Window";
 
+    // ACTIONS
+
     String ACTION_ADD ="action.Add";
     String ACTION_APPLY ="action.Apply";
     String ACTION_BROWSE ="action.Browse";
-    String ACTION_DELETE ="action.Delete";
     String ACTION_CANCEL ="action.Cancel";
     String ACTION_CLOSE ="action.Close";
     String ACTION_COPY = "action.Copy";
     String ACTION_CUT = "action.Cut";
+    String ACTION_DELETE ="action.Delete";
     String ACTION_DISABLE ="action.Disable";
     String ACTION_DUPLICATE ="action.Duplicate";
     String ACTION_EDIT ="action.Edit";
@@ -83,10 +84,11 @@ public interface ControlsMessages {
     String ACTION_SELECT_ALL = "action.SelectAll";
     String ACTION_START ="action.Start";
     String ACTION_STOP ="action.Stop";
-    String ACTION_SUBMIT ="action.Submit";
     String ACTION_UNDO = "action.Undo";
     String ACTION_UNINSTALL ="action.Uninstall";
     String ACTION_UPDATE ="action.Update";
+
+    // FILE DIALOG
 
     String FILE_DIALOG_TEXT = "file-dialog.text";
     String FILE_DIALOG_XML = "file-dialog.xml";

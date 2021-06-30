@@ -10,7 +10,7 @@ import static org.telekit.base.i18n.I18n.t;
 public final class FileBuilderTool implements Tool<FileBuilderView> {
 
     @Override
-    public String getName() { return t(DesktopMessages.TOOLS_FILE_BUILDER); }
+    public String getName() { return t(DesktopMessages.TOOL_IMPORT_FILE_BUILDER); }
 
     @Override
     public ToolGroup getGroup() { return null; }

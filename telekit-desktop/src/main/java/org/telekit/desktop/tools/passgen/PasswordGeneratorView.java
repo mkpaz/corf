@@ -105,7 +105,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
         randDigitsCheck.setSelected(true);
 
         randSpecialsCheck = new CheckBox("$#@*");
-        randSimilarCheck = new CheckBox(t(TOOLS_PASSGEN_EXCLUDE_SIMILAR_CHARS));
+        randSimilarCheck = new CheckBox(t(PASSGEN_EXCLUDE_SIMILAR_CHARS));
 
         Label randExampleLabel = Controls.create(() -> new Label(t(EXAMPLE)), "text-bold");
         randExampleLabel.setPadding(new Insets(20, 0, 0, 0));
@@ -123,7 +123,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
 
         // ~
         VBox kataBox = vbox(10, Pos.TOP_LEFT, new Insets(20));
-        kataRoot = new TitledPane(t(TOOLS_PASSGEN_KATAKANA), kataBox);
+        kataRoot = new TitledPane(t(PASSGEN_KATAKANA), kataBox);
         kataRoot.setUserData(TYPE_KATAKANA);
 
         HBox kataSpinnerBox = hbox(10, Pos.CENTER_LEFT, Insets.EMPTY);
@@ -142,7 +142,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
         // ~
 
         VBox xkcdBox = vbox(10, Pos.TOP_LEFT, new Insets(20));
-        xkcdRoot = new TitledPane(t(TOOLS_PASSGEN_XKCD), xkcdBox);
+        xkcdRoot = new TitledPane(t(PASSGEN_XKCD), xkcdBox);
         xkcdRoot.setUserData(TYPE_XKCD);
 
         HBox xkcdSpinnerBox = hbox(10, Pos.CENTER_LEFT, Insets.EMPTY);
@@ -196,7 +196,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
 
         // GRID
 
-        add(new Label(t(TOOLS_PASSGEN_PASSWORD_TYPE)), 0, 0);
+        add(new Label(t(PASSGEN_PASSWORD_TYPE)), 0, 0);
         add(accordion, 0, 1);
 
         add(new Label(t(PASSWORDS)), 1, 0);
