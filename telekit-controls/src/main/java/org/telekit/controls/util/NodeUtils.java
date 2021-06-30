@@ -40,4 +40,14 @@ public final class NodeUtils {
         Node node = children.get(index);
         return contentType.isInstance(node) ? contentType.cast(node) : null;
     }
+
+    public static boolean isDescendantOf(Node ancestor, Node descendant) {
+        if (ancestor == null) { return true; }
+
+        while (descendant != null) {
+            if (descendant == ancestor) { return true; }
+            descendant = descendant.getParent();
+        }
+        return false;
+    }
 }
