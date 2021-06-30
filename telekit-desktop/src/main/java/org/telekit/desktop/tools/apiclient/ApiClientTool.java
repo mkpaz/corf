@@ -10,7 +10,7 @@ import static org.telekit.base.i18n.I18n.t;
 public final class ApiClientTool implements Tool<ApiClientView> {
 
     @Override
-    public String getName() { return t(DesktopMessages.TOOLS_API_CLIENT); }
+    public String getName() { return t(DesktopMessages.TOOL_API_CLIENT); }
 
     @Override
     public ToolGroup getGroup() { return null; }

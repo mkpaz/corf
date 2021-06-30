@@ -24,7 +24,7 @@ import static org.telekit.controls.i18n.ControlsMessages.IP_ADDRESS;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.button;
 import static org.telekit.controls.util.Controls.gridLabel;
-import static org.telekit.desktop.i18n.DesktopMessages.TOOLS_IPCALC_IP_ADDRESS_CONVERTER;
+import static org.telekit.desktop.i18n.DesktopMessages.IPCALC_IP_ADDRESS_CONVERTER;
 
 public class IPv4ConverterDialog extends OverlayDialog {
 
@@ -82,7 +82,7 @@ public class IPv4ConverterDialog extends OverlayDialog {
 
         footerBox.getChildren().add(1, commitBtn);
         setPrefWidth(500);
-        setTitle(t(TOOLS_IPCALC_IP_ADDRESS_CONVERTER));
+        setTitle(t(IPCALC_IP_ADDRESS_CONVERTER));
 
         return grid;
     }

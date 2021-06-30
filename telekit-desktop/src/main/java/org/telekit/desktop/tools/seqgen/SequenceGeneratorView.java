@@ -5,7 +5,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -79,7 +78,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
         patternText = new TextField();
         patternText.setAlignment(Pos.CENTER);
 
-        Label paramsLabel = new Label(t(TOOLS_SEQGEN_PARAMETERS_HEADER));
+        Label paramsLabel = new Label(t(SEQGEN_PARAMETERS_HEADER));
         paramsLabel.setPadding(new Insets(10, 0, 0, 0));
 
         groupA = new ItemControlGroup("A");
@@ -188,7 +187,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
         if (SequenceGenerator.expectedSize(items) > MAX_TOTAL_RESULT_SIZE) {
             Dialogs.warning()
                     .title(t(WARNING))
-                    .content(t(TOOLS_SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_TOTAL_RESULT_SIZE))
+                    .content(t(SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_TOTAL_RESULT_SIZE))
                     .owner(getWindow())
                     .build()
                     .showAndWait();

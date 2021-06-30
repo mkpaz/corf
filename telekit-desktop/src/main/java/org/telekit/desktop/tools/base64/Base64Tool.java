@@ -10,7 +10,7 @@ import static org.telekit.base.i18n.I18n.t;
 public final class Base64Tool implements Tool<Base64View> {
 
     @Override
-    public String getName() { return t(DesktopMessages.TOOLS_BASE64); }
+    public String getName() { return t(DesktopMessages.TOOL_BASE64_ENCODER); }
 
     @Override
     public ToolGroup getGroup() { return null; }

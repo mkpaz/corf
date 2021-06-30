@@ -91,7 +91,7 @@ public final class ApiClientView extends VBox implements Initializable, View<Api
                 startBtn,
                 stopBtn,
                 timeoutSpinner,
-                new Label(t(TOOLS_APICLIENT_SHOW_TIMEOUT_BETWEEN_REQUESTS))
+                new Label(t(APICLIENT_SHOW_TIMEOUT_BETWEEN_REQUESTS))
         );
 
         getChildren().setAll(tabPane, progressBox, controlsBox);
