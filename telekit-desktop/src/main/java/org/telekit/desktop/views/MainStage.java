@@ -159,7 +159,7 @@ public class MainStage {
         MainStage mainStage = create(primaryStage, scene, preferences);
 
         // scene must be set to stage BEFORE attaching resize handler
-        UndecoratedStageResizeHandler.attach(mainStage.getStage(), DROP_SHADOW_OFFSET, new Insets(2, -1, 2, -1));
+        UndecoratedStageResizeHandler.attach(mainStage.getStage(), DROP_SHADOW_OFFSET, new Insets(2));
         mainStage.getStage().initStyle(StageStyle.TRANSPARENT);
 
         return mainStage;

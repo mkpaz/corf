@@ -12,6 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.material2.Material2OutlinedMZ;
+import org.telekit.base.desktop.Component;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.util.FileUtils;
 import org.telekit.controls.dialogs.Dialogs;
@@ -26,6 +27,7 @@ import java.util.List;
 import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
+import static org.telekit.base.desktop.Component.propagateMouseEventsToParent;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
@@ -139,6 +141,8 @@ public class LogTab extends Tab {
         splitPane.setOrientation(Orientation.HORIZONTAL);
         splitPane.getItems().setAll(leftBox, rightBox);
         splitPane.setPadding(new Insets(10));
+
+        Component.propagateMouseEventsToParent(splitPane);
 
         setContent(splitPane);
     }

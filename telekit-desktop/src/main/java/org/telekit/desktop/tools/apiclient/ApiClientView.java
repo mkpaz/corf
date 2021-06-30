@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
 import org.telekit.base.util.TextBuilder;
@@ -100,6 +101,8 @@ public final class ApiClientView extends VBox implements Initializable, View<Api
 
     @Override
     public void initialize() {
+        Component.propagateMouseEventsToParent(tabPane);
+
         startBtn.setDisable(true);
         startBtn.disableProperty().bind(BindUtils.or(
                 model.selectedTemplateProperty().isNull(),
