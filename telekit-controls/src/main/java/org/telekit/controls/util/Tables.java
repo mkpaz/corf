@@ -65,6 +65,6 @@ public final class Tables {
             sb.append('\n');
         }
 
-        DesktopUtils.copyToClipboard(sb.toString());
+        DesktopUtils.putToClipboard(sb.toString());
     }
 }

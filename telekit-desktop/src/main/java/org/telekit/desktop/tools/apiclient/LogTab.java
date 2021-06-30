@@ -7,13 +7,14 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView.TableViewSelectionModel;
-import javafx.scene.input.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.material2.Material2OutlinedMZ;
 import org.telekit.base.desktop.Component;
-import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.util.FileUtils;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.BindUtils;
@@ -23,11 +24,12 @@ import org.telekit.controls.util.Tables;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
-import static org.telekit.base.desktop.Component.propagateMouseEventsToParent;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
@@ -162,7 +164,13 @@ public class LogTab extends Tab {
         table.getColumns().setAll(List.of(indexColumn, statusColumn, dataColumn));
         table.setRowFactory(t -> new LogTableRow());
         table.setOnKeyPressed(e -> {
-            if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) { copyLogsTableToClipboard(); }
+            if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
+                Tables.copySelectedRowsToClipboard(table, row -> Stream.of(
+                        row.getProcessedRange(),
+                        String.valueOf(row.getStatusCode()),
+                        row.getUserData()
+                ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining(" | ")));
+            }
         });
 
         TableViewSelectionModel<CompletedRequest> selectionModel = table.getSelectionModel();
@@ -170,27 +178,6 @@ public class LogTab extends Tab {
         selectionModel.selectedItemProperty().addListener((obs, old, value) -> displayRequestDetails(value));
 
         return table;
-    }
-
-    private void copyLogsTableToClipboard() {
-        List<CompletedRequest> selectedRows = logTable.getSelectionModel().getSelectedItems();
-        if (selectedRows == null || selectedRows.isEmpty()) { return; }
-
-        StringBuilder sb = new StringBuilder();
-        String separator = " | ";
-        for (CompletedRequest row : selectedRows) {
-            sb.append(row.getProcessedRange())
-                    .append(separator)
-                    .append(row.getStatusCode())
-                    .append(separator)
-                    .append(row.getUserData())
-                    .append(LineSeparator.UNIX.getCharacters());
-        }
-
-        Clipboard clipboard = Clipboard.getSystemClipboard();
-        ClipboardContent content = new ClipboardContent();
-        content.putString(sb.toString());
-        clipboard.setContent(content);
     }
 
     private void displayRequestDetails(CompletedRequest request) {

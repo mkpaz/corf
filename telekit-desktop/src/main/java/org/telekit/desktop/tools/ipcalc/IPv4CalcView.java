@@ -241,7 +241,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
             if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
                 TreeItem<Pair<String, String>> item = table.getSelectionModel().getSelectedItem();
                 if (item != null && isNotBlank(item.getValue().getRight())) {
-                    DesktopUtils.copyToClipboard(item.getValue().getRight());
+                    DesktopUtils.putToClipboard(item.getValue().getRight());
                 }
             }
         });

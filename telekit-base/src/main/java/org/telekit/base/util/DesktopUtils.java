@@ -86,11 +86,15 @@ public final class DesktopUtils {
         return false;
     }
 
-    public static void copyToClipboard(String s) {
+    public static void putToClipboard(String s) {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();
         content.putString(s);
         clipboard.setContent(content);
+    }
+
+    public static String getFromClipboard() {
+        return Clipboard.getSystemClipboard().getString();
     }
 
     public static void xdgOpen(String fileOrURL) {
