@@ -15,20 +15,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.di.Initializable;
+import org.telekit.base.desktop.Overlay;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.NodeUtils;
 
-import javax.inject.Singleton;
 import java.util.Objects;
 import java.util.function.Consumer;
 
 import static org.telekit.controls.util.Containers.setAnchors;
 import static org.telekit.controls.util.Containers.setScrollConstraints;
 
-@Singleton
-public class Overlay extends StackPane implements Initializable {
+public class OverlayBase extends StackPane implements Overlay {
 
     ScrollPane scrollPane;
     AnchorPane edgeContentWrapper;
@@ -37,7 +35,7 @@ public class Overlay extends StackPane implements Initializable {
     private final ReadOnlyBooleanWrapper onFrontProperty = new ReadOnlyBooleanWrapper(this, "onFront", false);
     private HPos currentContentPos;
 
-    public Overlay() {
+    public OverlayBase() {
         createView();
     }
 
@@ -54,12 +52,8 @@ public class Overlay extends StackPane implements Initializable {
         );
         scrollPane.setMaxHeight(20000); // scroll pane won't work without height specified
 
-        getChildren().add(scrollPane);
-        getStyleClass().add("overlay");
-    }
+        // ~
 
-    @Override
-    public void initialize() {
         Consumer<Event> hideAndConsume = e -> {
             toBack();
             e.consume();
@@ -79,8 +73,12 @@ public class Overlay extends StackPane implements Initializable {
                 hideAndConsume.accept(e);
             }
         });
+
+        getChildren().add(scrollPane);
+        getStyleClass().add("overlay");
     }
 
+    @Override
     public @Nullable Pane getContent() {
         return NodeUtils.getChildByIndex(getContentWrapper(), 0, Pane.class);
     }
@@ -89,6 +87,7 @@ public class Overlay extends StackPane implements Initializable {
         return currentContentPos == HPos.CENTER ? centerContentWrapper : edgeContentWrapper;
     }
 
+    @Override
     public void setContent(Pane content, HPos pos) {
         Objects.requireNonNull(content);
         Objects.requireNonNull(pos);
@@ -116,6 +115,7 @@ public class Overlay extends StackPane implements Initializable {
         scrollPane.setContent(getContentWrapper());
     }
 
+    @Override
     public void removeContent() {
         getContentWrapper().getChildren().clear();
     }

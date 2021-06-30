@@ -6,6 +6,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.desktop.routing.Router;
 import org.telekit.base.di.Initializable;
@@ -20,7 +21,7 @@ public class MainWindowView extends VBox implements Initializable, View<MainWind
     private final MainWindowViewModel model;
     private final TitleBarView titleBar;
     private final StatusBarView statusBar;
-    private final Overlay overlay;
+    private final OverlayBase overlay;
     private final Router router;
     private final FadeTransition routeTransition = new FadeTransition(Duration.millis(400));
 
@@ -33,7 +34,7 @@ public class MainWindowView extends VBox implements Initializable, View<MainWind
         this.model = model;
         this.titleBar = titleBar;
         this.statusBar = statusBar;
-        this.overlay = overlay;
+        this.overlay = (OverlayBase) overlay;
         this.router = router;
 
         createView();

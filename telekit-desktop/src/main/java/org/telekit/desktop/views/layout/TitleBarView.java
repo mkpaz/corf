@@ -13,6 +13,7 @@ import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.desktop.ModalDialog;
+import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
@@ -52,7 +53,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
 
     private final TitleBarViewModel model;
     private final MainStage mainStage;
-    private final Overlay overlay;
+    private final OverlayBase overlay;
     private final NavDrawerView navDrawer;
 
     private ModalDialog<PreferencesView> preferencesDialog;
@@ -64,7 +65,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
                         NavDrawerView navDrawer) {
         this.model = model;
         this.mainStage = mainStage;
-        this.overlay = overlay;
+        this.overlay = (OverlayBase) overlay;
         this.navDrawer = navDrawer;
 
         createView();
@@ -186,14 +187,10 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
     private void toggleNavDrawer(boolean enabled) {
         boolean navDrawerVisible = overlay.contains(navDrawer);
         if (enabled & !navDrawerVisible) {
-            overlay.setContent(navDrawer, HPos.LEFT);
-            overlay.toFront();
+            overlay.show(navDrawer, HPos.LEFT);
             NodeUtils.begForFocus(navDrawer, 3);
         }
-        if (!enabled & navDrawerVisible) {
-            overlay.removeContent();
-            overlay.toBack();
-        }
+        if (!enabled & navDrawerVisible) { overlay.hide(); }
     }
 
     @Override
