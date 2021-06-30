@@ -52,6 +52,7 @@ import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
 import static org.telekit.base.util.CSVUtils.addColumnsTheRight;
 import static org.telekit.base.util.CollectionUtils.isNotEmpty;
+import static org.telekit.base.util.DesktopUtils.getFromClipboard;
 import static org.telekit.base.util.FileUtils.sanitizeFileName;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.i18n.ControlsMessages.*;
@@ -463,7 +464,7 @@ public final class SettingsTab extends Tab {
     }
 
     private void pasteFromExcel() {
-        String clipboardText = Clipboard.getSystemClipboard().getString();
+        String clipboardText = getFromClipboard();
         if (isBlank(clipboardText)) { return; }
 
         String newText = trim(clipboardText.replaceAll("\t", ","));
@@ -471,7 +472,7 @@ public final class SettingsTab extends Tab {
     }
 
     private void pasteAsColumns() {
-        String clipboardText = trim(Clipboard.getSystemClipboard().getString());
+        String clipboardText = trim(getFromClipboard());
         if (isBlank(clipboardText)) { return; }
 
         int origLen = csvText.getText().length();
