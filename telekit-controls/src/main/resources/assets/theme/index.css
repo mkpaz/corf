@@ -11,9 +11,10 @@
     -fx-font-family: "Roboto";
 
     -fx-color-primary: #1976D2;
-    -fx-color-success: #388E3C;
-    -fx-color-warning: #FF3D00;
-    -fx-color-error:   #FF1744;
+    -fx-color-error:   #D32F2F;
+    -fx-color-info:    #0091EA;
+    -fx-color-success: #2E7D32;
+    -fx-color-warning: #DD2C00;
 
     -fx-base: #F2F2F2;
     -fx-accent: -fx-color-primary;

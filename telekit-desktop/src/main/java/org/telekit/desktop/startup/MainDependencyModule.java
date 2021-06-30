@@ -29,7 +29,6 @@ import javax.inject.Singleton;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 import static org.telekit.base.preferences.Vault.MASTER_KEY_ALIAS;
 
@@ -97,15 +96,7 @@ public final class MainDependencyModule implements DependencyModule {
     @Provides
     @Singleton
     public ExecutorService executorService() {
-        ThreadFactory threadFactory = r -> {
-            final Thread thread = new Thread(r);
-            thread.setUncaughtExceptionHandler(
-                    servicesConfig.getExceptionHandler().getUncaughtExceptionHandler()
-            );
-            return thread;
-        };
-
-        return Executors.newCachedThreadPool(threadFactory);
+        return Executors.newCachedThreadPool();
     }
 
     @Provides

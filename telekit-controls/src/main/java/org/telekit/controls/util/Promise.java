@@ -1,11 +1,15 @@
 package org.telekit.controls.util;
 
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import org.telekit.base.domain.event.Notification;
 import org.telekit.base.event.DefaultEventBus;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadFactory;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -13,6 +17,13 @@ import java.util.function.Supplier;
  * Fluent wrapper for {@link Task} influenced by {@link CompletableFuture}.
  * The notable difference is that {@link Task} returns to the main/FX thread
  * automatically, so this helper is safe to be used from UI.
+ * <p>
+ * Note that {@link ExecutorService} and also {@link FutureTask} swallows any exception.
+ * While {@link ExecutorService} constructors accept {@link ThreadFactory}, so we can
+ * instantiate threads with custom {@link UncaughtExceptionHandler}, {@link FutureTask}
+ * has no such feature. That's why {@link Task#setOnFailed(EventHandler)} is explicitly
+ * called in constructor. You can override default notification handler with custom
+ * implementation by calling {@link #exceptionally(Consumer)}.
  */
 public class Promise<T> {
 
@@ -20,6 +31,7 @@ public class Promise<T> {
 
     private Promise(Task<T> task) {
         this.task = task;
+        notifyOnException();
     }
 
     public static RunnablePromise runAsync(Runnable runnable) {

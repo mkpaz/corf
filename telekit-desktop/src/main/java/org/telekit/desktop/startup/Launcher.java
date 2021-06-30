@@ -11,7 +11,6 @@ import org.telekit.base.event.Listener;
 import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
-import org.telekit.desktop.ExceptionHandler;
 import org.telekit.desktop.event.CloseRequestEvent;
 import org.telekit.desktop.startup.config.*;
 import org.telekit.desktop.views.MainStage;
@@ -38,14 +37,13 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
         // create exception handler and set it to the main/FX thread
-        ExceptionHandler exceptionHandler = new ExceptionHandler(primaryStage);
-        Thread.currentThread().setUncaughtExceptionHandler(exceptionHandler.getUncaughtExceptionHandler());
+        Thread.currentThread().setUncaughtExceptionHandler(Config.DEFAULT_EXCEPTION_HANDLER);
 
         // subscribe on close events
         DefaultEventBus.getInstance().subscribe(CloseRequestEvent.class, this::close);
 
         // configure application and set class-level variables
-        final MainStage mainStage = configure(primaryStage, exceptionHandler);
+        final MainStage mainStage = configure(primaryStage);
 
         // init view hierarchy
         MainWindowView mainView = ViewLoader.load(MainWindowView.class);
@@ -77,7 +75,7 @@ public class Launcher extends Application {
         Platform.exit();
     }
 
-    private MainStage configure(Stage primaryStage, ExceptionHandler exceptionHandler) {
+    private MainStage configure(Stage primaryStage) {
         LogConfig logConfig = new LogConfig();
         logConfig.logEnvironmentInfo();
 
@@ -91,7 +89,7 @@ public class Launcher extends Application {
         pluginManager = pluginConfig.getPluginManager();
         pluginConfig.startPlugins();
 
-        ServicesConfig servicesConfig = new ServicesConfig(exceptionHandler);
+        ServicesConfig servicesConfig = new ServicesConfig();
         servicesConfig.startServices();
 
         MainStage mainStage = MainStage.createUndecorated(primaryStage, preferences);

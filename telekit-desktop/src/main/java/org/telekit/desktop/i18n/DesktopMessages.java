@@ -10,7 +10,6 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String SYSTEM_PROJECT_PAGE = "system.ProjectPage";
     String SYSTEM_OPEN_DATA_DIR = "system.OpenDataDirectory";
     String SYSTEM_OPEN_PLUGINS_DIR = "system.OpenPluginsDirectory";
-    String SYSTEM_MSG_ERROR_OCCURRED = "system.msg.error-occurred";
     String SYSTEM_RESTART_REQUIRED = "system.RestartRequired";
 
     String PREFERENCES_GENERAL = "preferences.General";
