@@ -132,3 +132,50 @@
 #navigation-drawer .nav-link > .icon > .font-icon {
     -fx-font-size: 1.6em;
 }
+
+/* Toasts
+**********************************************************/
+
+.system-notifications {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+    -fx-max-width: 330;
+}
+.toast {
+    -fx-padding: 5 5 5 10;
+    -fx-hgap: 5;
+    -fx-min-width:  320;
+    -fx-pref-width: 320;
+    -fx-max-width:  320;
+    -fx-border-width: 1 1 1 1;
+}
+.toast > .text > * {
+    -fx-fill: -fx-text-background-color;
+}
+.toast > .close-icon {
+    -fx-fill: -fx-text-background-color;
+}
+.toast > .hyperlink {
+    -fx-padding: 0 0.25em 0.25em 0;
+    -fx-underline: true;
+}
+.toast.error {
+    -fx-background-color: -fx-color-error;
+    -fx-background: -fx-color-error;
+    -fx-border-color: derive(-fx-color-error, -20%);
+}
+.toast.info {
+    -fx-background-color: -fx-color-info;
+    -fx-background: -fx-color-info;
+    -fx-border-color: derive(-fx-color-info, -20%);
+}
+.toast.success {
+    -fx-background-color: -fx-color-success;
+    -fx-background: -fx-color-success;
+    -fx-border-color: derive(-fx-color-success, -20%);
+}
+.toast.warning {
+    -fx-background-color: -fx-color-warning;
+    -fx-background: -fx-color-warning;
+    -fx-border-color: derive(-fx-color-warning, -20%);
+}

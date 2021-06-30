@@ -17,7 +17,9 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
+import org.telekit.base.domain.event.Notification;
 import org.telekit.base.domain.exception.TelekitException;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.telecom.ip.IPv4AddressWrapper;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
@@ -30,10 +32,7 @@ import org.telekit.desktop.tools.ipcalc.IPv4NetworkInfo.SplitVariant;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -404,10 +403,17 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
                 .showSaveDialog(getWindow());
         if (outputFile == null || splitTable.getItems().isEmpty()) { return; }
 
+        DefaultEventBus.getInstance().publish(Notification.error(new RuntimeException("The baseline Material color theme · Primary and secondary colors")));
+        DefaultEventBus.getInstance().publish(Notification.warning("The baseline Material color theme · Primary and secondary colors"));
+        DefaultEventBus.getInstance().publish(Notification.info("The baseline Material color theme · Primary and secondary colors"));
+        DefaultEventBus.getInstance().publish(Notification.success("The baseline Material color theme · Primary and secondary colors"));
+
         Promise.runAsync(() -> {
             try (FileOutputStream fos = new FileOutputStream(outputFile);
                  OutputStreamWriter osw = new OutputStreamWriter(fos, UTF_8);
                  BufferedWriter out = new BufferedWriter(osw)) {
+
+
 
                 out.write("Network Address;Start Host;End Host;Broadcast\n");
 

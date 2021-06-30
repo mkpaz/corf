@@ -96,13 +96,13 @@ public final class PreviewRenderer {
                 if (cellIdx == 0 || !cellContent.isBlank()) {
                     cells.add(new Cell(trim(cellContent), 1));
                 } else {
-                    Cell lastCell = CollectionUtils.getLast(cells);
+                    Cell lastCell = CollectionUtils.getLastElement(cells);
                     if (lastCell != null) { lastCell.colspan++; }
                 }
 
                 // last cell spans all remaining columns
                 if (cellIdx == chunks.length - 1) {
-                    Cell lastCell = CollectionUtils.getLast(cells);
+                    Cell lastCell = CollectionUtils.getLastElement(cells);
                     if (lastCell != null) { lastCell.colspan = 999; }
                 }
             }
