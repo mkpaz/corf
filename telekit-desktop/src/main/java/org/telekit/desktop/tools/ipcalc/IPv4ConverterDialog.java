@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.telecom.ip.IPv4AddressWrapper;
 import org.telekit.controls.util.Containers;
@@ -38,10 +37,10 @@ public class IPv4ConverterDialog extends OverlayDialog {
 
     public IPv4ConverterDialog() {
         super();
+        createContent();
     }
 
-    @Override
-    protected Region createContent() {
+    private void createContent() {
         octetIPText = new TextField();
         octetIPText.setTextFormatter(TextFormatters.ipv4Decimal());
         octetIPText.textProperty().addListener((obs, old, value) -> updateAll(parseIPAddress(value, -1)));
@@ -84,7 +83,7 @@ public class IPv4ConverterDialog extends OverlayDialog {
         setPrefWidth(500);
         setTitle(t(IPCALC_IP_ADDRESS_CONVERTER));
 
-        return grid;
+        setContent(grid);
     }
 
     public void setData(String ipStr) {

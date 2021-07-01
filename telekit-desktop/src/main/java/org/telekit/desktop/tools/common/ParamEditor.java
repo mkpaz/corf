@@ -8,7 +8,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.TextFormatters;
@@ -22,7 +21,8 @@ import java.util.regex.Pattern;
 
 import static javafx.beans.binding.Bindings.createBooleanBinding;
 import static javafx.collections.FXCollections.observableArrayList;
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
@@ -43,10 +43,10 @@ public class ParamEditor extends OverlayDialog {
 
     public ParamEditor() {
         super();
+        createContent();
     }
 
-    @Override
-    protected Region createContent() {
+    private void createContent() {
         // everything below initialized in parent constructor context
         usedParamNames = new HashSet<>();
 
@@ -91,10 +91,9 @@ public class ParamEditor extends OverlayDialog {
         grid.getColumnConstraints().addAll(columnConstraints(80, Priority.SOMETIMES), HGROW_ALWAYS);
         grid.getRowConstraints().addAll(VGROW_NEVER, VGROW_NEVER, VGROW_NEVER);
 
+        setContent(grid);
         setTitle(t(TOOLS_ADD_PARAM));
         setPrefWidth(300);
-
-        return grid;
     }
 
     public void onParamTypeChanged() {

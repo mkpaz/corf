@@ -43,7 +43,7 @@ public class OverlayBase extends StackPane implements Overlay {
         edgeContentWrapper = Containers.create(AnchorPane::new, "scrollable-content");
 
         centerContentWrapper = Containers.create(StackPane::new, "scrollable-content");
-        centerContentWrapper.setPadding(new Insets(100, 0, 100, 0));
+        centerContentWrapper.setAlignment(Pos.CENTER);
 
         scrollPane = Controls.create(ScrollPane::new, "edge-to-edge");
         setScrollConstraints(scrollPane,
@@ -109,7 +109,7 @@ public class OverlayBase extends StackPane implements Overlay {
             }
             case CENTER -> {
                 centerContentWrapper.getChildren().setAll(content);
-                StackPane.setAlignment(content, Pos.TOP_CENTER);
+                StackPane.setAlignment(content, Pos.CENTER);
             }
         }
         scrollPane.setContent(getContentWrapper());

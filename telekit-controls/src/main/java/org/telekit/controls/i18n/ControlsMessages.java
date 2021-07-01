@@ -30,6 +30,7 @@ public interface ControlsMessages {
     String NETMASK="Netmask";
     String NETWORK="Network";
     String NEW="New";
+    String NO_DATA="NoData";
     String PARAMETER="Parameter";
     String PARAMETERS="Parameters";
     String PASSWORD="Password";

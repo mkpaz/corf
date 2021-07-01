@@ -22,6 +22,8 @@ import static org.telekit.controls.util.Controls.button;
 
 public abstract class OverlayDialog extends VBox implements ModalController {
 
+    static final int CONTENT_POS = 1;
+
     protected Label titleLabel;
     protected Button topCloseBtn;
     protected HBox headerBox;
@@ -60,20 +62,32 @@ public abstract class OverlayDialog extends VBox implements ModalController {
         );
         VBox.setVgrow(footerBox, Priority.NEVER);
 
-        // do not call createContent() until header and footer container initialization
-        // so, they can be modified in descendants
-        Region content = Objects.requireNonNull(createContent());
-        VBox.setVgrow(content, Priority.ALWAYS);
-
         // IMPORTANT: this guarantees client will use correct width and height
         Containers.usePrefWidth(this);
         Containers.usePrefHeight(this);
 
-        getChildren().setAll(headerBox, content, footerBox);
+        // if you're updating this line, update setContent() method as well
+        getChildren().setAll(headerBox, footerBox);
+
         getStyleClass().add("overlay-dialog");
     }
 
-    protected abstract Region createContent();
+    protected void setContent(Region content) {
+        Objects.requireNonNull(content);
+        VBox.setVgrow(content, Priority.ALWAYS);
+
+        // content have to be placed exactly between header and footer
+        if (getChildren().size() == 2) {
+            // add new content
+            getChildren().add(CONTENT_POS, content);
+        } else if (getChildren().size() == 3) {
+            // overwrite existing content
+            getChildren().set(CONTENT_POS, content);
+        } else {
+            throw new UnsupportedOperationException("Content cannot be placed because of unexpected children size. " +
+                    "You should override 'OverlayDialog#setContent()' and place it manually.");
+        }
+    }
 
     protected void setTitle(String title) {
         titleLabel.setText(title);

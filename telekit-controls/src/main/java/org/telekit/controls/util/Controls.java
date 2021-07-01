@@ -1,17 +1,24 @@
 package org.telekit.controls.util;
 
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
-import javafx.util.Callback;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2MZ;
+import org.telekit.controls.custom.RevealablePasswordField;
+import org.telekit.controls.custom.ToggleIcon;
 
 import java.util.function.Supplier;
 
@@ -73,5 +80,21 @@ public final class Controls {
         label.setWrapText(false);
         GridPane.setHalignment(label, hpos);
         return label;
+    }
+
+    public static RevealablePasswordField passwordField() {
+        ToggleIcon toggle = new ToggleIcon(Material2MZ.VISIBILITY_OFF, Material2MZ.VISIBILITY);
+        toggle.setCursor(Cursor.HAND);
+        StackPane.setMargin(toggle, new Insets(0, 10, 0, 0));
+
+        RevealablePasswordField passwordField = new RevealablePasswordField();
+        passwordField.revealPasswordProperty().bind(toggle.toggledProperty());
+
+        StackPane authPasswordPane = new StackPane();
+        authPasswordPane.getChildren().addAll(passwordField, toggle);
+        authPasswordPane.setAlignment(Pos.CENTER_RIGHT);
+        toggle.toFront();
+
+        return passwordField;
     }
 }
