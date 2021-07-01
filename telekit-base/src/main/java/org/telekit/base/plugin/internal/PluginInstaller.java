@@ -78,6 +78,7 @@ public class PluginInstaller {
         LOGGER.info("Uninstalling " + pluginClass);
         PluginBox pluginBox = pluginBoxOpt.get();
         Plugin plugin = pluginBox.getPlugin();
+
         pluginBox.setState(PluginState.UNINSTALLED);
 
         Path pluginDataDir = getPluginDataDir(plugin.getClass());
@@ -95,6 +96,13 @@ public class PluginInstaller {
         if (pluginJarPath.startsWith(pluginLibPath)) {
             cleaner.appendTask(pluginLibPath);
         } else {
+            // Handle situation when user wants to immediately uninstall just installed
+            // plugin without restart. After installation (but before restart) plugin is
+            // loaded from JAR that located in temp directory. Thus We need to explicitly
+            // delete JAR copy from plugin lib directory.
+            hush(() -> FileUtils.deleteDir(pluginLibPath));
+
+            // and we still have remove temp file
             cleaner.appendTask(pluginJarPath);
         }
 
@@ -178,7 +186,6 @@ public class PluginInstaller {
             LOGGER.info("Copying plugin resources");
             if (Files.exists(sourceConfigPath)) { copyDir(sourceConfigPath, destConfigPath, false); }
             if (Files.exists(sourceDocsPath)) { copyDir(sourceDocsPath, destDocsPath, false); }
-
         } catch (Throwable t) {
             LOGGER.severe("Unable to copy plugin files to application directory");
             LOGGER.severe(ExceptionUtils.getStackTrace(t));

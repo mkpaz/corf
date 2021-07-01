@@ -14,11 +14,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.image.Image;
-import javafx.scene.input.Clipboard;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.util.converter.DefaultStringConverter;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -27,7 +25,6 @@ import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.net.HttpConstants.AuthScheme;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.custom.RevealablePasswordField;
-import org.telekit.controls.custom.ToggleIcon;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.Tables;
@@ -77,7 +74,6 @@ public final class SettingsTab extends Tab {
     ComboBox<AuthScheme> authType;
     TextField authUsernameField;
     RevealablePasswordField authPasswordField;
-    ToggleIcon revealPasswordToggle;
 
     TemplateEditor templateEditor = null;
     ParamEditor paramEditor = null;
@@ -421,18 +417,8 @@ public final class SettingsTab extends Tab {
         authUsernameField = new TextField();
         authUsernameField.textProperty().bindBidirectional(model.authUsernameProperty());
 
-        authPasswordField = new RevealablePasswordField();
+        authPasswordField = Controls.passwordField();
         authPasswordField.textProperty().bindBidirectional(model.authPasswordProperty());
-
-        revealPasswordToggle = new ToggleIcon(Material2MZ.VISIBILITY_OFF, Material2MZ.VISIBILITY);
-        revealPasswordToggle.setCursor(Cursor.HAND);
-        revealPasswordToggle.toFront();
-        authPasswordField.revealPasswordProperty().bind(revealPasswordToggle.toggledProperty());
-
-        StackPane authPasswordPane = new StackPane();
-        authPasswordPane.getChildren().addAll(authPasswordField, revealPasswordToggle);
-        authPasswordPane.setAlignment(Pos.CENTER_RIGHT);
-        StackPane.setMargin(revealPasswordToggle, new Insets(0, 10, 0, 0));
 
         GridPane grid = gridPane(20, 10, new Insets(10));
 
@@ -443,7 +429,7 @@ public final class SettingsTab extends Tab {
         grid.add(authUsernameField, 1, 1);
 
         grid.add(gridLabel(t(PASSWORD), HPos.RIGHT, authPasswordField), 0, 2);
-        grid.add(authPasswordPane, 1, 2);
+        grid.add(authPasswordField.getParent(), 1, 2);
 
         grid.getColumnConstraints().addAll(HGROW_NEVER, HGROW_ALWAYS);
         grid.getRowConstraints().addAll(VGROW_NEVER, VGROW_NEVER, VGROW_NEVER);

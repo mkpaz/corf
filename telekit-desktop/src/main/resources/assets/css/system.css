@@ -1,23 +1,8 @@
 /* Preferences
 **********************************************************/
 
-#preferences {
-    -fx-pref-width: 600;
-    -fx-pref-height: 480;
-    -fx-spacing: 10;
-}
-#preferences > .tab-pane > .tab-content-area > * {
+#preferences.tab-pane > .tab-content-area > * {
     -fx-padding: 20;
-}
-#preferences > .controls {
-    -fx-border: 1 0 0 0;
-    -fx-border-color: -fx-outer-border;
-    -fx-padding: 10;
-    -fx-spacing: 10;
-}
-#preferences .grid {
-    -fx-hgap: 10;
-    -fx-vgap: 10;
 }
 #preferences .grid > .group-header {
     -fx-spacing: 10;
@@ -26,29 +11,27 @@
 #preferences .grid > .combo-box {
     -fx-pref-width: 200;
 }
-/*
- * FIXME: label has invalid background after opening modal second time
- * Probably one of JavaFX bugs, because everything is ok when stage opens first time
- */
-#preferences .tab-pane .tab-label,
-#preferences .grid > .label,
-#preferences .grid > * > .label,
-#preferences > .controls > .label {
-    -fx-background-color: none;
-}
-#preferences .grid > .plugins {
+#preferences .plugin-list {
     -fx-pre-width: 300;
 }
-#preferences .grid > .plugins .list-cell:disabled {
+#preferences .plugin-list .list-cell:disabled {
     -fx-opacity: 0.75;
 }
-#preferences .grid > * > .plugin-info .content {
-    -fx-padding: 1.4em 0.583em 0.25em 0.583em;
+#preferences .plugin-info > .grid,
+#preferences .plugin-info > .dummy {
+    -fx-background-color: -fx-background;
 }
-#preferences .grid > * > .flat-dropdown {
+#preferences .plugin-info > .grid > .name {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+}
+#preferences .plugin-info > .grid > .version {
+    -fx-opacity: 0.6;
+}
+#preferences .plugin-info > .grid > .flat-dropdown {
     -fx-background-color: transparent;
 }
-#preferences .grid > * > .flat-dropdown:hover {
+#preferences .plugin-info > .grid > .flat-dropdown:hover {
     -fx-background-color: -fx-hover-base;
 }
 
@@ -64,7 +47,7 @@
     -fx-font-size: 2em;
 }
 #welcome .version {
-    -fx-opacity: 0.5;
+    -fx-opacity: 0.6;
 }
 #welcome .project {
     -fx-spacing: 5;

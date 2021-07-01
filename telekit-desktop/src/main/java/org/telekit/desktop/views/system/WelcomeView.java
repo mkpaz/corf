@@ -50,7 +50,7 @@ public class WelcomeView extends VBox implements Initializable, View<WelcomeView
         FontIcon githubIcon = Controls.fontIcon(FontAwesomeBrands.GITHUB);
         projectLink = Controls.create(() -> new Hyperlink(t(SYSTEM_PROJECT_PAGE)));
         HBox projectBox = Containers.create(HBox::new, "project");
-        projectBox.setAlignment(Pos.BASELINE_CENTER);
+        projectBox.setAlignment(Pos.CENTER);
         projectBox.getChildren().addAll(githubIcon, projectLink);
 
         getChildren().addAll(icon, title, version, projectBox);

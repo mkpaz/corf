@@ -4,6 +4,9 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -12,7 +15,6 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.Dimension;
-import org.telekit.base.desktop.ModalDialog;
 import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.desktop.mvvm.View;
@@ -22,7 +24,7 @@ import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.NodeUtils;
-import org.telekit.desktop.IconCache;
+import org.telekit.controls.widgets.OverlayDialog;
 import org.telekit.desktop.event.CloseRequestEvent;
 import org.telekit.desktop.i18n.DesktopMessages;
 import org.telekit.desktop.views.MainStage;
@@ -36,12 +38,10 @@ import java.util.Objects;
 
 import static org.telekit.base.Env.APP_NAME;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.controls.i18n.ControlsMessages.PREFERENCES;
 import static org.telekit.controls.util.Containers.horizontalSpacer;
 import static org.telekit.controls.util.Containers.setAnchors;
 import static org.telekit.controls.util.Controls.circleIconButton;
 import static org.telekit.controls.util.NodeUtils.isDoubleClick;
-import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.startup.Launcher.RESTART_EXIT_CODE;
 
 @Singleton
@@ -56,7 +56,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
     private final OverlayBase overlay;
     private final NavDrawerView navDrawer;
 
-    private ModalDialog<PreferencesView> preferencesDialog;
+    private OverlayDialog preferencesDialog;
 
     @Inject
     public TitleBarView(TitleBarViewModel model,
@@ -105,6 +105,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         HBox.setMargin(menuBtn, new Insets(0, 16, 0, 0));
 
         MenuItem preferencesItem = new MenuItem(t(DesktopMessages.PREFERENCES));
+        preferencesItem.setAccelerator(new KeyCodeCombination(KeyCode.COMMA, KeyCombination.CONTROL_DOWN));
         preferencesItem.setOnAction(e -> showPreferences());
 
         MenuItem restartItem = new MenuItem(t(DesktopMessages.ACTION_RESTART));
@@ -206,16 +207,10 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
 
     private void showPreferences() {
         if (preferencesDialog == null) {
-            PreferencesView view = ViewLoader.load(PreferencesView.class);
-            preferencesDialog = ModalDialog.builder(view, getWindow())
-                    .title(t(PREFERENCES))
-                    .inheritStyles()
-                    .icon(IconCache.get(ICON_APP))
-                    .resizable(false)
-                    .build();
-            view.setOnCloseRequest(() -> preferencesDialog.hide());
+            preferencesDialog = ViewLoader.load(PreferencesView.class);
+            preferencesDialog.setOnCloseRequest(overlay::hide);
         }
-        preferencesDialog.showAndWait();
+        overlay.show(preferencesDialog);
     }
 
     private void restartApplication() {

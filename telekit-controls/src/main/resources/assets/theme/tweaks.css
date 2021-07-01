@@ -182,7 +182,9 @@
 .hyperlink .glyph-icon,
 .hyperlink:visited,
 .hyperlink:hover:visited {
-    -fx-underline: false;
+    -fx-underline: true;
+    /* no side paddings */
+    -fx-padding: 0.166667em 0em 0.166667em 0em;
     /* disable visited state, hyperlinks are always the same color */
     -fx-text-fill: derive(-fx-text-background-color, 20%);
     /* also remove border that appears on click */

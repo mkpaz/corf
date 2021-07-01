@@ -2,7 +2,6 @@ package org.telekit.desktop.tools.common;
 
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 import org.telekit.base.domain.KeyValue;
 import org.telekit.controls.util.NodeUtils;
 import org.telekit.controls.util.Tables;
@@ -26,10 +25,10 @@ public class ParamCompletionDialog extends OverlayDialog {
 
     public ParamCompletionDialog() {
         super();
+        createContent();
     }
 
-    @Override
-    protected Region createContent() {
+    private void createContent() {
         filterTable = new FilterTable<>();
         filterTable.setColumns(
                 Tables.column(t(KEY), "key"),
@@ -46,11 +45,10 @@ public class ParamCompletionDialog extends OverlayDialog {
 
         footerBox.getChildren().add(1, commitBtn);
 
+        setContent(filterTable);
         setTitle(t(TOOLS_CHOOSE_VALUE));
         setPrefWidth(400);
         setPrefHeight(400);
-
-        return filterTable;
     }
 
     public void setData(List<KeyValue<String, String>> data) {

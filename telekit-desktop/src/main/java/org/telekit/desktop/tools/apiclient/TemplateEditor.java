@@ -6,7 +6,10 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import org.telekit.base.net.HttpConstants.ContentType;
 import org.telekit.base.net.HttpConstants.Method;
 import org.telekit.controls.util.Containers;
@@ -60,10 +63,10 @@ public class TemplateEditor extends OverlayDialog {
 
     public TemplateEditor() {
         super();
+        createContent();
     }
 
-    @Override
-    protected Region createContent() {
+    private void createContent() {
         // everything below initialized in parent constructor context
         usedTemplateNames = new HashSet<>();
 
@@ -86,9 +89,8 @@ public class TemplateEditor extends OverlayDialog {
         footerBox.getChildren().add(1, commitBtn);
         bottomCloseBtn.setText(t(ACTION_CANCEL));
 
+        setContent(tabPane);
         setPrefWidth(500);
-
-        return tabPane;
     }
 
     private Tab createParamsTab() {
