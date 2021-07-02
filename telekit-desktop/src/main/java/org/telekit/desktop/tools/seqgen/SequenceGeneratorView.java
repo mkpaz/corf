@@ -10,7 +10,9 @@ import javafx.scene.layout.*;
 import org.kordamp.ikonli.material2.Material2MZ;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.di.Initializable;
+import org.telekit.base.domain.event.Notification;
 import org.telekit.base.domain.exception.TelekitException;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.service.impl.SequenceGenerator;
 import org.telekit.base.service.impl.SequenceGenerator.Item;
 import org.telekit.base.util.FileUtils;
@@ -185,12 +187,9 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
         if (groupD.isEnabled()) { items.add(groupD.getItem()); }
 
         if (SequenceGenerator.expectedSize(items) > MAX_TOTAL_RESULT_SIZE) {
-            Dialogs.warning()
-                    .title(t(WARNING))
-                    .content(t(SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_TOTAL_RESULT_SIZE))
-                    .owner(getWindow())
-                    .build()
-                    .showAndWait();
+            DefaultEventBus.getInstance().publish(
+                    Notification.warning(t(SEQGEN_MSG_SEQUENCE_SIZE_EXCEEDS_LIMIT, MAX_TOTAL_RESULT_SIZE))
+            );
             return;
         }
 
