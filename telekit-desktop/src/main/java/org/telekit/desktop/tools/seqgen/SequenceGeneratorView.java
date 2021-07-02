@@ -148,7 +148,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
                 VGROW_NEVER
         );
         getColumnConstraints().addAll(
-                new ColumnConstraints(500, 500, 500, Priority.NEVER, HPos.LEFT, true),
+                new ColumnConstraints(400, 400, 400, Priority.NEVER, HPos.LEFT, true),
                 HGROW_ALWAYS
         );
 
@@ -260,7 +260,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
             startSpinner = new Spinner<>(0, MAX_START, 0, 1);
             startSpinner.setEditable(true);
             startSpinner.disableProperty().bind(enabledCheck.selectedProperty().not());
-            startSpinner.setPrefWidth(250);
+            startSpinner.setPrefWidth(150);
             DoubleStringConverter.createFor(startSpinner);
             startSpinner.setTooltip(new Tooltip(t(START)));
 
@@ -271,7 +271,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
 
             countSpinner = new Spinner<>(2, MAX_COUNT, 10, 1);
             countSpinner.setEditable(true);
-            countSpinner.setPrefWidth(120);
+            countSpinner.setPrefWidth(80);
             countSpinner.disableProperty().bind(enabledCheck.selectedProperty().not());
             IntegerStringConverter.createFor(countSpinner);
             countSpinner.setTooltip(new Tooltip(t(COUNT)));
