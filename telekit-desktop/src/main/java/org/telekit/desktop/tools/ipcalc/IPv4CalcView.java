@@ -17,22 +17,20 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
-import org.telekit.base.domain.event.Notification;
 import org.telekit.base.domain.exception.TelekitException;
-import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.telecom.ip.IPv4AddressWrapper;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
 import org.telekit.controls.dialogs.Dialogs;
-import org.telekit.controls.util.Controls;
-import org.telekit.controls.util.Promise;
-import org.telekit.controls.util.Tables;
-import org.telekit.controls.util.TextFormatters;
+import org.telekit.controls.util.*;
 import org.telekit.desktop.tools.ipcalc.IPv4NetworkInfo.SplitVariant;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -47,6 +45,7 @@ import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.controls.util.Containers.*;
+import static org.telekit.controls.util.Controls.menuItem;
 import static org.telekit.controls.util.Tables.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.tools.ipcalc.IPv4CalcViewModel.*;
@@ -245,7 +244,25 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
             }
         });
 
+        ContextMenu contextMenu = new ContextMenu();
+        table.setContextMenu(contextMenu);
+        contextMenu.getItems().add(
+                menuItem(t(ACTION_COPY_ALL), null, e -> copyDetailsTableToClipboard())
+        );
+
         return table;
+    }
+
+    private void copyDetailsTableToClipboard() {
+        List<Pair<String, String>> items = TreeUtils.getAllItems(detailsTable.getRoot());
+
+        StringBuilder sb = new StringBuilder();
+        for (Pair<String, String> item : items) {
+            if (item == null) { continue; }
+            sb.append(item.getLeft()).append("\t");
+            sb.append(item.getRight()).append("\n");
+        }
+        DesktopUtils.putToClipboard(sb.toString());
     }
 
     private TableView<IPv4NetworkInfo> createSplitTable() {
@@ -278,7 +295,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
                         net.getMinHost(),
                         net.getMaxHost(),
                         net.getBroadcast()
-                ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining(";")));
+                ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining("\t")));
             }
         });
 
@@ -303,6 +320,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
         TableView<IPv4NetworkInfo> table = new TableView<>();
         table.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
+        table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         table.getColumns().setAll(List.of(
                 prefixLengthColumn, decimalValueColumn, hexValueColumn, numberOfHostsColumn, wildcardColumn
         ));
@@ -313,7 +331,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
                         net.getNetmaskAsHex(),
                         net.getTotalHostCountFormatted(),
                         net.getWildcardMask()
-                ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining(";")));
+                ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining("\t")));
             }
         });
 
@@ -403,17 +421,10 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
                 .showSaveDialog(getWindow());
         if (outputFile == null || splitTable.getItems().isEmpty()) { return; }
 
-        DefaultEventBus.getInstance().publish(Notification.error(new RuntimeException("The baseline Material color theme · Primary and secondary colors")));
-        DefaultEventBus.getInstance().publish(Notification.warning("The baseline Material color theme · Primary and secondary colors"));
-        DefaultEventBus.getInstance().publish(Notification.info("The baseline Material color theme · Primary and secondary colors"));
-        DefaultEventBus.getInstance().publish(Notification.success("The baseline Material color theme · Primary and secondary colors"));
-
         Promise.runAsync(() -> {
             try (FileOutputStream fos = new FileOutputStream(outputFile);
                  OutputStreamWriter osw = new OutputStreamWriter(fos, UTF_8);
                  BufferedWriter out = new BufferedWriter(osw)) {
-
-
 
                 out.write("Network Address;Start Host;End Host;Broadcast\n");
 
