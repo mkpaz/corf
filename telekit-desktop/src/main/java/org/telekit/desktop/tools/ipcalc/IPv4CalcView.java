@@ -123,7 +123,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
         netmaskTable = createNetmaskTable();
         netmaskTable.setItems(observableArrayList(NETMASKS));
-        netmaskTable.setMinWidth(400);
+        netmaskTable.setMinWidth(300);
 
         bitUsageLabel = new BitUsageLabel();
 
@@ -233,7 +233,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
         TreeTableView<Pair<String, String>> table = Controls.create(TreeTableView::new);
         table.setShowRoot(false);
-        table.setMinWidth(400);
+        table.setMinWidth(300);
         table.getColumns().addAll(List.of(col0, col1));
         table.setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
