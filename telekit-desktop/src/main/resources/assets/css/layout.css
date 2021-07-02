@@ -62,15 +62,14 @@
 **********************************************************/
 
 #status-bar {
-    -fx-min-height: 1.8em;
-    -fx-pref-height: 1.8em;
-    -fx-max-height: 1.8em;
+    -fx-min-height: 2em;
+    -fx-pref-height: 2em;
     -fx-padding: 2 10 2 10;
     -fx-border-color: -fx-outer-border;
     -fx-border-width: 1 0 0 0;
 }
 #status-bar > .security > .font-icon {
-    -fx-font-size: 1.4em;
+    -fx-font-size: 1.2em;
 }
 #status-bar > .security > .vault-icon:error {
     -fx-fill: -fx-color-error;
@@ -84,6 +83,7 @@
 }
 #status-bar > .memory > .progress-bar {
     -fx-opacity: 0.25;
+    -fx-min-height: 2em;
 }
 #status-bar > .memory > .progress-bar > .track {
     -fx-background-insets: 0;
