@@ -64,6 +64,7 @@ public interface ControlsMessages {
     String ACTION_CANCEL ="action.Cancel";
     String ACTION_CLOSE ="action.Close";
     String ACTION_COPY = "action.Copy";
+    String ACTION_COPY_ALL = "action.CopyAll";
     String ACTION_CUT = "action.Cut";
     String ACTION_DELETE ="action.Delete";
     String ACTION_DISABLE ="action.Disable";
