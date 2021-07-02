@@ -31,6 +31,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -44,6 +45,7 @@ import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.i18n.I18n.t;
+import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.menuItem;
 import static org.telekit.controls.util.Tables.setColumnConstraints;
@@ -71,6 +73,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
     private final ExecutorService threadPool;
 
     private IPv4ConverterDialog converterDialog;
+    private Path lastVisitedDirectory;
 
     @Inject
     public IPv4CalcView(IPv4CalcViewModel model,
@@ -416,11 +419,13 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
     private void exportSplitData() {
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
+                .initialDirectory(lastVisitedDirectory)
                 .initialFileName(FileUtils.sanitizeFileName("subnets.txt"))
                 .build()
                 .showSaveDialog(getWindow());
         if (outputFile == null || splitTable.getItems().isEmpty()) { return; }
 
+        lastVisitedDirectory = getParentPath(outputFile);
         Promise.runAsync(() -> {
             try (FileOutputStream fos = new FileOutputStream(outputFile);
                  OutputStreamWriter osw = new OutputStreamWriter(fos, UTF_8);

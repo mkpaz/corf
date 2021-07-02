@@ -19,10 +19,12 @@ import org.telekit.controls.util.Controls;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 import static javafx.scene.layout.GridPane.REMAINING;
 import static org.telekit.base.i18n.I18n.t;
+import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.BindUtils.isBlank;
 import static org.telekit.controls.util.Containers.gridPane;
@@ -43,6 +45,7 @@ public final class FileBuilderView extends VBox implements Initializable, View<F
 
     private final FileBuilderViewModel model;
     private final Overlay overlay;
+    private Path lastVisitedDirectory;
 
     @Inject
     public FileBuilderView(FileBuilderViewModel model, Overlay overlay) {
@@ -118,10 +121,12 @@ public final class FileBuilderView extends VBox implements Initializable, View<F
     private void selectDestPath() {
         File destFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
+                .initialDirectory(lastVisitedDirectory)
                 .build()
                 .showSaveDialog(getWindow());
         if (destFile == null) { return; }
 
+        lastVisitedDirectory = getParentPath(destFile);
         destPathText.setText(destFile.getAbsolutePath());
     }
 
@@ -153,11 +158,13 @@ public final class FileBuilderView extends VBox implements Initializable, View<F
         File outputFile = SAVE_TYPE_PREDEFINED == saveType ?
                 new File(destPathText.getText()) :
                 Dialogs.fileChooser()
+                        .initialDirectory(lastVisitedDirectory)
                         .initialFileName(DEFAULT_PATH.getFileName().toString())
                         .build()
                         .showSaveDialog(getWindow());
         if (outputFile == null) { return; }
 
+        lastVisitedDirectory = getParentPath(outputFile);
         model.generateCommand().execute(outputFile);
     }
 

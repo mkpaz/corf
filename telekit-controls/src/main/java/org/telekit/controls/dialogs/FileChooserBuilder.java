@@ -2,6 +2,7 @@ package org.telekit.controls.dialogs;
 
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import org.telekit.base.Env;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +12,8 @@ public class FileChooserBuilder {
     private final FileChooser fileChooser;
 
     public FileChooserBuilder() {
-        this.fileChooser = new FileChooser();
+        fileChooser = new FileChooser();
+        initialDirectory(Env.HOME_DIR);
     }
 
     public FileChooserBuilder addFilter(ExtensionFilter filter) {
@@ -24,7 +26,7 @@ public class FileChooserBuilder {
     }
 
     public FileChooserBuilder initialDirectory(Path path) {
-        if (Files.isDirectory(path)) {
+        if (path != null && Files.exists(path) && Files.isDirectory(path)) {
             fileChooser.setInitialDirectory(path.toFile());
         }
         return this;

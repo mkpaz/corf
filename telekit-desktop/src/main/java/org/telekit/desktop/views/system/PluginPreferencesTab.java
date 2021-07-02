@@ -37,6 +37,7 @@ import static javafx.scene.layout.GridPane.REMAINING;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.plugin.internal.PluginState.*;
+import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
@@ -64,6 +65,7 @@ public class PluginPreferencesTab extends Tab {
 
     private final PreferencesView view;
     private final PreferencesViewModel model;
+    private Path lastVisitedDirectory;
 
     public PluginPreferencesTab(PreferencesView view, PreferencesViewModel model) {
         this.view = view;
@@ -286,11 +288,12 @@ public class PluginPreferencesTab extends Tab {
     private void installPlugin() {
         File zipFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_ZIP), "*.zip")
+                .initialDirectory(lastVisitedDirectory)
                 .build()
                 .showOpenDialog(view.getWindow());
-
         if (zipFile == null) { return; }
 
+        lastVisitedDirectory = getParentPath(zipFile);
         model.installPluginCommand().execute(zipFile.toPath());
 
         DefaultEventBus.getInstance().publish(Notification.info(t(PLUGIN_MANAGER_MSG_INSTALL_SUCCESS)));

@@ -23,6 +23,7 @@ import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.Tables;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,6 +32,7 @@ import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static org.telekit.base.i18n.I18n.t;
+import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.fontIcon;
@@ -50,6 +52,7 @@ public class LogTab extends Tab {
 
     private final ApiClientView view;
     private final ApiClientViewModel model;
+    private Path lastVisitedDirectory;
 
     public LogTab(ApiClientView view) {
         this.view = view;
@@ -187,11 +190,15 @@ public class LogTab extends Tab {
     private void exportLog() {
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
+                .initialDirectory(lastVisitedDirectory)
                 .initialFileName(FileUtils.sanitizeFileName("api-client-log.txt"))
                 .build()
                 .showSaveDialog(view.getWindow());
 
-        if (outputFile != null) { model.exportLogCommand().execute(outputFile); }
+        if (outputFile != null) {
+            lastVisitedDirectory = getParentPath(outputFile);
+            model.exportLogCommand().execute(outputFile);
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
