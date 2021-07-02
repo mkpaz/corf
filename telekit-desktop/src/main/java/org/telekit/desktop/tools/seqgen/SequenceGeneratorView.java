@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.geometry.Pos.TOP_LEFT;
 import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
 import static org.telekit.base.i18n.I18n.t;
+import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.i18n.ControlsMessages.START;
 import static org.telekit.controls.i18n.ControlsMessages.STEP;
 import static org.telekit.controls.util.Containers.*;
@@ -66,6 +68,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
     ItemControlGroup groupD;
 
     private final ExecutorService threadPool;
+    private Path lastVisitedDirectory;
 
     @Inject
     public SequenceGeneratorView(ExecutorService threadPool) {
@@ -218,11 +221,13 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
     private void export() {
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
+                .initialDirectory(lastVisitedDirectory)
                 .initialFileName(FileUtils.sanitizeFileName("sequence.txt"))
                 .build()
                 .showSaveDialog(getWindow());
         if (outputFile == null) { return; }
 
+        lastVisitedDirectory = getParentPath(outputFile);
         Promise.runAsync(() -> {
             try {
                 Files.writeString(outputFile.toPath(), (String) generatedText.getUserData());

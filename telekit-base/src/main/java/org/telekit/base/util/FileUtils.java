@@ -50,6 +50,12 @@ public final class FileUtils {
         return substringAfterLast(path.getFileName().toString(), ".");
     }
 
+    public static Path getParentPath(File file) {
+        if (file == null) { return null; }
+        File parent = file.getParentFile();
+        return parent != null ? parent.toPath() : null;
+    }
+
     public static Path ensureNotNull(String path, Path defaultValue) {
         return path != null ? Paths.get(path) : Objects.requireNonNull(defaultValue);
     }

@@ -32,6 +32,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.*;
 
@@ -45,6 +46,7 @@ import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
 import static org.telekit.base.util.CSVUtils.addColumnsTheRight;
 import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 import static org.telekit.base.util.DesktopUtils.getFromClipboard;
+import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.base.util.FileUtils.sanitizeFileName;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.i18n.ControlsMessages.*;
@@ -71,6 +73,7 @@ public final class SettingsPane extends AnchorPane {
 
     private final FileBuilderView view;
     private final FileBuilderViewModel model;
+    private Path lastVisitedDirectory;
 
     public SettingsPane(FileBuilderView view) {
         this.view = view;
@@ -265,10 +268,12 @@ public final class SettingsPane extends AnchorPane {
     private void importTemplate() {
         File inputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_YAML), "*.yaml", "*.yml")
+                .initialDirectory(lastVisitedDirectory)
                 .build()
                 .showOpenDialog(view.getWindow());
         if (inputFile == null) { return; }
 
+        lastVisitedDirectory = getParentPath(inputFile);
         model.importTemplateCommand().execute(inputFile);
     }
 
@@ -278,11 +283,13 @@ public final class SettingsPane extends AnchorPane {
 
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_YAML), "*.yaml", "*.yml")
+                .initialDirectory(lastVisitedDirectory)
                 .initialFileName(sanitizeFileName(template.getName()) + ".yaml")
                 .build()
                 .showSaveDialog(view.getWindow());
         if (outputFile == null) { return; }
 
+        lastVisitedDirectory = getParentPath(outputFile);
         model.exportTemplateCommand().execute(outputFile);
     }
 

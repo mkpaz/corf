@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 
 import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
 import static org.telekit.base.i18n.I18n.t;
+import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.button;
@@ -75,6 +77,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
 
     private final ObjectProperty<Supplier<String>> generator = new SimpleObjectProperty<>(this, "generator");
     private final ExecutorService threadPool;
+    private Path lastVisitedDirectory;
 
     @Inject
     public PasswordGeneratorView(ExecutorService threadPool) {
@@ -288,11 +291,13 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
     private void export() {
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
+                .initialDirectory(lastVisitedDirectory)
                 .initialFileName("passwords.txt")
                 .build()
                 .showSaveDialog(getWindow());
         if (outputFile == null) { return; }
 
+        lastVisitedDirectory = getParentPath(outputFile);
         Promise.runAsync(() -> {
             try {
                 Files.writeString(outputFile.toPath(), (String) generatedText.getUserData());
