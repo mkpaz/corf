@@ -116,9 +116,12 @@
 #navigation-drawer > .navigation-tree .tree-cell:empty {
     -fx-opacity: 0;
 }
-#navigation-drawer > .navigation-tree .tree-cell:hover,
-#navigation-drawer > .navigation-tree .tree-cell:selected {
+#navigation-drawer > .navigation-tree .tree-cell:hover {
     -fx-background-color: derive(-fx-background-fallback, -5%);
+}
+#navigation-drawer > .navigation-tree .tree-cell:selected {
+    -fx-background: -fx-accent;
+    -fx-background-color: -fx-accent;
 }
 #navigation-drawer > .navigation-tree .tree-disclosure-node {
     -fx-min-width:  18;

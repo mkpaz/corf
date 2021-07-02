@@ -10,6 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
 import org.telekit.controls.util.Containers;
@@ -55,6 +56,7 @@ public class NavDrawerView extends VBox implements Initializable, View<NavDrawer
         navigationTree.setCellFactory(new NavLinkCellFactory(model));
         VBox.setVgrow(navigationTree, Priority.ALWAYS);
 
+
         getChildren().add(navigationTree);
         Containers.setFixedWidth(this, DRAWER_WIDTH);
         setId("navigation-drawer");
@@ -62,8 +64,12 @@ public class NavDrawerView extends VBox implements Initializable, View<NavDrawer
 
     @Override
     public void initialize() {
+        Component.propagateMouseEventsToParent(navigationTree);
+
         model.selectionModelProperty().bind(navigationTree.selectionModelProperty());
         navigationTree.setRoot(model.treeRoot());
+
+        navigationTree.getSelectionModel().selectFirst();
     }
 
     @Override
