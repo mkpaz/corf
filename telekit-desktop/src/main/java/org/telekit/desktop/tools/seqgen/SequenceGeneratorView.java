@@ -19,6 +19,7 @@ import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.*;
+import org.telekit.controls.widgets.StringListView;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,13 +28,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
+import static javafx.collections.FXCollections.observableArrayList;
 import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.geometry.Pos.TOP_LEFT;
-import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.i18n.ControlsMessages.START;
@@ -57,7 +58,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
             (id, value) -> String.valueOf(value.longValue());
 
     TextField patternText;
-    TextArea generatedText;
+    StringListView generatedList;
     Label lineCountLabel;
     Button generateBtn;
     Button exportBtn;
@@ -109,19 +110,14 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
                 new Label(t(TOOLS_LINES))
         );
 
-        generatedText = Controls.create(TextArea::new, "monospace");
-        generatedText.setEditable(false);
+        generatedList = Controls.create(StringListView::new, "monospace");
 
         exportBtn = new Button(t(ACTION_EXPORT));
         exportBtn.setOnAction(e -> export());
-        exportBtn.disableProperty().bind(BindUtils.isBlank(generatedText.textProperty()));
+        exportBtn.disableProperty().bind(generatedList.sizeProperty().isEqualTo(0));
 
         HBox exportBox = hbox(0, Pos.CENTER_LEFT, Insets.EMPTY);
-        exportBox.getChildren().setAll(
-                new Label(t(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT)),
-                horizontalSpacer(),
-                exportBtn)
-        ;
+        exportBox.getChildren().setAll(horizontalSpacer(), exportBtn);
 
         // GRID
 
@@ -135,7 +131,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
         add(generateBox, 0, 8);
 
         add(rightHeaderBox, 1, 0);
-        add(generatedText, 1, 1, 1, 8);
+        add(generatedList, 1, 1, 1, 8);
         add(exportBox, 1, 9);
 
         getRowConstraints().addAll(
@@ -163,7 +159,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
 
     @Override
     public void initialize() {
-        exportBtn.disableProperty().bind(BindUtils.isBlank(generatedText.textProperty()));
+        lineCountLabel.textProperty().bind(generatedList.sizeProperty().asString());
 
         generateBtn.disableProperty().bind(BindUtils.or(
                 BindUtils.isBlank(patternText.textProperty()),
@@ -198,24 +194,11 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
 
         Promise.supplyAsync(() -> {
             SequenceGenerator<String, String> generator = new SequenceGenerator<>(items, OUTPUT_CONVERTER);
-            List<Map<String, String>> sequence = generator.generate();
-            StringBuilder sb = new StringBuilder();
-
-            int index = 0;
-            int mark = 0;
-
-            for (Map<String, String> replacements : sequence) {
-                sb.append(PlaceholderReplacer.format(pattern, replacements)).append("\n");
-                if (index < TEXTAREA_ROW_LIMIT) { mark = sb.length(); }
-                index++;
-            }
-
-            return new GeneratedData(sb.toString(), sequence.size(), mark);
-        }).then(g -> {
-            lineCountLabel.setText(String.valueOf(g.size()));
-            generatedText.setText(g.text().substring(0, g.mark()));
-            generatedText.setUserData(g.text());
-        }).start(threadPool);
+            return generator.generate().stream()
+                    .map(item -> PlaceholderReplacer.format(pattern, item))
+                    .collect(Collectors.toList());
+        }).then(result -> generatedList.setItems(observableArrayList(result)))
+                .start(threadPool);
     }
 
     private void export() {
@@ -230,7 +213,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
         lastVisitedDirectory = getParentPath(outputFile);
         Promise.runAsync(() -> {
             try {
-                Files.writeString(outputFile.toPath(), (String) generatedText.getUserData());
+                Files.writeString(outputFile.toPath(), String.join("\n", generatedList.getItems()));
             } catch (Exception e) {
                 throw new TelekitException(t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
             }
