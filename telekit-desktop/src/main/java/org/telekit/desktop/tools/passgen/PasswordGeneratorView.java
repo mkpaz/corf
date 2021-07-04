@@ -8,17 +8,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.kordamp.ikonli.material2.Material2MZ;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.di.Initializable;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.util.PasswordGenerator;
 import org.telekit.controls.dialogs.Dialogs;
-import org.telekit.controls.util.BindUtils;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.IntegerStringConverter;
 import org.telekit.controls.util.Promise;
+import org.telekit.controls.widgets.StringListView;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -34,7 +33,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static org.telekit.base.Env.TEXTAREA_ROW_LIMIT;
+import static javafx.collections.FXCollections.observableArrayList;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
@@ -67,7 +66,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
     Spinner<Integer> xkcdLengthSpinner;
 
     Accordion accordion;
-    TextArea generatedText;
+    StringListView generatedList;
     Button exportBtn;
     Button generateBtn;
     Spinner<Integer> countSpinner;
@@ -182,20 +181,14 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
         );
 
         // RIGHT
-
-        generatedText = Controls.create(TextArea::new, "monospace");
-        generatedText.setEditable(false);
+        generatedList = Controls.create(StringListView::new, "monospace");
 
         exportBtn = new Button(t(ACTION_EXPORT));
         exportBtn.setOnAction(e -> export());
-        exportBtn.disableProperty().bind(BindUtils.isBlank(generatedText.textProperty()));
+        exportBtn.disableProperty().bind(generatedList.sizeProperty().isEqualTo(0));
 
         HBox exportBox = hbox(0, Pos.CENTER_LEFT, Insets.EMPTY);
-        exportBox.getChildren().setAll(
-                new Label(t(TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN, TEXTAREA_ROW_LIMIT)),
-                horizontalSpacer(),
-                exportBtn
-        );
+        exportBox.getChildren().setAll(horizontalSpacer(), exportBtn);
 
         // GRID
 
@@ -203,7 +196,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
         add(accordion, 0, 1);
 
         add(new Label(t(PASSWORDS)), 1, 0);
-        add(generatedText, 1, 1);
+        add(generatedList, 1, 1);
 
         add(exportBox, 1, 2);
 
@@ -270,22 +263,13 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
         final int count = countSpinner.getValue();
 
         Promise.supplyAsync(() -> {
-            StringBuilder sb = new StringBuilder();
-            int mark = 0;
-
+            List<String> passwords = new ArrayList<>();
             for (int i = 0; i < count; i++) {
-                sb.append(passgen.get()).append("\n");
-                if (i < TEXTAREA_ROW_LIMIT) { mark = sb.length(); }
+                passwords.add(passgen.get());
             }
 
-            return ImmutablePair.of(sb.toString(), mark);
-        }).then(pair -> {
-            String passwords = pair.getLeft();
-            int mark = pair.getRight();
-
-            generatedText.setText(passwords.substring(0, mark));
-            generatedText.setUserData(passwords);
-        }).start(threadPool);
+            return passwords;
+        }).then(passwords -> generatedList.setItems(observableArrayList(passwords))).start(threadPool);
     }
 
     private void export() {
@@ -300,7 +284,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
         lastVisitedDirectory = getParentPath(outputFile);
         Promise.runAsync(() -> {
             try {
-                Files.writeString(outputFile.toPath(), (String) generatedText.getUserData());
+                Files.writeString(outputFile.toPath(), String.join("\n", generatedList.getItems()));
             } catch (Exception e) {
                 throw new TelekitException(t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
             }
