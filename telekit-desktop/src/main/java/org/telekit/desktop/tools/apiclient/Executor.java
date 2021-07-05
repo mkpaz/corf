@@ -31,7 +31,7 @@ import static org.telekit.base.util.PlaceholderReplacer.containsPlaceholders;
 import static org.telekit.base.util.PlaceholderReplacer.format;
 import static org.telekit.base.util.StringUtils.ensureNotNull;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
-import static org.telekit.desktop.tools.common.ReplacementUtils.*;
+import static org.telekit.desktop.tools.common.Helpers.*;
 
 public class Executor extends Task<ObservableList<CompletedRequest>> {
 

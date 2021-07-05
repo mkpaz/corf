@@ -20,7 +20,7 @@ import static org.telekit.base.util.CollectionUtils.ensureNotNull;
 import static org.telekit.base.util.PlaceholderReplacer.containsPlaceholders;
 import static org.telekit.base.util.PlaceholderReplacer.format;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
-import static org.telekit.desktop.tools.common.ReplacementUtils.*;
+import static org.telekit.desktop.tools.common.Helpers.*;
 
 public class Generator implements Runnable {
 
