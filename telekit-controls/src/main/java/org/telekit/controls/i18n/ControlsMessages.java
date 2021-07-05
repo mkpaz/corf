@@ -17,6 +17,7 @@ public interface ControlsMessages {
     String EXAMPLE="Example";
     String FILE="File";
     String FILE_FORMAT="FileFormat";
+    String FORMAT="Format";
     String HEADER="Header";
     String HELP="Help";
     String INFO="Info";
