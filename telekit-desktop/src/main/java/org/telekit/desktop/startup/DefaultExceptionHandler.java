@@ -13,7 +13,7 @@ import static org.telekit.base.util.CollectionUtils.getLastElement;
 
 public final class DefaultExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-    Logger LOGGER = Logger.getLogger(DefaultExceptionHandler.class.getName());
+    private final Logger LOGGER = Logger.getLogger(DefaultExceptionHandler.class.getName());
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {

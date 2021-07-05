@@ -2,7 +2,7 @@ package org.telekit.desktop.tools.apiclient;
 
 public record LogStat(int totalCount, int successCount, int failedCount) {
 
-    public static LogStat EMPTY = new LogStat(0, 0, 0);
+    public static final LogStat EMPTY = new LogStat(0, 0, 0);
 
     public LogStat {
         if (totalCount < 0 || successCount < 0 || failedCount < 0) {
