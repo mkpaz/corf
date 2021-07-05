@@ -17,6 +17,7 @@ import org.telekit.base.plugin.internal.ExtensionBox;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.plugin.internal.PluginState;
 import org.telekit.base.plugin.internal.PluginStateChangedEvent;
+import org.telekit.base.util.CommonUtils;
 import org.telekit.desktop.startup.config.Config;
 import org.telekit.desktop.views.NavLink;
 
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 import static org.telekit.base.plugin.internal.PluginState.STARTED;
 import static org.telekit.base.plugin.internal.PluginState.STOPPED;
-import static org.telekit.base.util.CommonUtils.extract;
+import static org.telekit.base.util.CommonUtils.map;
 import static org.telekit.desktop.startup.config.Config.DEFAULT_ROUTE;
 import static org.telekit.desktop.views.NavLink.Arg.APP_TITLE;
 import static org.telekit.desktop.views.NavLink.Arg.PLUGIN_CLASS;
@@ -116,7 +117,7 @@ public class NavDrawerViewModel implements Initializable, ViewModel {
     }
 
     private Optional<NavLink> getSelectedLink() {
-        return Optional.ofNullable(extract(selectionModel.get().getSelectedItem(), TreeItem::getValue));
+        return Optional.ofNullable(CommonUtils.map(selectionModel.get().getSelectedItem(), TreeItem::getValue));
     }
 
     // if selected nav item doesn't match current route, fix it

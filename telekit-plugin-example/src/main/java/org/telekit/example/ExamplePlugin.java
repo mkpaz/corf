@@ -17,9 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.telekit.base.Env.DOCS_INDEX_FILE_NAME;
 import static org.telekit.base.Env.getPluginDocsDir;
-import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.CommonUtils.localizedFileName;
 
 @Includes(HelloTool.class)
@@ -72,12 +72,12 @@ public class ExamplePlugin implements Plugin {
 
     @Override
     public void start() {
-        System.out.println(className(ExamplePlugin.class) + " start() method called.");
+        System.out.println(getCanonicalName(ExamplePlugin.class) + " start() method called.");
     }
 
     @Override
     public void stop() {
-        System.out.println(className(ExamplePlugin.class) + " stop() method called.");
+        System.out.println(getCanonicalName(ExamplePlugin.class) + " stop() method called.");
     }
 
     @Override

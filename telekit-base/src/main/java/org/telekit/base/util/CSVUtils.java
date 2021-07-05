@@ -9,7 +9,6 @@ import static org.apache.commons.lang3.ArrayUtils.addAll;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /*
- * NOTE:
  * This class provides some utils to work with comma-separated strings.
  * It doesn't support CSV as a standard, which means that methods in this class
  * doesn't respect nor CSV quotes nor headers.
@@ -25,7 +24,7 @@ public final class CSVUtils {
         Objects.requireNonNull(text);
         Objects.requireNonNull(valueSeparator);
 
-        if (text.isBlank() || valueSeparator.isBlank()) { return new String[][] {}; }
+        if (text.isBlank() || valueSeparator.isBlank()) { return new String[][]{}; }
 
         String[] rows = text.split(LineSeparator.LINE_SPLIT_PATTERN);
         String[][] table = new String[rows.length][];

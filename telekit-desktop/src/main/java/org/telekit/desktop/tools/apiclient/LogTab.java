@@ -20,7 +20,7 @@ import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
-import org.telekit.controls.util.Tables;
+import org.telekit.controls.util.TableUtils;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -36,7 +36,7 @@ import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.fontIcon;
-import static org.telekit.controls.util.Tables.setColumnConstraints;
+import static org.telekit.controls.util.TableUtils.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 
 public class LogTab extends Tab {
@@ -153,14 +153,14 @@ public class LogTab extends Tab {
     }
 
     private TableView<CompletedRequest> createLogTable() {
-        TableColumn<CompletedRequest, Integer> indexColumn = Tables.column("#", "processedRange");
+        TableColumn<CompletedRequest, Integer> indexColumn = TableUtils.createColumn("#", "processedRange");
         setColumnConstraints(indexColumn, 70, 70, false, Pos.CENTER);
 
-        TableColumn<CompletedRequest, String> statusColumn = Tables.column(t(STATUS), "statusCode");
+        TableColumn<CompletedRequest, String> statusColumn = TableUtils.createColumn(t(STATUS), "statusCode");
         setColumnConstraints(statusColumn, 100, USE_COMPUTED_SIZE, false, Pos.CENTER);
 
-        TableColumn<CompletedRequest, String> dataColumn = Tables.column(t(APICLIENT_REQUEST_LINE), "userData");
-        Tables.setColumnConstraints(dataColumn, 200, USE_COMPUTED_SIZE, true, CENTER_LEFT);
+        TableColumn<CompletedRequest, String> dataColumn = TableUtils.createColumn(t(APICLIENT_REQUEST_LINE), "userData");
+        TableUtils.setColumnConstraints(dataColumn, 200, USE_COMPUTED_SIZE, true, CENTER_LEFT);
 
         TableView<CompletedRequest> table = new TableView<>();
         table.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
@@ -168,7 +168,7 @@ public class LogTab extends Tab {
         table.setRowFactory(t -> new LogTableRow());
         table.setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
-                Tables.copySelectedRowsToClipboard(table, row -> Stream.of(
+                TableUtils.copySelectedRowsToClipboard(table, row -> Stream.of(
                         row.getProcessedRange(),
                         String.valueOf(row.getStatusCode()),
                         row.getUserData()

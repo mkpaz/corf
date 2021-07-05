@@ -13,9 +13,9 @@ import org.telekit.base.util.DesktopUtils;
 import java.util.List;
 import java.util.function.Function;
 
-public final class Tables {
+public final class TableUtils {
 
-    public static <S, T> TableColumn<S, T> column(String text, String propertyName) {
+    public static <S, T> TableColumn<S, T> createColumn(String text, String propertyName) {
         TableColumn<S, T> column = new TableColumn<>(text);
         column.setCellValueFactory(new PropertyValueFactory<>(propertyName));
         return column;

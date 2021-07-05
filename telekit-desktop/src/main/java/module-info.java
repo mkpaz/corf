@@ -5,6 +5,7 @@ module telekit.desktop {
 
     // not modularized dependencies
     requires org.apache.commons.lang3;
+    requires org.apache.commons.collections4;
     requires org.apache.httpcomponents.httpcore;
 
     requires j2html;

@@ -5,19 +5,10 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.Function;
 
 import static org.apache.commons.lang3.StringUtils.trim;
 
 public final class StringUtils {
-
-    public static String ensureNotNull(String str) {
-        return ensureNotNull(str, "");
-    }
-
-    public static String ensureNotNull(String str, String defaultValue) {
-        return str != null ? str : defaultValue;
-    }
 
     /**
      * Splits {@code text} to the chunks of equal {@code chunkSize}, e.g.
@@ -34,9 +25,7 @@ public final class StringUtils {
         return result;
     }
 
-    /**
-     * Checks whether trimmed strings are equal.
-     */
+    /** Checks whether trimmed strings are equal */
     public static boolean trimEquals(String s1, String s2) {
         if (s1 == null || s2 == null) { return false; }
         return trim(s1).equals(trim(s2));
@@ -68,18 +57,5 @@ public final class StringUtils {
     public static String fromBase64(String str, Charset charset) {
         if (str == null) { return ""; }
         return new String(Base64.getDecoder().decode(str.getBytes(charset)), charset);
-    }
-
-    public static <T> String stringify(T object) {
-        return stringify(object, "");
-    }
-
-    public static <T> String stringify(T object, String defaultStr) {
-        return stringify(object, defaultStr, String::valueOf);
-    }
-
-    public static <T> String stringify(T object, String defaultStr, Function<T, String> converter) {
-        if (object == null) { return defaultStr; }
-        return converter.apply(object);
     }
 }

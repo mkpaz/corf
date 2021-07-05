@@ -14,13 +14,13 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static org.apache.commons.collections4.SetUtils.emptyIfNull;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.util.CollectionUtils.ensureNotNull;
 import static org.telekit.base.util.PlaceholderReplacer.containsPlaceholders;
 import static org.telekit.base.util.PlaceholderReplacer.format;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
-import static org.telekit.desktop.tools.common.Helpers.*;
+import static org.telekit.desktop.tools.common.ReplacementUtils.*;
 
 public class Generator implements Runnable {
 
@@ -63,7 +63,7 @@ public class Generator implements Runnable {
     @Override
     public void run() {
         Map<String, String> replacements = new HashMap<>();
-        Set<Param> params = ensureNotNull(template.getParams());
+        Set<Param> params = emptyIfNull(template.getParams());
 
         try (FileOutputStream fos = new FileOutputStream(outputFile, mode == MODE_APPEND);
              OutputStreamWriter osw = new OutputStreamWriter(fos, charset);
@@ -109,7 +109,7 @@ public class Generator implements Runnable {
     }
 
     public static List<String> validate(Template template, String[][] csv) {
-        Set<Param> params = ensureNotNull(template.getParams());
+        Set<Param> params = emptyIfNull(template.getParams());
         Map<String, String> replacements = new HashMap<>();
         List<String> warnings = new ArrayList<>();
 

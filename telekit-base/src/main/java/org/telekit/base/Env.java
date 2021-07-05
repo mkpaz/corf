@@ -12,10 +12,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 
+import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.service.Encryptor.Algorithm;
-import static org.telekit.base.util.CommonUtils.className;
-import static org.telekit.base.util.FileUtils.ensureNotNull;
+import static org.telekit.base.util.FileUtils.defaultIfNull;
 import static org.telekit.base.util.FileUtils.urlToFile;
 
 public final class Env {
@@ -111,16 +111,16 @@ public final class Env {
 
     public static Path findHomeDir() {
         // ensureNotNull() is just a formality to avoid NPE in any case
-        return ensureNotNull(System.getProperty("user.home"), Paths.get("home"));
+        return defaultIfNull(System.getProperty("user.home"), Paths.get("home"));
     }
 
     public static Path findTempDir() {
         // ensureNotNull() is just a formality to avoid NPE in any case
-        return ensureNotNull(System.getProperty("java.io.tmpdir"), Paths.get("tmp"));
+        return defaultIfNull(System.getProperty("java.io.tmpdir"), Paths.get("tmp"));
     }
 
     public static Path getPluginDataDir(Class<? extends Plugin> pluginClass) {
-        return PLUGINS_DIR.resolve(className(pluginClass));
+        return PLUGINS_DIR.resolve(getCanonicalName(pluginClass));
     }
 
     public static Path getPluginConfigDir(Class<? extends Plugin> pluginClass) {

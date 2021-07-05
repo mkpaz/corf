@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static j2html.TagCreator.*;
+import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.util.CollectionUtils.ensureNotNull;
-import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 
 public final class PreviewRenderer {
 
@@ -43,25 +43,25 @@ public final class PreviewRenderer {
         } else {
             templateHTML =
                     div(attrs("#template"),
-                        iff(isNotBlank(template.getHeader()), div(attrs(".header"), template.getHeader())),
-                        div(attrs(".pattern"), template.getPattern()),
-                        div(attrs(".footer"), template.getFooter())
+                            iff(isNotBlank(template.getHeader()), div(attrs(".header"), template.getHeader())),
+                            div(attrs(".pattern"), template.getPattern()),
+                            div(attrs(".footer"), template.getFooter())
                     );
         }
 
         Tag<?> paramsHTML =
                 table(attrs("#params"),
-                      thead(
-                              th("NAME"),
-                              th("TYPE"),
-                              th("LENGTH")
-                      ),
-                      tbody(each(ensureNotNull(template.getParams()), param ->
-                              tr(td(param.getName()),
-                                 td(String.valueOf(param.getType())),
-                                 td(param.getLength() > 0 ? String.valueOf(param.getLength()) : "")
-                              )
-                      ))
+                        thead(
+                                th("NAME"),
+                                th("TYPE"),
+                                th("LENGTH")
+                        ),
+                        tbody(each(emptyIfNull(template.getParams()), param ->
+                                tr(td(param.getName()),
+                                        td(String.valueOf(param.getType())),
+                                        td(param.getLength() > 0 ? String.valueOf(param.getLength()) : "")
+                                )
+                        ))
                 );
 
         Tag<?> wrapperHTML = div(

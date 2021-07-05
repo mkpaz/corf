@@ -7,13 +7,12 @@ import org.telekit.base.plugin.internal.PluginCleaner;
 import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
-import org.telekit.base.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.telekit.base.util.CollectionUtils.isNotEmpty;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 public final class PluginConfig implements Config {
 

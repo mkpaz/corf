@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.util.CommonUtils.extract;
+import static org.telekit.base.util.CommonUtils.map;
 import static org.telekit.controls.i18n.ControlsMessages.ACTION_OK;
 import static org.telekit.controls.i18n.ControlsMessages.IP_ADDRESS;
 import static org.telekit.controls.util.Containers.*;
@@ -126,9 +126,9 @@ public class IPv4ConverterDialog extends OverlayDialog {
     }
 
     private void updateAll(IPv4AddressWrapper ip) {
-        updateOne(octetIPText, extract(ip, IPv4AddressWrapper::toString, ""));
-        updateOne(binaryIPText, extract(ip, IPv4AddressWrapper::toBinaryString, ""));
-        updateOne(hexIPText, extract(ip, IPv4AddressWrapper::toHexString, ""));
-        updateOne(integerIPText, extract(ip, val -> String.valueOf(val.longValue()), ""));
+        updateOne(octetIPText, map(ip, IPv4AddressWrapper::toString, ""));
+        updateOne(binaryIPText, map(ip, IPv4AddressWrapper::toBinaryString, ""));
+        updateOne(hexIPText, map(ip, IPv4AddressWrapper::toHexString, ""));
+        updateOne(integerIPText, map(ip, val -> String.valueOf(val.longValue()), ""));
     }
 }

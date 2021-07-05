@@ -18,11 +18,10 @@ import java.util.function.Consumer;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.telekit.base.Env.PLUGINS_DIR;
 import static org.telekit.base.i18n.BaseMessages.*;
 import static org.telekit.base.plugin.internal.PluginState.*;
-import static org.telekit.base.util.CommonUtils.className;
-import static org.telekit.base.util.CommonUtils.objectClassName;
 
 public class PluginManager {
 
@@ -66,7 +65,7 @@ public class PluginManager {
 
         Set<String> disabledPlugins = preferences.getDisabledPlugins();
         for (Plugin plugin : plugins) {
-            PluginState status = !disabledPlugins.contains(objectClassName(plugin)) ?
+            PluginState status = !disabledPlugins.contains(getCanonicalName(plugin)) ?
                     LOADED :
                     DISABLED;
 
@@ -182,7 +181,7 @@ public class PluginManager {
         if (pluginBoxOpt.isEmpty()) { return; }
 
         PluginBox pluginBox = pluginBoxOpt.get();
-        LOGGER.fine("Enabling plugin: " + className(pluginBox.getPluginClass()));
+        LOGGER.fine("Enabling plugin: " + getCanonicalName(pluginBox.getPluginClass()));
         pluginBox.setState(LOADED);
         startPlugin(pluginBox);
 
@@ -195,7 +194,7 @@ public class PluginManager {
         if (pluginBoxOpt.isEmpty()) { return; }
 
         PluginBox pluginBox = pluginBoxOpt.get();
-        LOGGER.fine("Disabling plugin: " + className(pluginBox.getPluginClass()));
+        LOGGER.fine("Disabling plugin: " + getCanonicalName(pluginBox.getPluginClass()));
         if (pluginBox.getState() == STARTED) {
             stopPlugin(pluginBox);
         }
@@ -216,7 +215,7 @@ public class PluginManager {
      * it will be created via no-arg constructor.
      */
     public List<ExtensionBox> getExtensionsOfType(Class<? extends Extension> extensionType) {
-        LOGGER.fine("Querying extension of type: " + className(extensionType));
+        LOGGER.fine("Querying extension of type: " + getCanonicalName(extensionType));
         Collection<PluginBox> matchedPlugins = pluginRepository.findPluginsThatProvide(extensionType);
         if (matchedPlugins.isEmpty()) { return Collections.emptyList(); }
 
@@ -239,7 +238,7 @@ public class PluginManager {
 
     private void startPlugin(PluginBox pluginBox) throws PluginException {
         try {
-            LOGGER.fine("Starting plugin: " + className(pluginBox.getPluginClass()));
+            LOGGER.fine("Starting plugin: " + getCanonicalName(pluginBox.getPluginClass()));
             pluginBox.getPlugin().start();
             pluginBox.setState(STARTED);
 
@@ -250,7 +249,7 @@ public class PluginManager {
                 I18n.getInstance().reload();
             }
         } catch (Throwable t) {
-            LOGGER.severe("Failed to start plugin: " + className(pluginBox.getPluginClass()));
+            LOGGER.severe("Failed to start plugin: " + getCanonicalName(pluginBox.getPluginClass()));
             LOGGER.severe(ExceptionUtils.getStackTrace(t));
             pluginBox.setState(PluginState.FAILED);
             throw new PluginException(I18n.t(PLUGIN_MSG_ERROR_WHILE_START), t);
@@ -259,7 +258,7 @@ public class PluginManager {
 
     private void stopPlugin(PluginBox pluginBox) throws PluginException {
         try {
-            LOGGER.fine("Stopping plugin: " + className(pluginBox.getPluginClass()));
+            LOGGER.fine("Stopping plugin: " + getCanonicalName(pluginBox.getPluginClass()));
             pluginBox.getPlugin().stop();
             pluginBox.setState(STOPPED);
 
@@ -270,7 +269,7 @@ public class PluginManager {
                 I18n.getInstance().reload();
             }
         } catch (Throwable t) {
-            LOGGER.severe("Failed to stop plugin: " + className(pluginBox.getPluginClass()));
+            LOGGER.severe("Failed to stop plugin: " + getCanonicalName(pluginBox.getPluginClass()));
             LOGGER.severe(ExceptionUtils.getStackTrace(t));
             pluginBox.setState(PluginState.FAILED);
             throw new PluginException(I18n.t(PLUGIN_MSG_ERROR_WHILE_STOP), t);
@@ -288,7 +287,7 @@ public class PluginManager {
         Injector injector = Injector.getInstance();
 
         for (Class<? extends Extension> cls : extensionClasses) {
-            LOGGER.fine("Instantiating extension: " + className(extensionType));
+            LOGGER.fine("Instantiating extension: " + getCanonicalName(extensionType));
             // even if object is not provided by the injector (as a singleton)
             // it will be created via no-arg constructor, this is how getBean() method works
             Extension extension = injector.getBean(cls);

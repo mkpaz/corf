@@ -2,6 +2,7 @@ package org.telekit.desktop.tools.ipcalc;
 
 import org.telekit.base.telecom.ip.IPv4AddressWrapper;
 import org.telekit.base.telecom.ip.IPv4NetworkWrapper;
+import org.telekit.base.util.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,11 +10,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
 import static org.telekit.base.telecom.ip.IPv4NetworkWrapper.LINK_LOCAL_PREFIX_LEN;
-import static org.telekit.base.util.CommonUtils.extract;
+import static org.telekit.base.util.CommonUtils.map;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.desktop.tools.ipcalc.IPv4CalcViewModel.NUMBER_FORMAT;
 
@@ -42,7 +42,7 @@ public final class IPv4NetworkInfo {
 
     public String getNetworkClass() { return net.getNetworkClass(); }
 
-    public String getBroadcast() { return Objects.toString(extract(net.getBroadcast(), IPv4AddressWrapper::toString), ""); }
+    public String getBroadcast() { return Objects.toString(CommonUtils.map(net.getBroadcast(), IPv4AddressWrapper::toString), ""); }
 
     public String getNetmaskAsDecimal() { return net.getNetmask().toString(); }
 

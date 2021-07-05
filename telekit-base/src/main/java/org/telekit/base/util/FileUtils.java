@@ -11,11 +11,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.apache.commons.lang3.StringUtils.substringAfterLast;
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.Env.TEMP_DIR;
 
 public final class FileUtils {
+
+    public static Path defaultIfNull(String path, Path defaultValue) {
+        return path != null ? Paths.get(path) : Objects.requireNonNull(defaultValue);
+    }
 
     public static File urlToFile(URL url) {
         try {
@@ -25,26 +28,16 @@ public final class FileUtils {
         }
     }
 
-    public static String sanitizeFileName(String filename) {
-        if (filename == null || filename.isBlank()) { return ""; }
-        return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
-    }
-
-    /**
-     * Returns file name without extension.
-     *
-     * @param path absolute path to the target file
-     */
     public static String getFileName(Path path) {
         if (path == null) { return ""; }
         return substringBeforeLast(path.getFileName().toString(), ".");
     }
 
-    /**
-     * Returns file name extension.
-     *
-     * @param path absolute path to the target file
-     */
+    public static String sanitizeFileName(String filename) {
+        if (filename == null || filename.isBlank()) { return ""; }
+        return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
+    }
+
     public static String getFileExtension(Path path) {
         if (path == null) { return ""; }
         return substringAfterLast(path.getFileName().toString(), ".");
@@ -54,10 +47,6 @@ public final class FileUtils {
         if (file == null) { return null; }
         File parent = file.getParentFile();
         return parent != null ? parent.toPath() : null;
-    }
-
-    public static Path ensureNotNull(String path, Path defaultValue) {
-        return path != null ? Paths.get(path) : Objects.requireNonNull(defaultValue);
     }
 
     public static List<Path> findFilesByPrefix(Path path, String prefix) {
@@ -81,13 +70,13 @@ public final class FileUtils {
     }
 
     /*
-     * This method does not create nor empty temp file nor directory,
-     * but only returns its path.
+     * This method doesn't create nor empty temp file nor directory,
+     * but only returns generated path
      */
     public static Path createTempPath(String prefix, String suffix) {
         String filename = UUID.randomUUID().toString().replace("-", "");
-        prefix = StringUtils.ensureNotNull(prefix, "");
-        suffix = StringUtils.ensureNotNull(suffix, "");
+        prefix = defaultString(prefix);
+        suffix = defaultString(suffix);
         return TEMP_DIR.resolve(prefix + filename + suffix);
     }
 
