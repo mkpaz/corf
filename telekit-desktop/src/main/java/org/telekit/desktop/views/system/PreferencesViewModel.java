@@ -28,13 +28,13 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.domain.Proxy.NO_PROXY;
 import static org.telekit.base.i18n.BaseMessages.MSG_INVALID_PARAM;
 import static org.telekit.base.plugin.internal.PluginState.DISABLED;
 import static org.telekit.base.plugin.internal.PluginState.UNINSTALLED;
-import static org.telekit.base.util.CommonUtils.className;
 
 @Singleton
 public class PreferencesViewModel implements Initializable, ViewModel {
@@ -157,12 +157,12 @@ public class PreferencesViewModel implements Initializable, ViewModel {
                 switch (plugin.getState()) {
                     case STARTED, FAILED -> {
                         pluginManager.disablePlugin(plugin.getPluginClass());
-                        preferences.getDisabledPlugins().add(className(plugin.getPluginClass()));
+                        preferences.getDisabledPlugins().add(getCanonicalName(plugin.getPluginClass()));
                         preferences.setDirty();
                     }
                     case DISABLED -> {
                         pluginManager.enablePlugin(plugin.getPluginClass());
-                        preferences.getDisabledPlugins().remove(className(plugin.getPluginClass()));
+                        preferences.getDisabledPlugins().remove(getCanonicalName(plugin.getPluginClass()));
                         preferences.setDirty();
                     }
                 }
@@ -204,7 +204,7 @@ public class PreferencesViewModel implements Initializable, ViewModel {
             updatePluginsList();
 
             if (originalState == DISABLED) {
-                preferences.getDisabledPlugins().remove(className(plugin.getPluginClass()));
+                preferences.getDisabledPlugins().remove(getCanonicalName(plugin.getPluginClass()));
                 savePreferences();
             }
 

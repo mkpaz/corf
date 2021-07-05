@@ -48,7 +48,7 @@ import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.menuItem;
-import static org.telekit.controls.util.Tables.setColumnConstraints;
+import static org.telekit.controls.util.TableUtils.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.tools.ipcalc.IPv4CalcViewModel.*;
 import static org.telekit.desktop.tools.ipcalc.IPv4NetworkInfo.BitUsage.HOST_CHAR;
@@ -273,18 +273,18 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
     private TableView<IPv4NetworkInfo> createSplitTable() {
         TableColumn<IPv4NetworkInfo, Integer> indexColumn = new TableColumn<>("#");
         setColumnConstraints(indexColumn, 100, USE_COMPUTED_SIZE, false, CENTER);
-        indexColumn.setCellFactory(Tables.indexCellFactory());
+        indexColumn.setCellFactory(TableUtils.indexCellFactory());
 
-        TableColumn<IPv4NetworkInfo, String> netAddressColumn = Tables.column("Network", "networkAddress");
+        TableColumn<IPv4NetworkInfo, String> netAddressColumn = TableUtils.createColumn("Network", "networkAddress");
         setColumnConstraints(netAddressColumn, 150, USE_COMPUTED_SIZE, false, CENTER_LEFT);
 
-        TableColumn<IPv4NetworkInfo, String> minHostColumn = Tables.column("Min Host", "minHost");
+        TableColumn<IPv4NetworkInfo, String> minHostColumn = TableUtils.createColumn("Min Host", "minHost");
         setColumnConstraints(minHostColumn, 160, USE_COMPUTED_SIZE, false, CENTER_LEFT);
 
-        TableColumn<IPv4NetworkInfo, String> maxHostColumn = Tables.column("Max Host", "maxHost");
+        TableColumn<IPv4NetworkInfo, String> maxHostColumn = TableUtils.createColumn("Max Host", "maxHost");
         setColumnConstraints(maxHostColumn, 160, USE_COMPUTED_SIZE, false, CENTER_LEFT);
 
-        TableColumn<IPv4NetworkInfo, String> broadcastColumn = Tables.column("Broadcast", "broadcast");
+        TableColumn<IPv4NetworkInfo, String> broadcastColumn = TableUtils.createColumn("Broadcast", "broadcast");
         setColumnConstraints(broadcastColumn, 150, USE_COMPUTED_SIZE, false, CENTER_LEFT);
 
         TableView<IPv4NetworkInfo> table = new TableView<>();
@@ -306,12 +306,12 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         ContextMenu contextMenu = new ContextMenu();
         table.setContextMenu(contextMenu);
         contextMenu.getItems().add(
-                menuItem(t(ACTION_COPY), null, e -> Tables.copySelectedRowsToClipboard(table, rowToString))
+                menuItem(t(ACTION_COPY), null, e -> TableUtils.copySelectedRowsToClipboard(table, rowToString))
         );
 
         table.setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
-                Tables.copySelectedRowsToClipboard(table, rowToString);
+                TableUtils.copySelectedRowsToClipboard(table, rowToString);
             }
         });
 
@@ -319,19 +319,19 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
     }
 
     private TableView<IPv4NetworkInfo> createNetmaskTable() {
-        TableColumn<IPv4NetworkInfo, Integer> prefixLengthColumn = Tables.column("Prefix Length", "prefixLength");
+        TableColumn<IPv4NetworkInfo, Integer> prefixLengthColumn = TableUtils.createColumn("Prefix Length", "prefixLength");
         setColumnConstraints(prefixLengthColumn, 100, USE_COMPUTED_SIZE, false, CENTER);
 
-        TableColumn<IPv4NetworkInfo, String> decimalValueColumn = Tables.column("Decimal", "netmaskAsDecimal");
+        TableColumn<IPv4NetworkInfo, String> decimalValueColumn = TableUtils.createColumn("Decimal", "netmaskAsDecimal");
         setColumnConstraints(decimalValueColumn, 150, USE_COMPUTED_SIZE, false, CENTER_LEFT);
 
-        TableColumn<IPv4NetworkInfo, String> hexValueColumn = Tables.column("Hex", "netmaskAsHex");
+        TableColumn<IPv4NetworkInfo, String> hexValueColumn = TableUtils.createColumn("Hex", "netmaskAsHex");
         setColumnConstraints(hexValueColumn, 150, USE_COMPUTED_SIZE, false, CENTER_LEFT);
 
-        TableColumn<IPv4NetworkInfo, String> numberOfHostsColumn = Tables.column("Total Hosts", "totalHostCountFormatted");
+        TableColumn<IPv4NetworkInfo, String> numberOfHostsColumn = TableUtils.createColumn("Total Hosts", "totalHostCountFormatted");
         setColumnConstraints(numberOfHostsColumn, 150, USE_COMPUTED_SIZE, false, CENTER);
 
-        TableColumn<IPv4NetworkInfo, String> wildcardColumn = Tables.column("Wildcard Mask", "wildcardMask");
+        TableColumn<IPv4NetworkInfo, String> wildcardColumn = TableUtils.createColumn("Wildcard Mask", "wildcardMask");
         setColumnConstraints(wildcardColumn, 150, USE_COMPUTED_SIZE, false, CENTER_LEFT);
 
         TableView<IPv4NetworkInfo> table = new TableView<>();
@@ -353,12 +353,12 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         ContextMenu contextMenu = new ContextMenu();
         table.setContextMenu(contextMenu);
         contextMenu.getItems().add(
-                menuItem(t(ACTION_COPY), null, e -> Tables.copySelectedRowsToClipboard(table, rowToString))
+                menuItem(t(ACTION_COPY), null, e -> TableUtils.copySelectedRowsToClipboard(table, rowToString))
         );
 
         table.setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
-                Tables.copySelectedRowsToClipboard(table, rowToString);
+                TableUtils.copySelectedRowsToClipboard(table, rowToString);
             }
         });
 

@@ -23,7 +23,7 @@ import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.Controls;
-import org.telekit.controls.util.Tables;
+import org.telekit.controls.util.TableUtils;
 import org.telekit.desktop.event.CompletionRegistryUpdateEvent;
 import org.telekit.desktop.tools.Action;
 import org.telekit.desktop.tools.common.*;
@@ -37,27 +37,23 @@ import java.util.List;
 import java.util.*;
 
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Env.TEMP_DIR;
 import static org.telekit.base.i18n.BaseMessages.MSG_GENERIC_IO_ERROR;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
-import static org.telekit.base.util.CSVUtils.addColumnsTheRight;
-import static org.telekit.base.util.CollectionUtils.isNotEmpty;
-import static org.telekit.base.util.DesktopUtils.getFromClipboard;
 import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.base.util.FileUtils.sanitizeFileName;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.menuItem;
-import static org.telekit.controls.util.Tables.setColumnConstraints;
+import static org.telekit.controls.util.TableUtils.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.tools.Action.PREVIEW;
 import static org.telekit.desktop.tools.Action.*;
-import static org.telekit.desktop.tools.common.Helpers.pasteAsColumns;
-import static org.telekit.desktop.tools.common.Helpers.pasteFromExcel;
+import static org.telekit.desktop.tools.common.ComponentUtils.pasteAsColumns;
+import static org.telekit.desktop.tools.common.ComponentUtils.pasteFromExcel;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderView.createMenuItem;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderViewModel.PREVIEW_FILE_NAME;
 
@@ -305,11 +301,11 @@ public final class SettingsPane extends AnchorPane {
         setColumnConstraints(indicatorColumn, 30, 30, false, Pos.CENTER);
         indicatorColumn.setCellFactory(cell -> new ParamIndicatorTableCell(model.getCompletionRegistry()));
 
-        TableColumn<Param, String> nameColumn = Tables.column(t(NAME), "name");
+        TableColumn<Param, String> nameColumn = TableUtils.createColumn(t(NAME), "name");
         setColumnConstraints(nameColumn, 120, USE_COMPUTED_SIZE, false, Pos.CENTER_LEFT);
 
-        TableColumn<Param, String> valueColumn = Tables.column(t(VALUE), "value");
-        Tables.setColumnConstraints(valueColumn, 120, USE_COMPUTED_SIZE, true, Pos.CENTER_LEFT);
+        TableColumn<Param, String> valueColumn = TableUtils.createColumn(t(VALUE), "value");
+        TableUtils.setColumnConstraints(valueColumn, 120, USE_COMPUTED_SIZE, true, Pos.CENTER_LEFT);
         valueColumn.setCellFactory(t -> new ParamValueTableCell(new DefaultStringConverter()));
         valueColumn.setOnEditCommit(e -> e.getTableView()
                 .getItems()

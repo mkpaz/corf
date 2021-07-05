@@ -11,15 +11,15 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Function;
 
-import static org.telekit.base.util.StringUtils.ensureNotNull;
+import static org.apache.commons.lang3.StringUtils.defaultString;
 
 public final class CommonUtils {
 
-    public static <T, R> R extract(T t, Function<T, R> func) {
-        return extract(t, func, null);
+    public static <T, R> R map(T t, Function<T, R> func) {
+        return map(t, func, null);
     }
 
-    public static <T, R> R extract(T t, Function<T, R> func, R defaultValue) {
+    public static <T, R> R map(T t, Function<T, R> func, R defaultValue) {
         return t != null ? func.apply(t) : defaultValue;
     }
 
@@ -37,14 +37,6 @@ public final class CommonUtils {
         }
     }
 
-    public static String className(Class<?> cls) {
-        return Objects.requireNonNull(cls).getCanonicalName();
-    }
-
-    public static String objectClassName(Object object) {
-        return Objects.requireNonNull(object).getClass().getCanonicalName();
-    }
-
     public static String localizedFileName(String fileName, String fileExtension) {
         return localizedFileName(fileName, fileExtension, Locale.getDefault());
     }
@@ -56,12 +48,10 @@ public final class CommonUtils {
      */
     public static String localizedFileName(String fileName, String fileExtension, Locale locale) {
         if (locale == null) { return fileName + fileExtension; }
-        return ensureNotNull(fileName) + "_" + locale.getLanguage() + ensureNotNull(fileExtension);
+        return defaultString(fileName) + "_" + locale.getLanguage() + defaultString(fileExtension);
     }
 
-    /**
-     * Catches and ignores any raised exceptions.
-     */
+    /** Catches and ignores any raised exceptions */
     public static void hush(Runnable runnable) {
         try {
             Objects.requireNonNull(runnable).run();

@@ -10,7 +10,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.function.Supplier;
@@ -55,14 +54,12 @@ public class Containers {
     }
 
     public static void setAnchors(Parent parent, Insets insets) {
-        if (insets.getTop() >= 0) { AnchorPane.setTopAnchor(parent, insets.getTop()); }
-        if (insets.getRight() >= 0) { AnchorPane.setRightAnchor(parent, insets.getRight()); }
+        //@formatter:off
+        if (insets.getTop()    >= 0) { AnchorPane.setTopAnchor(parent, insets.getTop());       }
+        if (insets.getRight()  >= 0) { AnchorPane.setRightAnchor(parent, insets.getRight());   }
         if (insets.getBottom() >= 0) { AnchorPane.setBottomAnchor(parent, insets.getBottom()); }
-        if (insets.getLeft() >= 0) { AnchorPane.setLeftAnchor(parent, insets.getLeft()); }
-    }
-
-    public static Rectangle2D getAnchors(Stage stage) {
-        return new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
+        if (insets.getLeft()   >= 0) { AnchorPane.setLeftAnchor(parent, insets.getLeft());     }
+        //@formatter:on
     }
 
     public static void setAnchors(Stage stage, Rectangle2D bounds) {
@@ -70,6 +67,10 @@ public class Containers {
         stage.setX(bounds.getMinX());
         stage.setHeight(bounds.getHeight());
         stage.setY(bounds.getMinY());
+    }
+
+    public static Rectangle2D getAnchors(Stage stage) {
+        return new Rectangle2D(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
     }
 
     public static void setScrollConstraints(ScrollPane scrollPane,
@@ -140,13 +141,6 @@ public class Containers {
                 tabPane.widthProperty().divide(tabPane.getTabs().size()).subtract(20)
         );
         return tabPane;
-    }
-
-    public static Screen getScreenForStage(Stage stage) {
-        for (Screen screen : Screen.getScreensForRectangle(stage.getX(), stage.getY(), 1, 1)) {
-            return screen;
-        }
-        return Screen.getPrimary();
     }
 
     public static Region horizontalSpacer() {

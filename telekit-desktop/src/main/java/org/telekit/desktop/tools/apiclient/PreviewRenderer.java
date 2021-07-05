@@ -4,9 +4,9 @@ import j2html.tags.Tag;
 import org.telekit.base.util.PlaceholderReplacer;
 
 import static j2html.TagCreator.*;
+import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.telekit.base.util.CollectionUtils.ensureNotNull;
-import static org.telekit.base.util.CollectionUtils.isNotEmpty;
 
 public final class PreviewRenderer {
 
@@ -36,7 +36,7 @@ public final class PreviewRenderer {
                               th("LENGTH")
                       ),
                       tbody(
-                              each(ensureNotNull(template.getParams()), param ->
+                              each(emptyIfNull(template.getParams()), param ->
                                       tr(
                                               td(param.getName()),
                                               td(String.valueOf(param.getType())),

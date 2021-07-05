@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import org.telekit.base.domain.KeyValue;
 import org.telekit.controls.util.NodeUtils;
-import org.telekit.controls.util.Tables;
+import org.telekit.controls.util.TableUtils;
 import org.telekit.controls.widgets.FilterTable;
 import org.telekit.controls.widgets.OverlayDialog;
 
@@ -31,8 +31,8 @@ public class ParamCompletionDialog extends OverlayDialog {
     private void createContent() {
         filterTable = new FilterTable<>();
         filterTable.setColumns(
-                Tables.column(t(KEY), "key"),
-                Tables.column(t(VALUE), "value")
+                TableUtils.createColumn(t(KEY), "key"),
+                TableUtils.createColumn(t(VALUE), "value")
         );
         filterTable.setPredicate((filter, row) -> row.getKey().contains(filter));
         filterTable.getDataTable().setOnMouseClicked((MouseEvent e) -> {

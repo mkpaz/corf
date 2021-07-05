@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import static org.telekit.base.util.CommonUtils.className;
+import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 
 public class PluginLoader {
 
@@ -63,7 +63,7 @@ public class PluginLoader {
         for (Class<? extends Extension> extensionClass : includes.value()) {
             // this is somewhat redundant because because PluginBox only accept instance objects
             if (Modifier.isAbstract(extensionClass.getModifiers()) || extensionClass.isInterface()) {
-                LOGGER.warning("Invalid extension type: " + className(extensionClass));
+                LOGGER.warning("Invalid extension type: " + getCanonicalName(extensionClass));
                 continue;
             }
 
@@ -74,12 +74,12 @@ public class PluginLoader {
                     .collect(Collectors.toList());
 
             if (implementedExtensionTypes.isEmpty()) {
-                LOGGER.warning("Extension doesn't implement any of the supported extension points: " + className(extensionClass));
+                LOGGER.warning("Extension doesn't implement any of the supported extension points: " + getCanonicalName(extensionClass));
                 continue;
             }
 
             if (implementedExtensionTypes.size() > 1) {
-                LOGGER.warning("Extension must implement only one of the supported extension points: " + className(extensionClass));
+                LOGGER.warning("Extension must implement only one of the supported extension points: " + getCanonicalName(extensionClass));
                 continue;
             }
 

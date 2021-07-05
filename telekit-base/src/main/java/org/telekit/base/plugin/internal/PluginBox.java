@@ -13,8 +13,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.telekit.base.Env.getPluginConfigDir;
-import static org.telekit.base.util.CommonUtils.className;
 import static org.telekit.base.util.FileUtils.isDirEmpty;
 
 public class PluginBox {
@@ -108,7 +108,7 @@ public class PluginBox {
     @Override
     public String toString() {
         return "PluginContainer{" +
-                "plugin=" + className(getPluginClass()) +
+                "plugin=" + getCanonicalName(getPluginClass()) +
                 ", state=" + state +
                 '}';
     }

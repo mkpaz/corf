@@ -19,8 +19,10 @@ import org.telekit.desktop.startup.config.Config;
 
 import java.util.Objects;
 
-import static org.telekit.base.Env.*;
-import static org.telekit.controls.util.Containers.*;
+import static org.telekit.base.Env.APP_NAME;
+import static org.telekit.base.Env.WINDOW_MAXIMIZED;
+import static org.telekit.controls.util.Containers.getAnchors;
+import static org.telekit.controls.util.Containers.setAnchors;
 import static org.telekit.desktop.IconCache.ICON_APP;
 import static org.telekit.desktop.startup.config.Config.DESKTOP_MODULE_PATH;
 
@@ -191,5 +193,12 @@ public class MainStage {
         // make sure that window size less than visual screen bounds
         // the latter is calculated based on display resolution, output scale and taskbar height
         return PREF_SIZE.gt(visualBounds) ? visualBounds : PREF_SIZE;
+    }
+
+    public static Screen getScreenForStage(Stage stage) {
+        for (Screen screen : Screen.getScreensForRectangle(stage.getX(), stage.getY(), 1, 1)) {
+            return screen;
+        }
+        return Screen.getPrimary();
     }
 }

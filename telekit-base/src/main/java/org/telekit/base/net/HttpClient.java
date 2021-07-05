@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.telekit.base.util.StringUtils.ensureNotNull;
+import static org.apache.commons.lang3.StringUtils.defaultString;
 
 public interface HttpClient {
 
@@ -31,7 +31,7 @@ public interface HttpClient {
             this.method = Objects.requireNonNull(method);
             this.uri = Objects.requireNonNull(uri);
             this.headers = headers != null ? new LinkedHashMap<>(headers) : new HashMap<>();
-            this.body = ensureNotNull(body);
+            this.body = defaultString(body);
         }
 
         public Method method() {
@@ -70,9 +70,9 @@ public interface HttpClient {
 
         public Response(int statusCode, String reasonPhrase, Map<String, String> headers, String body) {
             this.statusCode = statusCode;
-            this.reasonPhrase = ensureNotNull(reasonPhrase);
+            this.reasonPhrase = defaultString(reasonPhrase);
             this.headers = headers != null ? new LinkedHashMap<>(headers) : new HashMap<>();
-            this.body = ensureNotNull(body);
+            this.body = defaultString(body);
         }
 
         public int statusCode() {

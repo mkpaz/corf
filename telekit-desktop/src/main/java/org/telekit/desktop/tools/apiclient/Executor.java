@@ -13,25 +13,24 @@ import org.telekit.base.net.HttpClient.Response;
 import org.telekit.base.net.HttpConstants;
 import org.telekit.base.net.HttpConstants.AuthScheme;
 import org.telekit.base.net.UriUtils;
-import org.telekit.base.util.CollectionUtils;
 import org.telekit.base.util.ConcurrencyUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.desktop.tools.apiclient.Template.BatchSeparator;
 import org.telekit.desktop.tools.common.Param;
 
 import java.net.URI;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.trim;
+import static org.apache.commons.collections4.SetUtils.emptyIfNull;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 import static org.telekit.base.util.PlaceholderReplacer.containsPlaceholders;
 import static org.telekit.base.util.PlaceholderReplacer.format;
-import static org.telekit.base.util.StringUtils.ensureNotNull;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
-import static org.telekit.desktop.tools.common.Helpers.*;
+import static org.telekit.desktop.tools.common.ReplacementUtils.*;
 
 public class Executor extends Task<ObservableList<CompletedRequest>> {
 
@@ -48,7 +47,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
     private AuthScheme authScheme;
     private UsernamePasswordCredential credential;
     private Proxy proxy;
-    private int timeoutBetweenRequests = 200; // millis
+    private Duration timeoutBetweenRequests = Duration.ofMillis(200);
 
     public Executor(Template template, String[][] csv, ObservableList<CompletedRequest> log) {
         Objects.requireNonNull(template);
@@ -64,7 +63,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
     }
 
     public void setTimeoutBetweenRequests(int timeoutBetweenRequests) {
-        this.timeoutBetweenRequests = timeoutBetweenRequests;
+        this.timeoutBetweenRequests = Duration.ofMillis(timeoutBetweenRequests);
     }
 
     public void setProxy(Proxy proxy) {
@@ -87,7 +86,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
     @Override
     protected ObservableList<CompletedRequest> call() {
         Map<String, String> replacements = new HashMap<>();
-        Set<Param> params = CollectionUtils.ensureNotNull(template.getParams());
+        Set<Param> params = emptyIfNull(template.getParams());
         Map<String, String> origHeaders = new HashMap<>(parseHeaders(template.getHeaders()));
 
         configureAuth(origHeaders);
@@ -203,7 +202,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
     }
 
     public static List<String> validate(Template template, String[][] csv) {
-        Set<Param> params = CollectionUtils.ensureNotNull(template.getParams());
+        Set<Param> params = emptyIfNull(template.getParams());
         Map<String, String> replacements = new HashMap<>();
         List<String> warnings = new ArrayList<>();
 
@@ -230,16 +229,16 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
 
                     payloadFormatted = format(
                             template.getUri() +
-                                    ensureNotNull(template.getBody()) +
-                                    ensureNotNull(template.getHeaders())
+                                    defaultString(template.getBody()) +
+                                    defaultString(template.getHeaders())
                             , replacements);
                 } else {
                     Map<String, String> batchReplacements = new HashMap<>(replacements);
                     putIndexPlaceholders(batchReplacements, rowIndex);
                     putCsvPlaceholders(batchReplacements, row);
 
-                    payloadFormatted = format(template.getUri() + ensureNotNull(template.getHeaders()), replacements) +
-                            format(ensureNotNull(template.getBody()), batchReplacements);
+                    payloadFormatted = format(template.getUri() + defaultString(template.getHeaders()), replacements) +
+                            format(defaultString(template.getBody()), batchReplacements);
                 }
             } else {
                 maxRowSize = row.length;

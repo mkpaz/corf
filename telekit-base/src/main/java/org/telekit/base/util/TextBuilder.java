@@ -4,9 +4,7 @@ import org.telekit.base.domain.LineSeparator;
 
 import java.util.Collection;
 
-/**
- * Just a convenient wrapper around StringBuilder.
- */
+/** Convenient wrapper around StringBuilder */
 public class TextBuilder {
 
     private final StringBuilder buf;
