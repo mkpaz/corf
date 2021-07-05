@@ -69,23 +69,29 @@ public class Generator implements Runnable {
              OutputStreamWriter osw = new OutputStreamWriter(fos, charset);
              BufferedWriter out = new BufferedWriter(osw)) {
 
+            putTemplatePlaceholders(replacements, params);
+
             // write BOM for new files if specified
             if (bom && mode != MODE_APPEND) { out.write(Encoding.BOM); }
 
-            // write header
+            // header
             if (isNotBlank(template.getHeader())) {
-                String header = forceLineSeparator(trim(template.getHeader()), lineSeparator);
-                out.write(header);
+                String header = format(template.getHeader(), replacements);
+                out.write(forceLineSeparator(trim(header), lineSeparator));
                 out.write(lineSeparator);
             }
 
-            // write pattern
+            // footer (format it here, before putting index and csv placeholders)
+            String footer = null;
+            if (isNotBlank(template.getFooter())) {
+                footer = format(template.getFooter(), replacements);
+            }
+
+            // pattern
             String pattern = forceLineSeparator(trim(template.getPattern()), lineSeparator);
             for (int rowIndex = 0; rowIndex < csv.length & rowIndex < MAX_CSV_SIZE; rowIndex++) {
                 String[] row = csv[rowIndex];
 
-                // update all placeholders values
-                putTemplatePlaceholders(replacements, params);
                 putIndexPlaceholders(replacements, rowIndex);
                 putCsvPlaceholders(replacements, row);
 
@@ -93,10 +99,8 @@ public class Generator implements Runnable {
                 out.write(lineSeparator);
             }
 
-            // write footer
-            if (isNotBlank(template.getFooter())) {
-                String footer = forceLineSeparator(trim(template.getFooter()), lineSeparator);
-                out.write(footer);
+            if (footer != null) {
+                out.write(forceLineSeparator(trim(footer), lineSeparator));
                 out.write(lineSeparator);
             }
         } catch (Exception e) {
@@ -118,6 +122,12 @@ public class Generator implements Runnable {
         boolean hasBlankValues = putTemplatePlaceholders(replacements, params);
         if (hasBlankValues) { warnings.add(I18n.t(TOOLS_MSG_VALIDATION_BLANK_PARAM_VALUES)); }
 
+        String headerAfterFormatting = template.getHeader() != null ?
+                format(template.getHeader(), replacements) : null;
+
+        String footerAfterFormatting = template.getHeader() != null ?
+                format(template.getFooter(), replacements) : null;
+
         int firstRowSize = 0, maxRowSize = 0;
         String firstLineAfterFormatting = "";
         for (int rowIndex = 0; rowIndex < csv.length & rowIndex < MAX_CSV_SIZE; rowIndex++) {
@@ -137,7 +147,10 @@ public class Generator implements Runnable {
         if (firstRowSize != maxRowSize) { warnings.add(I18n.t(TOOLS_MSG_VALIDATION_MIXED_CSV)); }
 
         // verify that all placeholders has been replaced
-        if (containsPlaceholders(firstLineAfterFormatting)) {
+        if (containsPlaceholders(firstLineAfterFormatting) |
+                (headerAfterFormatting != null && containsPlaceholders(headerAfterFormatting)) |
+                (footerAfterFormatting != null && containsPlaceholders(footerAfterFormatting))
+        ) {
             warnings.add(I18n.t(TOOLS_MSG_VALIDATION_UNRESOLVED_PLACEHOLDERS));
         }
 
