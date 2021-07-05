@@ -52,6 +52,7 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN = "tools.only-first-N-rows-will-be-shown";
 
     String TOOLS_MSG_DELETE_TEMPLATE = "tools.msg.delete-template";
+    String TOOLS_MSG_LIST_IS_TOO_LARGE_TO_EXPORT = "tools.msg.list-is-too-large-to-export";
     String TOOLS_MSG_VALIDATION_HEAD = "tools.msg.validation.head";
     String TOOLS_MSG_VALIDATION_BLANK_PARAM_VALUES = "tools.msg.validation.blank-param-values";
     String TOOLS_MSG_VALIDATION_MIXED_CSV = "tools.msg.validation.mixed-csv";
@@ -81,6 +82,7 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
 
     String TOOL_IPV4_CALCULATOR = "tool.IPv4Calculator";
     String IPCALC_IP_ADDRESS_CONVERTER = "ipcalc.IPAddressConverter";
+    String IPCALC_GENERATE_IP_ADDRESSES = "ipcalc.GenerateIPAddressList";
     String IPCALC_SPLIT_TO_0 = "ipcalc.split-to.0";
     String IPCALC_SPLIT_TO_1 = "ipcalc.split-to.1";
 

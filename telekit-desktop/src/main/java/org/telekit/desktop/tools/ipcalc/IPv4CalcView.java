@@ -17,7 +17,9 @@ import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
+import org.telekit.base.domain.event.Notification;
 import org.telekit.base.domain.exception.TelekitException;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.telecom.ip.IPv4AddressWrapper;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileUtils;
@@ -27,10 +29,7 @@ import org.telekit.desktop.tools.ipcalc.IPv4NetworkInfo.SplitVariant;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -250,7 +249,9 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
         ContextMenu contextMenu = new ContextMenu();
         table.setContextMenu(contextMenu);
-        contextMenu.getItems().add(
+        contextMenu.getItems().setAll(
+                menuItem(t(IPCALC_GENERATE_IP_ADDRESSES), null, e -> exportAllHostsInNetwork()),
+                new SeparatorMenuItem(),
                 menuItem(t(ACTION_COPY_ALL), null, e -> copyDetailsTableToClipboard())
         );
 
@@ -437,6 +438,44 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         converterDialog.setOnCloseRequest(overlay::hide);
 
         return converterDialog;
+    }
+
+    private void exportAllHostsInNetwork() {
+        IPv4NetworkInfo net = model.ipNetworkInfoProperty().get();
+        if (net == null) { return; }
+
+        if (net.getUsableHostCount() > Math.pow(2, 16)) {
+            DefaultEventBus.getInstance().publish(Notification.warning(t(TOOLS_MSG_LIST_IS_TOO_LARGE_TO_EXPORT)));
+            return;
+        }
+
+        String filename = String.format("%s_%s.txt", net.getNetworkAddress(), net.getPrefixLength());
+        File outputFile = Dialogs.fileChooser()
+                .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
+                .initialDirectory(lastVisitedDirectory)
+                .initialFileName(FileUtils.sanitizeFileName(filename))
+                .build()
+                .showSaveDialog(getWindow());
+        if (outputFile == null) { return; }
+
+        lastVisitedDirectory = getParentPath(outputFile);
+        Promise.runAsync(() -> {
+            try (FileOutputStream fos = new FileOutputStream(outputFile);
+                 OutputStreamWriter osw = new OutputStreamWriter(fos, UTF_8);
+                 BufferedWriter out = new BufferedWriter(osw)) {
+
+                net.getAllHostAddresses().forEach(ip -> {
+                    try {
+                        out.write(ip);
+                        out.write("\n");
+                    } catch (IOException e) {
+                        throw new TelekitException(t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+                    }
+                });
+            } catch (IOException e) {
+                throw new TelekitException(t(MGG_UNABLE_TO_SAVE_DATA_TO_FILE), e);
+            }
+        }).start(threadPool);
     }
 
     private void exportSplitData() {
