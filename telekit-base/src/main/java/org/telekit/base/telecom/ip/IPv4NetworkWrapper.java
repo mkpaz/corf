@@ -2,6 +2,7 @@ package org.telekit.base.telecom.ip;
 
 import inet.ipaddr.AddressStringException;
 import inet.ipaddr.IPAddress;
+import inet.ipaddr.IPAddressSeqRange;
 import inet.ipaddr.IPAddressString;
 import inet.ipaddr.ipv4.IPv4Address;
 import org.jetbrains.annotations.Nullable;
@@ -9,9 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static inet.ipaddr.IPAddress.IPVersion.IPV4;
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.telekit.base.telecom.ip.IPv4AddressWrapper.PARSE_PARAMS;
 
 /** Represents IPv4 network: zero host plus prefix length */
@@ -162,6 +163,18 @@ public final class IPv4NetworkWrapper {
         }
 
         return result;
+    }
+
+    public Stream<IPv4AddressWrapper> stream() {
+        if (ipv4.getNetworkPrefixLength() == LINK_LOCAL_PREFIX_LEN) {
+            return Stream.of(getMinHost(), getMaxHost());
+        }
+        if (ipv4.getNetworkPrefixLength() == MAX_PREFIX_LEN) {
+            return Stream.of(getMinHost());
+        }
+
+        IPAddressSeqRange range = getMinHost().unwrap().toSequentialRange(getMaxHost().unwrap());
+        return range.stream().map(ip -> new IPv4AddressWrapper(ip.toIPv4()));
     }
 
     public boolean isLinkLocal() {

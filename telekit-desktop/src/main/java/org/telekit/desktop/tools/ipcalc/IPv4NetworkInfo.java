@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
 import static org.telekit.base.telecom.ip.IPv4NetworkWrapper.LINK_LOCAL_PREFIX_LEN;
@@ -95,6 +97,10 @@ public final class IPv4NetworkInfo {
         if (net.isMulticast()) { result.add("multicast"); }
         if (net.isPrivate()) { result.add("private network (RFC1918)"); }
         return result;
+    }
+
+    public Stream<String> getAllHostAddresses() {
+        return net.stream().map(String::valueOf);
     }
 
     ///////////////////////////////////////////////////////////////////////////
