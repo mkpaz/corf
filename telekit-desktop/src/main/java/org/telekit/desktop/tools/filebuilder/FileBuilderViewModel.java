@@ -8,6 +8,7 @@ import org.telekit.base.CompletionRegistry;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.mvvm.*;
 import org.telekit.base.di.Initializable;
+import org.telekit.base.domain.KeyValue;
 import org.telekit.base.domain.event.TaskProgressEvent;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.service.CompletionProvider;
@@ -23,6 +24,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -83,6 +86,11 @@ public final class FileBuilderViewModel implements Initializable, ViewModel {
 
     public CompletionRegistry getCompletionRegistry() {
         return completionRegistry;
+    }
+
+    public List<KeyValue<String, String>> getParamCompletion(Param param) {
+        KeyValueCompletionProvider provider = getCompletionProvider(param);
+        return provider != null ? new ArrayList<>(provider.find(e -> true)) : Collections.emptyList();
     }
 
     public boolean doesParamSupportCompletion(Param param) {

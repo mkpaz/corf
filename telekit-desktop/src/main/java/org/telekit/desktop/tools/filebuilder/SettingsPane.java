@@ -336,7 +336,7 @@ public final class SettingsPane extends AnchorPane {
     }
 
     private void refreshCompletionMenu(Param param) {
-        boolean visible = param != null && model.doesParamSupportCompletion(param);
+        boolean visible = model.doesParamSupportCompletion(param);
         paramCompletionItem.setVisible(visible);
     }
 
@@ -376,7 +376,7 @@ public final class SettingsPane extends AnchorPane {
         if (param == null) { return; }
 
         ParamCompletionDialog dialog = getOrCreateCompletionDialog();
-        dialog.setData(new ArrayList<>(model.getCompletionProvider(param).find(s -> true)));
+        dialog.setData(model.getParamCompletion(param));
         view.showOverlay(dialog);
     }
 

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.desktop.mvvm.*;
 import org.telekit.base.di.Initializable;
+import org.telekit.base.domain.KeyValue;
 import org.telekit.base.domain.LineSeparator;
 import org.telekit.base.domain.UsernamePasswordCredential;
 import org.telekit.base.domain.event.Notification;
@@ -30,6 +31,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -100,6 +103,11 @@ public final class ApiClientViewModel implements Initializable, ViewModel {
 
     public CompletionRegistry getCompletionRegistry() {
         return completionRegistry;
+    }
+
+    public List<KeyValue<String, String>> getParamCompletion(Param param) {
+        KeyValueCompletionProvider provider = getCompletionProvider(param);
+        return provider != null ? new ArrayList<>(provider.find(e -> true)) : Collections.emptyList();
     }
 
     public boolean doesParamSupportCompletion(Param param) {

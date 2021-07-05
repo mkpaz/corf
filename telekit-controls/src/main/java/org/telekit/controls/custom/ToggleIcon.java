@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class ToggleIcon extends Control {
 
-    protected BooleanProperty toggled = new SimpleBooleanProperty(false);
+    protected final BooleanProperty toggled = new SimpleBooleanProperty(false);
 
     private final Ikon initialIcon;
     private final Ikon toggledIcon;

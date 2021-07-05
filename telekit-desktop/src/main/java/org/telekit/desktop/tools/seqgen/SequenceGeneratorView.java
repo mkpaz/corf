@@ -228,8 +228,6 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
 
     ///////////////////////////////////////////////////////////////////////////
 
-    static record GeneratedData(String text, int size, int mark) {}
-
     static class ItemControlGroup extends HBox {
 
         final String itemName;
