@@ -51,10 +51,13 @@ import static org.telekit.base.util.FileUtils.sanitizeFileName;
 import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
+import static org.telekit.controls.util.Controls.menuItem;
 import static org.telekit.controls.util.Tables.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.tools.Action.PREVIEW;
 import static org.telekit.desktop.tools.Action.*;
+import static org.telekit.desktop.tools.common.Helpers.pasteAsColumns;
+import static org.telekit.desktop.tools.common.Helpers.pasteFromExcel;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderView.createMenuItem;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderViewModel.PREVIEW_FILE_NAME;
 
@@ -121,8 +124,8 @@ public final class SettingsPane extends AnchorPane {
         clipboardMenu.setGraphic(Controls.fontIcon(Material2AL.CONTENT_PASTE));
         clipboardMenu.setCursor(Cursor.HAND);
         clipboardMenu.getItems().addAll(
-                Controls.menuItem(t(TOOLS_PASTE_COLUMNS_RIGHT), null, e -> pasteAsColumns()),
-                Controls.menuItem(t(TOOLS_PASTE_FROM_EXCEL), null, e -> pasteFromExcel())
+                menuItem(t(TOOLS_PASTE_COLUMNS_RIGHT), null, e -> pasteAsColumns(csvText)),
+                menuItem(t(TOOLS_PASTE_FROM_EXCEL), null, e -> pasteFromExcel(csvText))
         );
 
         csvLineCountLabel = new Label();
@@ -408,25 +411,6 @@ public final class SettingsPane extends AnchorPane {
         // usage on multiple subsequent edits.
         int count = countNotBlankLines(trim(csvText.getText()));
         csvLineCountLabel.setText(String.valueOf(count));
-    }
-
-    private void pasteFromExcel() {
-        String clipboardText = getFromClipboard();
-        if (isBlank(clipboardText)) { return; }
-
-        String newText = trim(clipboardText.replaceAll("\t", ","));
-        csvText.replaceText(0, csvText.getText().length(), newText);
-    }
-
-    private void pasteAsColumns() {
-        String clipboardText = trim(getFromClipboard());
-        if (isBlank(clipboardText)) { return; }
-
-        int origLen = csvText.getText().length();
-        String origText = trim(csvText.getText());
-
-        String newText = addColumnsTheRight(origText, clipboardText, COMMA_OR_SEMICOLON);
-        csvText.replaceText(0, origLen, newText);
     }
 
     ///////////////////////////////////////////////////////////////////////////
