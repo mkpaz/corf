@@ -35,6 +35,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -291,14 +292,25 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         table.getColumns().setAll(List.of(
                 indexColumn, netAddressColumn, minHostColumn, maxHostColumn, broadcastColumn
         ));
+
+        // COPY DATA
+
+        Function<IPv4NetworkInfo, String> rowToString = net -> Stream.of(
+                net.getNetworkAddress(),
+                net.getMinHost(),
+                net.getMaxHost(),
+                net.getBroadcast()
+        ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining("\t"));
+
+        ContextMenu contextMenu = new ContextMenu();
+        table.setContextMenu(contextMenu);
+        contextMenu.getItems().add(
+                menuItem(t(ACTION_COPY), null, e -> Tables.copySelectedRowsToClipboard(table, rowToString))
+        );
+
         table.setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
-                Tables.copySelectedRowsToClipboard(table, net -> Stream.of(
-                        net.getNetworkAddress(),
-                        net.getMinHost(),
-                        net.getMaxHost(),
-                        net.getBroadcast()
-                ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining("\t")));
+                Tables.copySelectedRowsToClipboard(table, rowToString);
             }
         });
 
@@ -327,14 +339,25 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         table.getColumns().setAll(List.of(
                 prefixLengthColumn, decimalValueColumn, hexValueColumn, numberOfHostsColumn, wildcardColumn
         ));
+
+        // COPY DATA
+
+        Function<IPv4NetworkInfo, String> rowToString = net -> Stream.of(
+                net.getNetmaskAsDecimal(),
+                net.getNetmaskAsHex(),
+                net.getTotalHostCountFormatted(),
+                net.getWildcardMask()
+        ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining("\t"));
+
+        ContextMenu contextMenu = new ContextMenu();
+        table.setContextMenu(contextMenu);
+        contextMenu.getItems().add(
+                menuItem(t(ACTION_COPY), null, e -> Tables.copySelectedRowsToClipboard(table, rowToString))
+        );
+
         table.setOnKeyPressed(e -> {
             if (new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY).match(e)) {
-                Tables.copySelectedRowsToClipboard(table, net -> Stream.of(
-                        net.getNetmaskAsDecimal(),
-                        net.getNetmaskAsHex(),
-                        net.getTotalHostCountFormatted(),
-                        net.getWildcardMask()
-                ).filter(s -> s != null && !s.isEmpty()).collect(Collectors.joining("\t")));
+                Tables.copySelectedRowsToClipboard(table, rowToString);
             }
         });
 
