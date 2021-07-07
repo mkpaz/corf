@@ -26,6 +26,8 @@ module telekit.base {
     requires transitive inet.ipaddr;
     requires transitive org.hsqldb;
     requires transitive org.jetbrains.annotations;
+    requires transitive org.bouncycastle.pkix;
+    requires transitive org.bouncycastle.provider;
 
     // dependencies with Automatic-Module-Name
     requires org.apache.commons.codec;
@@ -40,8 +42,10 @@ module telekit.base {
     requires org.yaml.snakeyaml;
 
     // dependencies without Auto-Module-Name
+    requires expectit.core;
     requires commons.dbutils;
     requires j2html;
+    requires sshj;
 
     // exports
     exports org.telekit.base;

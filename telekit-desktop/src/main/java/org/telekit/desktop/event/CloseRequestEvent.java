@@ -3,7 +3,7 @@ package org.telekit.desktop.event;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.event.Event;
-import org.telekit.desktop.startup.Launcher;
+import org.telekit.desktop.Launcher;
 
 public final class CloseRequestEvent extends Event {
 
