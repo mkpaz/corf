@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Provider;
+import java.security.Security;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -74,6 +76,11 @@ public final class LogConfig implements Config {
             Locale[] locales = SimpleDateFormat.getAvailableLocales();
             for (Locale locale : locales) {
                 log.fine(locale.toString() + " / " + locale.getDisplayName());
+            }
+
+            log.fine("Security providers:");
+            for (final Provider provider : Security.getProviders()) {
+                log.fine(provider.getName());
             }
 
             log.fine("Supported SSL/TLS ciphers:");

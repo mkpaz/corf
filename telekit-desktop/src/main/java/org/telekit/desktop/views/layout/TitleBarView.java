@@ -42,7 +42,7 @@ import static org.telekit.controls.util.Containers.horizontalSpacer;
 import static org.telekit.controls.util.Containers.setAnchors;
 import static org.telekit.controls.util.Controls.circleIconButton;
 import static org.telekit.controls.util.NodeUtils.isDoubleClick;
-import static org.telekit.desktop.startup.Launcher.RESTART_EXIT_CODE;
+import static org.telekit.desktop.Launcher.RESTART_EXIT_CODE;
 
 @Singleton
 public class TitleBarView extends AnchorPane implements Initializable, View<TitleBarViewModel> {

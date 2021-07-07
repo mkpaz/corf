@@ -1,4 +1,4 @@
-package org.telekit.desktop.startup;
+package org.telekit.desktop;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,6 +12,7 @@ import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.ApplicationPreferences;
 import org.telekit.desktop.event.CloseRequestEvent;
+import org.telekit.desktop.startup.MainDependencyModule;
 import org.telekit.desktop.startup.config.*;
 import org.telekit.desktop.views.MainStage;
 import org.telekit.desktop.views.layout.MainWindowView;

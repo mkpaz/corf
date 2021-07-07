@@ -17,7 +17,7 @@
         <bld.descriptor>windows.xml</bld.descriptor>
         <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
         <bld.docsTargetDirectory>${project.build.directory}/docs</bld.docsTargetDirectory>
-        <bld.mainClass>org.telekit.desktop.startup.Launcher</bld.mainClass>
+        <bld.mainClass>org.telekit.desktop.Launcher</bld.mainClass>
         <bld.modulesDirectory>${project.build.directory}/modules</bld.modulesDirectory>
         <bld.platform>win64</bld.platform>
         <bld.runtimeImagesDirectory>${project.build.directory}/runtime-images</bld.runtimeImagesDirectory>
@@ -110,7 +110,7 @@
                         <artifactId>moditect-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>add-module-info</id>
+                                <id>module-info-common</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>add-module-info</goal>
@@ -146,7 +146,6 @@
                                                 }
                                             </moduleInfoSource>
                                         </module>
-
                                         <module>
                                             <artifact>
                                                 <groupId>commons-codec</groupId>
@@ -257,11 +256,46 @@
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>net.sf.expectit</groupId>
+                                                <artifactId>expectit-core</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>expectit.core</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.slf4j</groupId>
+                                                <artifactId>slf4j-api</artifactId>
+                                            </artifact>
+                                            <moduleInfoSource>
+                                                module org.slf4j {
+                                                exports org.slf4j;
+                                                exports org.slf4j.spi;
+                                                exports org.slf4j.event;
+                                                exports org.slf4j.helpers;
+                                                uses org.slf4j.spi.SLF4JServiceProvider;
+                                                }
+                                            </moduleInfoSource>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.slf4j</groupId>
+                                                <artifactId>slf4j-jdk14</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>org.slf4j.jul</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
                                     </modules>
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>add-module-info-missing-deps</id>
+                                <id>module-info-with-missing-dependencies</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>add-module-info</goal>
@@ -273,11 +307,8 @@
                                         <arg>--ignore-missing-deps</arg>
                                     </jdepsExtraArgs>
                                     <modules>
-                                        <!--
-                                            Pack200 API has been deprecated and removed since JDK14
-                                            https://issues.apache.org/jira/browse/COMPRESS-507
-                                            expected to be fixed in v1.21
-                                        -->
+                                        <!-- FIXME: Pack200 API has been deprecated and removed since JDK14 (expected to be fixed in v1.21)
+                                             https://issues.apache.org/jira/browse/COMPRESS-507 -->
                                         <module>
                                             <artifact>
                                                 <groupId>org.apache.commons</groupId>
@@ -292,7 +323,7 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>add-module-info-richtextfx</id>
+                                <id>module-info-richtextfx</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>add-module-info</goal>
@@ -416,6 +447,65 @@
                                     </modules>
                                 </configuration>
                             </execution>
+                            <execution>
+                                <id>module-info-sshj</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>add-module-info</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${bld.modulesDirectory}</outputDirectory>
+                                    <overwriteExistingFiles>true</overwriteExistingFiles>
+                                    <jdepsExtraArgs>
+                                        <arg>--multi-release</arg>
+                                        <arg>9</arg>
+                                    </jdepsExtraArgs>
+                                    <modules>
+                                        <module>
+                                            <artifact>
+                                                <groupId>com.hierynomus</groupId>
+                                                <artifactId>sshj</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>sshj</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>com.hierynomus</groupId>
+                                                <artifactId>asn-one</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <!-- FIXME: Open local Maven repo before building and edit automatic module name manually
+                                                     https://gitlab.com/hierynomus/asn-one/-/issues/2 -->
+                                                <name>com.hierynomus.asnone</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>com.jcraft</groupId>
+                                                <artifactId>jzlib</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>jzlib</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>net.i2p.crypto</groupId>
+                                                <artifactId>eddsa</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>net.i2p.crypto.eddsa</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                    </modules>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
@@ -436,7 +526,8 @@
                                     <goal>create-runtime-image</goal>
                                 </goals>
                                 <configuration>
-                                    <baseJdk>version=${java.version},platform=${bld.platform}</baseJdk>
+                                    <!-- force OpenJDK vendor, because OpenJFX doesn't provide win32 builds -->
+                                    <baseJdk>version=${java.version},vendor=liberica,platform=${bld.platform}</baseJdk>
                                     <modulePath>
                                         <path>${bld.modulesDirectory}</path>
                                     </modulePath>
@@ -453,6 +544,8 @@
                                     </launcher>
                                     <outputDirectory>${bld.runtimeImagesDirectory}/${bld.platform}</outputDirectory>
                                     <compression>${bld.compression}</compression>
+                                    <!-- excludes signing into from source JARs, required for JCE (BouncyCastle) -->
+                                    <ignoreSigningInformation>true</ignoreSigningInformation>
                                 </configuration>
                             </execution>
                         </executions>
@@ -601,6 +694,16 @@
         <dependency>
             <groupId>org.fxmisc.wellbehaved</groupId>
             <artifactId>wellbehavedfx</artifactId>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
         </dependency>
 
         <!-- Test -->

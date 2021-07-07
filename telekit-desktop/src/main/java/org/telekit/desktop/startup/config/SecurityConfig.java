@@ -27,6 +27,9 @@ public final class SecurityConfig implements Config {
     }
 
     private void initialize() {
+        // set unlimited crypto policy
+        java.security.Security.setProperty("crypto.policy", "unlimited");
+
         loadKeyVault();
     }
 

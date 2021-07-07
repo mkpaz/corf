@@ -24,12 +24,16 @@
         <java.version>16</java.version>
 
         <!-- dependencies -->
+        <!-- Since 1.69 BouncyCastle introduced 'bcutil-jdk15on',
+             do not upgrade from 1.68 before sshj -->
+        <lib.bouncycastle.version>1.68</lib.bouncycastle.version>
         <lib.commons-codec.version>1.15</lib.commons-codec.version>
         <lib.commons-collections.version>4.4</lib.commons-collections.version>
         <lib.commons-compress.version>1.20</lib.commons-compress.version>
         <lib.commons-dbutils.version>1.7</lib.commons-dbutils.version>
         <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
         <lib.commons-net.version>3.8.0</lib.commons-net.version>
+        <lib.expectit.version>0.9.0</lib.expectit.version>
         <lib.hsqldb.version>2.6.0</lib.hsqldb.version>
         <lib.httpcomponents.version>4.5.13</lib.httpcomponents.version>
         <lib.ipaddress.version>5.3.3</lib.ipaddress.version>
@@ -40,6 +44,7 @@
         <lib.javax-inject.version>1.1.0</lib.javax-inject.version>
         <lib.jetbrains-annotations.version>21.0.1</lib.jetbrains-annotations.version>
         <lib.semantic-version.version>2.1.0</lib.semantic-version.version>
+        <lib.sshj.version>0.31.0</lib.sshj.version>
 
         <lib.flowless.version>0.6.3</lib.flowless.version>
         <lib.reactfx.version>2.0-M5</lib.reactfx.version>
@@ -302,6 +307,48 @@
                 <groupId>de.skuzzle</groupId>
                 <artifactId>semantic-version</artifactId>
                 <version>${lib.semantic-version.version}</version>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+
+            <!--
+                BouncyCastle
+
+                Note that BouncyCastle is "incompatible" with Oracle JDK.
+                More precisely it can't be included into runtime image:
+                https://stackoverflow.com/a/68295740/5694145
+            -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${lib.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${lib.bouncycastle.version}</version>
+            </dependency>
+
+            <!-- Networking -->
+            <dependency>
+                <groupId>net.sf.expectit</groupId>
+                <artifactId>expectit-core</artifactId>
+                <version>${lib.expectit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hierynomus</groupId>
+                <artifactId>sshj</artifactId>
+                <version>${lib.sshj.version}</version>
             </dependency>
 
             <!-- TEST -->

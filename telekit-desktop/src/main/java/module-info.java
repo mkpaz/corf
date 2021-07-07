@@ -15,7 +15,6 @@ module telekit.desktop {
     requires flowless;
     requires reactfx;
     requires wellbehavedfx;
-    requires org.apache.commons.codec;
 
     // exports
     exports org.telekit.desktop;
