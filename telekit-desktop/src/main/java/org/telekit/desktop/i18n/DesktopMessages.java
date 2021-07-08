@@ -12,9 +12,16 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String SYSTEM_OPEN_PLUGINS_DIR = "system.OpenPluginsDirectory";
     String SYSTEM_RESTART_REQUIRED = "system.RestartRequired";
 
+    String PREFERENCES_CHECK_CONNECTION = "preferences.CheckConnection";
+    String PREFERENCES_CHECK_PROXY_SETTINGS = "preferences.CheckProxySettings";
     String PREFERENCES_GENERAL = "preferences.General";
+    String PREFERENCES_MANUAL_PROXY_CONFIGURATION = "preferences.ManualProxyConfiguration";
+    String PREFERENCES_NO_PROXY = "preferences.NoProxy";
     String PREFERENCES_PROXY = "preferences.Proxy";
     String PREFERENCES_REQUIRES_RESTART = "preferences.requires-restart";
+    String PREFERENCES_MSG_ENTER_ANY_URL_TO_CHECK = "preferences.msg.enter-any-url-to-check";
+    String PREFERENCES_MSG_PROXY_CONNECTION_SUCCESSFUL = "preferences.msg.proxy-connection-successful";
+    String PREFERENCES_MSG_PROXY_CONNECTION_FAILED = "preferences.msg.proxy-connection-failed";
 
     String PLUGIN_MANAGER_MSG_INSTALL_SUCCESS = "plugin-manager.msg.install-success";
     String PLUGIN_MANAGER_MSG_UNINSTALL_CONFIRM = "plugin-manager.msg.uninstall-confirm";
@@ -27,6 +34,7 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_DOCUMENT_START = "tools.DocumentStart";
     String TOOLS_DOCUMENT_END = "tools.DocumentEnd";
     String TOOLS_ELEMENT = "tools.Element";
+    String TOOLS_EXCEPTIONS = "tools.Exceptions";
     String TOOLS_LIST_FOR_REPLACEMENT = "tools.ListForReplacement";
     String TOOLS_SAVE_AS = "tools.SaveAs";
     String TOOLS_SHOW_SAVE_DIALOG = "tools.ShowSaveDialog";

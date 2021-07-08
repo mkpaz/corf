@@ -4,15 +4,12 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import org.telekit.base.domain.LineSeparator;
-import org.telekit.base.domain.Proxy;
-import org.telekit.base.domain.UsernamePasswordCredential;
-import org.telekit.base.net.ApacheHttpClient;
-import org.telekit.base.net.HttpClient;
+import org.telekit.base.preferences.Proxy;
+import org.telekit.base.domain.security.UsernamePasswordCredentials;
+import org.telekit.base.net.*;
 import org.telekit.base.net.HttpClient.Request;
 import org.telekit.base.net.HttpClient.Response;
-import org.telekit.base.net.HttpConstants;
 import org.telekit.base.net.HttpConstants.AuthScheme;
-import org.telekit.base.net.UriUtils;
 import org.telekit.base.util.ConcurrencyUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.desktop.tools.apiclient.Template.BatchSeparator;
@@ -45,7 +42,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
     private final ApacheHttpClient.Builder httpClientBuilder;
 
     private AuthScheme authScheme;
-    private UsernamePasswordCredential credential;
+    private UsernamePasswordCredentials credentials;
     private Proxy proxy;
     private Duration timeoutBetweenRequests = Duration.ofMillis(200);
 
@@ -70,9 +67,9 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         this.proxy = proxy;
     }
 
-    public void setPasswordBasedAuth(AuthScheme authScheme, UsernamePasswordCredential credential) {
+    public void setPasswordBasedAuth(AuthScheme authScheme, UsernamePasswordCredentials credentials) {
         this.authScheme = authScheme;
-        this.credential = credential;
+        this.credentials = credentials;
     }
 
     public int getPlannedRequestCount() {
@@ -180,12 +177,11 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
     }
 
     private void configureProxy() {
-        if (proxy == null || !proxy.isValid()) { return; }
-        httpClientBuilder.proxy(proxy.getUri(), proxy.passwordAuthentication());
+        if (proxy != null) { httpClientBuilder.proxy(proxy); }
     }
 
     private void configureAuth(Map<String, String> userHeaders) {
-        if (authScheme == null || credential == null) { return; }
+        if (authScheme == null || credentials == null) { return; }
 
         // we have to remove authorization header manually, because Apache HTTP won't override it
         userHeaders.entrySet().removeIf(e -> HttpConstants.Headers.AUTHORIZATION.equalsIgnoreCase(e.getKey()));
@@ -194,7 +190,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         String safeUri = PlaceholderReplacer.removePlaceholders(template.getUri());
         if (authScheme == AuthScheme.BASIC) {
             httpClientBuilder.basicAuth(
-                    credential.toPasswordAuthentication(),
+                    credentials.toPasswordAuthentication(),
                     UriUtils.withoutPath(URI.create(safeUri)),
                     true
             );
