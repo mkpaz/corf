@@ -1,25 +1,34 @@
 package org.telekit.base.net;
 
-import org.apache.http.*;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.*;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.auth.DigestScheme;
-import org.apache.http.impl.client.*;
-import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.ssl.SSLContexts;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.auth.AuthCache;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.CredentialsStore;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.classic.methods.*;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.impl.auth.BasicAuthCache;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.auth.BasicScheme;
+import org.apache.hc.client5.http.impl.auth.DigestScheme;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.routing.DefaultProxyRoutePlanner;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.apache.hc.core5.util.Timeout;
 import org.telekit.base.net.HttpConstants.AuthScheme;
 
 import javax.net.ssl.SSLContext;
@@ -32,14 +41,14 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCause;
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
-import static org.telekit.base.net.HttpConstants.Method;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 
 public class ApacheHttpClient implements HttpClient {
 
+    public static final AuthScope AUTH_SCOPE_ANY = new AuthScope(null, null, -1, null, null);
     public static final Set<String> SUPPORTED_SSL_PROTOCOLS = HttpConstants.SSL_PROTOCOLS;
 
-    private final ResponseHandler<Response> handler = new SpecificResponseHandler();
+    private final HttpClientResponseHandler<Response> handler = new SpecificResponseHandler();
     private final CloseableHttpClient client;
     private final HttpClientContext localContext;
 
@@ -51,12 +60,12 @@ public class ApacheHttpClient implements HttpClient {
     @Override
     public Response execute(Request request) {
         try {
-            HttpRequestBase httpRequest = createHttpRequest(request);
-            Response response = client.execute(httpRequest, handler, localContext);
+            HttpUriRequestBase httpRequest = createHttpRequest(request);
+            Response response = client.execute(httpRequest, localContext, handler);
 
             // extract actual request headers from context
             request.headers().putAll(
-                    headersToMap(localContext.getRequest().getAllHeaders())
+                    headersToMap(localContext.getRequest().getHeaders())
             );
             return response;
         } catch (IOException e) {
@@ -78,28 +87,24 @@ public class ApacheHttpClient implements HttpClient {
     private static String consumeBodyQuietly(HttpEntity entity) {
         try {
             return entity != null ? EntityUtils.toString(entity) : null;
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
             return "<unable to obtain response body>";
         }
     }
 
-    public HttpRequestBase createHttpRequest(Request request) {
-        HttpRequestBase requestBase = switch (request.method()) {
-            case DELETE -> new ApacheHttpClient.HttpDelete();
-            case GET -> new HttpGet();
-            case HEAD -> new HttpHead();
-            case PATCH -> new HttpPatch();
-            case POST -> new HttpPost();
-            case PUT -> new HttpPut();
+    public HttpUriRequestBase createHttpRequest(Request request) {
+        HttpUriRequestBase requestBase = switch (request.method()) {
+            case DELETE -> new HttpDelete(request.uri());
+            case GET -> new HttpGet(request.uri());
+            case HEAD -> new HttpHead(request.uri());
+            case PATCH -> new HttpPatch(request.uri());
+            case POST -> new HttpPost(request.uri());
+            case PUT -> new HttpPut(request.uri());
         };
 
-        requestBase.setURI(request.uri());
         requestBase.setHeaders(mapToHeaders(request.headers()));
-
-        if (requestBase instanceof HttpEntityEnclosingRequestBase) {
-            ((HttpEntityEnclosingRequestBase) requestBase).setEntity(new ByteArrayEntity(request.body().getBytes()));
-        }
+        requestBase.setEntity(new ByteArrayEntity(request.body().getBytes(), ContentType.TEXT_PLAIN));
 
         return requestBase;
     }
@@ -114,14 +119,15 @@ public class ApacheHttpClient implements HttpClient {
 
         private final HttpClientBuilder httpBuilder = HttpClients.custom();
         private final RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
-        private final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        private final CredentialsStore credentialsProvider = new BasicCredentialsProvider();
         private final HttpClientContext localContext = HttpClientContext.create();
 
         public Builder() {
             requestConfigBuilder
-                    .setConnectTimeout(CONNECT_TIMEOUT)
-                    .setSocketTimeout(RESPONSE_TIMEOUT);
+                    .setConnectTimeout(Timeout.of(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS))
+                    .setResponseTimeout(Timeout.of(RESPONSE_TIMEOUT, TimeUnit.MILLISECONDS));
             httpBuilder.setUserAgent(USER_AGENT);
+            httpBuilder.setDefaultCredentialsProvider(credentialsProvider);
         }
 
         public Builder timeouts(int timeout) {
@@ -129,14 +135,11 @@ public class ApacheHttpClient implements HttpClient {
         }
 
         public Builder timeouts(int connectTimeout, int responseTimeout) {
-            // the time to establish the connection with the remote host
-            requestConfigBuilder.setConnectTimeout(
-                    ensureRange(connectTimeout, 100, (int) TimeUnit.MINUTES.toMillis(5))
+            requestConfigBuilder.setConnectTimeout(Timeout.of(
+                    ensureRange(connectTimeout, 100, 10_000), TimeUnit.MILLISECONDS)
             );
-            // the time waiting for data after establishing the connection
-            // (maximum time of inactivity between two data packets)
-            requestConfigBuilder.setSocketTimeout(
-                    ensureRange(responseTimeout, 100, (int) TimeUnit.MINUTES.toMillis(5))
+            requestConfigBuilder.setResponseTimeout(Timeout.of(
+                    ensureRange(responseTimeout, 100, 60_000), TimeUnit.MILLISECONDS)
             );
             return this;
         }
@@ -152,7 +155,6 @@ public class ApacheHttpClient implements HttpClient {
                         .loadTrustMaterial((chain, authType) -> true)
                         .build();
 
-                // ignore self-signed certificates (https://stackoverflow.com/q/1828775/7421700)
                 SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(
                         sslContext,
                         SUPPORTED_SSL_PROTOCOLS.toArray(new String[0]),
@@ -160,27 +162,39 @@ public class ApacheHttpClient implements HttpClient {
                         NoopHostnameVerifier.INSTANCE
                 );
 
-                httpBuilder.setSSLSocketFactory(sslSocketFactory);
+                BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(
+                        RegistryBuilder.<ConnectionSocketFactory>create()
+                                .register(URIScheme.HTTP.id, PlainConnectionSocketFactory.getSocketFactory())
+                                .register(URIScheme.HTTPS.id, sslSocketFactory)
+                                .build()
+                );
+
+                httpBuilder.setConnectionManager(connectionManager);
             } catch (Exception ignored) {}
 
             return this;
         }
 
         public Builder ignoreCookies() {
-            requestConfigBuilder.setCookieSpec(CookieSpecs.IGNORE_COOKIES);
+            requestConfigBuilder.setCookieSpec(StandardCookieSpec.IGNORE);
             return this;
         }
 
         public Builder proxy(URI uri, PasswordAuthentication auth) {
-            HttpHost proxy = new HttpHost(uri.getHost(), uri.getPort(), uri.getScheme());
+            HttpHost proxy = new HttpHost(uri.getScheme(), uri.getHost(), uri.getPort());
+            httpBuilder.setRoutePlanner(new DefaultProxyRoutePlanner(proxy));
+
             // credentials is optional for proxy
             if (auth != null) {
                 credentialsProvider.setCredentials(
-                        new AuthScope(proxy),
-                        new UsernamePasswordCredentials(auth.getUserName(), new String(auth.getPassword()))
+                        // do not construct auth scope from host
+                        // the latter also includes scheme, so there will be no match
+                        // if proxy uses HTTP and target resource uses HTTP
+                        new AuthScope(uri.getHost(), uri.getPort()),
+                        new UsernamePasswordCredentials(auth.getUserName(), auth.getPassword().clone())
                 );
             }
-            httpBuilder.setRoutePlanner(new DefaultProxyRoutePlanner(proxy));
+
             return this;
         }
 
@@ -195,20 +209,18 @@ public class ApacheHttpClient implements HttpClient {
         private Builder passwordBasedAuth(AuthScheme authScheme,
                                           PasswordAuthentication auth,
                                           URI uri,
-                                          boolean preemptive
-        ) {
-            UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
-                    auth.getUserName(), new String(auth.getPassword())
+                                          boolean preemptive) {
+            credentialsProvider.setCredentials(
+                    AUTH_SCOPE_ANY,
+                    new UsernamePasswordCredentials(auth.getUserName(), auth.getPassword().clone())
             );
-            credentialsProvider.setCredentials(AuthScope.ANY, credentials);
-            httpBuilder.setDefaultCredentialsProvider(credentialsProvider);
 
             // preemptive auth puts auth headers into each request to omit challenge (401) stage
             if (!preemptive) { return this; }
 
             // BasicAuthCache doesn't mean "for basic auth", it's just a misleading name choice
             AuthCache authCache = new BasicAuthCache();
-            HttpHost targetHost = HttpHost.create(uri.getHost());
+            HttpHost targetHost = new HttpHost(uri.getHost());
 
             if (authScheme == AuthScheme.BASIC) { authCache.put(targetHost, new BasicScheme()); }
             if (authScheme == AuthScheme.DIGEST) { authCache.put(targetHost, new DigestScheme()); }
@@ -225,33 +237,14 @@ public class ApacheHttpClient implements HttpClient {
         }
     }
 
-    // DELETE method with body support
-    public static class HttpDelete extends HttpEntityEnclosingRequestBase {
-
-        public HttpDelete() {
-            super();
-        }
-
-        public HttpDelete(URI uri) {
-            super();
-            setURI(uri);
-        }
+    public static class SpecificResponseHandler implements HttpClientResponseHandler<Response> {
 
         @Override
-        public String getMethod() {
-            return Method.DELETE.name();
-        }
-    }
-
-    public static class SpecificResponseHandler implements ResponseHandler<Response> {
-
-        @Override
-        public Response handleResponse(HttpResponse response) {
-            StatusLine statusLine = response.getStatusLine();
+        public Response handleResponse(ClassicHttpResponse response) {
             return new Response(
-                    statusLine.getStatusCode(),
-                    statusLine.getReasonPhrase(),
-                    headersToMap(response.getAllHeaders()),
+                    response.getCode(),
+                    response.getReasonPhrase(),
+                    headersToMap(response.getHeaders()),
                     consumeBodyQuietly(response.getEntity())
             );
         }
