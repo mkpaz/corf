@@ -35,9 +35,9 @@ module telekit.base {
     requires org.apache.commons.compress;
     requires org.apache.commons.lang3;
     requires org.apache.commons.net;
-    requires org.apache.httpcomponents.httpcore;
-    requires org.apache.httpcomponents.httpclient;
-    requires org.apache.httpcomponents.httpclient.fluent;
+    requires org.apache.httpcomponents.core5.httpcore5;
+    requires org.apache.httpcomponents.core5.httpcore5.h2;
+    requires org.apache.httpcomponents.client5.httpclient5;
     requires org.jsoup;
     requires org.yaml.snakeyaml;
 

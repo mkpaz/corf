@@ -121,17 +121,6 @@
                                     <modules>
                                         <module>
                                             <artifact>
-                                                <groupId>commons-logging</groupId>
-                                                <artifactId>commons-logging</artifactId>
-                                                <version>1.2</version>
-                                            </artifact>
-                                            <moduleInfo>
-                                                <name>org.apache.commons.logging</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
-                                        </module>
-                                        <module>
-                                            <artifact>
                                                 <groupId>jakarta.activation</groupId>
                                                 <artifactId>jakarta.activation-api</artifactId>
                                             </artifact>
@@ -218,31 +207,31 @@
                                         </module>
                                         <module>
                                             <artifact>
-                                                <groupId>org.apache.httpcomponents</groupId>
-                                                <artifactId>httpcore</artifactId>
+                                                <groupId>org.apache.httpcomponents.core5</groupId>
+                                                <artifactId>httpcore5</artifactId>
                                             </artifact>
                                             <moduleInfo>
-                                                <name>org.apache.httpcomponents.httpcore</name>
+                                                <name>org.apache.httpcomponents.core5.httpcore5</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
                                         <module>
                                             <artifact>
-                                                <groupId>org.apache.httpcomponents</groupId>
-                                                <artifactId>httpclient</artifactId>
+                                                <groupId>org.apache.httpcomponents.core5</groupId>
+                                                <artifactId>httpcore5-h2</artifactId>
                                             </artifact>
                                             <moduleInfo>
-                                                <name>org.apache.httpcomponents.httpclient</name>
+                                                <name>org.apache.httpcomponents.core5.httpcore5.h2</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
                                         <module>
                                             <artifact>
-                                                <groupId>org.apache.httpcomponents</groupId>
-                                                <artifactId>fluent-hc</artifactId>
+                                                <groupId>org.apache.httpcomponents.client5</groupId>
+                                                <artifactId>httpclient5</artifactId>
                                             </artifact>
                                             <moduleInfo>
-                                                <name>org.apache.httpcomponents.httpclient.fluent</name>
+                                                <name>org.apache.httpcomponents.client5.httpclient5</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
