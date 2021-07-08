@@ -24,8 +24,9 @@ public class PreferencesView extends OverlayDialog implements Initializable, Vie
 
     static final String RESTART_MARK = "* ";
 
-    GeneralPreferencesTab commonTab;
+    GeneralPreferencesTab generalTab;
     PluginPreferencesTab pluginTab;
+    ProxyPreferencesTab proxyTab;
 
     TabPane tabs;
     Button commitBtn;
@@ -41,10 +42,11 @@ public class PreferencesView extends OverlayDialog implements Initializable, Vie
     }
 
     private void createContent() {
-        commonTab = new GeneralPreferencesTab(model);
+        generalTab = new GeneralPreferencesTab(model);
+        proxyTab = new ProxyPreferencesTab(this, model);
         pluginTab = new PluginPreferencesTab(this, model);
 
-        tabs = Containers.stretchedTabPane(commonTab, pluginTab);
+        tabs = Containers.stretchedTabPane(generalTab, proxyTab, pluginTab);
         tabs.setId("preferences");
         VBox.setVgrow(tabs, Priority.ALWAYS);
 
@@ -60,7 +62,7 @@ public class PreferencesView extends OverlayDialog implements Initializable, Vie
         setContent(tabs);
         setTitle(t(PREFERENCES));
         setPrefWidth(600);
-        setPrefHeight(480);
+        setPrefHeight(500);
     }
 
     @Override

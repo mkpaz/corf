@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.defaultString;
+import static org.telekit.base.util.NumberUtils.between;
 
 public interface HttpClient {
 
@@ -89,6 +90,18 @@ public interface HttpClient {
 
         public String body() {
             return body;
+        }
+
+        public boolean isSucceeded() {
+            return between(statusCode(), 200, 299);
+        }
+
+        public boolean isForwarded() {
+            return between(statusCode(), 300, 399);
+        }
+
+        public boolean isFailed() {
+            return statusCode() >= 400;
         }
 
         @Override

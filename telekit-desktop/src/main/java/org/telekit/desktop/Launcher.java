@@ -10,7 +10,7 @@ import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
-import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.preferences.internal.ApplicationPreferences;
 import org.telekit.desktop.event.CloseRequestEvent;
 import org.telekit.desktop.startup.MainDependencyModule;
 import org.telekit.desktop.startup.config.*;
@@ -71,7 +71,7 @@ public class Launcher extends Application {
     public void close(CloseRequestEvent event) {
         exitCode = event.getExitCode();
         if (preferences != null && event.getWindowSize() != null) {
-            preferences.setMainWindowSize(event.getWindowSize());
+            preferences.getSystemPreferences().setMainWindowSize(event.getWindowSize());
         }
         Platform.exit();
     }

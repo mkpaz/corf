@@ -12,7 +12,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.telekit.base.desktop.Dimension;
-import org.telekit.base.preferences.ApplicationPreferences;
+import org.telekit.base.preferences.internal.ApplicationPreferences;
 import org.telekit.controls.theme.DefaultTheme;
 import org.telekit.desktop.IconCache;
 import org.telekit.desktop.startup.config.Config;
@@ -172,7 +172,7 @@ public class MainStage {
 
         mainStage.getStage().setOnCloseRequest(t -> {
             if (preferences != null) {
-                preferences.setMainWindowSize(Dimension.of(mainStage.getStage()));
+                preferences.getSystemPreferences().setMainWindowSize(Dimension.of(mainStage.getStage()));
             }
             Platform.exit();
         });
@@ -184,7 +184,7 @@ public class MainStage {
 
     private static Dimension getSceneSize(ApplicationPreferences preferences) {
         // use last remembered window size
-        Dimension storedSize = preferences.getMainWindowSize();
+        Dimension storedSize = preferences.getSystemPreferences().getMainWindowSize();
         if (storedSize != null) { return storedSize; }
 
         // or compute window size in depends of the screen size

@@ -1,12 +1,13 @@
 package org.telekit.base.net;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.hc.client5.http.auth.AuthCache;
 import org.apache.hc.client5.http.auth.AuthScope;
 import org.apache.hc.client5.http.auth.CredentialsStore;
-import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.classic.methods.*;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.impl.DefaultSchemePortResolver;
 import org.apache.hc.client5.http.impl.auth.BasicAuthCache;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.client5.http.impl.auth.BasicScheme;
@@ -15,7 +16,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
-import org.apache.hc.client5.http.impl.routing.DefaultProxyRoutePlanner;
+import org.apache.hc.client5.http.impl.routing.DefaultRoutePlanner;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
 import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
@@ -27,9 +28,13 @@ import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.util.Timeout;
+import org.telekit.base.domain.security.UsernamePasswordCredentials;
 import org.telekit.base.net.HttpConstants.AuthScheme;
+import org.telekit.base.net.connection.ConnectionParams;
+import org.telekit.base.preferences.Proxy;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
@@ -37,6 +42,7 @@ import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCause;
@@ -44,6 +50,8 @@ import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 import static org.telekit.base.util.NumberUtils.ensureRange;
 
 public class ApacheHttpClient implements HttpClient {
+
+    private static final Logger LOG = Logger.getLogger(ApacheHttpClient.class.getName());
 
     public static final AuthScope AUTH_SCOPE_ANY = new AuthScope(null, null, -1, null, null);
     public static final Set<String> SUPPORTED_SSL_PROTOCOLS = HttpConstants.SSL_PROTOCOLS;
@@ -88,12 +96,12 @@ public class ApacheHttpClient implements HttpClient {
         try {
             return entity != null ? EntityUtils.toString(entity) : null;
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            LOG.fine(ExceptionUtils.getStackTrace(e));
             return "<unable to obtain response body>";
         }
     }
 
-    public HttpUriRequestBase createHttpRequest(Request request) {
+    private HttpUriRequestBase createHttpRequest(Request request) {
         HttpUriRequestBase requestBase = switch (request.method()) {
             case DELETE -> new HttpDelete(request.uri());
             case GET -> new HttpGet(request.uri());
@@ -180,21 +188,8 @@ public class ApacheHttpClient implements HttpClient {
             return this;
         }
 
-        public Builder proxy(URI uri, PasswordAuthentication auth) {
-            HttpHost proxy = new HttpHost(uri.getScheme(), uri.getHost(), uri.getPort());
-            httpBuilder.setRoutePlanner(new DefaultProxyRoutePlanner(proxy));
-
-            // credentials is optional for proxy
-            if (auth != null) {
-                credentialsProvider.setCredentials(
-                        // do not construct auth scope from host
-                        // the latter also includes scheme, so there will be no match
-                        // if proxy uses HTTP and target resource uses HTTP
-                        new AuthScope(uri.getHost(), uri.getPort()),
-                        new UsernamePasswordCredentials(auth.getUserName(), auth.getPassword().clone())
-                );
-            }
-
+        public Builder proxy(Proxy proxy) {
+            httpBuilder.setRoutePlanner(new CachingProxyRoutePlanner(proxy, credentialsProvider));
             return this;
         }
 
@@ -212,7 +207,7 @@ public class ApacheHttpClient implements HttpClient {
                                           boolean preemptive) {
             credentialsProvider.setCredentials(
                     AUTH_SCOPE_ANY,
-                    new UsernamePasswordCredentials(auth.getUserName(), auth.getPassword().clone())
+                    new org.apache.hc.client5.http.auth.UsernamePasswordCredentials(auth.getUserName(), auth.getPassword().clone())
             );
 
             // preemptive auth puts auth headers into each request to omit challenge (401) stage
@@ -237,7 +232,9 @@ public class ApacheHttpClient implements HttpClient {
         }
     }
 
-    public static class SpecificResponseHandler implements HttpClientResponseHandler<Response> {
+    ///////////////////////////////////////////////////////////////////////////
+
+    static class SpecificResponseHandler implements HttpClientResponseHandler<Response> {
 
         @Override
         public Response handleResponse(ClassicHttpResponse response) {
@@ -247,6 +244,80 @@ public class ApacheHttpClient implements HttpClient {
                     headersToMap(response.getHeaders()),
                     consumeBodyQuietly(response.getEntity())
             );
+        }
+    }
+
+    static class CachingProxyRoutePlanner extends DefaultRoutePlanner {
+
+        private final Proxy proxy;
+        private final CredentialsStore credentialsProvider;
+
+        // routing cache: k = target hostname, v = proxy host or null for direct route
+        private final Map<String, HttpHost> routeCache = new HashMap<>();
+
+        // proxy cache to avoid creating multiple equal proxy hosts
+        // k = short proxy URI, v = actual proxy host
+        private final Map<String, HttpHost> proxyHostCache = new HashMap<>();
+
+        public CachingProxyRoutePlanner(Proxy proxy, CredentialsStore credentialsProvider) {
+            super(new DefaultSchemePortResolver());
+
+            this.proxy = proxy;
+            this.credentialsProvider = credentialsProvider;
+        }
+
+        @Override
+        protected HttpHost determineProxy(HttpHost target, HttpContext context) {
+            LOG.fine("Trying to determine proxy params for " + target);
+            String targetHostname = target.getHostName();
+
+            // use route from cache, even if null (direct route)
+            HttpHost cachedRoute = routeCache.get(targetHostname);
+            if (cachedRoute != null) {
+                LOG.fine("Target host is present in cache, using cached route: " + cachedRoute);
+                return cachedRoute;
+            }
+
+            ConnectionParams params = proxy.getConnectionParams(targetHostname);
+            if (params == null) {
+                LOG.fine("Proxying not required, using direct route");
+                routeCache.put(targetHostname, null);
+                return null;
+            }
+
+            String proxyKey = params.getScheme().toString() + "://" + params.getHost() + ":" + params.getPort();
+            HttpHost proxyHost = proxyHostCache.get(proxyKey);
+
+            if (proxyHost == null) {
+                proxyHost = new HttpHost(params.getScheme().toString(), params.getHost(), params.getPort());
+                LOG.fine("Creating new proxy: " + proxyHost);
+
+                // Do not instantiate auth scope from proxyHost, because the latter also
+                // includes scheme, There will be no match if proxy uses HTTP and target uses HTTPS.
+                AuthScope proxyScope = new AuthScope(params.getHost(), params.getPort());
+
+                // credentials is optional for proxy
+                UsernamePasswordCredentials cred = null;
+                if (params.getCredentials() instanceof UsernamePasswordCredentials userPassword) {
+                    cred = userPassword;
+                }
+                if (cred != null && credentialsProvider.getCredentials(proxyScope, context) != null) {
+                    LOG.fine("Setting proxy credentials: " + cred);
+                    credentialsProvider.setCredentials(
+                            proxyScope,
+                            new org.apache.hc.client5.http.auth.UsernamePasswordCredentials(cred.getUsername(), cred.getPassword())
+                    );
+                } else {
+                    LOG.fine("Proxy doesn't require authentication");
+                }
+
+                proxyHostCache.put(proxyKey, proxyHost);
+            }
+
+            routeCache.put(targetHostname, proxyHost);
+            LOG.fine("Setting " + proxyHost + " as proxy for the connection");
+
+            return proxyHost;
         }
     }
 }

@@ -7,7 +7,6 @@ import java.util.Objects;
 
 import static org.telekit.base.net.ApacheHttpClient.Request;
 import static org.telekit.base.net.ApacheHttpClient.Response;
-import static org.telekit.base.util.NumberUtils.between;
 
 public class CompletedRequest {
 
@@ -55,20 +54,21 @@ public class CompletedRequest {
         return response.statusCode();
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isResponded() {
         return response.statusCode() >= 200;
     }
 
     public boolean isSucceeded() {
-        return between(response.statusCode(), 200, 299);
+        return response.isSucceeded();
     }
 
     public boolean isForwarded() {
-        return between(response.statusCode(), 300, 399);
+        return response.isForwarded();
     }
 
     public boolean isFailed() {
-        return response.statusCode() >= 400;
+        return response.isFailed();
     }
 
     @Override

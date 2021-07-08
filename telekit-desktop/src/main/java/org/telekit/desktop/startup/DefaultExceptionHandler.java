@@ -13,13 +13,13 @@ import static org.telekit.base.util.CollectionUtils.getLastElement;
 
 public final class DefaultExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-    private final Logger LOGGER = Logger.getLogger(DefaultExceptionHandler.class.getName());
+    private final Logger LOG = Logger.getLogger(DefaultExceptionHandler.class.getName());
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
         // show full stack trace in the log file or console
         e.printStackTrace();
-        LOGGER.severe(ExceptionUtils.getStackTrace(e));
+        LOG.severe(ExceptionUtils.getStackTrace(e));
 
         // we should find exact error cause to display relevant error message to user,
         // all low-level (library) exceptions have to be wrapped to instance of TelekitException
