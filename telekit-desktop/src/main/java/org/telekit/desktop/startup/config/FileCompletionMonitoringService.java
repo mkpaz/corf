@@ -1,5 +1,6 @@
 package org.telekit.desktop.startup.config;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.CompletionRegistry;
 import org.telekit.base.event.DefaultEventBus;
@@ -17,7 +18,7 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 import static org.telekit.base.Env.AUTOCOMPLETE_DIR;
 import static org.telekit.base.service.CompletionProvider.isValidKey;
 import static org.telekit.base.util.CommonUtils.hush;
-import static org.telekit.base.util.FileUtils.*;
+import static org.telekit.base.util.FileSystemUtils.*;
 
 public class FileCompletionMonitoringService {
 
@@ -121,13 +122,13 @@ public class FileCompletionMonitoringService {
     private void registerProvider(Path path) {
         if (!fileExists(path)) { return; }
 
-        String providerName = getFileName(path);
+        String providerName = FilenameUtils.getBaseName(path.toString());
 
         // silently ignore invalid names files and existing providers,
         // or it will write to the log after each file edit because of temporary files
         if (!isValidKey(providerName) || completionRegistry.isSupported(providerName)) { return; }
 
-        if ("properties".equalsIgnoreCase(getFileExtension(path))) {
+        if ("properties".equalsIgnoreCase(FilenameUtils.getExtension(path.toString()))) {
             completionRegistry.registerProvider(new KeyValueCompletionProvider(providerName, path));
             LOGGER.info(String.format("Registered provider for '%s' via '%s'", providerName, path));
             DefaultEventBus.getInstance().publish(new CompletionRegistryUpdateEvent());
@@ -136,7 +137,7 @@ public class FileCompletionMonitoringService {
 
     private void unregisterProvider(Path path) {
         if (path == null) { return; }
-        String providerName = getFileName(path);
+        String providerName = FilenameUtils.getBaseName(path.toString());
         if (completionRegistry.isSupported(providerName)) {
             completionRegistry.unregisterProvider(providerName);
             LOGGER.info(String.format("Unregistered provider for '%s' via '%s'", providerName, path));

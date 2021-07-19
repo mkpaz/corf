@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.telekit.base.BaseSetup;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.domain.exception.VaultLockedException;
-import org.telekit.base.preferences.internal.PKCS12Vault;
 
 import java.nio.file.Path;
 import java.security.Key;
@@ -20,7 +19,7 @@ import static org.telekit.base.TestUtils.getTempDir;
 import static org.telekit.base.preferences.internal.Vault.VaultType;
 import static org.telekit.base.service.Encryptor.Algorithm;
 import static org.telekit.base.service.Encryptor.generateKey;
-import static org.telekit.base.util.FileUtils.deleteFile;
+import static org.telekit.base.util.FileSystemUtils.deleteFile;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_DIGITS;
 import static org.telekit.base.util.PasswordGenerator.random;
 

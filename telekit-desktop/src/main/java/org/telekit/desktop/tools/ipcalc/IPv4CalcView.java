@@ -22,7 +22,7 @@ import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.telecom.ip.IPv4AddressWrapper;
 import org.telekit.base.util.DesktopUtils;
-import org.telekit.base.util.FileUtils;
+import org.telekit.base.util.FileSystemUtils;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.*;
 import org.telekit.desktop.tools.ipcalc.IPv4NetworkInfo.SplitVariant;
@@ -45,7 +45,8 @@ import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.util.FileUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.sanitizeFileName;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.menuItem;
 import static org.telekit.controls.util.TableUtils.setColumnConstraints;
@@ -453,7 +454,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
                 .initialDirectory(lastVisitedDirectory)
-                .initialFileName(FileUtils.sanitizeFileName(filename))
+                .initialFileName(sanitizeFileName(filename))
                 .build()
                 .showSaveDialog(getWindow());
         if (outputFile == null) { return; }
@@ -482,7 +483,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
                 .initialDirectory(lastVisitedDirectory)
-                .initialFileName(FileUtils.sanitizeFileName("subnets.txt"))
+                .initialFileName("subnets.txt")
                 .build()
                 .showSaveDialog(getWindow());
         if (outputFile == null || splitTable.getItems().isEmpty()) { return; }

@@ -15,7 +15,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.material2.Material2OutlinedMZ;
 import org.telekit.base.desktop.Component;
-import org.telekit.base.util.FileUtils;
+import org.telekit.base.util.FileSystemUtils;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.BindUtils;
 import org.telekit.controls.util.Containers;
@@ -32,7 +32,8 @@ import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.util.FileUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.sanitizeFileName;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.fontIcon;
@@ -195,7 +196,7 @@ public class LogTab extends Tab {
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
                 .initialDirectory(lastVisitedDirectory)
-                .initialFileName(FileUtils.sanitizeFileName("api-client-log.txt"))
+                .initialFileName("api-client-log.txt")
                 .build()
                 .showSaveDialog(view.getWindow());
 

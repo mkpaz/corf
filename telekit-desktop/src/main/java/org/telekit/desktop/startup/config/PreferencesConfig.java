@@ -17,7 +17,7 @@ import java.util.Properties;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.telekit.base.Env.*;
-import static org.telekit.base.util.FileUtils.createDir;
+import static org.telekit.base.util.FileSystemUtils.createDir;
 
 public final class PreferencesConfig implements Config {
 

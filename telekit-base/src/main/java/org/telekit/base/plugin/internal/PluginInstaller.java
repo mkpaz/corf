@@ -1,13 +1,13 @@
 package org.telekit.base.plugin.internal;
 
 import de.skuzzle.semantic.Version;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.Env;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
-import org.telekit.base.util.FileUtils;
 import org.telekit.base.util.ZipUtils;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.telekit.base.Env.*;
 import static org.telekit.base.i18n.BaseMessages.*;
 import static org.telekit.base.util.CommonUtils.hush;
-import static org.telekit.base.util.FileUtils.*;
+import static org.telekit.base.util.FileSystemUtils.*;
 
 public class PluginInstaller {
 
@@ -100,18 +100,18 @@ public class PluginInstaller {
             // plugin without restart. After installation (but before restart) plugin is
             // loaded from JAR that located in temp directory. Thus We need to explicitly
             // delete JAR copy from plugin lib directory.
-            hush(() -> FileUtils.deleteDir(pluginLibPath));
+            hush(() -> deleteDir(pluginLibPath));
 
             // and we still have remove temp file
             cleaner.appendTask(pluginJarPath);
         }
 
         // delete docs
-        hush(() -> FileUtils.deleteDir(pluginDocsPath));
+        hush(() -> deleteDir(pluginDocsPath));
 
         // delete config
-        if (Files.exists(pluginConfigPath) && isDirEmpty(pluginConfigPath)) {
-            hush(() -> FileUtils.deleteDir(pluginDocsPath));
+        if (Files.exists(pluginConfigPath) && isEmptyDir(pluginConfigPath)) {
+            hush(() -> deleteDir(pluginDocsPath));
         }
         if (deleteResources) {
             cleaner.appendTask(pluginDataDir);
@@ -164,7 +164,7 @@ public class PluginInstaller {
         validate(plugin);
 
         URL location = plugin.getLocation();
-        Path sourceJarPath = urlToFile(Objects.requireNonNull(location)).toPath();
+        Path sourceJarPath = FileUtils.toFile(Objects.requireNonNull(location)).toPath();
         Path sourceConfigPath = installDir.resolve(CONFIG_DIR_NAME);
         Path sourceDocsPath = installDir.resolve(DOCS_DIR_NAME);
 
@@ -175,7 +175,7 @@ public class PluginInstaller {
 
         try {
             // create plugin root directory first
-            createDirs(pluginDataDir);
+            createDirTree(pluginDataDir);
 
             LOGGER.info("Copying JAR file");
             if (Files.exists(sourceJarPath)) {

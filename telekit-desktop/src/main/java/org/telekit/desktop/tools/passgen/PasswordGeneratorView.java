@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.util.FileUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.getParentPath;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.button;

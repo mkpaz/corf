@@ -24,7 +24,7 @@ import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_LOAD_DATA_FROM_FI
 import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.CommonUtils.hush;
-import static org.telekit.base.util.FileUtils.*;
+import static org.telekit.base.util.FileSystemUtils.*;
 
 public class TemplateRepository extends FileBasedRepository<Template, UUID> {
 
