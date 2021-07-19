@@ -31,6 +31,7 @@
         <lib.commons-collections.version>4.4</lib.commons-collections.version>
         <lib.commons-compress.version>1.21</lib.commons-compress.version>
         <lib.commons-dbutils.version>1.7</lib.commons-dbutils.version>
+        <lib.commons-io.version>2.11.0</lib.commons-io.version>
         <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
         <lib.commons-net.version>3.8.0</lib.commons-net.version>
         <lib.expectit.version>0.9.0</lib.expectit.version>
@@ -182,6 +183,11 @@
                 <groupId>commons-dbutils</groupId>
                 <artifactId>commons-dbutils</artifactId>
                 <version>${lib.commons-dbutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${lib.commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
