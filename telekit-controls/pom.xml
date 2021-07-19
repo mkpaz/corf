@@ -70,6 +70,7 @@
             <groupId>org.fxmisc.wellbehaved</groupId>
             <artifactId>wellbehavedfx</artifactId>
         </dependency>
+
         <!-- Ikonli -->
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
@@ -82,6 +83,18 @@
         <dependency>
             <groupId>org.kordamp.ikonli</groupId>
             <artifactId>ikonli-material2-pack</artifactId>
+        </dependency>
+
+        <!-- Others -->
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>Medusa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- TEST -->

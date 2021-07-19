@@ -10,6 +10,7 @@ module telekit.controls {
     requires transitive org.kordamp.ikonli.javafx;
     requires transitive org.kordamp.ikonli.fontawesome5;
     requires transitive org.kordamp.ikonli.material2;
+    requires transitive eu.hansolo.medusa;
 
     // not modularized dependencies
     requires org.apache.commons.lang3;
