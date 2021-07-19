@@ -184,7 +184,11 @@ public class LogTab extends Tab {
     }
 
     private void displayRequestDetails(CompletedRequest request) {
-        if (request != null) { details.setText(request.print()); }
+        if (request != null) {
+            details.setText(request.print());
+        } else {
+            details.setText(null);
+        }
     }
 
     private void exportLog() {
