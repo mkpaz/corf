@@ -1,7 +1,6 @@
 package org.telekit.base.telecom.ip;
 
 import inet.ipaddr.AddressStringException;
-import inet.ipaddr.HostName;
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressString;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class IPv4AddressWrapperTest {
 
     @Test
-    public void testNetmaskDoesNotAffectToStringMethod() throws Exception {
+    public void testNetmaskDoesNotAffectToStringMethod() {
         String ipNoNetmask = "192.168.1.1";
         String ipCIDR = "192.168.1.1/27";
         IPv4AddressWrapper ip4Plain = new IPv4AddressWrapper(ipNoNetmask);
