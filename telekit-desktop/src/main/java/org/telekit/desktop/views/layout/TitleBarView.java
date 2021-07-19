@@ -181,15 +181,26 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         overlay.onFrontProperty().addListener((obs, old, value) -> {
             if (!value && navDrawerBtn.isSelected()) { navDrawerBtn.setSelected(false); }
         });
+
+        mainStage.getScene().setOnKeyPressed(e -> {
+            if (new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_ANY).match(e)) {
+                showNavDrawer();
+            }
+        });
     }
+
+    public void showNavDrawer() { navDrawerBtn.setSelected(true); }
 
     public void hideNavDrawer() { navDrawerBtn.setSelected(false); }
 
+    // Do not call this method directly to toggle nav drawer visibility as it won't
+    // update model properties. Use corresponding show/hide methods instead.
     private void toggleNavDrawer(boolean enabled) {
         boolean navDrawerVisible = overlay.contains(navDrawer);
         if (enabled & !navDrawerVisible) {
             overlay.show(navDrawer, HPos.LEFT);
-            NodeUtils.begForFocus(navDrawer, 3);
+            // focus on tree to support keyboard navigation
+            NodeUtils.begForFocus(navDrawer.navigationTree, 3);
         }
         if (!enabled & navDrawerVisible) { overlay.hide(); }
     }

@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.skin.TreeViewSkin;
 import javafx.scene.control.skin.VirtualFlow;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -56,7 +57,6 @@ public class NavDrawerView extends VBox implements Initializable, View<NavDrawer
         navigationTree.setCellFactory(new NavLinkCellFactory(model));
         VBox.setVgrow(navigationTree, Priority.ALWAYS);
 
-
         getChildren().add(navigationTree);
         Containers.setFixedWidth(this, DRAWER_WIDTH);
         setId("navigation-drawer");
@@ -65,6 +65,14 @@ public class NavDrawerView extends VBox implements Initializable, View<NavDrawer
     @Override
     public void initialize() {
         Component.propagateMouseEventsToParent(navigationTree);
+
+        // keyboard navigation, doesn't work directly on cell
+        navigationTree.setOnKeyPressed(e -> {
+            TreeItem<NavLink> selected = navigationTree.getSelectionModel().getSelectedItem();
+            if (e.getCode() == KeyCode.ENTER && selected != null && selected.isLeaf()) {
+                model.navigateCommand().execute();
+            }
+        });
 
         model.selectionModelProperty().bind(navigationTree.selectionModelProperty());
         navigationTree.setRoot(model.treeRoot());
