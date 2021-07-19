@@ -73,6 +73,7 @@ module telekit.base {
 
     opens org.telekit.base.domain to com.fasterxml.jackson.databind;
     opens org.telekit.base.domain.security to com.fasterxml.jackson.databind;
-    opens org.telekit.base.preferences.internal to com.fasterxml.jackson.databind;
+    opens org.telekit.base.net.connection to com.fasterxml.jackson.databind;
     opens org.telekit.base.preferences to com.fasterxml.jackson.databind;
+    opens org.telekit.base.preferences.internal to com.fasterxml.jackson.databind;
 }

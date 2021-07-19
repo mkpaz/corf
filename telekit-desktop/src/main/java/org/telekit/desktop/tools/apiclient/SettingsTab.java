@@ -49,7 +49,6 @@ import static org.telekit.base.i18n.BaseMessages.MSG_GENERIC_IO_ERROR;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.base.util.FileUtils.sanitizeFileName;
-import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.gridLabel;
@@ -60,8 +59,7 @@ import static org.telekit.desktop.tools.Action.PREVIEW;
 import static org.telekit.desktop.tools.Action.*;
 import static org.telekit.desktop.tools.apiclient.ApiClientView.createMenuItem;
 import static org.telekit.desktop.tools.apiclient.ApiClientViewModel.PREVIEW_FILE_NAME;
-import static org.telekit.desktop.tools.common.ComponentUtils.pasteAsColumns;
-import static org.telekit.desktop.tools.common.ComponentUtils.pasteFromExcel;
+import static org.telekit.desktop.tools.common.ComponentUtils.*;
 
 public final class SettingsTab extends Tab {
 

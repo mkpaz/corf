@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 import static org.telekit.base.plugin.internal.PluginState.STARTED;
 import static org.telekit.base.plugin.internal.PluginState.STOPPED;
-import static org.telekit.base.util.CommonUtils.map;
 import static org.telekit.desktop.startup.config.Config.DEFAULT_ROUTE;
 import static org.telekit.desktop.views.NavLink.Arg.APP_TITLE;
 import static org.telekit.desktop.views.NavLink.Arg.PLUGIN_CLASS;

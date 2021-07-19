@@ -6,12 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Function;
-
-import static org.apache.commons.lang3.StringUtils.defaultString;
 
 public final class CommonUtils {
 
@@ -35,20 +32,6 @@ public final class CommonUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static String localizedFileName(String fileName, String fileExtension) {
-        return localizedFileName(fileName, fileExtension, Locale.getDefault());
-    }
-
-    /**
-     * Returns file name that corresponds most common practice to name i18n resources,
-     * region tag is not included. Example: {@code config.txt > config_en.txt}.
-     * If locale is null, then just plain file name returned.
-     */
-    public static String localizedFileName(String fileName, String fileExtension, Locale locale) {
-        if (locale == null) { return fileName + fileExtension; }
-        return defaultString(fileName) + "_" + locale.getLanguage() + defaultString(fileExtension);
     }
 
     /** Catches and ignores any raised exceptions */

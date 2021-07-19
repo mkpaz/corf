@@ -44,7 +44,6 @@ import static org.telekit.base.i18n.BaseMessages.MSG_GENERIC_IO_ERROR;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.FileUtils.getParentPath;
 import static org.telekit.base.util.FileUtils.sanitizeFileName;
-import static org.telekit.base.util.TextUtils.countNotBlankLines;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.menuItem;
@@ -52,8 +51,7 @@ import static org.telekit.controls.util.TableUtils.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 import static org.telekit.desktop.tools.Action.PREVIEW;
 import static org.telekit.desktop.tools.Action.*;
-import static org.telekit.desktop.tools.common.ComponentUtils.pasteAsColumns;
-import static org.telekit.desktop.tools.common.ComponentUtils.pasteFromExcel;
+import static org.telekit.desktop.tools.common.ComponentUtils.*;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderView.createMenuItem;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderViewModel.PREVIEW_FILE_NAME;
 

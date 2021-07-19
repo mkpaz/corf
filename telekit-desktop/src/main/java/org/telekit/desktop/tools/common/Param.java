@@ -140,7 +140,7 @@ public class Param implements Comparable<Param>, Cloneable {
                 return new KeyValue<>(paramName, generatePassword(param.getLength()));
             }
             case PASSWORD_BASE64 -> {
-                return new KeyValue<>(paramName, toBase64(generatePassword(param.getLength())));
+                return new KeyValue<>(paramName, defaultString(toBase64(generatePassword(param.getLength()))));
             }
             case UUID -> {
                 return new KeyValue<>(paramName, String.valueOf(UUID.randomUUID()));

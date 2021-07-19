@@ -6,7 +6,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,10 +18,6 @@ import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.Env.TEMP_DIR;
 
 public final class FileUtils {
-
-    public static Path defaultIfNull(String path, Path defaultValue) {
-        return path != null ? Paths.get(path) : Objects.requireNonNull(defaultValue);
-    }
 
     public static File urlToFile(URL url) {
         try {

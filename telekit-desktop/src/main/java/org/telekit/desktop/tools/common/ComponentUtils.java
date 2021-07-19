@@ -1,6 +1,7 @@
 package org.telekit.desktop.tools.common;
 
 import javafx.scene.control.TextArea;
+import org.telekit.base.domain.LineSeparator;
 
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
@@ -36,5 +37,14 @@ public final class ComponentUtils {
             String newText = addColumnsTheRight(currentText, clipboardText, COMMA_OR_SEMICOLON);
             textArea.replaceText(0, origLen, newText);
         }
+    }
+
+    public static int countNotBlankLines(String text) {
+        int count = 0;
+        if (isNotBlank(text)) {
+            String textWithoutEmptyLines = text.replaceAll("(?m)^[ \t]*\r?\n", "");
+            count = textWithoutEmptyLines.split(LineSeparator.LINE_SPLIT_PATTERN, -1).length;
+        }
+        return count;
     }
 }

@@ -4,18 +4,20 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import org.telekit.base.domain.LineSeparator;
-import org.telekit.base.preferences.Proxy;
 import org.telekit.base.domain.security.UsernamePasswordCredentials;
-import org.telekit.base.net.*;
+import org.telekit.base.net.ApacheHttpClient;
+import org.telekit.base.net.HttpClient;
 import org.telekit.base.net.HttpClient.Request;
 import org.telekit.base.net.HttpClient.Response;
+import org.telekit.base.net.HttpConstants;
 import org.telekit.base.net.HttpConstants.AuthScheme;
-import org.telekit.base.util.ConcurrencyUtils;
+import org.telekit.base.preferences.Proxy;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.desktop.tools.apiclient.Template.BatchSeparator;
 import org.telekit.desktop.tools.common.Param;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -169,7 +171,7 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
 
             // timeout before sending next request
             if (idx < csv.length - 1) {
-                ConcurrencyUtils.sleep(timeoutBetweenRequests);
+                sleepSilently(timeoutBetweenRequests);
             }
         }
 
@@ -191,9 +193,25 @@ public class Executor extends Task<ObservableList<CompletedRequest>> {
         if (authScheme == AuthScheme.BASIC) {
             httpClientBuilder.basicAuth(
                     credentials.toPasswordAuthentication(),
-                    UriUtils.withoutPath(URI.create(safeUri)),
+                    cleanupURI(URI.create(safeUri)),
                     true
             );
+        }
+    }
+
+    private void sleepSilently(Duration duration) {
+        try {
+            Thread.sleep(duration.toMillis());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static URI cleanupURI(URI uri) {
+        try {
+            return new URI(uri.getScheme(), null, uri.getHost(), uri.getPort(), null, null, null);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 

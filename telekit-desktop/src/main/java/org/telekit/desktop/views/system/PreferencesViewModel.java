@@ -10,14 +10,12 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.mvvm.*;
 import org.telekit.base.di.Initializable;
 import org.telekit.base.domain.event.Notification;
-import org.telekit.base.domain.exception.InvalidInputException;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.domain.security.UsernamePasswordCredentials;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.net.ApacheHttpClient;
 import org.telekit.base.net.HttpClient.Request;
 import org.telekit.base.net.HttpClient.Response;
-import org.telekit.base.net.UriUtils;
 import org.telekit.base.net.connection.Scheme;
 import org.telekit.base.plugin.internal.PluginBox;
 import org.telekit.base.plugin.internal.PluginException;
@@ -35,6 +33,7 @@ import org.telekit.desktop.i18n.DesktopMessages;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +47,6 @@ import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.net.HttpConstants.Method.GET;
 import static org.telekit.base.plugin.internal.PluginState.DISABLED;
 import static org.telekit.base.plugin.internal.PluginState.UNINSTALLED;
-import static org.telekit.base.util.CSVUtils.COMMA_OR_SEMICOLON;
 import static org.telekit.desktop.i18n.DesktopMessages.PREFERENCES_MSG_PROXY_CONNECTION_FAILED;
 import static org.telekit.desktop.i18n.DesktopMessages.PREFERENCES_MSG_PROXY_CONNECTION_SUCCESSFUL;
 
@@ -103,14 +101,14 @@ public class PreferencesViewModel implements Initializable, ViewModel {
 
         URI uri;
         try {
-            uri = UriUtils.create(proxyScheme.get().toString(), proxyHost.get(), proxyPort.get());
-        } catch (InvalidInputException e) {
+            uri = new URI(proxyScheme.get().toString(), null, proxyHost.get(), proxyPort.get(), null, null, null);
+        } catch (URISyntaxException e) {
             throw new TelekitException(e.getMessage(), e);
         }
 
         List<String> exceptions = null;
         if (isNotBlank(proxyExceptions.get())) {
-            exceptions = Arrays.asList(proxyExceptions.get().split(COMMA_OR_SEMICOLON));
+            exceptions = Arrays.asList(proxyExceptions.get().split("[,;]"));
         }
 
         UsernamePasswordCredentials credentials = null;

@@ -20,7 +20,6 @@ import java.util.*;
 import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.telekit.base.Env.DOCS_INDEX_FILE_NAME;
 import static org.telekit.base.Env.getPluginDocsDir;
-import static org.telekit.base.util.CommonUtils.localizedFileName;
 
 @Includes(HelloTool.class)
 public class ExamplePlugin implements Plugin {
@@ -88,7 +87,12 @@ public class ExamplePlugin implements Plugin {
     @Override
     public void openDocs(Locale locale) {
         Path docsDir = getPluginDocsDir(ExamplePlugin.class);
-        Path localizedFilePath = docsDir.resolve(localizedFileName(DOCS_INDEX_FILE_NAME, ".txt"));
+        Path localizedFilePath = docsDir.resolve(
+                locale != null ?
+                        DOCS_INDEX_FILE_NAME + "_" + locale.getLanguage() + ".txt" :
+                        DOCS_INDEX_FILE_NAME + ".txt"
+        );
+
         if (Files.exists(localizedFilePath)) {
             DesktopUtils.openQuietly(localizedFilePath.toFile());
         } else {

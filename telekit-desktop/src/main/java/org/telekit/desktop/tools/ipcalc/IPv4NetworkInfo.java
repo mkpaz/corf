@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
 import static org.telekit.base.telecom.ip.IPv4NetworkWrapper.LINK_LOCAL_PREFIX_LEN;
-import static org.telekit.base.util.CommonUtils.map;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.desktop.tools.ipcalc.IPv4CalcViewModel.NUMBER_FORMAT;
 
