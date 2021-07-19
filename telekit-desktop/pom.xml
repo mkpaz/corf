@@ -171,6 +171,16 @@
                                         </module>
                                         <module>
                                             <artifact>
+                                                <groupId>commons-io</groupId>
+                                                <artifactId>commons-io</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>org.apache.commons.io</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
                                                 <groupId>org.apache.commons</groupId>
                                                 <artifactId>commons-lang3</artifactId>
                                             </artifact>

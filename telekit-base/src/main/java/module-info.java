@@ -34,6 +34,7 @@ module telekit.base {
     requires org.apache.commons.codec;
     requires org.apache.commons.collections4;
     requires org.apache.commons.compress;
+    requires org.apache.commons.io;
     requires org.apache.commons.lang3;
     requires org.apache.commons.net;
     requires org.apache.httpcomponents.core5.httpcore5;
