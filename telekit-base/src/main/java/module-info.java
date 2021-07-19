@@ -28,6 +28,7 @@ module telekit.base {
     requires transitive org.jetbrains.annotations;
     requires transitive org.bouncycastle.pkix;
     requires transitive org.bouncycastle.provider;
+    requires transitive org.snmp4j;
 
     // dependencies with Automatic-Module-Name
     requires org.apache.commons.codec;
