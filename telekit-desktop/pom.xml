@@ -118,6 +118,10 @@
                                 <configuration>
                                     <outputDirectory>${bld.modulesDirectory}</outputDirectory>
                                     <overwriteExistingFiles>true</overwriteExistingFiles>
+                                    <jdepsExtraArgs>
+                                        <arg>--multi-release</arg>
+                                        <arg>9</arg>
+                                    </jdepsExtraArgs>
                                     <modules>
                                         <module>
                                             <artifact>
@@ -280,24 +284,6 @@
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
-                                    </modules>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>module-info-with-missing-dependencies</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>add-module-info</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${bld.modulesDirectory}</outputDirectory>
-                                    <overwriteExistingFiles>true</overwriteExistingFiles>
-                                    <jdepsExtraArgs>
-                                        <arg>--ignore-missing-deps</arg>
-                                    </jdepsExtraArgs>
-                                    <modules>
-                                        <!-- FIXME: Pack200 API has been deprecated and removed since JDK14 (expected to be fixed in v1.21)
-                                             https://issues.apache.org/jira/browse/COMPRESS-507 -->
                                         <module>
                                             <artifact>
                                                 <groupId>org.apache.commons</groupId>
