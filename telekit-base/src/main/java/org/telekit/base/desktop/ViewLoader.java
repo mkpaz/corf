@@ -10,8 +10,6 @@ import org.telekit.base.i18n.I18n;
 import java.net.URL;
 import java.util.Objects;
 
-// TODO: Implement caching for FXML
-// (always use Injector unless object hasn't been loaded previously or it's not a singleton)
 public final class ViewLoader {
 
     public static <T extends Component> T load(Class<T> clazz) {
@@ -21,6 +19,7 @@ public final class ViewLoader {
                 Injector.getInstance().getBean(clazz);
     }
 
+    // TODO: Implement caching for FXML
     public static <T> T load(String fxmlPath, Class<T> clazz) {
         Pair<Parent, T> result = loadFromFXML(fxmlPath, clazz);
         return result.getRight();
@@ -51,7 +50,7 @@ public final class ViewLoader {
 
             if (!controllerClass.isInstance(controller)) {
                 throw new RuntimeException(String.format("Invalid controller class of path. " +
-                        "Check that '%s' controller class is exactly %s.", fxmlPath, controllerClass));
+                                                                 "Check that '%s' controller class is exactly %s.", fxmlPath, controllerClass));
             }
 
             return ImmutablePair.of(parent, controllerClass.cast(controller));

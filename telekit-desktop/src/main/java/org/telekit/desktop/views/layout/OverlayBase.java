@@ -147,7 +147,7 @@ public class OverlayBase extends StackPane implements Overlay {
 
     public boolean isOnFront() {
         // this is foolproof method, but return value is not observable
-        // TODO: refactor to viewOrderProperty?
+        // TODO: Refactor to viewOrderProperty?
         // if (getParent() == null) { return false; }
         // ObservableList<Node> siblings = getParent().getChildrenUnmodifiable();
         // return !siblings.isEmpty() && siblings.get(siblings.size() - 1).equals(this);

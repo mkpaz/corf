@@ -65,7 +65,6 @@ public class SecurityPreferences {
     }
 
     public void setAutoUnlock(boolean autoUnlock) {
-        // TODO: implement manual unlock
         this.autoUnlock = true;
     }
 

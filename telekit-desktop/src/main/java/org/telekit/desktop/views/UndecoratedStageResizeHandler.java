@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-// FIXME: Resizing is too memory expensive (+100Mb RAM easily and memory doesn't return back to OS)
 public class UndecoratedStageResizeHandler implements EventHandler<MouseEvent> {
 
     public static final int DEFAULT_BORDER_WIDTH = 4;
@@ -83,7 +82,7 @@ public class UndecoratedStageResizeHandler implements EventHandler<MouseEvent> {
             sceneOffsetY = mouseEvent.getSceneY();
         } else if (MouseEvent.MOUSE_DRAGGED.equals(mouseEventType) && !Cursor.DEFAULT.equals(cursor)) {
 
-            // FIXME Resizing window using NW, N, SW edges is also slightly moves it
+            // FIXME: Resizing window using NW, N, SW edges is also slightly moves it
             if (!Cursor.W_RESIZE.equals(cursor) && !Cursor.E_RESIZE.equals(cursor)) {
                 double minHeight = stage.getMinHeight() > (borderWidth * 2) ? stage.getMinHeight() : (borderWidth * 2);
 
