@@ -1,5 +1,6 @@
 package org.telekit.base;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,6 @@ import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.service.Encryptor.Algorithm;
 import static org.telekit.base.util.CommonUtils.map;
-import static org.telekit.base.util.FileUtils.urlToFile;
 
 public final class Env {
 
@@ -86,7 +86,7 @@ public final class Env {
 
         try {
             URL url = Env.class.getProtectionDomain().getCodeSource().getLocation();
-            if (url != null) { return urlToFile(url).toPath(); }
+            if (url != null) { return FileUtils.toFile(url).toPath(); }
         } catch (Exception ignored) {}
 
         // just a formality to avoid NPE in any case

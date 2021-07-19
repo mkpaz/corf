@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trim;
-import static org.telekit.base.util.FileUtils.deleteDir;
-import static org.telekit.base.util.FileUtils.deleteFile;
+import static org.telekit.base.util.FileSystemUtils.deleteDir;
+import static org.telekit.base.util.FileSystemUtils.deleteFile;
 
 public class PluginCleaner {
 

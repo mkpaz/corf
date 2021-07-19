@@ -4,75 +4,42 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.UUID;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.telekit.base.Env.TEMP_DIR;
 
-public final class FileUtils {
+public final class FileSystemUtils {
 
-    public static File urlToFile(URL url) {
-        try {
-            return new File(Objects.requireNonNull(url).toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static String getFileName(Path path) {
-        if (path == null) { return ""; }
-        return substringBeforeLast(path.getFileName().toString(), ".");
-    }
-
+    /** Removes any special characters from file name */
     public static String sanitizeFileName(String filename) {
         if (filename == null || filename.isBlank()) { return ""; }
         return filename.replaceAll("[\\\\/:*?\"'<>|]", "_");
     }
 
-    public static String getFileExtension(Path path) {
-        if (path == null) { return ""; }
-        return substringAfterLast(path.getFileName().toString(), ".");
-    }
-
-    public static Path getParentPath(File file) {
+    public static @Nullable Path getParentPath(File file) {
         if (file == null) { return null; }
         File parent = file.getParentFile();
         return parent != null ? parent.toPath() : null;
     }
 
-    public static List<Path> findFilesByPrefix(Path path, String prefix) {
-        if (!dirExists(path)) { return Collections.emptyList(); }
-
-        File[] files = path.toFile().listFiles((dir, name) -> name.startsWith(prefix));
-        if (files == null || files.length == 0) { return Collections.emptyList(); }
-
-        return Arrays.stream(files)
-                .filter(File::isFile)
-                .map(File::toPath)
-                .collect(Collectors.toList());
+    public static Path getTempFilePath() {
+        return getTempPath(null, ".tmp");
     }
 
-    public static Path createTempFilePath() {
-        return createTempPath(null, ".tmp");
+    public static Path getTempDirPath() {
+        return getTempPath("tmp-", null);
     }
 
-    public static Path createTempDirPath() {
-        return createTempPath("tmp-", null);
-    }
-
-    /*
-     * This method doesn't create nor empty temp file nor directory,
-     * but only returns generated path
-     */
-    public static Path createTempPath(String prefix, String suffix) {
+    /** Only returns generated temp path, does not create nor temp file nor directory */
+    public static Path getTempPath(String prefix, String suffix) {
         String filename = UUID.randomUUID().toString().replace("-", "");
         prefix = defaultString(prefix);
         suffix = defaultString(suffix);
@@ -111,7 +78,7 @@ public final class FileUtils {
         }
     }
 
-    public static void createDirs(Path path) {
+    public static void createDirTree(Path path) {
         try {
             if (!exists(path)) { Files.createDirectories(path); }
         } catch (IOException e) {
@@ -120,11 +87,8 @@ public final class FileUtils {
     }
 
     public static void copyFile(Path source, Path dest, StandardCopyOption option) {
-        Objects.requireNonNull(source);
-        Objects.requireNonNull(dest);
-
         try {
-            Files.copy(source, dest, option);
+            Files.copy(Objects.requireNonNull(source), Objects.requireNonNull(dest), option);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -167,7 +131,7 @@ public final class FileUtils {
         }
     }
 
-    public static boolean isDirEmpty(Path dir) {
+    public static boolean isEmptyDir(Path dir) {
         if (!dirExists(dir)) { return true; }
         try (DirectoryStream<Path> folderStream = Files.newDirectoryStream(dir)) {
             return !folderStream.iterator().hasNext();
@@ -180,25 +144,22 @@ public final class FileUtils {
         return path != null && Files.exists(path);
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean dirExists(Path path) {
         return exists(path) && Files.isDirectory(path);
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean fileExists(Path path) {
         return exists(path) && Files.isRegularFile(path);
     }
 
     /**
-     * Creates a copy of a file in the temp directory.
-     *
-     * @return a path to temp file or null if copying has failed.
+     * Creates a copy of a file in the temp directory and returns path to the
+     * created temp file or null if copying has failed.
      */
     public static @Nullable Path backupFile(Path source) {
         if (!exists(source)) { return null; }
 
-        Path tmp = createTempFilePath();
+        Path tmp = getTempFilePath();
         try {
             copyFile(source, tmp, REPLACE_EXISTING);
             return tmp;

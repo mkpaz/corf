@@ -24,7 +24,7 @@ import java.util.List;
 
 import static javafx.scene.layout.GridPane.REMAINING;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.util.FileUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.getParentPath;
 import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.BindUtils.isBlank;
 import static org.telekit.controls.util.Containers.gridPane;

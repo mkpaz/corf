@@ -4,6 +4,7 @@ module telekit.desktop {
     requires telekit.controls;
 
     // not modularized dependencies
+    requires org.apache.commons.io;
     requires org.apache.commons.lang3;
     requires org.apache.commons.collections4;
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.telekit.base.Env.getPluginConfigDir;
-import static org.telekit.base.util.FileUtils.isDirEmpty;
+import static org.telekit.base.util.FileSystemUtils.isEmptyDir;
 
 public class PluginBox {
 
@@ -89,7 +89,7 @@ public class PluginBox {
 
     public boolean hasConfigs() {
         Path configDir = getPluginConfigDir(plugin.getClass());
-        return Files.exists(configDir) && !isDirEmpty(configDir);
+        return Files.exists(configDir) && !isEmptyDir(configDir);
     }
 
     public Collection<Path> getConfigs() {

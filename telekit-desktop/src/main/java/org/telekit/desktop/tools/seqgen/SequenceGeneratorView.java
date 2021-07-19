@@ -15,7 +15,7 @@ import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.service.impl.SequenceGenerator;
 import org.telekit.base.service.impl.SequenceGenerator.Item;
-import org.telekit.base.util.FileUtils;
+import org.telekit.base.util.FileSystemUtils;
 import org.telekit.base.util.PlaceholderReplacer;
 import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.*;
@@ -36,7 +36,8 @@ import static javafx.collections.FXCollections.observableArrayList;
 import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.geometry.Pos.TOP_LEFT;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.base.util.FileUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.getParentPath;
+import static org.telekit.base.util.FileSystemUtils.sanitizeFileName;
 import static org.telekit.controls.i18n.ControlsMessages.START;
 import static org.telekit.controls.i18n.ControlsMessages.STEP;
 import static org.telekit.controls.util.Containers.*;
@@ -205,7 +206,7 @@ public final class SequenceGeneratorView extends GridPane implements Initializab
         File outputFile = Dialogs.fileChooser()
                 .addFilter(t(FILE_DIALOG_TEXT), "*.txt")
                 .initialDirectory(lastVisitedDirectory)
-                .initialFileName(FileUtils.sanitizeFileName("sequence.txt"))
+                .initialFileName("sequence.txt")
                 .build()
                 .showSaveDialog(getWindow());
         if (outputFile == null) { return; }

@@ -19,7 +19,7 @@ import static org.telekit.base.Env.CONFIG_DIR;
 import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_LOAD_DATA_FROM_FILE;
 import static org.telekit.base.i18n.BaseMessages.MGG_UNABLE_TO_SAVE_DATA_TO_FILE;
 import static org.telekit.base.util.CommonUtils.hush;
-import static org.telekit.base.util.FileUtils.*;
+import static org.telekit.base.util.FileSystemUtils.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationPreferences {
