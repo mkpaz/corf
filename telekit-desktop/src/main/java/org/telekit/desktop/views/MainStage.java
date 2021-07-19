@@ -132,7 +132,7 @@ public class MainStage {
             maximized = true;
         } else {
             if (latestBounds != null) {
-                // FIXME setY() isn't working
+                // FIXME: setY() isn't working
                 // Probably another bug in OpenJFX Glass/GTK+ backend
                 setAnchors(stage, latestBounds);
             }

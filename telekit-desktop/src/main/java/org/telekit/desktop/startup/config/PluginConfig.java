@@ -65,7 +65,7 @@ public final class PluginConfig implements Config {
 
     public void startPlugins() {
         try {
-            // TODO: notify user if some plugins weren't started
+            // TODO: Notify user if some plugins weren't started
             // NOTE: plugins should be started BEFORE MainController initialization
             //       because it queries extensions to build-up menu bar
             pluginManager.startAllPlugins();
