@@ -13,6 +13,7 @@ import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.service.ArtifactRepository;
+import org.telekit.base.service.EncryptionService;
 
 import java.util.Collection;
 import java.util.List;
@@ -59,19 +60,13 @@ public class PluginBoxTest {
     public static class ExamplePlugin implements Plugin {
 
         @Override
-        public Metadata getMetadata() {
-            return null;
-        }
+        public Metadata getMetadata() { return null; }
 
         @Override
-        public List<? extends DependencyModule> getModules() {
-            return null;
-        }
+        public List<? extends DependencyModule> getModules() { return null; }
 
         @Override
-        public BundleLoader getBundleLoader() {
-            return null;
-        }
+        public BundleLoader getBundleLoader() { return null; }
 
         @Override
         public Collection<String> getStylesheets() { return null; }
@@ -86,9 +81,10 @@ public class PluginBoxTest {
         public void stop() {}
 
         @Override
-        public boolean providesDocs() {
-            return false;
-        }
+        public void updateEncryptedData(EncryptionService oldEncryptor, EncryptionService newEncryptor) {}
+
+        @Override
+        public boolean providesDocs() { return false; }
 
         @Override
         public void openDocs(Locale locale) {}
