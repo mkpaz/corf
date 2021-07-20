@@ -1,10 +1,8 @@
 package org.telekit.desktop.views.system;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.application.Platform;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.mvvm.*;
@@ -186,6 +184,9 @@ public class PreferencesViewModel implements Initializable, ViewModel {
     private final StringProperty proxyExceptions = new SimpleStringProperty(this, "proxyExceptions");
     public StringProperty proxyExceptionsProperty() { return proxyExceptions; }
 
+    private final ReadOnlyBooleanWrapper proxyCheckPending = new ReadOnlyBooleanWrapper(this, "proxyCheckPending");
+    public ReadOnlyBooleanProperty proxyCheckPendingProperty() { return proxyCheckPending.getReadOnlyProperty(); }
+
     private final TransformationListHandle<PluginBox> plugins = new TransformationListHandle<>();
     public ObservableList<PluginBox> getPlugins() { return plugins.getSortedList(); }
 
@@ -225,7 +226,10 @@ public class PreferencesViewModel implements Initializable, ViewModel {
 
         @Override
         protected void doExecute(String url) {
-            Promise.runAsync(() -> checkProxy(url)).start(threadPool);
+            proxyCheckPending.set(true);
+            Promise.runAsync(() -> checkProxy(url))
+                    .then(() -> Platform.runLater(() -> proxyCheckPending.set(false)))
+                    .start(threadPool);
         }
     };
 

@@ -120,6 +120,7 @@ public class ProxyPreferencesTab extends Tab {
 
         Button checkProxyBtn = new Button(t(PREFERENCES_CHECK_CONNECTION));
         checkProxyBtn.setOnAction(e -> showCheckConnectionDialog());
+        checkProxyBtn.disableProperty().bind(model.proxyCheckPendingProperty());
 
         // GRID
 
