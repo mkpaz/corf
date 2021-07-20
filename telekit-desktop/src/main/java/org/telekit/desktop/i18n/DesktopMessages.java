@@ -58,7 +58,6 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String TOOLS_EDIT_TEMPLATE = "tools.EditTemplate";
     String TOOLS_PASTE_COLUMNS_RIGHT = "tools.PasteColumnsRight";
     String TOOLS_PASTE_FROM_EXCEL = "tools.PasteFromExcel";
-    String TOOLS_ONLY_FIRST_N_ROWS_WILL_BE_SHOWN = "tools.only-first-N-rows-will-be-shown";
 
     String TOOLS_MSG_DELETE_TEMPLATE = "tools.msg.delete-template";
     String TOOLS_MSG_LIST_IS_TOO_LARGE_TO_EXPORT = "tools.msg.list-is-too-large-to-export";

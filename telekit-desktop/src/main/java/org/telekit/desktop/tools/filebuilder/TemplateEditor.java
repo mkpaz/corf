@@ -27,15 +27,12 @@ import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.button;
 import static org.telekit.controls.util.Controls.gridLabel;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 
 public class TemplateEditor extends OverlayDialog {
-
-    static final Set<String> DELIMITERS = Set.of("", ",", ":", "|", ";", "\\t");
 
     TabPane tabPane;
     TextField nameText;
