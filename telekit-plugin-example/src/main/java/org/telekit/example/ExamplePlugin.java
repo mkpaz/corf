@@ -6,6 +6,7 @@ import org.telekit.base.plugin.Includes;
 import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.service.ArtifactRepository;
+import org.telekit.base.service.EncryptionService;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.example.i18n.ExampleMessages;
 import org.telekit.example.service.ExampleDependencyModule;
@@ -78,6 +79,9 @@ public class ExamplePlugin implements Plugin {
     public void stop() {
         System.out.println(getCanonicalName(ExamplePlugin.class) + " stop() method called.");
     }
+
+    @Override
+    public void updateEncryptedData(EncryptionService oldEncryptor, EncryptionService newEncryptor) {}
 
     @Override
     public boolean providesDocs() {
