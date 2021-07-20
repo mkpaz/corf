@@ -12,8 +12,8 @@
     <modules>
         <module>telekit-base</module>
         <module>telekit-controls</module>
-        <module>telekit-plugin-example</module>
         <module>telekit-desktop</module>
+        <module>telekit-plugin-example</module>
     </modules>
 
     <properties>
@@ -49,9 +49,9 @@
         <lib.snmp4j.version>3.5.1</lib.snmp4j.version>
         <lib.sshj.version>0.31.0</lib.sshj.version>
 
+        <lib.richtextfx.version>0.10.6</lib.richtextfx.version>
         <lib.flowless.version>0.6.3</lib.flowless.version>
         <lib.reactfx.version>2.0-M5</lib.reactfx.version>
-        <lib.richtextfx.version>0.10.6</lib.richtextfx.version>
         <lib.undofx.version>2.1.1</lib.undofx.version>
         <lib.wellbehavedfx.version>0.3.3</lib.wellbehavedfx.version>
 
@@ -180,11 +180,6 @@
                 <version>${lib.commons-compress.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-dbutils</groupId>
-                <artifactId>commons-dbutils</artifactId>
-                <version>${lib.commons-dbutils.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${lib.commons-io.version}</version>
@@ -194,20 +189,37 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${lib.commons-lang.version}</version>
             </dependency>
-            <dependency>
-                <groupId>commons-net</groupId>
-                <artifactId>commons-net</artifactId>
-                <version>${lib.commons-net.version}</version>
-            </dependency>
 
-            <!-- Databases -->
+            <!-- Database -->
+            <dependency>
+                <groupId>commons-dbutils</groupId>
+                <artifactId>commons-dbutils</artifactId>
+                <version>${lib.commons-dbutils.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>${lib.hsqldb.version}</version>
             </dependency>
 
-            <!-- HTTP -->
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+
+            <!-- Networking -->
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${lib.commons-net.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents.core5</groupId>
                 <artifactId>httpcore5</artifactId>
@@ -223,25 +235,23 @@
                 <artifactId>httpclient5</artifactId>
                 <version>${lib.httpclient5.version}</version>
             </dependency>
+            <dependency>
+                <groupId>net.sf.expectit</groupId>
+                <artifactId>expectit-core</artifactId>
+                <version>${lib.expectit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hierynomus</groupId>
+                <artifactId>sshj</artifactId>
+                <version>${lib.sshj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.snmp4j</groupId>
+                <artifactId>snmp4j</artifactId>
+                <version>${lib.snmp4j.version}</version>
+            </dependency>
 
-            <!-- HTML -->
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>${lib.jsoup.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.j2html</groupId>
-                <artifactId>j2html</artifactId>
-                <version>${lib.j2html.version}</version>
-            </dependency>
-
-            <!-- Jackson -->
-            <dependency>
-                <groupId>org.jetbrains</groupId>
-                <artifactId>annotations</artifactId>
-                <version>${lib.jetbrains-annotations.version}</version>
-            </dependency>
+            <!-- Serialization -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
@@ -312,6 +322,11 @@
 
             <!-- Various -->
             <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${lib.jetbrains-annotations.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.github.pustike</groupId>
                 <artifactId>javax.inject</artifactId>
                 <version>${lib.javax-inject.version}</version>
@@ -322,21 +337,19 @@
                 <version>${lib.ipaddress.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.j2html</groupId>
+                <artifactId>j2html</artifactId>
+                <version>${lib.j2html.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${lib.jsoup.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>de.skuzzle</groupId>
                 <artifactId>semantic-version</artifactId>
                 <version>${lib.semantic-version.version}</version>
-            </dependency>
-
-            <!-- Logging -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-jdk14</artifactId>
-                <version>1.7.30</version>
             </dependency>
 
             <!--
@@ -355,23 +368,6 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>${lib.bouncycastle.version}</version>
-            </dependency>
-
-            <!-- Networking -->
-            <dependency>
-                <groupId>net.sf.expectit</groupId>
-                <artifactId>expectit-core</artifactId>
-                <version>${lib.expectit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.hierynomus</groupId>
-                <artifactId>sshj</artifactId>
-                <version>${lib.sshj.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.snmp4j</groupId>
-                <artifactId>snmp4j</artifactId>
-                <version>${lib.snmp4j.version}</version>
             </dependency>
 
             <!-- TEST -->
