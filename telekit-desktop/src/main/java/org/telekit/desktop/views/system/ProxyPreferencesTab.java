@@ -24,8 +24,6 @@ import static javafx.geometry.Pos.CENTER_LEFT;
 import static javafx.scene.layout.GridPane.REMAINING;
 import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.controls.i18n.ControlsMessages.EXAMPLE;
-import static org.telekit.controls.i18n.ControlsMessages.PORT;
 import static org.telekit.controls.util.BindUtils.bindToggleGroup;
 import static org.telekit.controls.util.Containers.columnConstraints;
 import static org.telekit.controls.util.Containers.gridPane;

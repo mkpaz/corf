@@ -23,8 +23,8 @@ import javax.inject.Singleton;
 import java.net.URI;
 
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.desktop.service.IconRepository.FAVICON;
 import static org.telekit.desktop.i18n.DesktopMessages.SYSTEM_PROJECT_PAGE;
+import static org.telekit.desktop.service.IconRepository.FAVICON;
 
 @Singleton
 public class WelcomeView extends VBox implements Initializable, View<WelcomeViewModel> {

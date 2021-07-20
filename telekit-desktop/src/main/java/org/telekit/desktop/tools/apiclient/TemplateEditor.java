@@ -30,7 +30,6 @@ import static javafx.beans.property.IntegerProperty.integerProperty;
 import static javafx.collections.FXCollections.observableArrayList;
 import static org.apache.commons.lang3.StringUtils.*;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.button;
 import static org.telekit.controls.util.Controls.gridLabel;

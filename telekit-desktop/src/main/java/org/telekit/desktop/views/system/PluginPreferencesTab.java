@@ -38,7 +38,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.plugin.internal.PluginState.*;
 import static org.telekit.base.util.FileSystemUtils.getParentPath;
-import static org.telekit.controls.i18n.ControlsMessages.*;
 import static org.telekit.controls.util.Containers.*;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
 

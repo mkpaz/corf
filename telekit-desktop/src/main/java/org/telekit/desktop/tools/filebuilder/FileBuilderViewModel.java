@@ -15,9 +15,9 @@ import org.telekit.base.service.CompletionRegistry;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.util.BindUtils;
-import org.telekit.controls.util.UnconditionalObjectProperty;
 import org.telekit.controls.util.Promise;
 import org.telekit.controls.util.TransformationListHandle;
+import org.telekit.controls.util.UnconditionalObjectProperty;
 import org.telekit.desktop.tools.common.Param;
 
 import javax.inject.Inject;
