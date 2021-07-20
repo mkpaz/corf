@@ -1,4 +1,4 @@
-![](.screenshots/welcome.png)
+![](screenshots/welcome.png)
 ![](https://img.shields.io/github/license/mkpaz/telekit)
 ![](https://img.shields.io/github/v/release/mkpaz/telekit)
 ![](https://img.shields.io/github/last-commit/mkpaz/telekit/dev)
