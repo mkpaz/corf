@@ -1,7 +1,7 @@
 package org.telekit.desktop.tools.ipcalc;
 
-import org.telekit.base.telecom.ip.IPv4AddressWrapper;
-import org.telekit.base.telecom.ip.IPv4NetworkWrapper;
+import org.telekit.base.telecom.IPv4AddressWrapper;
+import org.telekit.base.telecom.IPv4NetworkWrapper;
 import org.telekit.base.util.CommonUtils;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
-import static org.telekit.base.telecom.ip.IPv4NetworkWrapper.LINK_LOCAL_PREFIX_LEN;
+import static org.telekit.base.telecom.IPv4NetworkWrapper.LINK_LOCAL_PREFIX_LEN;
 import static org.telekit.base.util.StringUtils.splitEqually;
 import static org.telekit.desktop.tools.ipcalc.IPv4CalcViewModel.NUMBER_FORMAT;
 

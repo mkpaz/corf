@@ -11,11 +11,11 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.domain.event.Notification;
 import org.telekit.controls.dialogs.AlertBuilder;
 import org.telekit.controls.i18n.ControlsMessages;
-import org.telekit.desktop.IconCache;
+import org.telekit.desktop.service.IconRepository;
 
 import static org.telekit.base.domain.event.Notification.NotificationType;
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.desktop.IconCache.ICON_APP;
+import static org.telekit.desktop.service.IconRepository.FAVICON;
 
 public final class ModalNotificationDialog {
 
@@ -32,7 +32,7 @@ public final class ModalNotificationDialog {
         alert = new AlertBuilder(getAlertType(notificationType))
                 .title(getTitle(notificationType))
                 .owner(owner)
-                .icon(IconCache.get(ICON_APP))
+                .icon(IconRepository.get(FAVICON))
                 .build();
 
         alert.getDialogPane().setPrefWidth(DIALOG_WIDTH);

@@ -52,4 +52,5 @@ module telekit.desktop {
 
     exports org.telekit.desktop.tools.seqgen;
     opens org.telekit.desktop.tools.seqgen;
+    exports org.telekit.desktop.service;
 }

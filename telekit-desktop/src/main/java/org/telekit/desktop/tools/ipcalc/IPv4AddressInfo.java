@@ -1,6 +1,6 @@
 package org.telekit.desktop.tools.ipcalc;
 
-import org.telekit.base.telecom.ip.IPv4AddressWrapper;
+import org.telekit.base.telecom.IPv4AddressWrapper;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package org.telekit.desktop.startup;
+package org.telekit.desktop.service;
 
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.preferences.Proxy;

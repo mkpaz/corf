@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.telecom.ip.IPv4AddressWrapper;
+import org.telekit.base.telecom.IPv4AddressWrapper;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.TextFormatters;
 import org.telekit.controls.widgets.OverlayDialog;

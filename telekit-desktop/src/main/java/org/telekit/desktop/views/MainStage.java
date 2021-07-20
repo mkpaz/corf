@@ -14,7 +14,7 @@ import javafx.stage.StageStyle;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.preferences.internal.ApplicationPreferences;
 import org.telekit.controls.theme.DefaultTheme;
-import org.telekit.desktop.IconCache;
+import org.telekit.desktop.service.IconRepository;
 import org.telekit.desktop.startup.config.Config;
 
 import java.util.Objects;
@@ -23,7 +23,7 @@ import static org.telekit.base.Env.APP_NAME;
 import static org.telekit.base.Env.WINDOW_MAXIMIZED;
 import static org.telekit.controls.util.Containers.getAnchors;
 import static org.telekit.controls.util.Containers.setAnchors;
-import static org.telekit.desktop.IconCache.ICON_APP;
+import static org.telekit.desktop.service.IconRepository.FAVICON;
 import static org.telekit.desktop.startup.config.Config.DESKTOP_MODULE_PATH;
 
 public class MainStage {
@@ -55,10 +55,10 @@ public class MainStage {
         stage.setMinHeight(MIN_SIZE.height());
         stage.setTitle(APP_NAME);
 
-        IconCache.put(ICON_APP, new Image(Objects.requireNonNull(
+        IconRepository.put(FAVICON, new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream(DESKTOP_MODULE_PATH.concat(APP_ICON_PATH).toString()))
         ));
-        primaryStage.getIcons().add(IconCache.get(ICON_APP));
+        primaryStage.getIcons().add(IconRepository.get(FAVICON));
 
         scene.getStylesheets().addAll(new DefaultTheme().getResources());
         scene.getStylesheets().addAll(

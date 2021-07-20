@@ -21,19 +21,19 @@ import java.util.Objects;
  * This is an observable property implementation which will notify
  * listeners every time value set, whether it changed or not.
  */
-public class HastyObjectProperty<T> extends SimpleObjectProperty<T> {
+public class UnconditionalObjectProperty<T> extends SimpleObjectProperty<T> {
 
     private List<ChangeListener<? super T>> changeListeners;
 
-    public HastyObjectProperty(T initialValue) {
+    public UnconditionalObjectProperty(T initialValue) {
         super(initialValue);
     }
 
-    public HastyObjectProperty(Object bean, String name) {
+    public UnconditionalObjectProperty(Object bean, String name) {
         super(bean, name);
     }
 
-    public HastyObjectProperty(Object bean, String name, T initialValue) {
+    public UnconditionalObjectProperty(Object bean, String name, T initialValue) {
         super(bean, name, initialValue);
     }
 

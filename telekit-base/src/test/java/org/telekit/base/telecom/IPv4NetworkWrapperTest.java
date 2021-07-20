@@ -1,8 +1,9 @@
-package org.telekit.base.telecom.ip;
+package org.telekit.base.telecom;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.telekit.base.BaseSetup;
+import org.telekit.base.telecom.IPv4NetworkWrapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

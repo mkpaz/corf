@@ -1,6 +1,8 @@
 package org.telekit.desktop.startup.config;
 
-import org.telekit.base.CompletionRegistry;
+import org.telekit.base.service.CompletionRegistry;
+import org.telekit.desktop.service.DefaultCompletionRegistry;
+import org.telekit.desktop.service.FileCompletionMonitoringService;
 
 public final class ServicesConfig implements Config {
 
@@ -8,7 +10,7 @@ public final class ServicesConfig implements Config {
     private final FileCompletionMonitoringService completionMonitoringService;
 
     public ServicesConfig() {
-        completionRegistry = new CompletionRegistry();
+        completionRegistry = new DefaultCompletionRegistry();
         completionMonitoringService = new FileCompletionMonitoringService(completionRegistry);
     }
 
