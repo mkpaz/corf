@@ -250,7 +250,7 @@ public class ApacheHttpClient implements HttpClient {
     static class CachingProxyRoutePlanner extends DefaultRoutePlanner {
 
         private final Proxy proxy;
-        private final CredentialsStore credentialsProvider;
+        private final CredentialsStore credentialsStore;
 
         // routing cache: k = target hostname, v = proxy host or null for direct route
         private final Map<String, HttpHost> routeCache = new HashMap<>();
@@ -259,11 +259,11 @@ public class ApacheHttpClient implements HttpClient {
         // k = short proxy URI, v = actual proxy host
         private final Map<String, HttpHost> proxyHostCache = new HashMap<>();
 
-        public CachingProxyRoutePlanner(Proxy proxy, CredentialsStore credentialsProvider) {
+        public CachingProxyRoutePlanner(Proxy proxy, CredentialsStore credentialsStore) {
             super(new DefaultSchemePortResolver());
 
             this.proxy = proxy;
-            this.credentialsProvider = credentialsProvider;
+            this.credentialsStore = credentialsStore;
         }
 
         @Override
@@ -278,32 +278,33 @@ public class ApacheHttpClient implements HttpClient {
                 return cachedRoute;
             }
 
-            ConnectionParams params = proxy.getConnectionParams(targetHostname);
-            if (params == null) {
+            ConnectionParams proxyParams = proxy.getConnectionParams(targetHostname);
+            if (proxyParams == null) {
                 LOG.fine("Proxying not required, using direct route");
                 routeCache.put(targetHostname, null);
                 return null;
             }
 
-            String proxyKey = params.getScheme().toString() + "://" + params.getHost() + ":" + params.getPort();
+            String proxyKey = proxyParams.getScheme().toString() + "://" + proxyParams.getHost() + ":" + proxyParams.getPort();
             HttpHost proxyHost = proxyHostCache.get(proxyKey);
 
             if (proxyHost == null) {
-                proxyHost = new HttpHost(params.getScheme().toString(), params.getHost(), params.getPort());
+                proxyHost = new HttpHost(proxyParams.getScheme().toString(), proxyParams.getHost(), proxyParams.getPort());
                 LOG.fine("Creating new proxy: " + proxyHost);
 
                 // Do not instantiate auth scope from proxyHost, because the latter also
                 // includes scheme, There will be no match if proxy uses HTTP and target uses HTTPS.
-                AuthScope proxyScope = new AuthScope(params.getHost(), params.getPort());
+                AuthScope proxyScope = new AuthScope(proxyParams.getHost(), proxyParams.getPort());
 
                 // credentials is optional for proxy
                 UsernamePasswordCredentials cred = null;
-                if (params.getCredentials() instanceof UsernamePasswordCredentials userPassword) {
+                if (proxyParams.getCredentials() instanceof UsernamePasswordCredentials userPassword) {
                     cred = userPassword;
                 }
-                if (cred != null && credentialsProvider.getCredentials(proxyScope, context) != null) {
+
+                if (cred != null) {
                     LOG.fine("Setting proxy credentials: " + cred);
-                    credentialsProvider.setCredentials(
+                    credentialsStore.setCredentials(
                             proxyScope,
                             new org.apache.hc.client5.http.auth.UsernamePasswordCredentials(cred.getUsername(), cred.getPassword())
                     );
