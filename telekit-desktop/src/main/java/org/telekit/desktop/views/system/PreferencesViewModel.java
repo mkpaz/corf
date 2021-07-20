@@ -1,7 +1,6 @@
 package org.telekit.desktop.views.system;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import org.jetbrains.annotations.Nullable;
@@ -155,6 +154,27 @@ public class PreferencesViewModel implements Initializable, ViewModel {
         }
     }
 
+    private void togglePlugin() {
+        PluginBox plugin = selectedPlugin.get();
+        try {
+            switch (plugin.getState()) {
+                case STARTED, FAILED -> {
+                    pluginManager.disablePlugin(plugin.getPluginClass());
+                    preferences.getDisabledPlugins().add(getCanonicalName(plugin.getPluginClass()));
+                    preferences.setDirty();
+                }
+                case DISABLED -> {
+                    pluginManager.enablePlugin(plugin.getPluginClass());
+                    preferences.getDisabledPlugins().remove(getCanonicalName(plugin.getPluginClass()));
+                    preferences.setDirty();
+                }
+            }
+        } catch (PluginException e) {
+            // PluginException already contains internationalized message
+            throw new TelekitException(e.getMessage(), e);
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Properties                                                            //
     ///////////////////////////////////////////////////////////////////////////
@@ -201,20 +221,24 @@ public class PreferencesViewModel implements Initializable, ViewModel {
     private final Command commitCommand = new CommandBase() {
         @Override
         protected void doExecute() {
-            boolean restartRequired = false;
+            boolean bootParamChanged = false;
 
             if (!Objects.equals(preferences.getLanguage(), language.get())) {
                 preferences.setLanguage(language.get());
-                restartRequired = true;
+                bootParamChanged = true;
             }
 
             Proxy manualProxy = createManualProxyFromProperties();
             if (manualProxy != null) { preferences.getProxyPreferences().addOrUpdateProxy(manualProxy); }
             preferences.getProxyPreferences().setActiveProfile(activeProxyProfile.get());
 
-            savePreferences();
-
-            if (restartRequired) { DefaultEventBus.getInstance().publish(new PendingRestartEvent()); }
+            final boolean restartRequired = bootParamChanged;
+            Promise.runAsync(() -> savePreferences())
+                    .then(() -> {
+                        if (restartRequired) {
+                            DefaultEventBus.getInstance().publish(new PendingRestartEvent());
+                        }
+                    }).start(threadPool);
         }
     };
 
@@ -228,7 +252,7 @@ public class PreferencesViewModel implements Initializable, ViewModel {
         protected void doExecute(String url) {
             proxyCheckPending.set(true);
             Promise.runAsync(() -> checkProxy(url))
-                    .then(() -> Platform.runLater(() -> proxyCheckPending.set(false)))
+                    .then(() -> proxyCheckPending.set(false))
                     .start(threadPool);
         }
     };
@@ -243,29 +267,12 @@ public class PreferencesViewModel implements Initializable, ViewModel {
 
         @Override
         protected void doExecute() {
-            PluginBox plugin = selectedPlugin.get();
-
-            try {
-                switch (plugin.getState()) {
-                    case STARTED, FAILED -> {
-                        pluginManager.disablePlugin(plugin.getPluginClass());
-                        preferences.getDisabledPlugins().add(getCanonicalName(plugin.getPluginClass()));
-                        preferences.setDirty();
-                    }
-                    case DISABLED -> {
-                        pluginManager.enablePlugin(plugin.getPluginClass());
-                        preferences.getDisabledPlugins().remove(getCanonicalName(plugin.getPluginClass()));
-                        preferences.setDirty();
-                    }
+            Promise.runAsync(() -> {
+                togglePlugin();
+                if (preferences.isDirty()) {
+                    savePreferences();
                 }
-            } catch (PluginException e) {
-                // PluginException already contains internationalized message
-                throw new TelekitException(e.getMessage(), e);
-            }
-
-            if (preferences.isDirty()) { savePreferences(); }
-
-            updatePluginsList();
+            }).then(() -> updatePluginsList()).start(threadPool);
         }
     };
 
@@ -277,9 +284,10 @@ public class PreferencesViewModel implements Initializable, ViewModel {
 
         @Override
         protected void doExecute(Path path) {
-            pluginManager.installPlugin(path);
-            updatePluginsList();
-            DefaultEventBus.getInstance().publish(new PendingRestartEvent());
+            Promise.runAsync(() -> pluginManager.installPlugin(path)).then(() -> {
+                updatePluginsList();
+                DefaultEventBus.getInstance().publish(new PendingRestartEvent());
+            }).start(threadPool);
         }
     };
 
@@ -296,15 +304,16 @@ public class PreferencesViewModel implements Initializable, ViewModel {
             PluginBox plugin = selectedPlugin.get();
             PluginState originalState = plugin.getState();
 
-            pluginManager.uninstallPlugin(plugin.getPluginClass(), deleteResources);
-            updatePluginsList();
-
-            if (originalState == DISABLED) {
-                preferences.getDisabledPlugins().remove(getCanonicalName(plugin.getPluginClass()));
-                savePreferences();
-            }
-
-            DefaultEventBus.getInstance().publish(new PendingRestartEvent());
+            Promise.runAsync(() -> {
+                pluginManager.uninstallPlugin(plugin.getPluginClass(), deleteResources);
+                if (originalState == DISABLED) {
+                    preferences.getDisabledPlugins().remove(getCanonicalName(plugin.getPluginClass()));
+                    savePreferences();
+                }
+            }).then(() -> {
+                updatePluginsList();
+                DefaultEventBus.getInstance().publish(new PendingRestartEvent());
+            }).start(threadPool);
         }
     };
 
