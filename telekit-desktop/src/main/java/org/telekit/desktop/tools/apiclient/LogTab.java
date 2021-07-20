@@ -132,6 +132,7 @@ public class LogTab extends Tab {
         // RIGHT
 
         details = Controls.create(TextArea::new, "monospace");
+        details.setEditable(false);
         VBox.setVgrow(details, Priority.ALWAYS);
 
         VBox rightBox = vbox(5, CENTER_LEFT, new Insets(0, 0, optsBox.getPrefHeight() + leftBox.getSpacing(), 2));
@@ -163,7 +164,7 @@ public class LogTab extends Tab {
         TableColumn<CompletedRequest, String> dataColumn = TableUtils.createColumn(t(APICLIENT_REQUEST_LINE), "userData");
         TableUtils.setColumnConstraints(dataColumn, 200, USE_COMPUTED_SIZE, true, CENTER_LEFT);
 
-        TableView<CompletedRequest> table = new TableView<>();
+        TableView<CompletedRequest> table = Controls.create(TableView::new, "log-table");
         table.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
         table.getColumns().setAll(List.of(indexColumn, statusColumn, dataColumn));
         table.setRowFactory(t -> new LogTableRow());
