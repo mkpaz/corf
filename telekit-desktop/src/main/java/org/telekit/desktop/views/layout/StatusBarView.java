@@ -22,7 +22,9 @@ import org.telekit.controls.util.Controls;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.controls.util.Containers.horizontalSpacer;
+import static org.telekit.desktop.i18n.DesktopMessages.SYSTEM_MSG_EXECUTING_TASKS;
 import static org.telekit.desktop.views.layout.StatusBarViewModel.VAULT_UNLOCKED;
 import static org.telekit.desktop.views.layout.StatusBarViewModel.VAULT_UNLOCK_FAILED;
 
@@ -59,9 +61,8 @@ public class StatusBarView extends HBox implements Initializable, View<StatusBar
         progressBox.setAlignment(Pos.CENTER_LEFT);
         progressBox.setVisible(false); // no active tasks by default
 
-        // TODO: i18n for progress label
         ProgressIndicator progressIndicator = Controls.create(ProgressIndicator::new);
-        Label progressStatus = new Label("task(s) in progress");
+        Label progressStatus = new Label(t(SYSTEM_MSG_EXECUTING_TASKS));
 
         progressBox.getChildren().addAll(progressIndicator, progressStatus);
 

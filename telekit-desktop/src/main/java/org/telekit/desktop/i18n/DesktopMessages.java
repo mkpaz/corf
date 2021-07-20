@@ -11,6 +11,7 @@ public interface DesktopMessages extends BaseMessages, ControlsMessages {
     String SYSTEM_OPEN_DATA_DIR = "system.OpenDataDirectory";
     String SYSTEM_OPEN_PLUGINS_DIR = "system.OpenPluginsDirectory";
     String SYSTEM_RESTART_REQUIRED = "system.RestartRequired";
+    String SYSTEM_MSG_EXECUTING_TASKS = "system.msg-executing-tasks";
 
     String PREFERENCES_CHECK_CONNECTION = "preferences.CheckConnection";
     String PREFERENCES_CHECK_PROXY_SETTINGS = "preferences.CheckProxySettings";
