@@ -7,8 +7,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import org.telekit.base.desktop.mvvm.ViewModel;
-import org.telekit.base.telecom.ip.IPv4AddressWrapper;
-import org.telekit.base.telecom.ip.IPv4NetworkWrapper;
+import org.telekit.base.telecom.IPv4AddressWrapper;
+import org.telekit.base.telecom.IPv4NetworkWrapper;
 
 import javax.inject.Singleton;
 import java.text.NumberFormat;

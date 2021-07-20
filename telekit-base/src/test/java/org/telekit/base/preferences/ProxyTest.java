@@ -1,4 +1,4 @@
-package org.telekit.base.domain;
+package org.telekit.base.preferences;
 
 import org.junit.jupiter.api.Test;
 import org.telekit.base.preferences.Proxy;

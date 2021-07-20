@@ -16,14 +16,14 @@ import org.telekit.base.di.Initializable;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
-import org.telekit.desktop.IconCache;
+import org.telekit.desktop.service.IconRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URI;
 
 import static org.telekit.base.i18n.I18n.t;
-import static org.telekit.desktop.IconCache.ICON_APP;
+import static org.telekit.desktop.service.IconRepository.FAVICON;
 import static org.telekit.desktop.i18n.DesktopMessages.SYSTEM_PROJECT_PAGE;
 
 @Singleton
@@ -43,7 +43,7 @@ public class WelcomeView extends VBox implements Initializable, View<WelcomeView
     }
 
     private void createView() {
-        ImageView icon = Controls.create(() -> new ImageView(IconCache.get(ICON_APP)), "icon");
+        ImageView icon = Controls.create(() -> new ImageView(IconRepository.get(FAVICON)), "icon");
         Text title = Controls.create(() -> new Text(Env.APP_NAME), "title");
         Text version = Controls.create(() -> new Text("v." + Env.getAppVersion()), "version");
 

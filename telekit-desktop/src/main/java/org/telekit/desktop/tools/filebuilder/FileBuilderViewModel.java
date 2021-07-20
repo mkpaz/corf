@@ -4,7 +4,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Toggle;
-import org.telekit.base.CompletionRegistry;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.mvvm.*;
 import org.telekit.base.di.Initializable;
@@ -12,10 +11,11 @@ import org.telekit.base.domain.KeyValue;
 import org.telekit.base.domain.event.TaskProgressEvent;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.service.CompletionProvider;
+import org.telekit.base.service.CompletionRegistry;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
 import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.util.BindUtils;
-import org.telekit.controls.util.HastyObjectProperty;
+import org.telekit.controls.util.UnconditionalObjectProperty;
 import org.telekit.controls.util.Promise;
 import org.telekit.controls.util.TransformationListHandle;
 import org.telekit.desktop.tools.common.Param;
@@ -144,7 +144,7 @@ public final class FileBuilderViewModel implements Initializable, ViewModel {
     private final ReadOnlyBooleanWrapper ongoing = new ReadOnlyBooleanWrapper(this, "ongoing", false);
     public ReadOnlyBooleanProperty ongoingProperty() { return ongoing.getReadOnlyProperty(); }
 
-    private final ObjectProperty<Template> selectedTemplate = new HastyObjectProperty<>(this, "selectedTemplate");
+    private final ObjectProperty<Template> selectedTemplate = new UnconditionalObjectProperty<>(this, "selectedTemplate");
     public ObjectProperty<Template> selectedTemplateProperty() { return selectedTemplate; }
 
     private final StringProperty csvText = new SimpleStringProperty(this, "csvText");

@@ -1,4 +1,4 @@
-package org.telekit.base.telecom.ip;
+package org.telekit.base.telecom;
 
 import inet.ipaddr.AddressStringException;
 import inet.ipaddr.IPAddress;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static inet.ipaddr.IPAddress.IPVersion.IPV4;
-import static org.telekit.base.telecom.ip.IPv4AddressWrapper.PARSE_PARAMS;
+import static org.telekit.base.telecom.IPv4AddressWrapper.PARSE_PARAMS;
 
 /** Represents IPv4 network: zero host plus prefix length */
 public final class IPv4NetworkWrapper {

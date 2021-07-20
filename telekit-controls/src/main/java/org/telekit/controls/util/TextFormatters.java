@@ -1,7 +1,7 @@
 package org.telekit.controls.util;
 
 import javafx.scene.control.TextFormatter;
-import org.telekit.base.telecom.ip.IPv4AddressWrapper;
+import org.telekit.base.telecom.IPv4AddressWrapper;
 
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;

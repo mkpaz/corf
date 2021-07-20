@@ -1,9 +1,9 @@
-package org.telekit.desktop.startup.config;
+package org.telekit.desktop.service;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.telekit.base.CompletionRegistry;
 import org.telekit.base.event.DefaultEventBus;
+import org.telekit.base.service.CompletionRegistry;
 import org.telekit.base.service.impl.KeyValueCompletionProvider;
 import org.telekit.desktop.event.CompletionRegistryUpdateEvent;
 
@@ -18,7 +18,7 @@ import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 import static org.telekit.base.Env.AUTOCOMPLETE_DIR;
 import static org.telekit.base.service.CompletionProvider.isValidKey;
 import static org.telekit.base.util.CommonUtils.hush;
-import static org.telekit.base.util.FileSystemUtils.*;
+import static org.telekit.base.util.FileSystemUtils.fileExists;
 
 public class FileCompletionMonitoringService {
 
