@@ -1,17 +1,16 @@
-![](screenshots/welcome.png)
+# Telekit
+
 ![](https://img.shields.io/github/license/mkpaz/telekit)
 ![](https://img.shields.io/github/v/release/mkpaz/telekit)
 ![](https://img.shields.io/github/last-commit/mkpaz/telekit/dev)
 
-<p align="center">
+<p>
   <a href="https://github.com/mkpaz/telekit#features">Features</a> &#65372;
   <a href="https://github.com/mkpaz/telekit/releases">Download</a> &#65372;
-  <a href="https://github.com/mkpaz/telekit/tree/master/.screenshots">Screenshots</a> &#65372;
+  <a href="https://github.com/mkpaz/telekit/tree/master/screenshots">Screenshots</a> &#65372;
   <a href="https://github.com/mkpaz/telekit#setup">Setup</a> &#65372;
   <a href="https://github.com/mkpaz/telekit/tree/master/BUILD.md">Build</a>
 </p>
-
-# Telekit
 
 A set of tools for telecom engineers.
 
