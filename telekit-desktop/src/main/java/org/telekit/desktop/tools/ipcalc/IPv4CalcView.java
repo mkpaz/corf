@@ -9,10 +9,14 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
+import org.kordamp.ikonli.material2.Material2OutlinedMZ;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.Overlay;
 import org.telekit.base.desktop.mvvm.View;
@@ -89,7 +93,9 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
     private void createView() {
         // LEFT
 
-        ipConverterBtn = Controls.iconButton(Material2OutlinedAL.CALCULATE);
+        Label ipLabel = new Label(t(IP_ADDRESS));
+
+        ipConverterBtn = Controls.iconButton(Material2OutlinedMZ.TRANSFORM);
         ipConverterBtn.setMaxHeight(Double.MAX_VALUE);
         ipConverterBtn.setTooltip(new Tooltip(t(IPCALC_IP_ADDRESS_CONVERTER)));
         ipConverterBtn.setOnAction(e -> showIPConverter());
@@ -97,21 +103,15 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         ipText = Controls.create(TextField::new, "monospace");
         ipText.setPrefWidth(200);
         ipText.setTextFormatter(TextFormatters.ipv4Decimal());
-
-        HBox ipBox = hbox(0, CENTER_LEFT, Insets.EMPTY);
-        ipBox.getChildren().setAll(ipConverterBtn, ipText);
+        HBox.setHgrow(ipText, Priority.ALWAYS);
 
         netmaskChoice = new ComboBox<>(observableArrayList(NETMASKS));
         netmaskChoice.setPrefWidth(200);
         netmaskChoice.setButtonCell(new NetmaskCell());
         netmaskChoice.setCellFactory(property -> new NetmaskCell());
 
-        GridPane ipGrid = gridPane(10, 5, Insets.EMPTY);
-        ipGrid.add(new Label(t(IP_ADDRESS)), 0, 0);
-        ipGrid.add(ipBox, 0, 1);
-
-        ipGrid.add(new Label(), 1, 0);
-        ipGrid.add(netmaskChoice, 1, 1);
+        HBox ipBox = hbox(0, CENTER_LEFT, Insets.EMPTY);
+        ipBox.getChildren().setAll(ipConverterBtn, ipText, netmaskChoice);
 
         Label detailsLabel = new Label(t(DETAILS));
         detailsLabel.setPadding(new Insets(5, 0, 0, 0));
@@ -120,7 +120,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         VBox.setVgrow(detailsTable, Priority.ALWAYS);
 
         VBox leftBox = vbox(5, CENTER_LEFT, new Insets(0, 5, 0, 0));
-        leftBox.getChildren().setAll(ipGrid, detailsLabel, detailsTable);
+        leftBox.getChildren().setAll(ipLabel, ipBox, detailsLabel, detailsTable);
 
         // RIGHT
 
