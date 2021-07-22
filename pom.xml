@@ -35,6 +35,7 @@
         <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
         <lib.commons-net.version>3.8.0</lib.commons-net.version>
         <lib.expectit.version>0.9.0</lib.expectit.version>
+        <lib.flyway.version>7.11.3</lib.flyway.version>
         <lib.hsqldb.version>2.6.0</lib.hsqldb.version>
         <lib.httpclient5.version>5.1</lib.httpclient5.version>
         <lib.ipaddress.version>5.3.3</lib.ipaddress.version>
@@ -195,6 +196,11 @@
                 <groupId>commons-dbutils</groupId>
                 <artifactId>commons-dbutils</artifactId>
                 <version>${lib.commons-dbutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${lib.flyway.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.hsqldb</groupId>

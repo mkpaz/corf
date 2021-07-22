@@ -40,6 +40,7 @@ module telekit.base {
     requires org.apache.httpcomponents.core5.httpcore5;
     requires org.apache.httpcomponents.core5.httpcore5.h2;
     requires org.apache.httpcomponents.client5.httpclient5;
+    requires org.flywaydb.core;
     requires org.jsoup;
     requires org.yaml.snakeyaml;
 
