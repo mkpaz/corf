@@ -50,7 +50,9 @@ public interface Component {
     static void propagateMouseEventsToParent(Control control) {
         control.addEventHandler(MouseEvent.ANY, e -> {
             e.consume();
-            control.getParent().fireEvent(e);
+            if (control.getParent() != null) {
+                control.getParent().fireEvent(e);
+            }
         });
     }
 }
