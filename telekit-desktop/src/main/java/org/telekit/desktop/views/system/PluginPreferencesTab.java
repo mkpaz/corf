@@ -174,7 +174,7 @@ public class PluginPreferencesTab extends Tab {
         );
         descResourcesScroll.setContent(descResourcesBox);
 
-        // scroll pane have to be able calculate children height
+        // scroll pane have to be able to calculate children height
         descTextFlow.maxWidthProperty().bind(descResourcesScroll.widthProperty().subtract(20));
 
         // GRID

@@ -9,10 +9,12 @@ public interface ControlsMessages {
     String COMMENT="Comment";
     String CONFIRMATION="Confirmation";
     String COUNT="Count";
+    String DATE="Date";
     String DELIMITER="Delimiter";
     String DESCRIPTION="Description";
     String DETAILS="Details";
     String DOCUMENTATION="Documentation";
+    String DURATION="Duration";
     String ERROR="Error";
     String EXAMPLE="Example";
     String FILE="File";
@@ -51,6 +53,7 @@ public interface ControlsMessages {
     String STATUS="Status";
     String STEP="Step";
     String TEXT="Text";
+    String TIME="Time";
     String TYPE="Type";
     String USERNAME="Username";
     String VALUE="Value";
