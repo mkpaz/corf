@@ -21,7 +21,6 @@ module telekit.controls {
     requires wellbehavedfx;
 
     // exports
-    exports org.telekit.controls;
     exports org.telekit.controls.custom;
     exports org.telekit.controls.dialogs;
     exports org.telekit.controls.theme;
@@ -29,11 +28,10 @@ module telekit.controls {
     exports org.telekit.controls.widgets;
     exports org.telekit.controls.widgets.richtextfx;
 
-    exports org.telekit.controls.demo to
-            javafx.graphics, javafx.base, javafx.fxml, telekit.base;
     opens org.telekit.controls.demo to
             javafx.graphics, javafx.base, javafx.fxml, telekit.base;
 
     exports org.telekit.controls.i18n;
     opens org.telekit.controls.i18n;
+    exports org.telekit.controls.demo;
 }

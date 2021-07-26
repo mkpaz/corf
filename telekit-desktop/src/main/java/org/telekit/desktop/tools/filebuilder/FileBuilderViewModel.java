@@ -161,7 +161,7 @@ public final class FileBuilderViewModel implements Initializable, ViewModel {
     //@formatter:on
 
     ///////////////////////////////////////////////////////////////////////////
-    // Event Bus                                                             //
+    // Commands                                                              //
     ///////////////////////////////////////////////////////////////////////////
 
     public ConsumerCommand<Template> addTemplateCommand() { return addTemplateCommand; }

@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.i18n.BundleLoader;
-import org.telekit.controls.BaseLauncher;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -38,21 +38,6 @@
     -fx-background-color: -fx-background;
 }
 
-.overlay {
-    -fx-background-color: transparent;
-}
-.overlay > .scroll-pane,
-.overlay > .scroll-pane > .viewport {
-    -fx-background: transparent;
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-background-radius: 0;
-}
-.overlay > .scroll-pane > .viewport > * > .scrollable-content {
-    -fx-background-color: rgba(0, 0, 0, 0.5);
-}
-
 .router-pane {
     -fx-background-color: -fx-background;
     -fx-padding: 0;
