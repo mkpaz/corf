@@ -16,6 +16,7 @@ import org.telekit.base.domain.event.Notification;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.controls.util.Containers;
+import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.desktop.views.MainStage;
 
 import javax.inject.Inject;

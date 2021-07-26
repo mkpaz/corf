@@ -23,7 +23,7 @@ import org.telekit.desktop.service.DefaultSharedPreferences;
 import org.telekit.desktop.service.FileCompletionMonitoringService;
 import org.telekit.desktop.startup.config.*;
 import org.telekit.desktop.views.MainStage;
-import org.telekit.desktop.views.layout.OverlayBase;
+import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.desktop.views.system.WelcomeView;
 
 import javax.inject.Named;

@@ -24,6 +24,7 @@ import org.telekit.base.util.DesktopUtils;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.NodeUtils;
+import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.controls.widgets.OverlayDialog;
 import org.telekit.desktop.event.CloseRequestEvent;
 import org.telekit.desktop.i18n.DesktopMessages;

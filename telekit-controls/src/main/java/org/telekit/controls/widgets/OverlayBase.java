@@ -1,4 +1,4 @@
-package org.telekit.desktop.views.layout;
+package org.telekit.controls.widgets;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
