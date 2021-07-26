@@ -29,9 +29,6 @@ module telekit.desktop {
     opens org.telekit.desktop.i18n;
 
     // tools
-    exports org.telekit.desktop.tools;
-    opens org.telekit.desktop.tools;
-
     exports org.telekit.desktop.tools.common;
     opens org.telekit.desktop.tools.common;
 

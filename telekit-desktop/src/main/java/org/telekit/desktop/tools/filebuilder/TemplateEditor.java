@@ -14,7 +14,7 @@ import org.telekit.base.domain.LineSeparator;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.widgets.OverlayDialog;
-import org.telekit.desktop.tools.Action;
+import org.telekit.base.domain.Action;
 
 import java.util.HashSet;
 import java.util.Objects;

@@ -15,7 +15,7 @@ import org.telekit.base.net.HttpConstants.Method;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.widgets.OverlayDialog;
-import org.telekit.desktop.tools.Action;
+import org.telekit.base.domain.Action;
 import org.telekit.desktop.tools.apiclient.Template.BatchSeparator;
 
 import java.nio.charset.StandardCharsets;

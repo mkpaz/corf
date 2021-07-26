@@ -1,4 +1,4 @@
-package org.telekit.desktop.tools;
+package org.telekit.base.domain;
 
 public enum Action {
 
