@@ -13,7 +13,7 @@ import java.security.Key;
 
 import static org.telekit.base.Env.DEFAULT_ENCRYPTION_ALG;
 import static org.telekit.base.preferences.internal.Vault.MASTER_KEY_ALIAS;
-import static org.telekit.base.service.Encryptor.generateKey;
+import static org.telekit.base.service.crypto.Encryptor.generateKey;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_UPPER_DIGITS;
 
 public final class SecurityConfig implements Config {

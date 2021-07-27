@@ -1,4 +1,4 @@
-package org.telekit.base.service.impl;
+package org.telekit.base.service;
 
 // TODO: Write tests for SequenceGenerator
 public class SequenceGeneratorTest {}

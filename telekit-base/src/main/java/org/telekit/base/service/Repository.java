@@ -7,7 +7,7 @@ public interface Repository<T> {
 
     Collection<T> getAll();
 
-    int size();
+    int count();
 
     Optional<T> find(T entity);
 

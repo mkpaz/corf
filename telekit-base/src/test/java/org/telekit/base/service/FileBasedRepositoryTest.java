@@ -4,8 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.telekit.base.BaseSetup;
+import org.telekit.base.OrdinaryTest;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.service.FileBasedRepository.Transaction;
 import org.telekit.base.util.UUIDHelper;
@@ -18,9 +17,8 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.telekit.base.TestUtils.loadResourceBundle;
 
-@ExtendWith(BaseSetup.class)
+@OrdinaryTest
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class FileBasedRepositoryTest {
@@ -28,7 +26,6 @@ public class FileBasedRepositoryTest {
     public final FooFileBasedRepository fooRepository;
 
     public FileBasedRepositoryTest() {
-        loadResourceBundle();
         this.fooRepository = new FooFileBasedRepository();
     }
 
@@ -40,7 +37,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3));
         fooRepository.add(List.of(entity1, entity2, entity3));
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity2, entity3));
-        assertThat(fooRepository.size()).isEqualTo(3);
+        assertThat(fooRepository.count()).isEqualTo(3);
     }
 
     @Test
@@ -102,7 +99,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity = new FooEntity();
         fooRepository.add(entity);
         assertThat(fooRepository.getAll()).contains(entity);
-        assertThat(fooRepository.size()).isEqualTo(1);
+        assertThat(fooRepository.count()).isEqualTo(1);
     }
 
     @Test
@@ -122,7 +119,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(1));
         fooRepository.add(entity1);
         assertThatThrownBy(() -> fooRepository.add(entity2)).isInstanceOf(TelekitException.class);
-        assertThat(fooRepository.size()).isEqualTo(1);
+        assertThat(fooRepository.count()).isEqualTo(1);
     }
 
     @Test
@@ -133,7 +130,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3));
         fooRepository.add(List.of(entity1, entity2, entity3));
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity2, entity3));
-        assertThat(fooRepository.size()).isEqualTo(3);
+        assertThat(fooRepository.count()).isEqualTo(3);
     }
 
     @Test
@@ -145,7 +142,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity4 = new FooEntity(UUIDHelper.fromInt(1));
         fooRepository.add(List.of(entity1, entity2, entity3, entity4));
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity3));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
     }
 
     @Test
@@ -165,7 +162,7 @@ public class FileBasedRepositoryTest {
         fooRepository.update(entity2Upd);
 
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1Upd, entity2Upd, entity3));
-        assertThat(fooRepository.size()).isEqualTo(3);
+        assertThat(fooRepository.count()).isEqualTo(3);
         assertThat(fooRepository.findById(UUIDHelper.fromInt(1))).get()
                 .hasFieldOrPropertyWithValue("name", "upd_1");
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2))).get()
@@ -194,7 +191,7 @@ public class FileBasedRepositoryTest {
         fooRepository.update(new FooEntity(UUIDHelper.fromInt(3), "ent_3"));
 
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity2));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
         assertThat(fooRepository.findById(UUIDHelper.fromInt(1))).get()
                 .hasFieldOrPropertyWithValue("name", "ent_1");
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2))).get()
@@ -213,7 +210,7 @@ public class FileBasedRepositoryTest {
         fooRepository.removeById(UUIDHelper.fromInt(2));
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2))).isNotPresent();
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity3));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
     }
 
     @Test
@@ -226,7 +223,7 @@ public class FileBasedRepositoryTest {
         fooRepository.removeById(UUIDHelper.fromInt(3));
         assertThat(fooRepository.findById(UUIDHelper.fromInt(3))).isNotPresent();
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity2));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
     }
 
     @Test
@@ -241,7 +238,7 @@ public class FileBasedRepositoryTest {
         fooRepository.removeById(UUIDHelper.fromArray(1, 4, 10, 11));
 
         assertThat(fooRepository.getAll()).containsAll(List.of(entity2, entity3));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
         assertThat(fooRepository.findById(UUIDHelper.fromInt(1))).isNotPresent();
         assertThat(fooRepository.findById(UUIDHelper.fromInt(4))).isNotPresent();
     }
@@ -257,7 +254,7 @@ public class FileBasedRepositoryTest {
         fooRepository.remove(entity2);
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2))).isNotPresent();
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity3));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
     }
 
     @Test
@@ -271,7 +268,7 @@ public class FileBasedRepositoryTest {
 
         assertThat(fooRepository.findById(UUIDHelper.fromInt(3))).isNotPresent();
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
     }
 
     @Test
@@ -291,7 +288,7 @@ public class FileBasedRepositoryTest {
         ));
 
         assertThat(fooRepository.getAll()).containsAll(List.of(entity2, entity3));
-        assertThat(fooRepository.size()).isEqualTo(2);
+        assertThat(fooRepository.count()).isEqualTo(2);
         assertThat(fooRepository.findById(entity1.getId())).isNotPresent();
         assertThat(fooRepository.findById(entity1.getId())).isNotPresent();
     }
@@ -320,7 +317,7 @@ public class FileBasedRepositoryTest {
         fooRepository.load(new ByteArrayInputStream(new byte[32]), serializer);
 
         assertThat(fooRepository.getAll()).containsAll(Set.of(entity1, entity2, entity3));
-        assertThat(fooRepository.size()).isEqualTo(3);
+        assertThat(fooRepository.count()).isEqualTo(3);
     }
 
     @Test
@@ -354,7 +351,7 @@ public class FileBasedRepositoryTest {
         }
 
         assertThat(fooRepository.getAll()).containsAll(Set.of(entity1, entity2, entity3));
-        assertThat(fooRepository.size()).isEqualTo(3);
+        assertThat(fooRepository.count()).isEqualTo(3);
     }
 
     @Test
@@ -374,7 +371,7 @@ public class FileBasedRepositoryTest {
         }
 
         assertThat(fooRepository.getAll()).containsOnly(entity1);
-        assertThat(fooRepository.size()).isEqualTo(1);
+        assertThat(fooRepository.count()).isEqualTo(1);
     }
 
     @Test
@@ -397,7 +394,7 @@ public class FileBasedRepositoryTest {
         }
 
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2)).get().getName()).isEqualTo("ent_2");
-        assertThat(fooRepository.size()).isEqualTo(3);
+        assertThat(fooRepository.count()).isEqualTo(3);
     }
 
     @Test
@@ -420,7 +417,7 @@ public class FileBasedRepositoryTest {
         }
 
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2)).get().getName()).isEqualTo("ent_2");
-        assertThat(fooRepository.size()).isEqualTo(3);
+        assertThat(fooRepository.count()).isEqualTo(3);
     }
 
     public static class FooFileBasedRepository extends FileBasedRepository<FooEntity, UUID> {}

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.di.DependencyModule;
 import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.service.ArtifactRepository;
-import org.telekit.base.service.EncryptionService;
+import org.telekit.base.service.crypto.EncryptionService;
 
 import java.net.URL;
 import java.security.CodeSource;

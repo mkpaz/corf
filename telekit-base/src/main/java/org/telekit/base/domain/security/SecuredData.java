@@ -1,8 +1,8 @@
 package org.telekit.base.domain.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.telekit.base.service.EncryptionService;
-import org.telekit.base.service.impl.DefaultEncryptionService;
+import org.telekit.base.service.crypto.EncryptionService;
+import org.telekit.base.service.crypto.DefaultEncryptionService;
 
 import java.nio.charset.StandardCharsets;
 

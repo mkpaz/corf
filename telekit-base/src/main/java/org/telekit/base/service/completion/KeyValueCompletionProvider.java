@@ -1,7 +1,6 @@
-package org.telekit.base.service.impl;
+package org.telekit.base.service.completion;
 
 import org.telekit.base.domain.KeyValue;
-import org.telekit.base.service.CompletionProvider;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

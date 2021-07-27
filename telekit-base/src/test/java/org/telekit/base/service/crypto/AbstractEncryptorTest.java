@@ -1,11 +1,10 @@
-package org.telekit.base.service.impl;
+package org.telekit.base.service.crypto;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.telekit.base.BaseSetup;
-import org.telekit.base.service.Encryptor;
+import org.telekit.base.OrdinaryTest;
 import org.telekit.base.util.PasswordGenerator;
 
 import java.security.Key;
@@ -13,9 +12,9 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.telekit.base.service.Encryptor.*;
+import static org.telekit.base.service.crypto.Encryptor.*;
 
-@ExtendWith(BaseSetup.class)
+@OrdinaryTest
 public abstract class AbstractEncryptorTest {
 
     private static final int TEST_COLLECTION_SIZE = 20;

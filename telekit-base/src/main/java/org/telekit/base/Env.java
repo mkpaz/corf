@@ -15,7 +15,7 @@ import java.util.Locale;
 
 import static org.apache.commons.lang3.ClassUtils.getCanonicalName;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.telekit.base.service.Encryptor.Algorithm;
+import static org.telekit.base.service.crypto.Encryptor.Algorithm;
 import static org.telekit.base.util.CommonUtils.map;
 
 public final class Env {

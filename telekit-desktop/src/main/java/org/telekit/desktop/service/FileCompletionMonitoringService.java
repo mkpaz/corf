@@ -3,8 +3,8 @@ package org.telekit.desktop.service;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.event.DefaultEventBus;
-import org.telekit.base.service.CompletionRegistry;
-import org.telekit.base.service.impl.KeyValueCompletionProvider;
+import org.telekit.base.service.completion.CompletionRegistry;
+import org.telekit.base.service.completion.KeyValueCompletionProvider;
 import org.telekit.desktop.event.CompletionRegistryUpdateEvent;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
 import static org.telekit.base.Env.AUTOCOMPLETE_DIR;
-import static org.telekit.base.service.CompletionProvider.isValidKey;
+import static org.telekit.base.service.completion.CompletionProvider.isValidKey;
 import static org.telekit.base.util.CommonUtils.hush;
 import static org.telekit.base.util.FileSystemUtils.fileExists;
 

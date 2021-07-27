@@ -1,8 +1,8 @@
-package org.telekit.base.service.impl;
+package org.telekit.base.service.crypto;
 
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
-import org.telekit.base.service.Encryptor;
+import org.telekit.base.service.crypto.Encryptor;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

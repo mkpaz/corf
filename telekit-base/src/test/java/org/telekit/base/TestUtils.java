@@ -1,8 +1,5 @@
 package org.telekit.base;
 
-import org.telekit.base.i18n.BaseMessages;
-import org.telekit.base.i18n.I18n;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
@@ -10,11 +7,6 @@ import java.util.Random;
 public class TestUtils {
 
     private static final Random RANDOM = new Random();
-
-    public static void loadResourceBundle() {
-        I18n.getInstance().register(BaseMessages.getLoader());
-        I18n.getInstance().reload();
-    }
 
     public static Path getTempDir() {
         return Paths.get(System.getProperty("java.io.tmpdir"));

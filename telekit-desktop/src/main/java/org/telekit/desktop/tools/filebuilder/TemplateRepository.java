@@ -6,7 +6,7 @@ import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
 import org.telekit.base.service.FileBasedRepository;
 import org.telekit.base.service.Serializer;
-import org.telekit.base.service.impl.JacksonYamlSerializer;
+import org.telekit.base.service.JacksonYamlSerializer;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class TemplateRepository extends FileBasedRepository<Template, UUID> {
         if (!Files.exists(DATA_FILE_PATH)) { return; }
 
         try (InputStream inputStream = Files.newInputStream(DATA_FILE_PATH)) {
-            if (size() > 0) { clear(); }
+            if (count() > 0) { clear(); }
             load(inputStream, yamlSerializer);
         } catch (IOException e) {
             throw new TelekitException(I18n.t(MGG_UNABLE_TO_LOAD_DATA_FROM_FILE), e);

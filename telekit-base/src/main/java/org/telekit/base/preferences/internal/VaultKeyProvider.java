@@ -1,7 +1,7 @@
 package org.telekit.base.preferences.internal;
 
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.service.KeyProvider;
+import org.telekit.base.service.crypto.KeyProvider;
 
 import java.security.Key;
 import java.util.Objects;

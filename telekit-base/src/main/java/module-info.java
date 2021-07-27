@@ -69,9 +69,12 @@ module telekit.base {
     exports org.telekit.base.preferences;
     exports org.telekit.base.preferences.internal to telekit.desktop, com.fasterxml.jackson.databind;
     exports org.telekit.base.service;
-    exports org.telekit.base.service.impl;
+    exports org.telekit.base.service.completion;
+    exports org.telekit.base.service.crypto;
+    exports org.telekit.base.service.jdbc;
     exports org.telekit.base.telecom;
     exports org.telekit.base.util;
+    exports org.telekit.base.util.jdbc;
 
     opens org.telekit.base.domain to com.fasterxml.jackson.databind;
     opens org.telekit.base.domain.security to com.fasterxml.jackson.databind;

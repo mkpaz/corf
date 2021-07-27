@@ -11,10 +11,10 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PrefixTrieTest {
+public class PrefixTrieTest {
 
     @Test
-    void testPhonePrefixValidation() {
+    public void testPhonePrefixValidation() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
 
         assertThatThrownBy(() -> PrefixTrie.requirePhonePrefixFormat(null)).isInstanceOf(NullPointerException.class);
@@ -25,7 +25,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testFindClosest() {
+    public void testFindClosest() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("12", null);
         trie.add("123", null);
@@ -44,7 +44,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testFindExact() {
+    public void testFindExact() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("12", null);
         trie.add("123", null);
@@ -58,7 +58,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testAdd() {
+    public void testAdd() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("", null);
         trie.add("0123456789", 0);
@@ -76,7 +76,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testUpdate() {
+    public void testUpdate() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("123", 123);
         trie.add("1234", 1234);
@@ -88,7 +88,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testRemove() {
+    public void testRemove() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("0123456789", null);
         trie.add("123", null);
@@ -112,7 +112,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testContains() {
+    public void testContains() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("0123456789", null);
         trie.add("123", null);
@@ -132,7 +132,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testIterator() {
+    public void testIterator() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("0123456789", null);
         trie.add("123", null);
@@ -147,7 +147,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testExpand() {
+    public void testExpand() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         List<String> expectedResult = new ArrayList<>();
         trie.add("123", null);
@@ -199,14 +199,14 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testExpandWithInvalidArgs() {
+    public void testExpandWithInvalidArgs() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("123", null);
         assertThatThrownBy(() -> trie.expand("123", PrefixTrie.MAX_EXPANSION_DEPTH + 1)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void testCollapse() {
+    public void testCollapse() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("1", 1);
         trie.add("123", 123);
@@ -222,7 +222,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testCollapseRequiringValuesEquality() {
+    public void testCollapseRequiringValuesEquality() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("1", 1);
         trie.add("123", 123);
@@ -253,7 +253,7 @@ class PrefixTrieTest {
     }
 
     @Test
-    void testExclude() {
+    public void testExclude() {
         PrefixTrie<Integer> trie = new PrefixTrie<>();
         trie.add("12", null);
 

@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class DefaultEventBusTest {
+public class DefaultEventBusTest {
 
     private static final EventSource EVENT_SOURCE = new EventSource(DefaultEventBusTest.class.getCanonicalName());
     private final EventBus eventBus = new DefaultEventBus();

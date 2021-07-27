@@ -2,13 +2,13 @@ package org.telekit.base.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.telekit.base.BaseSetup;
+import org.telekit.base.OrdinaryTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(BaseSetup.class)
+@OrdinaryTest
 public class StringUtilsTest {
 
     @Test

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.telekit.base.BaseSetup;
+import org.telekit.base.OrdinaryTest;
 import org.telekit.base.di.DependencyModule;
 import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.plugin.Includes;
@@ -13,7 +13,7 @@ import org.telekit.base.plugin.Metadata;
 import org.telekit.base.plugin.Plugin;
 import org.telekit.base.plugin.Tool;
 import org.telekit.base.service.ArtifactRepository;
-import org.telekit.base.service.EncryptionService;
+import org.telekit.base.service.crypto.EncryptionService;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(BaseSetup.class)
+@OrdinaryTest
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class PluginBoxTest {
 

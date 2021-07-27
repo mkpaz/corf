@@ -5,6 +5,7 @@ package org.telekit.base.i18n;
 public interface BaseMessages {
 
     // COMMON MESSAGES
+    String MGG_DATABASE_ERROR = "msg.database-error";
     String MSG_GENERIC_ERROR = "msg.generic-error";
     String MSG_GENERIC_IO_ERROR = "msg.generic-io-error";
     String MSG_INVALID_PARAM = "msg.invalid-param";

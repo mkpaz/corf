@@ -1,19 +1,18 @@
 package org.telekit.base.domain.security;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.telekit.base.BaseSetup;
+import org.telekit.base.OrdinaryTest;
 import org.telekit.base.util.Mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(BaseSetup.class)
+@OrdinaryTest
 public class SecuredDataTest {
 
     @Test
-    void testSerialization() throws Exception {
+    public void testSerialization() throws Exception {
         String password = "qwerty";
 
         SecuredData orig = new SecuredData();

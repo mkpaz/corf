@@ -24,7 +24,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     }
 
     @Override
-    public int size() {
+    public int count() {
         return repository.size();
     }
 

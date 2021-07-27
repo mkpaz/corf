@@ -1,10 +1,8 @@
-package org.telekit.base.service;
+package org.telekit.base.service.crypto;
 
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
-import org.telekit.base.service.impl.AesGcmEncryptor;
-import org.telekit.base.service.impl.ChaCha20Encryptor;
 import org.telekit.base.util.CryptoUtils;
 
 import java.security.Key;

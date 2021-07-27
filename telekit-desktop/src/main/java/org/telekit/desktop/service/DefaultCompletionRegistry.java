@@ -1,11 +1,11 @@
 package org.telekit.desktop.service;
 
-import org.telekit.base.service.CompletionProvider;
-import org.telekit.base.service.CompletionRegistry;
+import org.telekit.base.service.completion.CompletionProvider;
+import org.telekit.base.service.completion.CompletionRegistry;
 
 import java.util.*;
 
-import static org.telekit.base.service.CompletionProvider.isValidKey;
+import static org.telekit.base.service.completion.CompletionProvider.isValidKey;
 
 /**
  * Global registry for completion providers.

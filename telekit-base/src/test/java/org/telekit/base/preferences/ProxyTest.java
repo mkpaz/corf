@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ProxyTest {
 
     @Test
-    void testShouldProxy() {
+    public void testShouldProxy() {
         assertTrue(Proxy.match("192.168.1.1", "192.168.1.1"));
         assertTrue(Proxy.match("192.168.*", "192.168.1.1"));
         assertTrue(Proxy.match("192.168.0.0/16", "192.168.1.1"));

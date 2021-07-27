@@ -1,4 +1,4 @@
-package org.telekit.base.service.impl;
+package org.telekit.base.service.crypto;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;

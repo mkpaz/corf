@@ -1,6 +1,4 @@
-package org.telekit.base.service.impl;
-
-import org.telekit.base.service.Encryptor;
+package org.telekit.base.service.crypto;
 
 public class ChaCha20EncryptorTest extends AbstractEncryptorTest {
 

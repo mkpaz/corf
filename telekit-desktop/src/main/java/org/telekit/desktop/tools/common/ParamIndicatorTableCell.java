@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
-import org.telekit.base.service.CompletionRegistry;
+import org.telekit.base.service.completion.CompletionRegistry;
 
 public class ParamIndicatorTableCell extends TableCell<Param, Image> {
 

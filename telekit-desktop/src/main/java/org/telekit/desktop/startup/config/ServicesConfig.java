@@ -1,6 +1,6 @@
 package org.telekit.desktop.startup.config;
 
-import org.telekit.base.service.CompletionRegistry;
+import org.telekit.base.service.completion.CompletionRegistry;
 import org.telekit.desktop.service.DefaultCompletionRegistry;
 import org.telekit.desktop.service.FileCompletionMonitoringService;
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.telekit.base.BaseSetup;
+import org.telekit.base.OrdinaryTest;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.domain.exception.VaultLockedException;
 
@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.telekit.base.TestUtils.getTempDir;
 import static org.telekit.base.preferences.internal.Vault.VaultType;
-import static org.telekit.base.service.Encryptor.Algorithm;
-import static org.telekit.base.service.Encryptor.generateKey;
+import static org.telekit.base.service.crypto.Encryptor.Algorithm;
+import static org.telekit.base.service.crypto.Encryptor.generateKey;
 import static org.telekit.base.util.FileSystemUtils.deleteFile;
 import static org.telekit.base.util.PasswordGenerator.ASCII_LOWER_DIGITS;
 import static org.telekit.base.util.PasswordGenerator.random;
 
-@ExtendWith(BaseSetup.class)
+@OrdinaryTest
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 public class PKCS12VaultTest {
 

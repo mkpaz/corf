@@ -1,7 +1,6 @@
-package org.telekit.base.service.impl;
+package org.telekit.base.service.crypto;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.telekit.base.service.KeyProvider;
 
 import java.security.Key;
 import java.util.Objects;

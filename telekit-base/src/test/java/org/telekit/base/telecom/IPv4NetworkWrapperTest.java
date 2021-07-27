@@ -2,8 +2,7 @@ package org.telekit.base.telecom;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.telekit.base.BaseSetup;
-import org.telekit.base.telecom.IPv4NetworkWrapper;
+import org.telekit.base.OrdinaryTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,8 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * which is heavily tested itself. So, we only make some simple tests and assert
  * corner cases.
  */
-@ExtendWith(BaseSetup.class)
-class IPv4NetworkWrapperTest {
+@OrdinaryTest
+public class IPv4NetworkWrapperTest {
 
     @Test
     public void testValidSubnets() {

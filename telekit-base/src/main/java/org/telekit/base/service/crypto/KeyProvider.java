@@ -1,4 +1,4 @@
-package org.telekit.base.service;
+package org.telekit.base.service.crypto;
 
 import org.jetbrains.annotations.Nullable;
 

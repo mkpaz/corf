@@ -70,6 +70,7 @@
         <plugin.javafx.version>0.0.6</plugin.javafx.version>
         <plugin.moditect.version>1.0.0.RC1</plugin.moditect.version>
         <plugin.resources.version>3.2.0</plugin.resources.version>
+        <plugin.surefire.version>3.0.0-M5</plugin.surefire.version>
         <plugin.versions.version>2.8.1</plugin.versions.version>
     </properties>
 
@@ -124,6 +125,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${plugin.resources.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${plugin.surefire.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>

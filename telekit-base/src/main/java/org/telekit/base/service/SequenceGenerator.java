@@ -1,4 +1,4 @@
-package org.telekit.base.service.impl;
+package org.telekit.base.service;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.jetbrains.annotations.NotNull;
 import org.telekit.base.domain.KeyValue;
-import org.telekit.base.service.CompletionRegistry;
+import org.telekit.base.service.completion.CompletionRegistry;
 import org.telekit.base.util.PasswordGenerator;
 
 import java.util.Comparator;
