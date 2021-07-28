@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.telekit.base.OrdinaryTest;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.service.FileBasedRepository.Transaction;
-import org.telekit.base.util.UUIDHelper;
+import org.telekit.test.util.UUIDHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

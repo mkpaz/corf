@@ -1,16 +1,10 @@
-package org.telekit.base;
+package org.telekit.test.util;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Random;
 
-public class TestUtils {
+public final class CommonTestUtils {
 
     private static final Random RANDOM = new Random();
-
-    public static Path getTempDir() {
-        return Paths.get(System.getProperty("java.io.tmpdir"));
-    }
 
     public static <T extends Enum<?>> T randomEnumValue(Class<T> clazz) {
         int x = RANDOM.nextInt(clazz.getEnumConstants().length);

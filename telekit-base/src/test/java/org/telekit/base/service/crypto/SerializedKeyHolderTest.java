@@ -1,6 +1,5 @@
 package org.telekit.base.service.crypto;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.telekit.base.OrdinaryTest;
@@ -9,9 +8,9 @@ import java.security.Key;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.telekit.base.TestUtils.randomEnumValue;
 import static org.telekit.base.service.crypto.Encryptor.Algorithm;
 import static org.telekit.base.service.crypto.Encryptor.generateKey;
+import static org.telekit.test.util.CommonTestUtils.randomEnumValue;
 
 @OrdinaryTest
 public class SerializedKeyHolderTest {

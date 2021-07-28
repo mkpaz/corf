@@ -1,4 +1,4 @@
-package org.telekit.base.util;
+package org.telekit.test.util;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -7,10 +7,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-/**
- * This class provides utility methods to generate determinate (not random) UUIDs.
- * It only supposed to be used for testing purposes.
- */
+/** Provides utility methods to generate determinate (not random) UUIDs */
 public final class UUIDHelper {
 
     private UUIDHelper() {}

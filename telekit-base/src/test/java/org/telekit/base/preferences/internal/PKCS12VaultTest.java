@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.telekit.base.Env;
 import org.telekit.base.OrdinaryTest;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.domain.exception.VaultLockedException;
@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.telekit.base.TestUtils.getTempDir;
 import static org.telekit.base.preferences.internal.Vault.VaultType;
 import static org.telekit.base.service.crypto.Encryptor.Algorithm;
 import static org.telekit.base.service.crypto.Encryptor.generateKey;
@@ -276,7 +275,7 @@ public class PKCS12VaultTest {
 
     private PKCS12Vault createVault() {
         String fileName = random(32, ASCII_LOWER_DIGITS) + VAULT_TYPE.getFileExtension();
-        Path vaultPath = getTempDir().resolve(fileName);
+        Path vaultPath = Env.findTempDir().resolve(fileName);
         return new PKCS12Vault(vaultPath);
     }
 
