@@ -421,10 +421,9 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
     }
 
     private void showIPConverter() {
-        converterDialog = getOrCreateConverterDialog();
-        converterDialog.setData(model.ipAddressProperty().get());
-
-        overlay.show(converterDialog);
+        IPv4ConverterDialog dialog = getOrCreateConverterDialog();
+        dialog.setData(model.ipAddressProperty().get());
+        overlay.show(dialog);
     }
 
     private IPv4ConverterDialog getOrCreateConverterDialog() {
