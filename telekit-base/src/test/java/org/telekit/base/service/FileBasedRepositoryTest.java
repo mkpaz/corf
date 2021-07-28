@@ -35,7 +35,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2));
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3));
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity2, entity3));
         assertThat(fooRepository.count()).isEqualTo(3);
     }
@@ -52,7 +52,7 @@ public class FileBasedRepositoryTest {
     public void findById_ExistingEntity_IsPresent() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2));
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
         assertThat(fooRepository.findById(UUIDHelper.fromInt(1))).isPresent();
     }
 
@@ -61,7 +61,7 @@ public class FileBasedRepositoryTest {
     public void findById_NonExistingEntity_IsPresent() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2));
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
         assertThat(fooRepository.findById(UUIDHelper.fromInt(10))).isNotPresent();
     }
 
@@ -70,7 +70,7 @@ public class FileBasedRepositoryTest {
     public void find_ExistingEntity_IsPresent() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2));
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
         assertThat(fooRepository.find(entity1)).isPresent();
     }
 
@@ -79,7 +79,7 @@ public class FileBasedRepositoryTest {
     public void find_NonExistingEntity_IsPresent() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2));
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
         assertThat(fooRepository.find(new FooEntity(UUIDHelper.fromInt(10)))).isNotPresent();
     }
 
@@ -88,7 +88,7 @@ public class FileBasedRepositoryTest {
     public void contains_ExistingEntity_IsPresent() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2));
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
         assertThat(fooRepository.containsId(UUIDHelper.fromInt(1))).isTrue();
         assertThat(fooRepository.containsId(UUIDHelper.fromInt(10))).isFalse();
     }
@@ -108,7 +108,7 @@ public class FileBasedRepositoryTest {
         assertThatThrownBy(() -> {
             FooEntity invalidEntity = new FooEntity();
             invalidEntity.setId(null);
-            fooRepository.add(List.of(invalidEntity));
+            fooRepository.addAll(List.of(invalidEntity));
         }).isInstanceOf(NullPointerException.class);
     }
 
@@ -128,7 +128,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2));
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3));
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity2, entity3));
         assertThat(fooRepository.count()).isEqualTo(3);
     }
@@ -140,7 +140,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(1));
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(2));
         FooEntity entity4 = new FooEntity(UUIDHelper.fromInt(1));
-        fooRepository.add(List.of(entity1, entity2, entity3, entity4));
+        fooRepository.addAll(List.of(entity1, entity2, entity3, entity4));
         assertThat(fooRepository.getAll()).containsAll(List.of(entity1, entity3));
         assertThat(fooRepository.count()).isEqualTo(2);
     }
@@ -151,7 +151,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
 
         FooEntity entity1Upd = entity1.deepCopy();
         entity1Upd.setName("upd_1");
@@ -186,7 +186,7 @@ public class FileBasedRepositoryTest {
     public void update_NotExistingEntity_NotUpdated() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
 
         fooRepository.update(new FooEntity(UUIDHelper.fromInt(3), "ent_3"));
 
@@ -205,7 +205,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
 
         fooRepository.removeById(UUIDHelper.fromInt(2));
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2))).isNotPresent();
@@ -218,7 +218,7 @@ public class FileBasedRepositoryTest {
     public void removeById_NonExistingEntity_NotRemoved() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
 
         fooRepository.removeById(UUIDHelper.fromInt(3));
         assertThat(fooRepository.findById(UUIDHelper.fromInt(3))).isNotPresent();
@@ -233,9 +233,9 @@ public class FileBasedRepositoryTest {
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
         FooEntity entity4 = new FooEntity(UUIDHelper.fromInt(4), "ent_4");
-        fooRepository.add(List.of(entity1, entity2, entity3, entity4));
+        fooRepository.addAll(List.of(entity1, entity2, entity3, entity4));
 
-        fooRepository.removeById(UUIDHelper.fromArray(1, 4, 10, 11));
+        fooRepository.removeAllById(UUIDHelper.fromArray(1, 4, 10, 11));
 
         assertThat(fooRepository.getAll()).containsAll(List.of(entity2, entity3));
         assertThat(fooRepository.count()).isEqualTo(2);
@@ -249,7 +249,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
 
         fooRepository.remove(entity2);
         assertThat(fooRepository.findById(UUIDHelper.fromInt(2))).isNotPresent();
@@ -262,7 +262,7 @@ public class FileBasedRepositoryTest {
     public void remove_NonExistingEntity_Removed() {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
-        fooRepository.add(List.of(entity1, entity2));
+        fooRepository.addAll(List.of(entity1, entity2));
 
         fooRepository.remove(new FooEntity(UUIDHelper.fromInt(3), "ent_3"));
 
@@ -278,9 +278,9 @@ public class FileBasedRepositoryTest {
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
         FooEntity entity4 = new FooEntity(UUIDHelper.fromInt(4), "ent_4");
-        fooRepository.add(List.of(entity1, entity2, entity3, entity4));
+        fooRepository.addAll(List.of(entity1, entity2, entity3, entity4));
 
-        fooRepository.remove(List.of(
+        fooRepository.removeAll(List.of(
                 entity1,
                 entity4,
                 new FooEntity(UUIDHelper.fromInt(10), "ent_10"),
@@ -299,7 +299,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
 
         fooRepository.clear();
         assertThat(fooRepository.getAll()).isEmpty();
@@ -326,7 +326,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
 
         FooDummySerializer serializer = new FooDummySerializer();
         fooRepository.save(new ByteArrayOutputStream(), serializer);
@@ -341,11 +341,11 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1));
+        fooRepository.addAll(List.of(entity1));
 
         Transaction transaction = fooRepository.beginTransaction(false);
         try {
-            fooRepository.add(List.of(entity2, entity3));
+            fooRepository.addAll(List.of(entity2, entity3));
         } catch (Throwable t) {
             transaction.rollback();
         }
@@ -360,11 +360,11 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1));
+        fooRepository.addAll(List.of(entity1));
 
         Transaction transaction = fooRepository.beginTransaction(false);
         try {
-            fooRepository.add(List.of(entity2, entity3));
+            fooRepository.addAll(List.of(entity2, entity3));
             throw new RuntimeException("Trigger rollback");
         } catch (Throwable t) {
             transaction.rollback();
@@ -380,7 +380,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
 
         FooEntity entity2Upd = entity2.deepCopy();
         entity2Upd.setName("ent_2_updated");
@@ -403,7 +403,7 @@ public class FileBasedRepositoryTest {
         FooEntity entity1 = new FooEntity(UUIDHelper.fromInt(1), "ent_1");
         FooEntity entity2 = new FooEntity(UUIDHelper.fromInt(2), "ent_2");
         FooEntity entity3 = new FooEntity(UUIDHelper.fromInt(3), "ent_3");
-        fooRepository.add(List.of(entity1, entity2, entity3));
+        fooRepository.addAll(List.of(entity1, entity2, entity3));
 
         FooEntity entity2Upd = entity2.deepCopy();
         entity2Upd.setName("ent_2_updated");

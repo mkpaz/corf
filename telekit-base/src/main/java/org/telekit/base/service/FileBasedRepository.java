@@ -24,7 +24,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     }
 
     @Override
-    public int count() {
+    public long count() {
         return repository.size();
     }
 
@@ -50,11 +50,11 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
 
     @Override
     public void add(T entity) {
-        add(List.of(entity));
+        addAll(List.of(entity));
     }
 
     @Override
-    public void add(Collection<T> entities) {
+    public void addAll(Collection<T> entities) {
         if (entities.isEmpty()) { return; }
 
         entities.forEach(entity -> {
@@ -79,7 +79,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     }
 
     @Override
-    public void removeById(Collection<ID> ids) {
+    public void removeAllById(Collection<ID> ids) {
         if (ids.isEmpty()) { return; }
         ids.forEach(Objects::requireNonNull);
         repository.keySet().removeAll(ids);
@@ -91,8 +91,8 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     }
 
     @Override
-    public void remove(Collection<T> entities) {
-        removeById(
+    public void removeAll(Collection<T> entities) {
+        removeAllById(
                 entities.stream()
                         .map(Entity::getId)
                         .collect(Collectors.toList())
@@ -105,7 +105,7 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
     }
 
     public void load(InputStream inputStream, Serializer<Collection<T>> serializer) {
-        add(serializer.deserialize(inputStream));
+        addAll(serializer.deserialize(inputStream));
     }
 
     public void save(OutputStream outputStream, Serializer<Collection<T>> serializer) {
