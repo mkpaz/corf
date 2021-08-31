@@ -42,6 +42,8 @@ public abstract class BaseLauncher extends Application {
         getBundleLoaders().forEach(loader -> I18n.getInstance().register(loader));
         I18n.getInstance().reload();
 
+        initServices();
+
         List<DependencyModule> modules = new ArrayList<>();
         modules.add(new DemoDependencyModule());
         modules.addAll(getDependencyModules());
@@ -59,7 +61,7 @@ public abstract class BaseLauncher extends Application {
         Scene scene = new Scene(root, 1024, 768);
         scene.getStylesheets().addAll(new DefaultTheme().getResources());
 
-        initLauncher(primaryStage, scene);
+        initStage(primaryStage, scene);
 
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(t -> Platform.exit());
@@ -75,7 +77,10 @@ public abstract class BaseLauncher extends Application {
     }
 
     /** Reserved for startup customizations. Override when necessary. */
-    protected void initLauncher(Stage stage, Scene scene) {}
+    protected void initServices() {}
+
+    /** Reserved for startup customizations. Override when necessary. */
+    protected void initStage(Stage stage, Scene scene) {}
 
     private static class DemoDependencyModule implements DependencyModule {
 

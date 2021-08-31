@@ -19,7 +19,7 @@ public class DemoLauncher extends BaseLauncher {
     protected Collection<BundleLoader> getBundleLoaders() { return Collections.emptyList(); }
 
     @Override
-    protected void initLauncher(Stage stage, Scene scene) {
+    protected void initStage(Stage stage, Scene scene) {
         stage.setTitle("Components Overview");
     }
 }
