@@ -50,7 +50,14 @@ public abstract class FileBasedRepository<T extends Entity<T, ID>, ID extends Se
 
     @Override
     public void add(T entity) {
+        Objects.requireNonNull(entity);
         addAll(List.of(entity));
+    }
+
+    @Override
+    public ID addAndReturnId(T entity) {
+        add(entity);
+        return entity.getId();
     }
 
     @Override

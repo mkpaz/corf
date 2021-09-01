@@ -8,6 +8,8 @@ import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 public interface EntityRepository<T, ID extends Serializable> extends Repository<T> {
 
+    ID addAndReturnId(T entity);
+
     Optional<T> findById(ID id);
 
     void removeById(ID id);
