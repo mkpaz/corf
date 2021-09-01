@@ -2,6 +2,7 @@ package org.telekit.base;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.LocaleUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Dimension;
@@ -78,6 +79,8 @@ public final class Env {
 
     public static final Path HOME_DIR = findHomeDir();
     public static final Path TEMP_DIR = findTempDir();
+    public static final String MODE = getMode();
+    public static final String DEV_MODE = "DEV";
 
     public static Path findAppDir() {
         // normally, env var or property is ALWAYS set, except for unit tests
@@ -133,6 +136,14 @@ public final class Env {
 
     public static Path getPluginLibDir(Class<? extends Plugin> pluginClass) {
         return getPluginDataDir(pluginClass).resolve(LIB_DIR_NAME);
+    }
+
+    private static String getMode() {
+        return Env.getPropertyOrEnv("telekit.mode", "TELEKIT_MODE");
+    }
+
+    public static boolean isDevMode() {
+        return StringUtils.equalsIgnoreCase(DEV_MODE, MODE);
     }
 
     public static @Nullable String getPropertyOrEnv(String propertyKey, String envKey) {
