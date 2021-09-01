@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.telekit.base.Env;
 import org.telekit.base.desktop.Component;
 import org.telekit.base.desktop.Overlay;
@@ -12,6 +13,8 @@ import org.telekit.base.desktop.ViewLoader;
 import org.telekit.base.di.DependencyModule;
 import org.telekit.base.di.Injector;
 import org.telekit.base.di.Provides;
+import org.telekit.base.domain.event.Notification;
+import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.i18n.BaseMessages;
 import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.i18n.I18n;
@@ -34,6 +37,14 @@ public abstract class BaseLauncher extends Application {
     @Override
     public void start(Stage primaryStage) {
         Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> throwable.printStackTrace());
+        DefaultEventBus.getInstance().subscribe(Notification.class, n -> {
+            System.out.println("Notification [" + n.getType() + "]");
+            System.out.println("------------------------------------");
+            System.out.println("message:" + n.getText());
+            if (n.getThrowable() != null) {
+                System.out.println(ExceptionUtils.getStackTrace(n.getThrowable()));
+            }
+        });
 
         Locale.setDefault(defaultIfNull(Env.LOCALE, Locale.getDefault()));
 
