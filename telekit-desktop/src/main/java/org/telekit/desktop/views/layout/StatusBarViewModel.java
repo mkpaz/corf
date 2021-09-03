@@ -1,5 +1,6 @@
 package org.telekit.desktop.views.layout;
 
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -123,10 +124,12 @@ public class StatusBarViewModel implements Initializable, ViewModel {
 
     @Listener
     private synchronized void toggleProgressIndicator(TaskProgressEvent event) {
-        if (event.isRunning()) {
-            activeTasks.add(event.getTaskId());
-        } else {
-            activeTasks.remove(event.getTaskId());
-        }
+        Platform.runLater(() -> {
+            if (event.isRunning()) {
+                activeTasks.add(event.getTaskId());
+            } else {
+                activeTasks.remove(event.getTaskId());
+            }
+        });
     }
 }
