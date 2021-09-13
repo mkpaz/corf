@@ -22,6 +22,7 @@ public interface ControlsMessages {
     String FORMAT = "Format";
     String HEADER = "Header";
     String HELP = "Help";
+    String HISTORY = "History";
     String INFO = "Info";
     String IP_ADDRESS = "IPAddress";
     String KEY = "Key";
@@ -39,6 +40,7 @@ public interface ControlsMessages {
     String PASSWORD = "Password";
     String PASSWORDS = "Passwords";
     String PATTERN = "Pattern";
+    String PHONE_NUMBER = "PhoneNumber";
     String PLUGINS = "Plugins";
     String PREFERENCES = "Preferences";
     String PREFIX = "Prefix";
@@ -67,6 +69,7 @@ public interface ControlsMessages {
     String ACTION_APPLY = "action.Apply";
     String ACTION_BROWSE = "action.Browse";
     String ACTION_CANCEL = "action.Cancel";
+    String ACTION_CHOOSE = "action.Choose";
     String ACTION_CLEAR = "action.Clear";
     String ACTION_CLOSE = "action.Close";
     String ACTION_COPY = "action.Copy";
@@ -81,6 +84,7 @@ public interface ControlsMessages {
     String ACTION_GENERATE = "action.Generate";
     String ACTION_IMPORT = "action.Import";
     String ACTION_INSTALL = "action.Install";
+    String ACTION_LOAD = "action.Load";
     String ACTION_MORE = "action.More";
     String ACTION_OK = "action.OK";
     String ACTION_PASTE = "action.Paste";
@@ -88,6 +92,7 @@ public interface ControlsMessages {
     String ACTION_PRINT = "action.Print";
     String ACTION_QUIT = "action.Quit";
     String ACTION_REDO = "action.Redo";
+    String ACTION_REFRESH = "action.Refresh";
     String ACTION_REMOVE = "action.Remove";
     String ACTION_RESTART = "action.Restart";
     String ACTION_RUN = "action.Run";
