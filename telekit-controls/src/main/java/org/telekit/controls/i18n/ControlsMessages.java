@@ -106,7 +106,11 @@ public interface ControlsMessages {
 
     // FILE DIALOG
 
+    String FILE_DIALOG_CSV = "file-dialog.csv";
+    String FILE_DIALOG_DAT = "file-dialog.dat";
+    String FILE_DIALOG_PDF = "file-dialog.pdf";
     String FILE_DIALOG_TEXT = "file-dialog.text";
+    String FILE_DIALOG_XLSX = "file-dialog.xlsx";
     String FILE_DIALOG_XML = "file-dialog.xml";
     String FILE_DIALOG_YAML = "file-dialog.yaml";
     String FILE_DIALOG_ZIP = "file-dialog.zip";
