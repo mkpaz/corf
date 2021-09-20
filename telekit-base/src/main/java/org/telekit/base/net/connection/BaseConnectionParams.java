@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.domain.security.Credentials;
 
+import java.net.URI;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -29,7 +30,7 @@ public class BaseConnectionParams implements ConnectionParams {
     public BaseConnectionParams(@JsonProperty("scheme") Scheme scheme,
                                 @JsonProperty("host") String host,
                                 @JsonProperty("port") int port,
-                                @JsonProperty("credentials") Credentials credentials) {
+                                @JsonProperty("credentials") @Nullable Credentials credentials) {
         this.scheme = Objects.requireNonNull(scheme);
 
         if (isBlank(host)) { throw new TelekitException(t(MSG_INVALID_PARAM, host)); }
@@ -61,5 +62,24 @@ public class BaseConnectionParams implements ConnectionParams {
                 ", port=" + port +
                 ", credential=" + credentials +
                 '}';
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    public static BaseConnectionParams fromUrl(URI uri) {
+        return fromUrl(uri, null);
+    }
+
+    public static BaseConnectionParams fromUrl(URI uri, @Nullable Credentials credentials) {
+        Objects.requireNonNull(uri);
+
+        Scheme scheme = Scheme.fromString(uri.getScheme());
+        if (scheme == null) {
+            throw new IllegalArgumentException("Unknown URI scheme: '" + scheme + "'");
+        }
+
+        int port = uri.getPort() > 0 ? uri.getPort() : scheme.getWellKnownPort();
+
+        return new BaseConnectionParams(scheme, uri.getHost(), port, credentials);
     }
 }
