@@ -142,6 +142,14 @@
             <artifactId>jsoup</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>fontbox</artifactId>
+        </dependency>
+        <dependency>
             <groupId>de.skuzzle</groupId>
             <artifactId>semantic-version</artifactId>
         </dependency>

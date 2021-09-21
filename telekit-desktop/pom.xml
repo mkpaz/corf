@@ -201,6 +201,46 @@
                                         </module>
                                         <module>
                                             <artifact>
+                                                <groupId>org.apache.commons</groupId>
+                                                <artifactId>commons-compress</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>org.apache.commons.compress</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>commons-logging</groupId>
+                                                <artifactId>commons-logging</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>org.apache.commons.logging</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.apache.pdfbox</groupId>
+                                                <artifactId>pdfbox</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>org.apache.pdfbox</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>org.apache.pdfbox</groupId>
+                                                <artifactId>fontbox</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>org.apache.fontbox</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
                                                 <groupId>com.j2html</groupId>
                                                 <artifactId>j2html</artifactId>
                                             </artifact>
@@ -291,16 +331,6 @@
                                             </artifact>
                                             <moduleInfo>
                                                 <name>org.slf4j.jul</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
-                                        </module>
-                                        <module>
-                                            <artifact>
-                                                <groupId>org.apache.commons</groupId>
-                                                <artifactId>commons-compress</artifactId>
-                                            </artifact>
-                                            <moduleInfo>
-                                                <name>org.apache.commons.compress</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
