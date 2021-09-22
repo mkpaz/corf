@@ -7,12 +7,16 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.telekit.base.Env;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.i18n.I18n;
+import org.telekit.base.preferences.SystemPreferences;
+import org.telekit.base.preferences.Theme;
 
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
+import java.util.prefs.Preferences;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.telekit.base.Env.CONFIG_DIR;
@@ -25,6 +29,7 @@ import static org.telekit.base.util.FileSystemUtils.*;
 public class ApplicationPreferences {
 
     public static final Path CONFIG_PATH = CONFIG_DIR.resolve("preferences.yaml");
+    private static final Preferences USER_ROOT = Preferences.userRoot().node(Env.APP_NAME);
 
     private Language language = Language.EN;
     private SecurityPreferences securityPreferences = new SecurityPreferences();
@@ -32,10 +37,12 @@ public class ApplicationPreferences {
     private Set<String> disabledPlugins = new HashSet<>();
 
     // API for java.util.prefs.Preferences, they aren't stored in the application config
-    private final SystemPreferences systemPreferences = new SystemPreferences();
+    private final SystemPreferences systemPreferences = new SystemPreferences(USER_ROOT);
 
     // indicates that preferences changes has been made
     private boolean dirty = false;
+
+    private Theme theme;
 
     public ApplicationPreferences() {}
 
@@ -95,6 +102,15 @@ public class ApplicationPreferences {
 
     public void resetDirty() {
         this.dirty = false;
+    }
+
+    @JsonIgnore
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = Objects.requireNonNull(theme);
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -3,9 +3,11 @@ package org.telekit.desktop.startup.config;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.telekit.base.i18n.BaseMessages;
 import org.telekit.base.i18n.I18n;
+import org.telekit.base.preferences.Theme;
 import org.telekit.base.preferences.internal.ApplicationPreferences;
 import org.telekit.base.util.Mappers;
 import org.telekit.controls.i18n.ControlsMessages;
+import org.telekit.controls.theme.DefaultTheme;
 import org.telekit.desktop.i18n.DesktopMessages;
 
 import java.io.IOException;
@@ -22,6 +24,7 @@ import static org.telekit.base.util.FileSystemUtils.createDir;
 public final class PreferencesConfig implements Config {
 
     private static final String APP_PROPS_FILE_NAME = "application.properties";
+    private static final Theme DEFAULT_THEME = new DefaultTheme();
 
     private final YAMLMapper yamlMapper;
     private ApplicationPreferences preferences;
@@ -36,6 +39,7 @@ public final class PreferencesConfig implements Config {
         createUserResources();
 
         preferences = loadApplicationPreferences();
+        preferences.setTheme(DEFAULT_THEME);
 
         loadI18nResources();
     }

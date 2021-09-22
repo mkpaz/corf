@@ -12,8 +12,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.telekit.base.desktop.Dimension;
+import org.telekit.base.preferences.Theme;
 import org.telekit.base.preferences.internal.ApplicationPreferences;
-import org.telekit.controls.theme.DefaultTheme;
 import org.telekit.desktop.service.IconRepository;
 import org.telekit.desktop.startup.config.Config;
 
@@ -45,9 +45,11 @@ public class MainStage {
     final Stage stage;
     final Scene scene;
 
-    private MainStage(Stage primaryStage, Scene scene) {
+    private MainStage(Stage primaryStage, Scene scene, Theme theme) {
         this.stage = Objects.requireNonNull(primaryStage);
         this.scene = scene;
+
+        Objects.requireNonNull(theme);
 
         stage.setScene(scene);
         stage.setOnCloseRequest(t -> Platform.exit());
@@ -60,7 +62,7 @@ public class MainStage {
         ));
         primaryStage.getIcons().add(IconRepository.get(FAVICON));
 
-        scene.getStylesheets().addAll(new DefaultTheme().getResources());
+        scene.getStylesheets().addAll(theme.getResources());
         scene.getStylesheets().addAll(
                 Config.getResource("assets/css/layout.css"),
                 Config.getResource("assets/css/system.css"),
@@ -168,12 +170,10 @@ public class MainStage {
     }
 
     private static MainStage create(Stage primaryStage, Scene scene, ApplicationPreferences preferences) {
-        MainStage mainStage = new MainStage(primaryStage, scene);
+        MainStage mainStage = new MainStage(primaryStage, scene, preferences.getTheme());
 
         mainStage.getStage().setOnCloseRequest(t -> {
-            if (preferences != null) {
-                preferences.getSystemPreferences().setMainWindowSize(Dimension.of(mainStage.getStage()));
-            }
+            preferences.getSystemPreferences().setMainWindowSize(Dimension.of(mainStage.getStage()));
             Platform.exit();
         });
 

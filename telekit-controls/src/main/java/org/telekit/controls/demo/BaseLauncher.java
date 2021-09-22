@@ -18,6 +18,7 @@ import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.i18n.BaseMessages;
 import org.telekit.base.i18n.BundleLoader;
 import org.telekit.base.i18n.I18n;
+import org.telekit.base.preferences.SharedPreferences;
 import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.controls.theme.DefaultTheme;
 import org.telekit.controls.widgets.OverlayBase;
@@ -56,7 +57,7 @@ public abstract class BaseLauncher extends Application {
         initServices();
 
         List<DependencyModule> modules = new ArrayList<>();
-        modules.add(new DemoDependencyModule());
+        modules.add(new BaseLauncherDependencyModule());
         modules.addAll(getDependencyModules());
         Injector.getInstance().configure(modules);
 
@@ -93,12 +94,20 @@ public abstract class BaseLauncher extends Application {
     /** Reserved for startup customizations. Override when necessary. */
     protected void initStage(Stage stage, Scene scene) {}
 
-    private static class DemoDependencyModule implements DependencyModule {
+    ///////////////////////////////////////////////////////////////////////////
+
+    private static class BaseLauncherDependencyModule implements DependencyModule {
 
         @Provides
         @Singleton
         public Overlay overlay() {
             return new OverlayBase();
+        }
+
+        @Provides
+        @Singleton
+        public SharedPreferences sharedPreferences() {
+            return new DemoSharedPreferences();
         }
     }
 }

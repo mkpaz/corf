@@ -1,8 +1,7 @@
-package org.telekit.base.preferences.internal;
+package org.telekit.base.preferences;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.Nullable;
-import org.telekit.base.Env;
 import org.telekit.base.desktop.Dimension;
 
 import java.util.Objects;
@@ -14,18 +13,23 @@ import static org.telekit.base.Env.WINDOW_MAXIMIZED;
 public class SystemPreferences {
 
     private static final Logger LOG = Logger.getLogger(SystemPreferences.class.getName());
-    private static final Preferences USER_ROOT = Preferences.userRoot().node(Env.APP_NAME);
     private static final String WINDOW_WIDTH = "windowWidth";
     private static final String WINDOW_HEIGHT = "windowHeight";
 
+    private final Preferences root;
+
+    public SystemPreferences(Preferences root) {
+        this.root = Objects.requireNonNull(root);
+    }
+
     public Preferences getUserRoot() {
-        return USER_ROOT;
+        return root;
     }
 
     public @Nullable Dimension getMainWindowSize() {
         try {
-            int width = USER_ROOT.getInt(WINDOW_WIDTH, (int) WINDOW_MAXIMIZED.width());
-            int height = USER_ROOT.getInt(WINDOW_HEIGHT, (int) WINDOW_MAXIMIZED.height());
+            int width = root.getInt(WINDOW_WIDTH, (int) WINDOW_MAXIMIZED.width());
+            int height = root.getInt(WINDOW_HEIGHT, (int) WINDOW_MAXIMIZED.height());
 
             return new Dimension(width, height);
         } catch (Exception e) {
@@ -46,9 +50,8 @@ public class SystemPreferences {
                 height = (int) WINDOW_MAXIMIZED.height();
             }
 
-            USER_ROOT.putInt(WINDOW_WIDTH, width);
-            USER_ROOT.putInt(WINDOW_HEIGHT, height);
-
+            root.putInt(WINDOW_WIDTH, width);
+            root.putInt(WINDOW_HEIGHT, height);
         } catch (Exception e) {
             LOG.warning(ExceptionUtils.getStackTrace(e));
         }

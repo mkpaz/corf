@@ -32,6 +32,12 @@ module telekit.controls {
             javafx.graphics, javafx.base, javafx.fxml, telekit.base;
 
     exports org.telekit.controls.i18n;
-    opens org.telekit.controls.i18n;
     exports org.telekit.controls.demo;
+
+    // resources
+    opens org.telekit.controls.i18n;
+    opens org.telekit.controls.assets.fonts;
+    opens org.telekit.controls.assets.fonts.FiraMono;
+    opens org.telekit.controls.assets.fonts.Roboto;
+    opens org.telekit.controls.assets.theme;
 }
