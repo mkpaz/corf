@@ -27,7 +27,7 @@ public interface ConnectionParams {
      */
     default URI toUri() {
         try {
-            return new URI(getScheme().toString(), null, getHost(), getPort(), null, null, null);
+            return new URI(getScheme().toString().toLowerCase(), null, getHost(), getPort(), null, null, null);
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException(e);
         }

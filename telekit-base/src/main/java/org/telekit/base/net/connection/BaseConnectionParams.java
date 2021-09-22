@@ -36,8 +36,8 @@ public class BaseConnectionParams implements ConnectionParams {
         if (isBlank(host)) { throw new TelekitException(t(MSG_INVALID_PARAM, host)); }
         this.host = host;
 
-        if (port < 0) { throw new TelekitException(t(MSG_INVALID_PARAM, port)); }
-        this.port = port;
+        if (port < -1) { throw new TelekitException(t(MSG_INVALID_PARAM, port)); }
+        this.port = port != 0 ? port : -1;
 
         this.credentials = credentials;
     }

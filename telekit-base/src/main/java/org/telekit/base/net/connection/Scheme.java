@@ -19,7 +19,7 @@ public enum Scheme {
 
     public int getWellKnownPort() {
         return switch (this) {
-            case FILE -> 0;
+            case FILE -> -1;
             case FTP -> 21;
             case FTPS -> 990;
             case HTTP -> 80;
