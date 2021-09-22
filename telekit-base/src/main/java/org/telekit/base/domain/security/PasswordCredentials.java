@@ -3,6 +3,7 @@ package org.telekit.base.domain.security;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.Nullable;
 
 public class PasswordCredentials extends Credentials {
 
@@ -12,9 +13,8 @@ public class PasswordCredentials extends Credentials {
     public PasswordCredentials(@JsonProperty("name") String name,
                                @JsonProperty("password") char[] password) {
         super(name);
-        this.password = password;
 
-        if (password.length == 0) { throw new IllegalArgumentException("Password can't be empty."); }
+        this.password = password != null ? password : new char[]{};
     }
 
     // always clone mutable passwords, because some tools for security reasons
@@ -22,7 +22,9 @@ public class PasswordCredentials extends Credentials {
     public char[] getPassword() { return password.clone(); }
 
     @JsonIgnore
-    public String getPasswordAsString() { return new String(password); }
+    public @Nullable String getPasswordAsString() {
+        return password.length > 0 ? new String(password) : null;
+    }
 
     @Override
     public String toString() {

@@ -8,6 +8,7 @@ import java.net.PasswordAuthentication;
 import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class UsernamePasswordCredentials extends PasswordCredentials {
 
@@ -24,12 +25,18 @@ public class UsernamePasswordCredentials extends PasswordCredentials {
     }
 
     @Override
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     @JsonIgnore
-    public PasswordAuthentication toPasswordAuthentication() { return new PasswordAuthentication(username, password); }
+    public PasswordAuthentication toPasswordAuthentication() {
+        return new PasswordAuthentication(username, password);
+    }
 
     @Override
     public String toString() {
@@ -41,7 +48,7 @@ public class UsernamePasswordCredentials extends PasswordCredentials {
     }
 
     public static UsernamePasswordCredentials of(String username, String password) {
-        return of(username, password.trim().toCharArray());
+        return of(username, isNotBlank(password) ? password.trim().toCharArray() : new char[]{});
     }
 
     public static UsernamePasswordCredentials of(String username, char[] password) {
