@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Provider;
 import java.security.Security;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,8 @@ public final class LogConfig implements Config {
 
     public static final String LOG_CONFIG_FILE_NAME = "logging.properties";
     public static final String LOG_OUTPUT_FILE_NAME = "telekit.log";
+
+    private Path logFilePath;
 
     public LogConfig() {
         initialize();
@@ -46,6 +49,7 @@ public final class LogConfig implements Config {
                 List<String> configData = Files.readAllLines(configPath, StandardCharsets.UTF_8);
                 configData.add("java.util.logging.FileHandler.pattern=" + outputPath);
                 logManager.readConfiguration(new ByteArrayInputStream(String.join("\n", configData).getBytes()));
+                logFilePath = Paths.get(outputPath);
             } else {
                 // use console logger
                 logManager.readConfiguration(Config.getResourceAsStream(LOG_CONFIG_FILE_NAME));
@@ -53,6 +57,10 @@ public final class LogConfig implements Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Path getLogFilePath() {
+        return logFilePath;
     }
 
     public Logger getLogger(Class<?> clazz) {

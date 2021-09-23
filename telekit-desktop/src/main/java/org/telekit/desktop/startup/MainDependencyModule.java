@@ -14,16 +14,16 @@ import org.telekit.base.preferences.internal.SecurityPreferences;
 import org.telekit.base.preferences.internal.Vault;
 import org.telekit.base.preferences.internal.VaultKeyProvider;
 import org.telekit.base.service.completion.CompletionRegistry;
+import org.telekit.base.service.crypto.DefaultEncryptionService;
 import org.telekit.base.service.crypto.EncryptionService;
 import org.telekit.base.service.crypto.Encryptor;
 import org.telekit.base.service.crypto.KeyProvider;
-import org.telekit.base.service.crypto.DefaultEncryptionService;
 import org.telekit.base.util.Mappers;
+import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.desktop.service.DefaultSharedPreferences;
 import org.telekit.desktop.service.FileCompletionMonitoringService;
 import org.telekit.desktop.startup.config.*;
 import org.telekit.desktop.views.MainStage;
-import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.desktop.views.system.WelcomeView;
 
 import javax.inject.Named;
@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.telekit.base.Env.MASTER_ENC_SERVICE_QUALIFIER;
 import static org.telekit.base.preferences.internal.Vault.MASTER_KEY_ALIAS;
 
 public final class MainDependencyModule implements DependencyModule {
@@ -42,17 +41,20 @@ public final class MainDependencyModule implements DependencyModule {
     private final SecurityConfig securityConfig;
     private final PluginConfig pluginConfig;
     private final ServicesConfig servicesConfig;
+    private final LogConfig logConfig;
 
     public MainDependencyModule(MainStage mainStage,
                                 PreferencesConfig preferencesConfig,
                                 SecurityConfig securityConfig,
                                 PluginConfig pluginConfig,
-                                ServicesConfig servicesConfig) {
+                                ServicesConfig servicesConfig,
+                                LogConfig logConfig) {
         this.mainStage = mainStage;
         this.preferencesConfig = Objects.requireNonNull(preferencesConfig);
         this.securityConfig = Objects.requireNonNull(securityConfig);
         this.pluginConfig = Objects.requireNonNull(pluginConfig);
         this.servicesConfig = Objects.requireNonNull(servicesConfig);
+        this.logConfig = Objects.requireNonNull(logConfig);
     }
 
     @Provides
@@ -130,5 +132,11 @@ public final class MainDependencyModule implements DependencyModule {
     @Singleton
     public SharedPreferences sharedPreferences() {
         return new DefaultSharedPreferences(preferencesConfig.getPreferences());
+    }
+
+    @Provides
+    @Singleton
+    public LogConfig logConfig() {
+        return logConfig;
     }
 }

@@ -103,7 +103,8 @@ public class Launcher extends Application {
                 preferencesConfig,
                 securityConfig,
                 pluginConfig,
-                servicesConfig
+                servicesConfig,
+                logConfig
         );
         modules.add(mainModule);
         modules.addAll(pluginConfig.getDependencyModules());

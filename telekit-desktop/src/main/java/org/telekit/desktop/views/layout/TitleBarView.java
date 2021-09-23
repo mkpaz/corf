@@ -21,6 +21,7 @@ import org.telekit.base.desktop.mvvm.View;
 import org.telekit.base.di.Initializable;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.util.DesktopUtils;
+import org.telekit.base.util.FileSystemUtils;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.NodeUtils;
@@ -28,6 +29,7 @@ import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.controls.widgets.OverlayDialog;
 import org.telekit.desktop.event.CloseRequestEvent;
 import org.telekit.desktop.i18n.DesktopMessages;
+import org.telekit.desktop.startup.config.LogConfig;
 import org.telekit.desktop.views.MainStage;
 import org.telekit.desktop.views.system.PreferencesView;
 
@@ -56,6 +58,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
     private final MainStage mainStage;
     private final OverlayBase overlay;
     private final NavDrawerView navDrawer;
+    private final LogConfig logConfig;
 
     private OverlayDialog preferencesDialog;
 
@@ -63,11 +66,13 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
     public TitleBarView(TitleBarViewModel model,
                         MainStage mainStage,
                         Overlay overlay,
-                        NavDrawerView navDrawer) {
+                        NavDrawerView navDrawer,
+                        LogConfig logConfig) {
         this.model = model;
         this.mainStage = mainStage;
         this.overlay = (OverlayBase) overlay;
         this.navDrawer = navDrawer;
+        this.logConfig = logConfig;
 
         createView();
     }
@@ -109,23 +114,29 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         preferencesItem.setAccelerator(new KeyCodeCombination(KeyCode.COMMA, KeyCombination.CONTROL_DOWN));
         preferencesItem.setOnAction(e -> showPreferences());
 
-        MenuItem restartItem = new MenuItem(t(DesktopMessages.ACTION_RESTART));
-        restartItem.setOnAction(e -> restartApplication());
-
         MenuItem openDataDirItem = new MenuItem(t(DesktopMessages.SYSTEM_OPEN_DATA_DIR));
         openDataDirItem.setOnAction(e -> openDataDir());
 
         MenuItem openPluginsDirItem = new MenuItem(t(DesktopMessages.SYSTEM_OPEN_PLUGINS_DIR));
         openPluginsDirItem.setOnAction(e -> openPluginsDir());
 
-        menuBtn.getItems().addAll(
+        menuBtn.getItems().setAll(
                 preferencesItem,
                 new SeparatorMenuItem(),
                 openDataDirItem,
-                openPluginsDirItem,
-                new SeparatorMenuItem(),
-                restartItem
+                openPluginsDirItem
         );
+
+        Path logFilePath = logConfig.getLogFilePath();
+        if (FileSystemUtils.fileExists(logFilePath)) {
+            MenuItem openLogFileItem = new MenuItem(t(DesktopMessages.SYSTEM_OPEN_LOG_FILE));
+            openLogFileItem.setOnAction(e -> DesktopUtils.openQuietly(logFilePath.toFile()));
+            menuBtn.getItems().add(openLogFileItem);
+        }
+
+        MenuItem restartItem = new MenuItem(t(DesktopMessages.ACTION_RESTART));
+        restartItem.setOnAction(e -> restartApplication());
+        menuBtn.getItems().addAll(new SeparatorMenuItem(), restartItem);
 
         rightBox.getChildren().addAll(menuBtn, createWindowControls());
 
