@@ -86,6 +86,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
 
         navDrawerBtn = Controls.create(ToggleButton::new, "titlebar-icon-button");
         navDrawerBtn.setGraphic(Controls.fontIcon(Material2MZ.MENU));
+        navDrawerBtn.setTooltip(new Tooltip("F2"));
 
         restartPendingBtn = Controls.iconButton(Material2MZ.REFRESH, "titlebar-icon-button", "restart-pending-icon");
         restartPendingBtn.setTooltip(new Tooltip(t(DesktopMessages.SYSTEM_RESTART_REQUIRED)));
@@ -181,7 +182,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         setOnMouseClicked(e -> { if (isDoubleClick(e)) { mainStage.maximize(); } });
 
         navDrawerBtn.selectedProperty().addListener((obs, old, value) -> {
-            if (value != null) { toggleNavDrawer(value); }
+            if (value != null) { doToggleNavDrawer(value); }
         });
 
         restartPendingBtn.visibleProperty().bind(model.restartPendingProperty());
@@ -195,8 +196,8 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         });
 
         mainStage.getScene().setOnKeyPressed(e -> {
-            if (new KeyCodeCombination(KeyCode.R, KeyCombination.CONTROL_ANY).match(e)) {
-                showNavDrawer();
+            if (new KeyCodeCombination(KeyCode.F2).match(e)) {
+                toggleNavDrawer();
             }
         });
     }
@@ -205,9 +206,11 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
 
     public void hideNavDrawer() { navDrawerBtn.setSelected(false); }
 
+    public void toggleNavDrawer() { navDrawerBtn.setSelected(!navDrawerBtn.isSelected()); }
+
     // Do not call this method directly to toggle nav drawer visibility as it won't
     // update model properties. Use corresponding show/hide methods instead.
-    private void toggleNavDrawer(boolean enabled) {
+    private void doToggleNavDrawer(boolean enabled) {
         boolean navDrawerVisible = overlay.contains(navDrawer);
         if (enabled & !navDrawerVisible) {
             overlay.show(navDrawer, HPos.LEFT);
