@@ -32,6 +32,7 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.telekit.base.Env.MASTER_ENC_SERVICE_QUALIFIER;
 import static org.telekit.base.preferences.internal.Vault.MASTER_KEY_ALIAS;
 
 public final class MainDependencyModule implements DependencyModule {
@@ -87,7 +88,7 @@ public final class MainDependencyModule implements DependencyModule {
 
     @Provides
     @Singleton
-    @Named("masterEncryptionService")
+    @Named(Env.MASTER_ENC_SERVICE_QUALIFIER)
     public EncryptionService masterEncryptionService() {
         SecurityPreferences securityPreferences = preferences().getSecurityPreferences();
         KeyProvider keyProvider = new VaultKeyProvider(vault(), securityPreferences, MASTER_KEY_ALIAS);

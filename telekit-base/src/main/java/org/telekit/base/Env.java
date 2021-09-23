@@ -32,7 +32,9 @@ public final class Env {
     public static final String DOCS_INDEX_FILE_NAME = "index";
     public static final String LIB_DIR_NAME = "lib";
     public static final String PLUGINS_DIR_NAME = "plugins";
+
     public static final Algorithm DEFAULT_ENCRYPTION_ALG = Algorithm.AES_GCM;
+    public static final String MASTER_ENC_SERVICE_QUALIFIER = "masterEncryptionService";
 
     /**
      * This is root application directory. In other words, this is where app was run from.
