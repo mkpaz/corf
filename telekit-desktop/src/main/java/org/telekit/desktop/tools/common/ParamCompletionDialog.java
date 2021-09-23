@@ -42,6 +42,9 @@ public class ParamCompletionDialog extends OverlayDialog {
         commitBtn = button(t(ACTION_OK), null, "form-action");
         commitBtn.setDefaultButton(true);
         commitBtn.setOnAction(e -> commit());
+        commitBtn.disableProperty().bind(
+                filterTable.getDataTable().getSelectionModel().selectedItemProperty().isNull()
+        );
 
         footerBox.getChildren().add(1, commitBtn);
 
@@ -60,6 +63,9 @@ public class ParamCompletionDialog extends OverlayDialog {
     }
 
     private void commit() {
-        if (onCommitCallback != null) { onCommitCallback.accept(filterTable.getSelectedItem()); }
+        KeyValue<String, String> kv = filterTable.getSelectedItem();
+        if (onCommitCallback != null && kv != null) {
+            onCommitCallback.accept(kv);
+        }
     }
 }
