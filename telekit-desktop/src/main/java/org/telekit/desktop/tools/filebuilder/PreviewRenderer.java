@@ -161,6 +161,7 @@ public final class PreviewRenderer {
             table { border-collapse: collapse; }
             th { font-weight: bold; min-width: 100px; }
             td, th { text-align: left; padding: 4px 8px; border: 1px solid #9e9e9e; }
+            .pattern { white-space: pre; }
             .placeholder { color: #e91e63; }
             """;
 }
