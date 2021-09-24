@@ -1,5 +1,6 @@
 package org.telekit.controls.widgets;
 
+import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.event.Event;
@@ -14,8 +15,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import org.jetbrains.annotations.Nullable;
 import org.telekit.base.desktop.Overlay;
+import org.telekit.controls.util.Animations;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.NodeUtils;
@@ -33,6 +36,9 @@ public class OverlayBase extends StackPane implements Overlay {
     StackPane centerContentWrapper;
 
     private final ReadOnlyBooleanWrapper onFrontProperty = new ReadOnlyBooleanWrapper(this, "onFront", false);
+    private final Timeline fadeInTransition = Animations.fadeIn(this, Duration.millis(100));
+    private final Timeline fadeOutTransition = Animations.fadeOut(this, Duration.millis(200));
+
     private HPos currentContentPos;
 
     public OverlayBase() {
@@ -132,6 +138,7 @@ public class OverlayBase extends StackPane implements Overlay {
     public void toFront() {
         if (onFrontProperty.get()) { return; }
         super.toFront();
+        fadeInTransition.playFromStart();
         onFrontProperty.set(true);
     }
 
@@ -139,6 +146,7 @@ public class OverlayBase extends StackPane implements Overlay {
     public void toBack() {
         if (!onFrontProperty.get()) { return; }
         super.toBack();
+        fadeOutTransition.playFromStart();
         onFrontProperty.set(false);
     }
 
