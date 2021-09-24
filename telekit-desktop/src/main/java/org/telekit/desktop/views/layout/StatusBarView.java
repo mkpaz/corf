@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.SetChangeListener;
 import javafx.css.PseudoClass;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
@@ -119,4 +120,7 @@ public class StatusBarView extends HBox implements Initializable, View<StatusBar
 
     @Override
     public StatusBarViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return null; }
 }

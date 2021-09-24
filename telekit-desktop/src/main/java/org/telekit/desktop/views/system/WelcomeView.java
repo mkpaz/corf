@@ -1,6 +1,7 @@
 package org.telekit.desktop.views.system;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -71,4 +72,7 @@ public class WelcomeView extends VBox implements Initializable, View<WelcomeView
 
     @Override
     public WelcomeViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return null; }
 }

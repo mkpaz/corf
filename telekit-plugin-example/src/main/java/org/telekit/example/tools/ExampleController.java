@@ -1,6 +1,7 @@
 package org.telekit.example.tools;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import org.telekit.base.desktop.Component;
@@ -60,4 +61,7 @@ public class ExampleController implements Component {
 
     @Override
     public void reset() {}
+
+    @Override
+    public Node getPrimaryFocusNode() { return null; }
 }

@@ -21,14 +21,18 @@ import org.telekit.base.i18n.I18n;
 import org.telekit.base.preferences.SharedPreferences;
 import org.telekit.controls.i18n.ControlsMessages;
 import org.telekit.controls.theme.DefaultTheme;
+import org.telekit.controls.util.NodeUtils;
 import org.telekit.controls.widgets.OverlayBase;
 
 import javax.inject.Singleton;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 public abstract class BaseLauncher extends Application {
+
+    private static final Logger LOG = Logger.getLogger(BaseLauncher.class.getName());
 
     protected StackPane root;
     protected Component component;
@@ -68,10 +72,24 @@ public abstract class BaseLauncher extends Application {
 
         root = new StackPane();
         root.getChildren().setAll((OverlayBase) overlay, component.getRoot());
+        ((OverlayBase) overlay).onFrontProperty().addListener((obs, old, value) -> {
+            if (!value) {
+                NodeUtils.begForFocus(component.getRoot(), 3);
+            } else {
+                NodeUtils.begForFocus(overlay.getContent(), 3);
+            }
+        });
+
         overlay.toBack();
 
         Scene scene = new Scene(root, 1024, 768);
         scene.getStylesheets().addAll(new DefaultTheme().getResources());
+        if (Env.isDevMode()) {
+            scene.focusOwnerProperty().addListener((obs, old, value) -> {
+                LOG.info("focus owner was: " + old);
+                LOG.info("focus owner is: " + value);
+            });
+        }
 
         initStage(primaryStage, scene);
 

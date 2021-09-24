@@ -14,7 +14,7 @@ import org.telekit.base.desktop.mvvm.View;
 import static org.telekit.base.i18n.I18n.t;
 
 /** Basic interface for any UI component */
-public interface Component {
+public interface Component extends Focusable {
 
     /** Returns root element of the component */
     Region getRoot();

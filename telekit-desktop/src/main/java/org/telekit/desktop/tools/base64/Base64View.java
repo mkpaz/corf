@@ -3,6 +3,7 @@ package org.telekit.desktop.tools.base64;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -156,4 +157,7 @@ public final class Base64View extends GridPane implements Initializable, Compone
 
     @Override
     public void reset() {}
+
+    @Override
+    public Node getPrimaryFocusNode() { return origText; }
 }

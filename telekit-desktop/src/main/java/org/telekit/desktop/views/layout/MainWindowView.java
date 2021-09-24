@@ -3,6 +3,7 @@ package org.telekit.desktop.views.layout;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -16,6 +17,7 @@ import org.telekit.base.domain.event.Notification;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.event.Listener;
 import org.telekit.controls.util.Containers;
+import org.telekit.controls.util.NodeUtils;
 import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.desktop.views.MainStage;
 
@@ -83,6 +85,14 @@ public class MainWindowView extends VBox implements Initializable, View<MainWind
             routeTransition.playFromStart();
         });
 
+        overlay.onFrontProperty().addListener((obs, old, value) -> {
+            if (!value) {
+                NodeUtils.begForFocus(router.getRouterPane(), 3);
+            } else {
+                NodeUtils.begForFocus(overlay.getContent(), 3);
+            }
+        });
+
         DefaultEventBus.getInstance().subscribe(Notification.class, this::displayNotification);
     }
 
@@ -94,6 +104,9 @@ public class MainWindowView extends VBox implements Initializable, View<MainWind
 
     @Override
     public MainWindowViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return null; }
 
     @Listener
     private void displayNotification(Notification notification) {

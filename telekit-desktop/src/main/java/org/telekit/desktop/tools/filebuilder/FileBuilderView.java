@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -175,6 +176,9 @@ public final class FileBuilderView extends VBox implements Initializable, View<F
 
     @Override
     public FileBuilderViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return settingsPane.csvText; }
 
     ///////////////////////////////////////////////////////////////////////////
 

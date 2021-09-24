@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import org.jetbrains.annotations.Nullable;
+import org.telekit.base.desktop.Focusable;
 
 import java.util.List;
 
@@ -15,8 +16,17 @@ public final class NodeUtils {
      * One can't simply get focus in JavaFX <code>:boromir.jpg</code>.
      * This method will try to request it multiple times.
      */
-    public static void begForFocus(Node node, int attempts) {
+    public static void begForFocus(@Nullable Node node, int attempts) {
+        if (node == null) { return; }
+        final Node target = (node instanceof Focusable focusable && focusable.getPrimaryFocusNode() != null) ?
+                focusable.getPrimaryFocusNode() :
+                node;
+        doBegForFocus(target, attempts);
+    }
+
+    private static void doBegForFocus(Node node, int attempts) {
         if (attempts < 0) { return; }
+
         Platform.runLater(() -> {
             if (!node.isFocused()) {
                 node.requestFocus();

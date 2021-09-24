@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -167,6 +168,9 @@ public class DemoController implements Component {
 
     @Override
     public void reset() { }
+
+    @Override
+    public Node getPrimaryFocusNode() { return null; }
 
     ///////////////////////////////////////////////////////////////////////////
 

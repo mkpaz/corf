@@ -2,6 +2,7 @@ package org.telekit.desktop.views.layout;
 
 import javafx.css.PseudoClass;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.skin.TreeViewSkin;
 import javafx.scene.control.skin.VirtualFlow;
@@ -88,6 +89,9 @@ public class NavDrawerView extends VBox implements Initializable, View<NavDrawer
 
     @Override
     public NavDrawerViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return navigationTree; }
 
     ///////////////////////////////////////////////////////////////////////////
 

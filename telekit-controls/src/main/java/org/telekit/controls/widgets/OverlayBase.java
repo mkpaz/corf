@@ -55,6 +55,7 @@ public class OverlayBase extends StackPane implements Overlay {
         // ~
 
         Consumer<Event> hideAndConsume = e -> {
+            removeContent();
             toBack();
             e.consume();
         };
@@ -112,6 +113,7 @@ public class OverlayBase extends StackPane implements Overlay {
                 StackPane.setAlignment(content, Pos.CENTER);
             }
         }
+
         scrollPane.setContent(getContentWrapper());
     }
 
@@ -131,7 +133,6 @@ public class OverlayBase extends StackPane implements Overlay {
         if (onFrontProperty.get()) { return; }
         super.toFront();
         onFrontProperty.set(true);
-        requestFocus();
     }
 
     @Override

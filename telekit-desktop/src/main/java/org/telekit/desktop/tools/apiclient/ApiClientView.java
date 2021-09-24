@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -159,6 +160,9 @@ public final class ApiClientView extends VBox implements Initializable, View<Api
 
     @Override
     public ApiClientViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return settingsTab.csvText; }
 
     ///////////////////////////////////////////////////////////////////////////
 

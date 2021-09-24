@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -518,6 +519,9 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
 
     @Override
     public IPv4CalcViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return ipText; }
 
     ///////////////////////////////////////////////////////////////////////////
 

@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -306,4 +307,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
 
     @Override
     public void reset() {}
+
+    @Override
+    public Node getPrimaryFocusNode() { return null; }
 }

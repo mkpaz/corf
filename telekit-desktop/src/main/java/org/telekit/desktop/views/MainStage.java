@@ -11,6 +11,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.telekit.base.Env;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.preferences.Theme;
 import org.telekit.base.preferences.internal.ApplicationPreferences;
@@ -18,6 +19,7 @@ import org.telekit.desktop.service.IconRepository;
 import org.telekit.desktop.startup.config.Config;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import static org.telekit.base.Env.APP_NAME;
 import static org.telekit.base.Env.WINDOW_MAXIMIZED;
@@ -27,6 +29,8 @@ import static org.telekit.desktop.service.IconRepository.FAVICON;
 import static org.telekit.desktop.startup.config.Config.DESKTOP_MODULE_PATH;
 
 public class MainStage {
+
+    private static final Logger LOG = Logger.getLogger(MainStage.class.getName());
 
     public static final String APP_ICON_PATH = "assets/images/telekit.png";
     public static final Dimension MIN_SIZE = new Dimension(800, 600);
@@ -68,6 +72,13 @@ public class MainStage {
                 Config.getResource("assets/css/system.css"),
                 Config.getResource("assets/css/tools.css")
         );
+
+        if (Env.isDevMode()) {
+            scene.focusOwnerProperty().addListener((obs, old, value) -> {
+                LOG.info("focus owner was: " + old);
+                LOG.info("focus owner is: " + value);
+            });
+        }
     }
 
     public Stage getStage() { return stage; }

@@ -3,10 +3,12 @@ package org.telekit.desktop.views.layout;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -24,7 +26,6 @@ import org.telekit.base.util.DesktopUtils;
 import org.telekit.base.util.FileSystemUtils;
 import org.telekit.controls.util.Containers;
 import org.telekit.controls.util.Controls;
-import org.telekit.controls.util.NodeUtils;
 import org.telekit.controls.widgets.OverlayBase;
 import org.telekit.controls.widgets.OverlayDialog;
 import org.telekit.desktop.event.CloseRequestEvent;
@@ -195,9 +196,10 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
             if (!value && navDrawerBtn.isSelected()) { navDrawerBtn.setSelected(false); }
         });
 
-        mainStage.getScene().setOnKeyPressed(e -> {
+        mainStage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (new KeyCodeCombination(KeyCode.F2).match(e)) {
                 toggleNavDrawer();
+                e.consume();
             }
         });
     }
@@ -214,8 +216,6 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         boolean navDrawerVisible = overlay.contains(navDrawer);
         if (enabled & !navDrawerVisible) {
             overlay.show(navDrawer, HPos.LEFT);
-            // focus on tree to support keyboard navigation
-            NodeUtils.begForFocus(navDrawer.navigationTree, 3);
         }
         if (!enabled & navDrawerVisible) { overlay.hide(); }
     }
@@ -228,6 +228,9 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
 
     @Override
     public TitleBarViewModel getViewModel() { return model; }
+
+    @Override
+    public Node getPrimaryFocusNode() { return null; }
 
     ///////////////////////////////////////////////////////////////////////////
 

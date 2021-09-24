@@ -59,6 +59,7 @@ public class Router {
         AnchorPane.setRightAnchor(component.getRoot(), 0d);
         AnchorPane.setBottomAnchor(component.getRoot(), 0d);
         AnchorPane.setLeftAnchor(component.getRoot(), 0d);
+        component.begForFocus(3);
     }
 
     private Optional<Routable> getRoutable(Component c) {
