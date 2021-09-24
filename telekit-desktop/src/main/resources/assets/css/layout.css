@@ -17,7 +17,6 @@
 }
 #titlebar > .content > * > .restart-pending-icon > .font-icon {
     -fx-font-size: 1.4em;
-    -fx-fill: -fx-color-warning;
 }
 #titlebar > .content > * > .window-title {
     -fx-font-size: 1.1em;

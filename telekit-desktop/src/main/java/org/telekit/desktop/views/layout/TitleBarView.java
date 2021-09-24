@@ -89,7 +89,7 @@ public class TitleBarView extends AnchorPane implements Initializable, View<Titl
         navDrawerBtn.setGraphic(Controls.fontIcon(Material2MZ.MENU));
         navDrawerBtn.setTooltip(new Tooltip("F2"));
 
-        restartPendingBtn = Controls.iconButton(Material2MZ.REFRESH, "titlebar-icon-button", "restart-pending-icon");
+        restartPendingBtn = Controls.iconButton(Material2MZ.RESTORE, "titlebar-icon-button", "restart-pending-icon");
         restartPendingBtn.setTooltip(new Tooltip(t(DesktopMessages.SYSTEM_RESTART_REQUIRED)));
         restartPendingBtn.setOnAction(e -> restartApplication());
 
