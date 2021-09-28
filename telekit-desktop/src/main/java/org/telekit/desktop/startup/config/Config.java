@@ -36,12 +36,7 @@ public interface Config {
         );
     }
 
-    static String getResource(String subPath) {
-        String path = DESKTOP_MODULE_PATH.concat(subPath).toString();
-        return Objects.requireNonNull(Config.class.getResource(path)).toExternalForm();
-    }
-
-    static InputStream getResourceAsStream(String subPath) {
+    default InputStream getResourceAsStream(String subPath) {
         String path = DESKTOP_MODULE_PATH.concat(subPath).toString();
         return Objects.requireNonNull(Config.class.getResourceAsStream(path));
     }

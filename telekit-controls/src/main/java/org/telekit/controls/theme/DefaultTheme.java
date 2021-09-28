@@ -6,20 +6,19 @@ import org.telekit.base.preferences.Theme;
 import org.telekit.base.util.ClasspathResource;
 
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 public class DefaultTheme implements Theme {
 
     private static final ClasspathResource MODULE_PATH = ClasspathResource.of("/org/telekit/controls");
     private static final ClasspathResource FONTS_DIR = MODULE_PATH.concat("assets/fonts");
+    private static final ClasspathResource STYLES_DIR = MODULE_PATH.concat("assets/theme");
 
-    private static final List<String> STYLES = Arrays.asList(
-            "assets/theme/index.css",    // color variables and defaults
-            "assets/theme/tweaks.css",   // modena tweaks
-            "assets/theme/controls.css", // custom controls and utils
-            "assets/theme/widgets.css"
+    private static final Set<String> STYLESHEETS = Set.of(
+            STYLES_DIR.concat("index.css").toString(),    // color variables and defaults
+            STYLES_DIR.concat("tweaks.css").toString(),   // modena tweaks
+            STYLES_DIR.concat("controls.css").toString(), // custom controls and utils
+            STYLES_DIR.concat("widgets.css").toString()
     );
 
     public DefaultTheme() {}
@@ -28,8 +27,8 @@ public class DefaultTheme implements Theme {
     public String getName() { return "default"; }
 
     @Override
-    public Set<String> getResources() {
-        return getResources(MODULE_PATH, STYLES);
+    public Set<String> getStylesheets() {
+        return STYLESHEETS;
     }
 
     @Override

@@ -7,11 +7,13 @@ import org.telekit.base.plugin.internal.PluginCleaner;
 import org.telekit.base.plugin.internal.PluginException;
 import org.telekit.base.plugin.internal.PluginManager;
 import org.telekit.base.preferences.internal.ApplicationPreferences;
+import org.telekit.desktop.startup.ResourceLoader;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 public final class PluginConfig implements Config {
@@ -54,13 +56,15 @@ public final class PluginConfig implements Config {
     }
 
     public List<String> getStylesheets() {
-        List<String> stylesheets = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         for (PluginBox container : pluginManager.getAllPlugins()) {
-            Plugin plugin = container.getPlugin();
-            Collection<String> pluginsStylesheets = plugin.getStylesheets();
-            if (isNotEmpty(pluginsStylesheets)) { stylesheets.addAll(pluginsStylesheets); }
+            Collection<String> pluginsStyles = container.getPlugin().getStylesheets();
+            if (isEmpty(pluginsStyles)) { continue; }
+
+            ResourceLoader loader = new ResourceLoader(container.getPluginClass());
+            result.addAll(loader.resolve(pluginsStyles));
         }
-        return stylesheets;
+        return result;
     }
 
     public void startPlugins() {

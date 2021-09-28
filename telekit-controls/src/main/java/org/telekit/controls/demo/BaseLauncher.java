@@ -83,7 +83,11 @@ public abstract class BaseLauncher extends Application {
         overlay.toBack();
 
         Scene scene = new Scene(root, 1024, 768);
-        scene.getStylesheets().addAll(new DefaultTheme().getResources());
+        scene.getStylesheets().addAll(
+                // no reasons to resolve paths here,
+                // because we load resources from the same JAR
+                new DefaultTheme().getStylesheets()
+        );
         if (Env.isDevMode()) {
             scene.focusOwnerProperty().addListener((obs, old, value) -> {
                 LOG.info("focus owner was: " + old);

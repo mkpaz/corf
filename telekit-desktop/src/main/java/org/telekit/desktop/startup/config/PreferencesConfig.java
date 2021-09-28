@@ -46,8 +46,9 @@ public final class PreferencesConfig implements Config {
 
     private void loadApplicationProperties() {
         try {
+            InputStreamReader reader = new InputStreamReader(getResourceAsStream(APP_PROPS_FILE_NAME), UTF_8);
+
             Properties properties = new Properties();
-            InputStreamReader reader = new InputStreamReader(Config.getResourceAsStream(APP_PROPS_FILE_NAME), UTF_8);
             properties.load(reader);
 
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {

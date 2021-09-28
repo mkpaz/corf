@@ -52,7 +52,7 @@ public final class LogConfig implements Config {
                 logFilePath = Paths.get(outputPath);
             } else {
                 // use console logger
-                logManager.readConfiguration(Config.getResourceAsStream(LOG_CONFIG_FILE_NAME));
+                logManager.readConfiguration(getResourceAsStream(LOG_CONFIG_FILE_NAME));
             }
         } catch (IOException e) {
             e.printStackTrace();

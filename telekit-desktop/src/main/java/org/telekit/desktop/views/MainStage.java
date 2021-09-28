@@ -15,8 +15,9 @@ import org.telekit.base.Env;
 import org.telekit.base.desktop.Dimension;
 import org.telekit.base.preferences.Theme;
 import org.telekit.base.preferences.internal.ApplicationPreferences;
+import org.telekit.base.util.ClasspathResource;
 import org.telekit.desktop.service.IconRepository;
-import org.telekit.desktop.startup.config.Config;
+import org.telekit.desktop.startup.ResourceLoader;
 
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -66,12 +67,16 @@ public class MainStage {
         ));
         primaryStage.getIcons().add(IconRepository.get(FAVICON));
 
-        scene.getStylesheets().addAll(theme.getResources());
-        scene.getStylesheets().addAll(
-                Config.getResource("assets/css/layout.css"),
-                Config.getResource("assets/css/system.css"),
-                Config.getResource("assets/css/tools.css")
-        );
+        ResourceLoader themeLoader = new ResourceLoader(theme.getClass());
+        scene.getStylesheets().addAll(themeLoader.resolve(theme.getStylesheets()));
+
+        ResourceLoader assetsLoader = new ResourceLoader(getClass());
+        ClasspathResource stylesDir = DESKTOP_MODULE_PATH.concat("assets/css");
+        scene.getStylesheets().addAll(assetsLoader.require(
+                stylesDir.concat("layout.css").toString(),
+                stylesDir.concat("system.css").toString(),
+                stylesDir.concat("tools.css").toString()
+        ));
 
         if (Env.isDevMode()) {
             scene.focusOwnerProperty().addListener((obs, old, value) -> {
