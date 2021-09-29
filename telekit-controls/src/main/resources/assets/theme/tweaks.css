@@ -216,6 +216,12 @@
     -fx-cell-size: 2em;
 }
 
+/* increase right padding to prevent virtual flow from
+   overlapping right border (makes it invisible on low width) */
+.table-view {
+    -fx-padding: 1 2 1 1;
+}
+
 /* row height must fit text field height for editable tables
    (you supposed to add "editable" class to table manually) */
 .table-view.editable .table-row-cell {
