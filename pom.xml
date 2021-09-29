@@ -60,7 +60,7 @@
         <lib.sshj.version>0.31.0</lib.sshj.version>
 
         <lib.richtextfx.version>0.10.6</lib.richtextfx.version>
-        <lib.flowless.version>0.6.3</lib.flowless.version>
+        <lib.flowless.version>0.6.6</lib.flowless.version>
         <lib.reactfx.version>2.0-M5</lib.reactfx.version>
         <lib.undofx.version>2.1.1</lib.undofx.version>
         <lib.wellbehavedfx.version>0.3.3</lib.wellbehavedfx.version>
