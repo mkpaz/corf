@@ -8,7 +8,7 @@ module telekit.desktop {
     requires org.apache.commons.lang3;
     requires org.apache.commons.collections4;
 
-    requires j2html;
+    requires com.j2html;
 
     requires org.fxmisc.richtext;
     requires org.fxmisc.undo;

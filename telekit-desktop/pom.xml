@@ -245,7 +245,7 @@
                                                 <artifactId>j2html</artifactId>
                                             </artifact>
                                             <moduleInfo>
-                                                <name>j2html</name>
+                                                <name>com.j2html</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>

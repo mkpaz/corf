@@ -44,12 +44,12 @@ module telekit.base {
     requires org.apache.pdfbox;
     requires org.flywaydb.core;
     requires org.jsoup;
+    requires com.j2html;
     requires org.yaml.snakeyaml;
 
     // dependencies without Auto-Module-Name
     requires expectit.core;
     requires commons.dbutils;
-    requires j2html;
     requires sshj;
 
     // exports
