@@ -22,7 +22,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <java.version>16</java.version>
+        <java.version>17</java.version>
 
         <!-- dependencies -->
         <!-- Since 1.69 BouncyCastle introduced 'bcutil-jdk15on',
