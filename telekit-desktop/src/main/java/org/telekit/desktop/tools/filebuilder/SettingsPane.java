@@ -18,6 +18,7 @@ import javafx.scene.layout.Priority;
 import javafx.util.converter.DefaultStringConverter;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
+import org.telekit.base.domain.Action;
 import org.telekit.base.domain.exception.TelekitException;
 import org.telekit.base.event.DefaultEventBus;
 import org.telekit.base.util.DesktopUtils;
@@ -25,7 +26,6 @@ import org.telekit.controls.dialogs.Dialogs;
 import org.telekit.controls.util.Controls;
 import org.telekit.controls.util.TableUtils;
 import org.telekit.desktop.event.CompletionRegistryUpdateEvent;
-import org.telekit.base.domain.Action;
 import org.telekit.desktop.tools.common.*;
 
 import java.awt.*;
@@ -40,6 +40,8 @@ import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.trim;
 import static org.telekit.base.Env.TEMP_DIR;
+import static org.telekit.base.domain.Action.PREVIEW;
+import static org.telekit.base.domain.Action.*;
 import static org.telekit.base.i18n.I18n.t;
 import static org.telekit.base.util.FileSystemUtils.getParentPath;
 import static org.telekit.base.util.FileSystemUtils.sanitizeFileName;
@@ -47,8 +49,6 @@ import static org.telekit.controls.util.Containers.*;
 import static org.telekit.controls.util.Controls.menuItem;
 import static org.telekit.controls.util.TableUtils.setColumnConstraints;
 import static org.telekit.desktop.i18n.DesktopMessages.*;
-import static org.telekit.base.domain.Action.PREVIEW;
-import static org.telekit.base.domain.Action.*;
 import static org.telekit.desktop.tools.common.ComponentUtils.*;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderView.createMenuItem;
 import static org.telekit.desktop.tools.filebuilder.FileBuilderViewModel.PREVIEW_FILE_NAME;
@@ -100,6 +100,7 @@ public final class SettingsPane extends AnchorPane {
         paramsLabel.setPadding(new Insets(5, 0, 0, 0));
 
         paramTable = createParamTable();
+        GridPane.setVgrow(paramTable, Priority.ALWAYS);
         model.selectedTemplateProperty().addListener((obs, old, value) -> {
             List<Param> params = new ArrayList<>();
             if (value != null && isNotEmpty(value.getParams())) {
@@ -132,6 +133,7 @@ public final class SettingsPane extends AnchorPane {
         );
 
         csvText = Controls.create(TextArea::new, "monospace");
+        GridPane.setVgrow(csvText, Priority.ALWAYS);
         csvText.textProperty().bindBidirectional(model.csvTextProperty());
         csvText.focusedProperty().addListener((obs, old, value) -> {
             if (!value) { updateCsvLineCount(); }
@@ -145,7 +147,7 @@ public final class SettingsPane extends AnchorPane {
         grid.add(new Label(t(TOOLS_TEMPLATE)), 0, 0);
         grid.add(templateBox, 0, 1);
         grid.add(paramsLabel, 0, 2);
-        grid.add(paramTable, 0, 3);
+        grid.add(paramTable, 0, 3, 1, GridPane.REMAINING);
 
         grid.add(replacementBox, 1, 0);
         grid.add(csvText, 1, 1, 1, GridPane.REMAINING);
