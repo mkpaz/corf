@@ -65,7 +65,7 @@
         <lib.undofx.version>2.1.1</lib.undofx.version>
         <lib.wellbehavedfx.version>0.3.3</lib.wellbehavedfx.version>
 
-        <test.assertj.version>3.19.0</test.assertj.version>
+        <test.assertj.version>3.21.0</test.assertj.version>
         <test.junit.version>5.8.1</test.junit.version>
         <test.p6spy.version>3.9.1</test.p6spy.version>
 
