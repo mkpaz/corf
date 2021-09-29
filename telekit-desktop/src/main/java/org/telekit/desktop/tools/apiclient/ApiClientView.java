@@ -85,7 +85,7 @@ public final class ApiClientView extends VBox implements Initializable, View<Api
         timeoutSpinner.setMinWidth(120);
         timeoutSpinner.setPrefWidth(120);
 
-        HBox controlsBox = hbox(10, Pos.CENTER_LEFT, new Insets(5, 10, 10, 10));
+        HBox controlsBox = hbox(10, Pos.CENTER_LEFT, new Insets(0, 10, 10, 10));
         VBox.setVgrow(controlsBox, Priority.NEVER);
         controlsBox.getChildren().addAll(
                 startBtn,
