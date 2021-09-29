@@ -45,7 +45,7 @@
         <lib.jsoup.version>1.14.2</lib.jsoup.version>
         <lib.jackson.version>2.12.3</lib.jackson.version>
         <lib.javax-inject.version>1.1.0</lib.javax-inject.version>
-        <lib.jetbrains-annotations.version>21.0.1</lib.jetbrains-annotations.version>
+        <lib.jetbrains-annotations.version>22.0.0</lib.jetbrains-annotations.version>
         <lib.medusa.version>11.7</lib.medusa.version>
         <lib.semantic-version.version>2.1.1</lib.semantic-version.version>
         <lib.snmp4j.version>3.5.1</lib.snmp4j.version>
