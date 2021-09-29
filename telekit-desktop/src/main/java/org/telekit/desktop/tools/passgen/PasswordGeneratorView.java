@@ -174,7 +174,7 @@ public final class PasswordGeneratorView extends GridPane implements Initializab
         countSpinner.setEditable(true);
         IntegerStringConverter.createFor(countSpinner);
 
-        HBox generateBox = hbox(10, Pos.CENTER_LEFT, new Insets(10, 0, 10, 0));
+        HBox generateBox = hbox(10, Pos.CENTER_LEFT, new Insets(-10, 0, 0, 0));
         generateBox.getChildren().setAll(
                 generateBtn,
                 countSpinner,
