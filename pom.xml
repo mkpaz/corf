@@ -66,7 +66,7 @@
         <lib.wellbehavedfx.version>0.3.3</lib.wellbehavedfx.version>
 
         <test.assertj.version>3.19.0</test.assertj.version>
-        <test.junit.version>5.7.0</test.junit.version>
+        <test.junit.version>5.8.1</test.junit.version>
         <test.p6spy.version>3.9.1</test.p6spy.version>
 
         <!-- plugins -->
