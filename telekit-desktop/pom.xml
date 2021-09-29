@@ -254,10 +254,7 @@
                                                 <groupId>org.jsoup</groupId>
                                                 <artifactId>jsoup</artifactId>
                                             </artifact>
-                                            <moduleInfo>
-                                                <name>org.jsoup</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
+                                            <moduleInfoFile>src/main/moditect/org.jsoup/module-info.java</moduleInfoFile>
                                         </module>
                                         <module>
                                             <artifact>
@@ -355,8 +352,7 @@
                                                 <groupId>org.flywaydb</groupId>
                                                 <artifactId>flyway-core</artifactId>
                                             </artifact>
-                                            <moduleInfoFile>src/main/moditect/org.flywaydb.core/module-info.java
-                                            </moduleInfoFile>
+                                            <moduleInfoFile>src/main/moditect/org.flywaydb.core/module-info.java</moduleInfoFile>
                                         </module>
                                     </modules>
                                 </configuration>
@@ -384,24 +380,21 @@
                                                 <groupId>org.reactfx</groupId>
                                                 <artifactId>reactfx</artifactId>
                                             </artifact>
-                                            <moduleInfoFile>src/main/moditect/org.reactfx/module-info.java
-                                            </moduleInfoFile>
+                                            <moduleInfoFile>src/main/moditect/org.reactfx/module-info.java</moduleInfoFile>
                                         </module>
                                         <module>
                                             <artifact>
                                                 <groupId>org.fxmisc.flowless</groupId>
                                                 <artifactId>flowless</artifactId>
                                             </artifact>
-                                            <moduleInfoFile>src/main/moditect/org.fxmisc.flowless/module-info.java
-                                            </moduleInfoFile>
+                                            <moduleInfoFile>src/main/moditect/org.fxmisc.flowless/module-info.java</moduleInfoFile>
                                         </module>
                                         <module>
                                             <artifact>
                                                 <groupId>org.fxmisc.wellbehaved</groupId>
                                                 <artifactId>wellbehavedfx</artifactId>
                                             </artifact>
-                                            <moduleInfoFile>src/main/moditect/org.fxmisc.wellbehaved/module-info.java
-                                            </moduleInfoFile>
+                                            <moduleInfoFile>src/main/moditect/org.fxmisc.wellbehaved/module-info.java</moduleInfoFile>
                                         </module>
                                         <module>
                                             <artifact>
@@ -416,8 +409,7 @@
                                                 <groupId>org.fxmisc.richtext</groupId>
                                                 <artifactId>richtextfx</artifactId>
                                             </artifact>
-                                            <moduleInfoFile>src/main/moditect/org.fxmisc.richtext/module-info.java
-                                            </moduleInfoFile>
+                                            <moduleInfoFile>src/main/moditect/org.fxmisc.richtext/module-info.java</moduleInfoFile>
                                         </module>
                                     </modules>
                                 </configuration>

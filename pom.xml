@@ -42,7 +42,7 @@
         <lib.ipaddress.version>5.3.3</lib.ipaddress.version>
         <lib.ikonli.version>12.2.0</lib.ikonli.version>
         <lib.j2html.version>1.5.0</lib.j2html.version>
-        <lib.jsoup.version>1.13.1</lib.jsoup.version>
+        <lib.jsoup.version>1.14.2</lib.jsoup.version>
         <lib.jackson.version>2.12.3</lib.jackson.version>
         <lib.javax-inject.version>1.1.0</lib.javax-inject.version>
         <lib.jetbrains-annotations.version>21.0.1</lib.jetbrains-annotations.version>
