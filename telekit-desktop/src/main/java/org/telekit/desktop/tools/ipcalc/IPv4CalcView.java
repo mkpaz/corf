@@ -183,7 +183,7 @@ public final class IPv4CalcView extends SplitPane implements Initializable, View
         netmaskChoice.getSelectionModel().selectedIndexProperty().addListener((obs, old, value) -> {
             if (value == null) { return; }
             netmaskTable.scrollTo(value.intValue() - 2);
-            netmaskTable.getSelectionModel().select(value.intValue());
+            netmaskTable.getSelectionModel().clearAndSelect(value.intValue());
         });
 
         detailsTable.rootProperty().bind(Bindings.createObjectBinding(() -> {
