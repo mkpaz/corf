@@ -79,6 +79,7 @@
         <plugin.dependency.version>3.1.2</plugin.dependency.version>
         <plugin.jar.version>3.2.0</plugin.jar.version>
         <plugin.javafx.version>0.0.6</plugin.javafx.version>
+        <plugin.jtoolprovider.version>1.0.34</plugin.jtoolprovider.version>
         <plugin.moditect.version>1.0.0.RC1</plugin.moditect.version>
         <plugin.resources.version>3.2.0</plugin.resources.version>
         <plugin.source.version>3.2.1</plugin.source.version>
@@ -127,6 +128,11 @@
                     <groupId>org.openjfx</groupId>
                     <artifactId>javafx-maven-plugin</artifactId>
                     <version>${plugin.javafx.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.github.wiverson</groupId>
+                    <artifactId>jtoolprovider-plugin</artifactId>
+                    <version>${plugin.jtoolprovider.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.moditect</groupId>

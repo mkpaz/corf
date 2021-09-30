@@ -20,6 +20,11 @@
         <bld.mainClass>org.telekit.desktop.Launcher</bld.mainClass>
         <bld.modulesDirectory>${project.build.directory}/modules</bld.modulesDirectory>
         <bld.platform>win64</bld.platform>
+        <!-- TODO: Find a way to specify appropriate JMOD directory
+             While it's not done, change that value before building and revert after that
+             (only necessary for cross-platform builds)
+        -->
+        <bld.platformModulesDirectory>${project.build.directory}/platform-modules</bld.platformModulesDirectory>
         <bld.runtimeImagesDirectory>${project.build.directory}/runtime-images</bld.runtimeImagesDirectory>
     </properties>
 
@@ -360,8 +365,7 @@
                                                 <groupId>org.fxmisc.undo</groupId>
                                                 <artifactId>undofx</artifactId>
                                             </artifact>
-                                            <moduleInfoFile>src/main/moditect/org.fxmisc.undo/module-info.java
-                                            </moduleInfoFile>
+                                            <moduleInfoFile>src/main/moditect/org.fxmisc.undo/module-info.java</moduleInfoFile>
                                         </module>
                                         <module>
                                             <artifact>
@@ -442,36 +446,35 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.moditect</groupId>
-                        <artifactId>moditect-maven-plugin</artifactId>
+                        <groupId>io.github.wiverson</groupId>
+                        <artifactId>jtoolprovider-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>create-runtime-image-${bld.platform}</id>
+                                <id>jlink</id>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>create-runtime-image</goal>
+                                    <goal>java-tool</goal>
                                 </goals>
                                 <configuration>
-                                    <!-- force OpenJDK vendor, because OpenJFX doesn't provide win32 builds -->
-                                    <baseJdk>version=${java.version},vendor=liberica,platform=${bld.platform}</baseJdk>
-                                    <modulePath>
-                                        <path>${bld.modulesDirectory}</path>
-                                    </modulePath>
-                                    <modules>
-                                        <module>telekit.desktop</module>
-                                        <!-- add "jdk.crypto.cryptoki" module, otherwise jlink includes
-                                             only a minimal set of cipher suites in JRT image -->
-                                        <module>jdk.crypto.cryptoki</module>
-                                        <module>jdk.localedata</module>
-                                    </modules>
-                                    <launcher>
-                                        <name>telekit</name>
-                                        <module>telekit.desktop/${bld.mainClass}</module>
-                                    </launcher>
-                                    <outputDirectory>${bld.runtimeImagesDirectory}/${bld.platform}</outputDirectory>
-                                    <compression>${bld.compression}</compression>
-                                    <!-- excludes signing into from source JARs, required for JCE (BouncyCastle) -->
-                                    <ignoreSigningInformation>true</ignoreSigningInformation>
+                                    <toolName>jlink</toolName>
+                                    <modulePath>${bld.platformModulesDirectory};${bld.modulesDirectory}</modulePath>
+                                    <!-- add "jdk.crypto.cryptoki" module, otherwise only
+                                         a minimal set of cipher suites will be included -->
+                                    <addModules>telekit.desktop,jdk.crypto.cryptoki,jdk.localedata</addModules>
+                                    <output>${bld.runtimeImagesDirectory}/${bld.platform}</output>
+                                    <launcher>telekit=telekit.desktop/${bld.mainClass}</launcher>
+                                    <args>
+                                        <arg>--strip-debug</arg>
+                                        <arg>--no-header-files</arg>
+                                        <arg>--no-man-pages</arg>
+                                        <arg>--compress=${bld.compression}</arg>
+                                        <!-- excludes signing into from source JARs, required for JCE (BouncyCastle) -->
+                                        <arg>--ignore-signing-information</arg>
+                                        <!-- only include supported locales -->
+                                        <arg>--include-locales=en,ru</arg>
+                                        <!-- service binding is necessary for SLF4J to find logging implementation via SPI -->
+                                        <arg>--bind-services</arg>
+                                    </args>
                                 </configuration>
                             </execution>
                         </executions>
