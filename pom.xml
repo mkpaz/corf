@@ -295,6 +295,14 @@
                 <artifactId>sshj</artifactId>
                 <version>${lib.sshj.version}</version>
             </dependency>
+            <!-- FIXME Remove asn-one dependency after updating SSHJ to 0.32
+                 Resolves https://gitlab.com/hierynomus/asn-one/-/issues/2
+            -->
+            <dependency>
+                <groupId>com.hierynomus</groupId>
+                <artifactId>asn-one</artifactId>
+                <version>0.6.0</version>
+            </dependency>
             <dependency>
                 <groupId>org.snmp4j</groupId>
                 <artifactId>snmp4j</artifactId>

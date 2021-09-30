@@ -407,8 +407,6 @@
                                                 <artifactId>asn-one</artifactId>
                                             </artifact>
                                             <moduleInfo>
-                                                <!-- FIXME: Open local Maven repo before building and edit automatic module name manually
-                                                     https://gitlab.com/hierynomus/asn-one/-/issues/2 -->
                                                 <name>com.hierynomus.asnone</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
