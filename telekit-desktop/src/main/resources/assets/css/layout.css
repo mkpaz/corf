@@ -16,7 +16,7 @@
     -fx-padding: 0.25em;
 }
 #titlebar > .content > * > .restart-pending-icon > .font-icon {
-    -fx-font-size: 1.4em;
+    -fx-font-size: 1.2em;
 }
 #titlebar > .content > * > .window-title {
     -fx-font-size: 1.1em;
@@ -24,10 +24,11 @@
 }
 #titlebar > .content > * > .window-controls > * > .font-icon {
     -fx-font-weight: bold;
+    -fx-font-size: 1em;
 }
 .titlebar-icon-button > .font-icon,
 .titlebar-icon-button > * > .font-icon {
-    -fx-font-size: 1.4em;
+    -fx-font-size: 1.2em;
 }
 
 /* Content Area
