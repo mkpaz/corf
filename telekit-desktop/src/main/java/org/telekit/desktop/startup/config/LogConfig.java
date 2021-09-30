@@ -2,6 +2,7 @@ package org.telekit.desktop.startup.config;
 
 import javafx.stage.Screen;
 import org.apache.commons.lang3.SystemUtils;
+import org.telekit.base.Env;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.io.ByteArrayInputStream;
@@ -34,6 +35,8 @@ public final class LogConfig implements Config {
 
     private void initialize() {
         setupLogging();
+
+        if (Env.isDevMode()) { sayHello(); }
     }
 
     private void setupLogging() {
@@ -57,6 +60,17 @@ public final class LogConfig implements Config {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void sayHello() {
+        java.util.logging.Logger julLogger = getLogger(getClass());
+        julLogger.info("Hey from java.util.logging");
+
+        org.slf4j.Logger slfLogger = org.slf4j.LoggerFactory.getLogger(getClass());
+        slfLogger.info("Hey from SLF4J");
+
+        org.apache.commons.logging.Log jclLogger = org.apache.commons.logging.LogFactory.getLog(getClass());
+        jclLogger.info("Hey from Commons Logging");
     }
 
     public Path getLogFilePath() {
@@ -97,6 +111,6 @@ public final class LogConfig implements Config {
             for (String cipherSuite : ciphers) {
                 log.fine(cipherSuite);
             }
-        } catch (Throwable ignored) {}
+        } catch (Throwable ignored) { }
     }
 }

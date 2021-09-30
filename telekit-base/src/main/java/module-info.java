@@ -28,6 +28,7 @@ module telekit.base {
     requires transitive org.jetbrains.annotations;
     requires transitive org.bouncycastle.pkix;
     requires transitive org.bouncycastle.provider;
+    requires transitive org.slf4j;
     requires transitive org.snmp4j;
 
     // dependencies with Automatic-Module-Name
@@ -47,7 +48,7 @@ module telekit.base {
     requires com.j2html;
     requires org.yaml.snakeyaml;
 
-    // dependencies without Auto-Module-Name
+    // dependencies without Automatic-Module-Name
     requires expectit.core;
     requires commons.dbutils;
     requires sshj;

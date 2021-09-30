@@ -49,6 +49,7 @@
         <lib.medusa.version>11.7</lib.medusa.version>
         <lib.semantic-version.version>2.1.1</lib.semantic-version.version>
         <lib.snmp4j.version>3.5.1</lib.snmp4j.version>
+        <lib.slf4j.version>2.0.0-alpha5</lib.slf4j.version>
         <!--
             FIXME: Update to BouncyCastle 1.69
             BouncyCastle v1.69 includes additional 'bcutil' module,
@@ -244,12 +245,17 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
+                <version>${lib.slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${lib.slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
-                <version>1.7.30</version>
+                <version>${lib.slf4j.version}</version>
             </dependency>
 
             <!-- Networking -->
@@ -388,11 +394,24 @@
                 <groupId>org.apache.pdfbox</groupId>
                 <artifactId>pdfbox</artifactId>
                 <version>${lib.pdfbox.version}</version>
+                <exclusions>
+                    <!-- exclude Commons Logging in favor of SLF4J -->
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.pdfbox</groupId>
                 <artifactId>fontbox</artifactId>
                 <version>${lib.pdfbox.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>de.skuzzle</groupId>

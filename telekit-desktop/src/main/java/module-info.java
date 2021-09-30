@@ -7,14 +7,15 @@ module telekit.desktop {
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
     requires org.apache.commons.collections4;
-
     requires com.j2html;
-
     requires org.fxmisc.richtext;
     requires org.fxmisc.undo;
     requires flowless;
     requires reactfx;
     requires wellbehavedfx;
+
+    // only for dev mode to check JCL bridge is working
+    requires org.apache.commons.logging;
 
     // exports
     exports org.telekit.desktop;

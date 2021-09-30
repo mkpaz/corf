@@ -90,8 +90,8 @@ public abstract class BaseLauncher extends Application {
         );
         if (Env.isDevMode()) {
             scene.focusOwnerProperty().addListener((obs, old, value) -> {
-                LOG.info("focus owner was: " + old);
-                LOG.info("focus owner is: " + value);
+                LOG.fine("focus owner was: " + old);
+                LOG.fine("focus owner is: " + value);
             });
         }
 

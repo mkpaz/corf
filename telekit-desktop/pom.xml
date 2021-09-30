@@ -211,33 +211,17 @@
                                         </module>
                                         <module>
                                             <artifact>
-                                                <groupId>commons-logging</groupId>
-                                                <artifactId>commons-logging</artifactId>
-                                            </artifact>
-                                            <moduleInfo>
-                                                <name>org.apache.commons.logging</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
-                                        </module>
-                                        <module>
-                                            <artifact>
                                                 <groupId>org.apache.pdfbox</groupId>
                                                 <artifactId>pdfbox</artifactId>
                                             </artifact>
-                                            <moduleInfo>
-                                                <name>org.apache.pdfbox</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
+                                            <moduleInfoFile>src/main/moditect/org.apache.pdfbox/module-info.java</moduleInfoFile>
                                         </module>
                                         <module>
                                             <artifact>
                                                 <groupId>org.apache.pdfbox</groupId>
                                                 <artifactId>fontbox</artifactId>
                                             </artifact>
-                                            <moduleInfo>
-                                                <name>org.apache.fontbox</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
+                                            <moduleInfoFile>src/main/moditect/org.apache.fontbox/module-info.java</moduleInfoFile>
                                         </module>
                                         <module>
                                             <artifact>
@@ -303,31 +287,6 @@
                                             </artifact>
                                             <moduleInfo>
                                                 <name>expectit.core</name>
-                                                <exports>*;</exports>
-                                            </moduleInfo>
-                                        </module>
-                                        <module>
-                                            <artifact>
-                                                <groupId>org.slf4j</groupId>
-                                                <artifactId>slf4j-api</artifactId>
-                                            </artifact>
-                                            <moduleInfoSource>
-                                                module org.slf4j {
-                                                exports org.slf4j;
-                                                exports org.slf4j.spi;
-                                                exports org.slf4j.event;
-                                                exports org.slf4j.helpers;
-                                                uses org.slf4j.spi.SLF4JServiceProvider;
-                                                }
-                                            </moduleInfoSource>
-                                        </module>
-                                        <module>
-                                            <artifact>
-                                                <groupId>org.slf4j</groupId>
-                                                <artifactId>slf4j-jdk14</artifactId>
-                                            </artifact>
-                                            <moduleInfo>
-                                                <name>org.slf4j.jul</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>
@@ -666,7 +625,7 @@
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
