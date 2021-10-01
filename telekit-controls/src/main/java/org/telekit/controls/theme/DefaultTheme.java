@@ -2,10 +2,12 @@ package org.telekit.controls.theme;
 
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import org.jetbrains.annotations.Nullable;
 import org.telekit.base.preferences.Theme;
 import org.telekit.base.util.ClasspathResource;
 
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Set;
 
 public class DefaultTheme implements Theme {
@@ -13,15 +15,17 @@ public class DefaultTheme implements Theme {
     private static final ClasspathResource MODULE_PATH = ClasspathResource.of("/org/telekit/controls");
     private static final ClasspathResource FONTS_DIR = MODULE_PATH.concat("assets/fonts");
     private static final ClasspathResource STYLES_DIR = MODULE_PATH.concat("assets/theme");
+    private static final String FORMAT_TTF = "ttf";
+    private static final String FORMAT_OTF = "otf";
 
-    private static final Set<String> STYLESHEETS = Set.of(
+    static final Set<String> STYLESHEETS = Set.of(
             STYLES_DIR.concat("index.css").toString(),    // color variables and defaults
             STYLES_DIR.concat("tweaks.css").toString(),   // modena tweaks
             STYLES_DIR.concat("controls.css").toString(), // custom controls and utils
             STYLES_DIR.concat("widgets.css").toString()
     );
 
-    public DefaultTheme() {}
+    public DefaultTheme() { }
 
     @Override
     public String getName() { return "default"; }
@@ -35,31 +39,41 @@ public class DefaultTheme implements Theme {
     public boolean isLight() { return true; }
 
     @Override
-    public InputStream getRegularFont(FontWeight weight, FontPosture posture) {
-        String fontFamily = "Roboto";
-
-        return switch (weight) {
-            case BOLD, EXTRA_BOLD, BLACK -> getFont(fontFamily, "Bold.ttf");
-            case MEDIUM, SEMI_BOLD -> getFont(fontFamily, "Medium.ttf");
-            default -> posture != FontPosture.ITALIC ?
-                    getFont(fontFamily, "Regular.ttf") :
-                    getFont(fontFamily, "Italic.ttf");
-        };
+    public InputStream getInterfaceFont(FontWeight weight, FontPosture posture) {
+        return DefaultTheme.class.getResourceAsStream(Objects.requireNonNull(
+                getFont("InterUI", FORMAT_OTF, weight, posture)
+        ));
     }
 
     @Override
     public InputStream getMonospaceFont(FontWeight weight) {
-        String fontFamily = "FiraMono";
+        return DefaultTheme.class.getResourceAsStream(Objects.requireNonNull(
+                getFont("FiraMono", FORMAT_TTF, weight, FontPosture.REGULAR)
+        ));
+    }
 
+    @Override
+    public InputStream getDocumentFont(FontWeight weight, FontPosture posture) {
+        return DefaultTheme.class.getResourceAsStream(Objects.requireNonNull(
+                getFont("Roboto", FORMAT_TTF, weight, posture)
+        ));
+    }
+
+    @Nullable String getFont(String fontFamily,
+                                     String fontFormat,
+                                     FontWeight weight,
+                                     FontPosture posture) {
         return switch (weight) {
-            case BOLD, EXTRA_BOLD, BLACK -> getFont(fontFamily, "Bold.ttf");
-            case MEDIUM, SEMI_BOLD -> getFont(fontFamily, "Medium.ttf");
-            default -> getFont(fontFamily, "Regular.ttf");
+            case BOLD, EXTRA_BOLD, BLACK -> getFontPath(fontFamily, "Bold", fontFormat);
+            case MEDIUM, SEMI_BOLD -> getFontPath(fontFamily, "Medium", fontFormat);
+            default -> posture != FontPosture.ITALIC ?
+                    getFontPath(fontFamily, "Regular", fontFormat) :
+                    getFontPath(fontFamily, "Italic", fontFormat);
         };
     }
 
-    static InputStream getFont(String fontFamily, String fontType) {
-        ClasspathResource resource = FONTS_DIR.concat(fontFamily + "/" + fontFamily + "-" + fontType);
-        return DefaultTheme.class.getResourceAsStream(resource.toString());
+    static String getFontPath(String fontFamily, String fontType, String fontFormat) {
+        String subPath = fontFamily + "/" + fontFamily + "-" + fontType + "." + fontFormat;
+        return FONTS_DIR.concat(subPath).toString();
     }
 }

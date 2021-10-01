@@ -35,19 +35,19 @@
 
 @font-face {
     font-family: "Inter UI Regular";
-    src: url('Inter/Inter-UI-Regular.otf');
+    src: url('Inter/InterUI-Regular.otf');
 }
 @font-face {
     font-family: "Inter UI Medium";
-    src: url('Inter/Inter-UI-Medium.otf');
+    src: url('Inter/InterUI-Medium.otf');
 }
 @font-face {
     font-family: "Inter UI Bold";
-    src: url('Inter/Inter-UI-Bold.otf');
+    src: url('Inter/InterUI-Bold.otf');
 }
 @font-face {
     font-family: "Inter UI Italic";
-    src: url('Inter/Inter-UI-Italic.otf');
+    src: url('Inter/InterUI-Italic.otf');
 }
 
 @font-face {

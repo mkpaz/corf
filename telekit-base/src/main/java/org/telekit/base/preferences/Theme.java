@@ -14,7 +14,9 @@ public interface Theme {
 
     boolean isLight();
 
-    InputStream getRegularFont(FontWeight weight, FontPosture posture);
+    InputStream getInterfaceFont(FontWeight weight, FontPosture posture);
 
     InputStream getMonospaceFont(FontWeight weight);
+
+    InputStream getDocumentFont(FontWeight weight, FontPosture posture);
 }
