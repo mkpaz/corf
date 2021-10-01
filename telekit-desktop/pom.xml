@@ -20,10 +20,6 @@
         <bld.mainClass>org.telekit.desktop.Launcher</bld.mainClass>
         <bld.modulesDirectory>${project.build.directory}/modules</bld.modulesDirectory>
         <bld.platform>win64</bld.platform>
-        <!-- TODO: Find a way to specify appropriate JMOD directory
-             While it's not done, change that value before building and revert after that
-             (only necessary for cross-platform builds)
-        -->
         <bld.platformModulesDirectory>${project.build.directory}/platform-modules</bld.platformModulesDirectory>
         <bld.runtimeImagesDirectory>${project.build.directory}/runtime-images</bld.runtimeImagesDirectory>
     </properties>
@@ -446,7 +442,11 @@
                                 </goals>
                                 <configuration>
                                     <toolName>jlink</toolName>
-                                    <modulePath>${bld.platformModulesDirectory};${bld.modulesDirectory}</modulePath>
+                                    <!-- If this option is not specified, then the default module path is
+                                         $JAVA_HOME/jmods. If this option is specified but the java.base
+                                         module cannot be resolved from it, then the jlink command appends
+                                         $JAVA_HOME/jmods to the module path. -->
+                                    <modulePath>${bld.platformModulesDirectory}${path.separator}${bld.modulesDirectory}</modulePath>
                                     <!-- add "jdk.crypto.cryptoki" module, otherwise only
                                          a minimal set of cipher suites will be included -->
                                     <addModules>telekit.desktop,jdk.crypto.cryptoki,jdk.localedata</addModules>
