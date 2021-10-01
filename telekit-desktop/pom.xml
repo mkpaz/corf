@@ -277,6 +277,13 @@
                                         </module>
                                         <module>
                                             <artifact>
+                                                <groupId>io.netty</groupId>
+                                                <artifactId>netty-all</artifactId>
+                                            </artifact>
+                                            <moduleInfoFile>src/main/moditect/io.netty.all/module-info.java</moduleInfoFile>
+                                        </module>
+                                        <module>
+                                            <artifact>
                                                 <groupId>org.yaml</groupId>
                                                 <artifactId>snakeyaml</artifactId>
                                             </artifact>

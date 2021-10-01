@@ -47,6 +47,7 @@
         <lib.javax-inject.version>1.1.0</lib.javax-inject.version>
         <lib.jetbrains-annotations.version>22.0.0</lib.jetbrains-annotations.version>
         <lib.medusa.version>11.7</lib.medusa.version>
+        <lib.netty.version>4.1.68.Final</lib.netty.version>
         <lib.semantic-version.version>2.1.1</lib.semantic-version.version>
         <lib.snmp4j.version>3.5.1</lib.snmp4j.version>
         <lib.slf4j.version>2.0.0-alpha5</lib.slf4j.version>
@@ -284,6 +285,11 @@
                 <groupId>org.apache.httpcomponents.client5</groupId>
                 <artifactId>httpclient5</artifactId>
                 <version>${lib.httpclient5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${lib.netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.expectit</groupId>

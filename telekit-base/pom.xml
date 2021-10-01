@@ -90,6 +90,10 @@
             <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+        <dependency>
             <groupId>net.sf.expectit</groupId>
             <artifactId>expectit-core</artifactId>
         </dependency>

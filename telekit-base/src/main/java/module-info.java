@@ -46,6 +46,7 @@ module telekit.base {
     requires org.flywaydb.core;
     requires org.jsoup;
     requires com.j2html;
+    requires io.netty.all;
     requires org.yaml.snakeyaml;
 
     // dependencies without Automatic-Module-Name
