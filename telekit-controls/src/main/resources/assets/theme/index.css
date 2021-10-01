@@ -8,7 +8,7 @@
 @import "../fonts/fonts.css";
 
 .root {
-    -fx-font-family: "Roboto";
+    -fx-font-family: "Roboto Regular";
 
     -fx-color-primary: #1976D2;
     -fx-color-error:   #D32F2F;
