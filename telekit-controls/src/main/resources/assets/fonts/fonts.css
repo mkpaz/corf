@@ -1,4 +1,21 @@
-/* Roboto */
+/*
+ * Note that each font-family name is unique. That's because unlike web browsers
+ * OpenJFX CSS parser doesn't support `font-weight` and `font-style` attributes
+ * in `@font-face`. It just silently ignores them. So, the font variant can only be
+ * expressed via its name. This also means that even if font variants share the family
+ * name they won't be applied accordingly. OpenJFX always uses font transformation,
+ * even when corresponding font variant provided explicitly.
+ *
+ * See, CSS Reference guide:
+ * https://openjfx.io/javadoc/17/javafx.graphics/javafx/scene/doc-files/cssref.html
+ * > Although the parser will parse the syntax, all @font‑face descriptors
+ * > are ignored except for the src descriptor. The src descriptor is expected
+ * > to be a <url>. The format hint is ignored.
+ *
+ * Or implementation (there's no such field as `font-weight` and `font-style`):
+ * https://github.com/openjdk/jfx/blob/jfx17/modules/javafx.graphics/src/main/java/com/sun/javafx/css/FontFaceImpl.java#L128
+ */
+
 @font-face {
     font-family: "Roboto Regular";
     src: url('Roboto/Roboto-Regular.ttf');
@@ -16,7 +33,23 @@
     src: url('Roboto/Roboto-Italic.ttf');
 }
 
-/* Fira Mono */
+@font-face {
+    font-family: "Inter UI Regular";
+    src: url('Inter/Inter-UI-Regular.otf');
+}
+@font-face {
+    font-family: "Inter UI Medium";
+    src: url('Inter/Inter-UI-Medium.otf');
+}
+@font-face {
+    font-family: "Inter UI Bold";
+    src: url('Inter/Inter-UI-Bold.otf');
+}
+@font-face {
+    font-family: "Inter UI Italic";
+    src: url('Inter/Inter-UI-Italic.otf');
+}
+
 @font-face {
     font-family: "Fira Mono";
     src: url('FiraMono/FiraMono-Regular.ttf');
