@@ -130,22 +130,6 @@
                                     <modules>
                                         <module>
                                             <artifact>
-                                                <groupId>jakarta.activation</groupId>
-                                                <artifactId>jakarta.activation-api</artifactId>
-                                            </artifact>
-                                            <!--
-                                                jdeps generates incorrect module info
-                                                JPMS support planned in v1.2.2, waiting for migration to Jakarta EE
-                                                https://github.com/FasterXML/jackson-modules-base/issues/96
-                                            -->
-                                            <moduleInfoSource>
-                                                module jakarta.activation {
-                                                exports javax.activation;
-                                                }
-                                            </moduleInfoSource>
-                                        </module>
-                                        <module>
-                                            <artifact>
                                                 <groupId>commons-codec</groupId>
                                                 <artifactId>commons-codec</artifactId>
                                             </artifact>

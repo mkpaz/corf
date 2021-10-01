@@ -19,6 +19,7 @@ module telekit.base {
     requires transitive com.fasterxml.jackson.databind;
     requires transitive com.fasterxml.jackson.dataformat.javaprop;
     requires transitive com.fasterxml.jackson.dataformat.xml;
+    requires transitive com.fasterxml.jackson.module.jakarta.xmlbind;
     requires transitive com.fasterxml.jackson.dataformat.yaml;
 
     requires transitive com.ctc.wstx;
