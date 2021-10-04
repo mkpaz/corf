@@ -17,7 +17,7 @@
         <bld.descriptor>windows.xml</bld.descriptor>
         <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
         <bld.docsTargetDirectory>${project.build.directory}/docs</bld.docsTargetDirectory>
-        <bld.mainClass>org.telekit.desktop.Launcher</bld.mainClass>
+        <bld.mainClass>telekit.desktop.Launcher</bld.mainClass>
         <bld.modulesDirectory>${project.build.directory}/modules</bld.modulesDirectory>
         <bld.platform>win64</bld.platform>
         <bld.platformModulesDirectory>${project.build.directory}/platform-modules</bld.platformModulesDirectory>
@@ -28,12 +28,12 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>org/telekit/desktop</targetPath>
+                <targetPath>telekit/desktop</targetPath>
                 <filtering>false</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>org/telekit/desktop</targetPath>
+                <targetPath>telekit/desktop</targetPath>
                 <filtering>true</filtering>
                 <includes>
                     <include>application.properties</include>

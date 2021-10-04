@@ -5,4 +5,4 @@ DIR=$(dirname "$0")
 IFS="$(printf '\n\t')"
 
 export TELEKIT_APP_DIR="${DIR}"
-"${DIR}/app/bin/java" ${JVM_OPTIONS} -m telekit.desktop/org.telekit.desktop.Launcher
+"${DIR}/app/bin/java" ${JVM_OPTIONS} -m telekit.desktop/telekit.desktop.Launcher
