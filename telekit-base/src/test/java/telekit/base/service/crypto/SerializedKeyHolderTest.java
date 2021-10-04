@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static telekit.base.service.crypto.Encryptor.Algorithm;
 import static telekit.base.service.crypto.Encryptor.generateKey;
-import static org.telekit.test.util.CommonTestUtils.randomEnumValue;
+import static telekit.tests.util.CommonTestUtils.randomEnumValue;
 
 @OrdinaryTest
 public class SerializedKeyHolderTest {

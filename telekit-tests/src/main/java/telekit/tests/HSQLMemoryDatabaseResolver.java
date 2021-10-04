@@ -1,4 +1,4 @@
-package org.telekit.test;
+package telekit.tests;
 
 import com.p6spy.engine.spy.P6DataSource;
 import org.hsqldb.jdbc.JDBCDataSource;

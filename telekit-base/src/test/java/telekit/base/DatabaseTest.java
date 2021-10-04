@@ -1,7 +1,7 @@
 package telekit.base;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.telekit.test.HSQLMemoryDatabaseResolver;
+import telekit.tests.HSQLMemoryDatabaseResolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import telekit.base.OrdinaryTest;
 import telekit.base.domain.exception.TelekitException;
 import telekit.base.service.FileBasedRepository.Transaction;
-import org.telekit.test.util.UUIDHelper;
+import telekit.tests.util.UUIDHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
