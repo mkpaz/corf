@@ -18,7 +18,7 @@
         <!-- required version must follow semantic versioning scheme -->
         <plugin.platform-version>${project.version}</plugin.platform-version>
 
-        <bld.basePackage>org.telekit.example</bld.basePackage>
+        <bld.basePackage>telekit.example</bld.basePackage>
         <bld.pluginClassName>${bld.basePackage}.ExamplePlugin</bld.pluginClassName>
         <bld.launcherClassName>${bld.basePackage}.demo.DemoLauncher</bld.launcherClassName>
         <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
@@ -31,12 +31,12 @@
             <!-- everything in the `resources` goes under package prefix -->
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>org/telekit/example</targetPath>
+                <targetPath>telekit/example</targetPath>
                 <filtering>false</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>org/telekit/example</targetPath>
+                <targetPath>telekit/example</targetPath>
                 <filtering>true</filtering>
                 <includes>
                     <include>plugin.properties</include>
