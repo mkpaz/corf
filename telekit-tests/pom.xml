@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>telekit-parent</artifactId>
-        <groupId>org.telekit</groupId>
+        <groupId>telekit</groupId>
         <version>1.1.0</version>
     </parent>
     <artifactId>telekit-tests</artifactId>
