@@ -21,23 +21,23 @@ module telekit.controls {
     requires wellbehavedfx;
 
     // exports
-    exports org.telekit.controls.custom;
-    exports org.telekit.controls.dialogs;
-    exports org.telekit.controls.theme;
-    exports org.telekit.controls.util;
-    exports org.telekit.controls.widgets;
-    exports org.telekit.controls.widgets.richtextfx;
+    exports telekit.controls.custom;
+    exports telekit.controls.dialogs;
+    exports telekit.controls.theme;
+    exports telekit.controls.util;
+    exports telekit.controls.widgets;
+    exports telekit.controls.widgets.richtextfx;
 
-    opens org.telekit.controls.demo to
+    opens telekit.controls.demo to
             javafx.graphics, javafx.base, javafx.fxml, telekit.base;
 
-    exports org.telekit.controls.i18n;
-    exports org.telekit.controls.demo;
+    exports telekit.controls.i18n;
+    exports telekit.controls.demo;
 
     // resources
-    opens org.telekit.controls.i18n;
-    opens org.telekit.controls.assets.fonts;
-    opens org.telekit.controls.assets.fonts.FiraMono;
-    opens org.telekit.controls.assets.fonts.Roboto;
-    opens org.telekit.controls.assets.theme;
+    opens telekit.controls.i18n;
+    opens telekit.controls.assets.fonts;
+    opens telekit.controls.assets.fonts.FiraMono;
+    opens telekit.controls.assets.fonts.Roboto;
+    opens telekit.controls.assets.theme;
 }

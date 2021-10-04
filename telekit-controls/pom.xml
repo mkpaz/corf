@@ -11,7 +11,7 @@
     <artifactId>telekit-controls</artifactId>
 
     <properties>
-        <launcherClass>org.telekit.controls.demo.DemoLauncher</launcherClass>
+        <launcherClass>telekit.controls.demo.DemoLauncher</launcherClass>
     </properties>
 
     <build>
@@ -19,7 +19,7 @@
             <!-- everything in the `resources` goes under package prefix -->
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>org/telekit/controls</targetPath>
+                <targetPath>telekit/controls</targetPath>
                 <filtering>false</filtering>
             </resource>
         </resources>

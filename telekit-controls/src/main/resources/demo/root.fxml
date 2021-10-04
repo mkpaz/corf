@@ -8,7 +8,7 @@
 <?import org.fxmisc.richtext.CodeArea?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 <?import java.lang.String?>
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.telekit.controls.demo.DemoController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="telekit.controls.demo.DemoController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
