@@ -15,7 +15,7 @@
             <!-- everything in the `resources` goes under package prefix -->
             <resource>
                 <directory>src/main/resources</directory>
-                <targetPath>org/telekit/base</targetPath>
+                <targetPath>telekit/base</targetPath>
                 <filtering>false</filtering>
             </resource>
         </resources>

@@ -1,4 +1,4 @@
-import org.telekit.base.plugin.Plugin;
+import telekit.base.plugin.Plugin;
 
 module telekit.base {
 
@@ -56,34 +56,34 @@ module telekit.base {
     requires sshj;
 
     // exports
-    exports org.telekit.base;
-    exports org.telekit.base.desktop;
-    exports org.telekit.base.desktop.mvvm;
-    exports org.telekit.base.desktop.routing;
-    exports org.telekit.base.di;
-    exports org.telekit.base.domain;
-    exports org.telekit.base.domain.event;
-    exports org.telekit.base.domain.exception;
-    exports org.telekit.base.domain.security;
-    exports org.telekit.base.event;
-    exports org.telekit.base.i18n;
-    exports org.telekit.base.net;
-    exports org.telekit.base.net.connection;
-    exports org.telekit.base.plugin;
-    exports org.telekit.base.plugin.internal to telekit.desktop;
-    exports org.telekit.base.preferences;
-    exports org.telekit.base.preferences.internal to telekit.desktop, com.fasterxml.jackson.databind;
-    exports org.telekit.base.service;
-    exports org.telekit.base.service.completion;
-    exports org.telekit.base.service.crypto;
-    exports org.telekit.base.service.jdbc;
-    exports org.telekit.base.telecom;
-    exports org.telekit.base.util;
-    exports org.telekit.base.util.jdbc;
+    exports telekit.base;
+    exports telekit.base.desktop;
+    exports telekit.base.desktop.mvvm;
+    exports telekit.base.desktop.routing;
+    exports telekit.base.di;
+    exports telekit.base.domain;
+    exports telekit.base.domain.event;
+    exports telekit.base.domain.exception;
+    exports telekit.base.domain.security;
+    exports telekit.base.event;
+    exports telekit.base.i18n;
+    exports telekit.base.net;
+    exports telekit.base.net.connection;
+    exports telekit.base.plugin;
+    exports telekit.base.plugin.internal to telekit.desktop;
+    exports telekit.base.preferences;
+    exports telekit.base.preferences.internal to telekit.desktop, com.fasterxml.jackson.databind;
+    exports telekit.base.service;
+    exports telekit.base.service.completion;
+    exports telekit.base.service.crypto;
+    exports telekit.base.service.jdbc;
+    exports telekit.base.telecom;
+    exports telekit.base.util;
+    exports telekit.base.util.jdbc;
 
-    opens org.telekit.base.domain to com.fasterxml.jackson.databind;
-    opens org.telekit.base.domain.security to com.fasterxml.jackson.databind;
-    opens org.telekit.base.net.connection to com.fasterxml.jackson.databind;
-    opens org.telekit.base.preferences to com.fasterxml.jackson.databind;
-    opens org.telekit.base.preferences.internal to com.fasterxml.jackson.databind;
+    opens telekit.base.domain to com.fasterxml.jackson.databind;
+    opens telekit.base.domain.security to com.fasterxml.jackson.databind;
+    opens telekit.base.net.connection to com.fasterxml.jackson.databind;
+    opens telekit.base.preferences to com.fasterxml.jackson.databind;
+    opens telekit.base.preferences.internal to com.fasterxml.jackson.databind;
 }
