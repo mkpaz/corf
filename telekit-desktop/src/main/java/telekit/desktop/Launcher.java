@@ -53,8 +53,14 @@ public class Launcher extends Application {
         // show application
         Platform.runLater(() -> {
             mainStage.show();
-            mainStage.toFront();
-            primaryStage.requestFocus();
+            // On MS Windows calling toFront() or requestFocus() won't move
+            // window on top automatically, but instead make its button on the
+            // task bar blink. This is a security feature of the MS Windows.
+            // https://bugs.openjdk.java.net/browse/JDK-8128222
+            // This issue is a bit dated, for now it can be workarounded by
+            // calling consequently setAlwaysOnTop(true/false). But it's probably
+            // not a good idea.
+            primaryStage.toFront();
         });
     }
 
