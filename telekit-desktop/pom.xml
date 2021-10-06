@@ -11,12 +11,9 @@
     <artifactId>telekit-desktop</artifactId>
 
     <properties>
-        <docsSourceDirectory>src/docs/asciidoc</docsSourceDirectory>
-        <!-- build -->
         <bld.compression>2</bld.compression>
         <bld.descriptor>windows.xml</bld.descriptor>
         <bld.distribDirectory>${project.build.directory}/dist</bld.distribDirectory>
-        <bld.docsTargetDirectory>${project.build.directory}/docs</bld.docsTargetDirectory>
         <bld.mainClass>telekit.desktop.Launcher</bld.mainClass>
         <bld.modulesDirectory>${project.build.directory}/modules</bld.modulesDirectory>
         <bld.platform>win64</bld.platform>
@@ -579,37 +576,6 @@
                                             <filtering>false</filtering>
                                         </resource>
                                     </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>generate-docs</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctor-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>generate-html-ru</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>process-asciidoc</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceDirectory>${docsSourceDirectory}/ru</sourceDirectory>
-                                    <sourceDocumentName>index.adoc</sourceDocumentName>
-                                    <outputDirectory>${bld.docsTargetDirectory}/ru</outputDirectory>
-                                    <backend>html5</backend>
-                                    <embedAssets>true</embedAssets>
-                                    <attributes>
-                                        <imagesdir>images</imagesdir>
-                                        <toc>left</toc>
-                                    </attributes>
                                 </configuration>
                             </execution>
                         </executions>

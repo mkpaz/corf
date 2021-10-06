@@ -60,7 +60,7 @@ mvn install -f controls/pom.xml
 Build main application:
 
 ```sh
-mvn clean verufy -P generate-docs,build-dependencies,build-runtime-image,<platform> -f telekit-desktop/pom.xml
+mvn clean verufy -P build-dependencies,build-runtime-image,<platform> -f telekit-desktop/pom.xml
 ```
 
 `<platform>` is whatever of the Maven profile ids (`win32`, `win64` or `linux64`).

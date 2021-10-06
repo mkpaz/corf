@@ -76,8 +76,6 @@
 
         <!-- plugins -->
         <plugin.antrun.version>1.8</plugin.antrun.version>
-        <!-- do not update to 2.x until fixed: https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/597 -->
-        <plugin.asciidoctor.version>1.6.0</plugin.asciidoctor.version>
         <plugin.assembly.version>3.3.0</plugin.assembly.version>
         <plugin.compiler.version>3.8.1</plugin.compiler.version>
         <plugin.dependency.version>3.1.2</plugin.dependency.version>
@@ -98,11 +96,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>${plugin.antrun.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.asciidoctor</groupId>
-                    <artifactId>asciidoctor-maven-plugin</artifactId>
-                    <version>${plugin.asciidoctor.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

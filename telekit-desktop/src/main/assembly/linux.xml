@@ -24,15 +24,6 @@
                 <include>**/*</include>
             </includes>
         </fileSet>
-
-        <!-- documentation -->
-        <fileSet>
-            <directory>${bld.docsTargetDirectory}</directory>
-            <outputDirectory>docs</outputDirectory>
-            <includes>
-                <include>**/*.html</include>
-            </includes>
-        </fileSet>
     </fileSets>
 
     <files>

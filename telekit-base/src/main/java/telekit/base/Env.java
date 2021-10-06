@@ -71,9 +71,6 @@ public final class Env {
     /** This is where all application configs are stored. */
     public static final Path CONFIG_DIR = DATA_DIR.resolve(CONFIG_DIR_NAME);
 
-    /** Documentation is updated with the application, so it resides in the app dir. */
-    public static final Path DOCS_DIR = APP_DIR.resolve(DOCS_DIR_NAME);
-
     public static final Path AUTOCOMPLETE_DIR = DATA_DIR.resolve(AUTOCOMPLETE_DIR_NAME);
     public static final Path CACHE_DIR = DATA_DIR.resolve(CACHE_DIR_NAME);
     public static final Path LOGS_DIR = APP_DIR;
