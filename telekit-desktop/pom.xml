@@ -220,6 +220,16 @@
                                         </module>
                                         <module>
                                             <artifact>
+                                                <groupId>com.github.spullara.mustache.java</groupId>
+                                                <artifactId>compiler</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>com.github.mustachejava</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
                                                 <groupId>org.jsoup</groupId>
                                                 <artifactId>jsoup</artifactId>
                                             </artifact>
