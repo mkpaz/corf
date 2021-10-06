@@ -5,6 +5,7 @@ import telekit.base.i18n.BaseMessages;
 import telekit.base.i18n.I18n;
 import telekit.base.preferences.Theme;
 import telekit.base.preferences.internal.ApplicationPreferences;
+import telekit.base.preferences.internal.Language;
 import telekit.base.util.Mappers;
 import telekit.controls.i18n.ControlsMessages;
 import telekit.controls.theme.DefaultTheme;
@@ -13,6 +14,7 @@ import telekit.desktop.i18n.DesktopMessages;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -40,6 +42,15 @@ public final class PreferencesConfig implements Config {
 
         preferences = loadApplicationPreferences();
         preferences.setTheme(DEFAULT_THEME);
+
+        // first run (or recover after file was deleted), good time to detect some defaults
+        if (preferences.isDirty()) {
+            // pick app language from system if supported
+            Arrays.stream(Language.values())
+                    .filter(lang -> lang.getLocale().getLanguage().equalsIgnoreCase(Locale.getDefault().getLanguage()))
+                    .findFirst()
+                    .ifPresent(language -> preferences.setLanguage(language));
+        }
 
         loadI18nResources();
     }
