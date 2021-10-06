@@ -54,6 +54,7 @@ module telekit.base {
     // dependencies without Automatic-Module-Name
     requires expectit.core;
     requires commons.dbutils;
+    requires commons.csv;
     requires sshj;
 
     // exports

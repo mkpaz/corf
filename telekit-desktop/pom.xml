@@ -146,6 +146,16 @@
                                         </module>
                                         <module>
                                             <artifact>
+                                                <groupId>org.apache.commons</groupId>
+                                                <artifactId>commons-csv</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>commons.csv</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
                                                 <groupId>commons-dbutils</groupId>
                                                 <artifactId>commons-dbutils</artifactId>
                                             </artifact>
