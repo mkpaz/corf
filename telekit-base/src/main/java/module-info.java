@@ -52,6 +52,8 @@ module telekit.base {
     requires org.yaml.snakeyaml;
 
     // dependencies without Automatic-Module-Name
+    requires dflib;
+    requires dflib.csv;
     requires expectit.core;
     requires commons.dbutils;
     requires commons.csv;

@@ -36,6 +36,7 @@
         <lib.commons-io.version>2.11.0</lib.commons-io.version>
         <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
         <lib.commons-net.version>3.8.0</lib.commons-net.version>
+        <lib.dflib.version>0.12</lib.dflib.version>
         <lib.expectit.version>0.9.0</lib.expectit.version>
         <lib.flyway.version>7.11.3</lib.flyway.version>
         <lib.hsqldb.version>2.6.0</lib.hsqldb.version>
@@ -401,6 +402,16 @@
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
                 <version>${lib.jetbrains-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nhl.dflib</groupId>
+                <artifactId>dflib</artifactId>
+                <version>${lib.dflib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nhl.dflib</groupId>
+                <artifactId>dflib-csv</artifactId>
+                <version>${lib.dflib.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.pustike</groupId>

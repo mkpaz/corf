@@ -147,6 +147,14 @@
             <artifactId>annotations</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.nhl.dflib</groupId>
+            <artifactId>dflib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.nhl.dflib</groupId>
+            <artifactId>dflib-csv</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.github.pustike</groupId>
             <artifactId>javax.inject</artifactId>
         </dependency>

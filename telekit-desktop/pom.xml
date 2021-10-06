@@ -294,6 +294,26 @@
                                         </module>
                                         <module>
                                             <artifact>
+                                                <groupId>com.nhl.dflib</groupId>
+                                                <artifactId>dflib</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>dflib</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
+                                                <groupId>com.nhl.dflib</groupId>
+                                                <artifactId>dflib-csv</artifactId>
+                                            </artifact>
+                                            <moduleInfo>
+                                                <name>dflib.csv</name>
+                                                <exports>*;</exports>
+                                            </moduleInfo>
+                                        </module>
+                                        <module>
+                                            <artifact>
                                                 <groupId>net.sf.expectit</groupId>
                                                 <artifactId>expectit-core</artifactId>
                                             </artifact>
