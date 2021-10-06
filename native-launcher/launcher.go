@@ -12,14 +12,15 @@ import (
 const RESTART_EXIT_CODE = 3
 
 func main() {
-  cwd, err := os.Getwd()
+  executable, err := os.Executable()
   if err != nil {
     log.Fatal(err)
   }
+  executablePath := filepath.Dir(executable)
 
   var (
-    OPTIONS_FILE = filepath.Join(cwd, "user.options")
-    JAVA_EXEC = filepath.Join(cwd, "app", "bin", JAVA_EXEC)
+    OPTIONS_FILE = filepath.Join(executablePath, "user.options")
+    JAVA_EXEC = filepath.Join(executablePath, "app", "bin", JAVA_EXEC)
   )
 
   fileBytes, err := ioutil.ReadFile(OPTIONS_FILE)
@@ -31,7 +32,7 @@ func main() {
   optsText := strings.Trim(strings.Replace(string(fileBytes), "\r\n", "\n", -1), "\n");
   jvmOptions := strings.Split(optsText, "\n")
   args := append(jvmOptions,
-    "-Dtelekit.app.dir=" + cwd,
+    "-Dtelekit.app.dir=" + executablePath,
     "-m",
     "telekit.desktop/telekit.desktop.Launcher")
 
