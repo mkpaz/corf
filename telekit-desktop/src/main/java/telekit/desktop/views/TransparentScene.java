@@ -56,10 +56,10 @@ public class TransparentScene extends Scene {
         setAnchors(content, Insets.EMPTY);
     }
 
-    public void toggleShadow(boolean active) {
+    public void toggleShadow(boolean enabled) {
         // allows removing shadow and paddings when window is maximized
-        shadowPane.pseudoClassStateChanged(DECORATED, active);
-        if (!active) {
+        shadowPane.pseudoClassStateChanged(DECORATED, enabled);
+        if (!enabled) {
             setAnchors(contentRoot, Insets.EMPTY);
         } else {
             setAnchors(contentRoot, shadowInsets);

@@ -2,7 +2,6 @@ package telekit.desktop.views;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,8 +23,6 @@ import java.util.logging.Logger;
 
 import static telekit.base.Env.APP_NAME;
 import static telekit.base.Env.WINDOW_MAXIMIZED;
-import static telekit.controls.util.Containers.getAnchors;
-import static telekit.controls.util.Containers.setAnchors;
 import static telekit.desktop.service.IconRepository.FAVICON;
 import static telekit.desktop.startup.config.Config.DESKTOP_MODULE_PATH;
 
@@ -42,8 +39,6 @@ public class MainStage {
     static final int DROP_SHADOW_OFFSET = 10;
 
     // drag and resize
-    private Rectangle2D latestBounds = null;
-    private boolean maximized;
     private double dragOffsetX = 0;
     private double dragOffsetY = 0;
 
@@ -115,7 +110,7 @@ public class MainStage {
         });
 
         region.setOnMouseDragged(event -> {
-            if (maximized) { return; }
+            if (stage.isMaximized()) { return; }
             scene.setCursor(Cursor.MOVE);
 
             // TODO: Move dragged window outside screen (OpenJFX bug, Linux only)
@@ -137,28 +132,10 @@ public class MainStage {
     }
 
     public void maximize() {
-        Screen screen = getScreenForStage(stage);
-        Rectangle2D bounds = screen.getVisualBounds();
-
-        // FIXME: Undecorated stage cannot be maximized on Linux
-        // Normally, stage.setMaximized(!stage.isMaximized()) is enough
-        // https://bugs.openjdk.java.net/browse/JDK-8237491
-
-        if (!maximized) {
-            latestBounds = getAnchors(stage);
-            setAnchors(stage, bounds);
-            maximized = true;
-        } else {
-            if (latestBounds != null) {
-                // FIXME: setY() isn't working
-                // Probably another bug in OpenJFX Glass/GTK+ backend
-                setAnchors(stage, latestBounds);
-            }
-            maximized = false;
-        }
-
+        boolean maximized = stage.isMaximized();
+        stage.setMaximized(!maximized);
         if (scene instanceof TransparentScene transparentScene) {
-            transparentScene.toggleShadow(!maximized);
+            transparentScene.toggleShadow(maximized);
         }
     }
 
