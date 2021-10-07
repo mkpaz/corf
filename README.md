@@ -51,10 +51,9 @@ If you want to write your own plugin, clone this repo and use `telekit-plugin-ex
 
 ## Setup
 
-Telekit is a Java app that uses [jlink](https://docs.oracle.com/javase/9/tools/jlink.htm) to build *native* runtime
-image, so there is *no need to install Java*.
+Telekit is a JavaFX app that uses [jlink](https://docs.oracle.com/javase/9/tools/jlink.htm) to build native runtime image, so there is no need to install Java. It's portable and packaged for Windows (both x32 and x64) and Linux-based systems.
 
-It's portable and packaged for Windows (both x32 and x64) and Linux-based systems.
+To run under Linux GTK3 is required (e.g for Arch Linux `pacman -S gtk3`). 
 
 ## Credits
 
