@@ -17,6 +17,9 @@ module telekit.desktop {
     // only for dev mode to check JCL bridge is working
     requires org.apache.commons.logging;
 
+    // only to log JVM options
+    requires java.management;
+
     // exports
     exports telekit.desktop;
     exports telekit.desktop.event;

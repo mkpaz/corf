@@ -1,12 +1,14 @@
 package telekit.desktop.startup.config;
 
 import javafx.stage.Screen;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import telekit.base.Env;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,6 +18,7 @@ import java.security.Security;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -81,6 +84,7 @@ public final class LogConfig implements Config {
         return Logger.getLogger(clazz.getName());
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void logEnvironmentInfo() {
         Logger log = getLogger(getClass());
         try {
@@ -93,6 +97,27 @@ public final class LogConfig implements Config {
                             "; scaleX=" + screen.getOutputScaleX() +
                             "; scaleY=" + screen.getOutputScaleY()
             ));
+
+            log.info("System properties:");
+            try {
+                logEnv(log, (Map) System.getProperties());
+            } catch (Throwable t) {
+                log.info("Unable to read system properties");
+            }
+
+            log.info("Env variables:");
+            try {
+                logEnv(log, System.getenv());
+            } catch (Throwable t) {
+                log.info("Unable to read env variables");
+            }
+
+            log.info("JVM options:");
+            try {
+                ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(log::fine);
+            } catch (Throwable t) {
+                log.info("Unable to read JVM options");
+            }
 
             log.fine("Supported locales:");
             Locale[] locales = SimpleDateFormat.getAvailableLocales();
@@ -112,5 +137,17 @@ public final class LogConfig implements Config {
                 log.fine(cipherSuite);
             }
         } catch (Throwable ignored) { }
+    }
+
+    private void logEnv(Logger log, Map<String, String> env) {
+        env.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(e -> {
+                    if (StringUtils.startsWithIgnoreCase(e.getKey(), Env.APP_NAME)) {
+                        log.info(e.getKey() + "=" + e.getValue());
+                    } else {
+                        log.fine(e.getKey() + "=" + e.getValue());
+                    }
+                });
     }
 }
