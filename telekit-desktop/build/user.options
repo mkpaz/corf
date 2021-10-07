@@ -1,1 +1,16 @@
+# This file allows to pass user-specific options to the Java launcher.
+# You can find the description of standard and extra java options here:
+# https://docs.oracle.com/en/java/javase/17/docs/specs/man/java.html
+#
+# Start each option from a new line. Lines starting with "#" are
+# comments and will be ignored. Empty lines are NOT allowed.
+#
+# Limit max heap memory size
 -Xmx256M
+#
+# Full path to the directory where application data such as configuration
+# and plugins is stored. Special value "_HOME_" means that data is stored
+# under the user home directory. Depending on operating system:
+# Windows: %LOCALAPPDATA%/Telekit
+# Linux: ~/.config/Telekit
+#-Dtelekit.data.dir=_HOME_

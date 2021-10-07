@@ -99,7 +99,7 @@ public final class Env {
         String envValue = getPropertyOrEnv("telekit.data.dir", "TELEKIT_DATA_DIR");
 
         // store data in the user home directory
-        if ("$HOME".equalsIgnoreCase(envValue)) {
+        if ("_HOME_".equalsIgnoreCase(envValue)) {
             if (SystemUtils.IS_OS_UNIX) { return DesktopUtils.getXdgConfigDir().resolve(APP_NAME); }
             if (SystemUtils.IS_OS_WINDOWS) { return DesktopUtils.getLocalAppDataDir().resolve(APP_NAME); }
         }
