@@ -1,5 +1,6 @@
 package telekit.desktop.views.layout;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.SelectionModel;
@@ -185,7 +186,7 @@ public class NavDrawerViewModel implements Initializable, ViewModel {
 
         // rebuild navigation tree on plugin start and stop events
         if (pluginState == STARTED || pluginState == STOPPED) {
-            treeRoot.getChildren().setAll(buildNavigationTree());
+            Platform.runLater(() -> treeRoot.getChildren().setAll(buildNavigationTree()));
         }
 
         // register routes for newly started plugins
@@ -202,7 +203,7 @@ public class NavDrawerViewModel implements Initializable, ViewModel {
                     event.getPluginClass().getCanonicalName(),
                     router.getCurrentRoute().getArg(PLUGIN_CLASS, String.class))
             ) {
-                router.navigate(DEFAULT_ROUTE);
+                Platform.runLater(() -> router.navigate(DEFAULT_ROUTE));
             }
 
             // NOTE: Theoretically, here we should also unregister routes for the tools
