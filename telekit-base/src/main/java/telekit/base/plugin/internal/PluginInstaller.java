@@ -102,7 +102,7 @@ public class PluginInstaller {
             // delete JAR copy from plugin lib directory.
             hush(() -> deleteDir(pluginLibPath));
 
-            // and we still have remove temp file
+            // and we still have to remove temp file
             cleaner.appendTask(pluginJarPath);
         }
 
@@ -111,8 +111,10 @@ public class PluginInstaller {
 
         // delete config
         if (Files.exists(pluginConfigPath) && isEmptyDir(pluginConfigPath)) {
-            hush(() -> deleteDir(pluginDocsPath));
+            hush(() -> deleteDir(pluginConfigPath));
         }
+
+        // delete everything else
         if (deleteResources) {
             cleaner.appendTask(pluginDataDir);
         }

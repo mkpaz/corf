@@ -122,7 +122,7 @@ public final class Env {
     }
 
     public static Path getPluginDataDir(Class<? extends Plugin> pluginClass) {
-        return PLUGINS_DIR.resolve(getCanonicalName(pluginClass));
+        return PLUGINS_DIR.resolve(pluginClass.getModule().getName());
     }
 
     public static Path getPluginConfigDir(Class<? extends Plugin> pluginClass) {

@@ -45,7 +45,7 @@ public class PluginLoader {
     }
 
     /**
-     * Returns a map of extension classes provided by specified plugin, where:
+     * Returns extension classes provided by specified plugin:
      * <ul>
      * <li>key - extension interface (Tool...);</li>
      * <li>value - list of classes which implement that interface.</li>
@@ -61,7 +61,7 @@ public class PluginLoader {
         Map<Class<? extends Extension>, Set<Class<? extends Extension>>> extensionsMap = new HashMap<>();
 
         for (Class<? extends Extension> extensionClass : includes.value()) {
-            // this is somewhat redundant because because PluginBox only accept instance objects
+            // this is somewhat redundant because PluginBox only accept instance objects
             if (Modifier.isAbstract(extensionClass.getModifiers()) || extensionClass.isInterface()) {
                 LOGGER.warning("Invalid extension type: " + getCanonicalName(extensionClass));
                 continue;
