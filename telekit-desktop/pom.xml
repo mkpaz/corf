@@ -421,7 +421,7 @@
                                                 <artifactId>sshj</artifactId>
                                             </artifact>
                                             <moduleInfo>
-                                                <name>sshj</name>
+                                                <name>com.hierynomus.sshj</name>
                                                 <exports>*;</exports>
                                             </moduleInfo>
                                         </module>

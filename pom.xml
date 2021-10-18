@@ -25,9 +25,7 @@
         <java.version>17</java.version>
 
         <!-- dependencies -->
-        <!-- Since 1.69 BouncyCastle introduced 'bcutil-jdk15on',
-             do not upgrade from 1.68 before sshj -->
-        <lib.bouncycastle.version>1.68</lib.bouncycastle.version>
+        <lib.bouncycastle.version>1.69</lib.bouncycastle.version>
         <lib.commons-codec.version>1.15</lib.commons-codec.version>
         <lib.commons-collections.version>4.4</lib.commons-collections.version>
         <lib.commons-compress.version>1.21</lib.commons-compress.version>
@@ -51,18 +49,15 @@
         <lib.medusa.version>11.7</lib.medusa.version>
         <lib.mustache.version>0.9.10</lib.mustache.version>
         <lib.netty.version>4.1.68.Final</lib.netty.version>
+        <!--
+            DO NOT update pdfbox version to 3.x while it uses sun.misc.Unsafe, it won't work with JPMS
+            https://github.com/apache/pdfbox/blob/trunk/pdfbox/src/main/java/org/apache/pdfbox/io/IOUtils.java#L216
+        -->
+        <lib.pdfbox.version>2.0.24</lib.pdfbox.version>
         <lib.semantic-version.version>2.1.1</lib.semantic-version.version>
         <lib.snmp4j.version>3.5.1</lib.snmp4j.version>
         <lib.slf4j.version>2.0.0-alpha5</lib.slf4j.version>
-        <!--
-            FIXME: Update to BouncyCastle 1.69
-            BouncyCastle v1.69 includes additional 'bcutil' module,
-            so libs that depends on it won't work with v1.68 in classpath.
-            - pdfbox v3.x depends on BC 1.69
-            - sshj v0.31 depends on BC 1.68 (waiting for 0.32 release)
-        -->
-        <lib.pdfbox.version>2.0.24</lib.pdfbox.version>
-        <lib.sshj.version>0.31.0</lib.sshj.version>
+        <lib.sshj.version>0.32.0</lib.sshj.version>
 
         <lib.richtextfx.version>0.10.6</lib.richtextfx.version>
         <lib.flowless.version>0.6.6</lib.flowless.version>
@@ -302,14 +297,6 @@
                 <artifactId>sshj</artifactId>
                 <version>${lib.sshj.version}</version>
             </dependency>
-            <!-- FIXME Remove asn-one dependency after updating SSHJ to 0.32
-                 Resolves https://gitlab.com/hierynomus/asn-one/-/issues/2
-            -->
-            <dependency>
-                <groupId>com.hierynomus</groupId>
-                <artifactId>asn-one</artifactId>
-                <version>0.6.0</version>
-            </dependency>
             <dependency>
                 <groupId>org.snmp4j</groupId>
                 <artifactId>snmp4j</artifactId>
@@ -475,6 +462,11 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
+                <version>${lib.bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcutil-jdk15on</artifactId>
                 <version>${lib.bouncycastle.version}</version>
             </dependency>
 

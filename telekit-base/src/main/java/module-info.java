@@ -48,6 +48,7 @@ module telekit.base {
     requires org.jsoup;
     requires com.j2html;
     requires com.github.mustachejava;
+    requires com.hierynomus.sshj;
     requires io.netty.all;
     requires org.yaml.snakeyaml;
 
@@ -57,7 +58,6 @@ module telekit.base {
     requires expectit.core;
     requires commons.dbutils;
     requires commons.csv;
-    requires sshj;
 
     // exports
     exports telekit.base;
