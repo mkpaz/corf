@@ -588,7 +588,7 @@
                                 <!-- JRE can be started in client or server mode. Those are different
                                      modules (libjvm) 15-25 MB each and jlink will include both by default.
                                 -->
-                                <arg>--vm=client</arg>
+                                <!-- <arg>&#45;&#45;vm=client</arg>-->
                                 <!-- exclude signing info from source JARs, required for JCE (BouncyCastle) -->
                                 <arg>--ignore-signing-information</arg>
                             </args>
