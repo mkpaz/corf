@@ -1,0 +1,57 @@
+name: Tagged Release
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+
+    steps:
+    - name: Prepare | Checkout
+      uses: actions/checkout@v2
+
+    - name: Prepare | Java
+      uses: ./.github/actions/prepare-java
+
+    - name: Extract release notes
+      id: extract-release-notes
+      uses: ffurrer2/extract-release-notes@v1
+      with:
+        release_notes_file: RELEASE_NOTES.md
+
+    - name: Build | Package
+      run: mvn clean install -B
+
+    - name: Build | List artifacts (Unix)
+      shell: sh
+      run: ls -l ./desktop/target/release
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Build | List artifacts (Windows)
+      shell: pwsh
+      run: ls desktop\target\release
+      if: matrix.os == 'windows-latest'
+
+    - name: Build | Upload binaries
+      uses: actions/upload-artifact@v2
+      with:
+        name: binaries
+        path: ./desktop/target/release/*
+        retention-days: 1
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Release | Download files
+      uses: actions/download-artifact@v2
+
+    - name: Release | List content
+      run: ls -R
