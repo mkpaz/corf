@@ -33,10 +33,10 @@ public class ExecutorQueueTest {
                 new TestParam("param1", Type.CONSTANT, null, "value1")
         ));
         var headers = Map.of(
-                "header1", "%(param1)",
-                "header2", "%(_csv1)",
-                "header3", "%(_index0)",
-                "header4", "%(unknown)"
+                "header1", "${param1}",
+                "header2", "${_csv1}",
+                "header3", "${_index0}",
+                "header4", "${unknown}"
         );
 
         var queue = new ExecutorQueue(template, CSV.from(DATA), headers);
@@ -45,19 +45,19 @@ public class ExecutorQueueTest {
         assertThat(result).hasSize(3);
         assertThat(queue.size()).isEqualTo(3);
         assertThat(result.get(0).headers()).isEqualTo(
-                Map.of("header1", "value1", "header2", "11", "header3", "0", "header4", "%(unknown)")
+                Map.of("header1", "value1", "header2", "11", "header3", "0", "header4", "${unknown}")
         );
         assertThat(result.get(1).headers()).isEqualTo(
-                Map.of("header1", "value1", "header2", "21", "header3", "1", "header4", "%(unknown)")
+                Map.of("header1", "value1", "header2", "21", "header3", "1", "header4", "${unknown}")
         );
         assertThat(result.get(2).headers()).isEqualTo(
-                Map.of("header1", "value1", "header2", "31", "header3", "2", "header4", "%(unknown)")
+                Map.of("header1", "value1", "header2", "31", "header3", "2", "header4", "${unknown}")
         );
     }
 
     @Test
     public void testUriPlaceholdersReplaced() {
-        var template = Template.create("test", "http://127.0.0.1/%(param1)/%(_csv1)/%(_index0)", POST);
+        var template = Template.create("test", "http://127.0.0.1/${param1}/${_csv1}/${_index0}", POST);
         template.setParams(Set.of(
                 new TestParam("param1", Type.CONSTANT, null, "value1")
         ));
@@ -75,7 +75,7 @@ public class ExecutorQueueTest {
     @Test
     public void testBodyPlaceholdersReplaced() {
         var template = Template.create("test", "http://127.0.0.1", POST);
-        template.setBody("%(param1);%(_csv1);%(_index0);%(unknown)");
+        template.setBody("${param1};${_csv1};${_index0};${unknown}");
         template.setParams(Set.of(
                 new TestParam("param1", Type.CONSTANT, null, "value1")
         ));
@@ -85,15 +85,15 @@ public class ExecutorQueueTest {
 
         assertThat(result).hasSize(3);
         assertThat(queue.size()).isEqualTo(3);
-        assertThat(result.get(0).body()).isEqualTo("value1;11;0;%(unknown)");
-        assertThat(result.get(1).body()).isEqualTo("value1;21;1;%(unknown)");
-        assertThat(result.get(2).body()).isEqualTo("value1;31;2;%(unknown)");
+        assertThat(result.get(0).body()).isEqualTo("value1;11;0;${unknown}");
+        assertThat(result.get(1).body()).isEqualTo("value1;21;1;${unknown}");
+        assertThat(result.get(2).body()).isEqualTo("value1;31;2;${unknown}");
     }
 
     @Test
     public void testBatchSizeWithoutRemainder() {
         var template = Template.create("test", "http://127.0.0.1", POST);
-        template.setBody("%(_index0)");
+        template.setBody("${_index0}");
         template.setBatch(new Batch(3, "[", "]", ";"));
 
         var queue = new ExecutorQueue(
@@ -113,7 +113,7 @@ public class ExecutorQueueTest {
     @Test
     public void testBatchSizeWithRemainder() {
         var template = Template.create("test", "http://127.0.0.1", POST);
-        template.setBody("%(_index0)");
+        template.setBody("${_index0}");
         template.setBatch(new Batch(4, "[", "]", ";"));
 
         var queue = new ExecutorQueue(
@@ -132,20 +132,20 @@ public class ExecutorQueueTest {
     @Test
     public void testBatchOnlyParamPlaceholdersReplaced() {
         var template = Template.create("test", "http://127.0.0.1", POST);
-        template.setBody("%(_index0)");
+        template.setBody("${_index0}");
         template.setParams(Set.of(
                 new TestParam("param1", Type.CONSTANT, null, "value1")
         ));
         template.setBatch(new Batch(
                 3,
-                "%(param1)-%(_csv1)-%(_index0)[",
-                "]%(param1)-%(_csv1)-%(_index0)",
+                "${param1}-${_csv1}-${_index0}[",
+                "]${param1}-${_csv1}-${_index0}",
                 ";")
         );
         var headers = Map.of(
-                "header1", "%(param1)",
-                "header2", "%(_csv1)",
-                "header3", "%(_index0)"
+                "header1", "${param1}",
+                "header2", "${_csv1}",
+                "header3", "${_index0}"
         );
 
         var queue = new ExecutorQueue(template, CSV.from(DATA), headers);
@@ -153,16 +153,16 @@ public class ExecutorQueueTest {
 
         assertThat(result).hasSize(1);
         assertThat(queue.size()).isEqualTo(1);
-        assertThat(result.get(0).body()).isEqualTo("value1-%(_csv1)-%(_index0)[0;1;2]value1-%(_csv1)-%(_index0)");
+        assertThat(result.get(0).body()).isEqualTo("value1-${_csv1}-${_index0}[0;1;2]value1-${_csv1}-${_index0}");
         assertThat(result.get(0).headers()).isEqualTo(
-                Map.of("header1", "value1", "header2", "%(_csv1)", "header3", "%(_index0)")
+                Map.of("header1", "value1", "header2", "${_csv1}", "header3", "${_index0}")
         );
     }
 
     @Test
     public void testAutoGeneratedParamsUpdatedAtEveryIteration() {
         var template = Template.create("test", "http://127.0.0.1", POST);
-        template.setBody("%(param1) %(param2)");
+        template.setBody("${param1} ${param2}");
         template.setParams(Set.of(
                 new TestParam("param1", Type.PASSWORD, null, null),
                 new TestParam("param2", Type.TIMESTAMP, null, null)
@@ -181,7 +181,7 @@ public class ExecutorQueueTest {
     @Test
     public void testAutoGeneratedParamsUpdatedAtEveryIterationBatchMode() {
         var template = Template.create("test", "http://127.0.0.1", POST);
-        template.setBody("%(param1) %(param2)");
+        template.setBody("${param1} ${param2}");
         template.setBatch(new Batch(2, "", "", "|")
         );
         template.setParams(Set.of(
