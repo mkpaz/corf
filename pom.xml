@@ -28,8 +28,7 @@
         <app.version>1.0.0</app.version>
 
         <lib.atlantafx.version>1.1.0</lib.atlantafx.version>
-        <!-- TODO: Release and update -->
-        <lib.backbonefx.version>1.0.1-SNAPSHOT</lib.backbonefx.version>
+        <lib.backbonefx.version>1.0.1</lib.backbonefx.version>
         <!-- DO NOT UPDATE independently of sshj without a reason -->
         <lib.bouncycastle.version>1.70</lib.bouncycastle.version>
         <lib.commons-codec.version>1.15</lib.commons-codec.version>
@@ -242,21 +241,6 @@
             </build>
         </profile>
     </profiles>
-
-    <repositories>
-        <!-- TODO: Remove snapshots repo as it's temp solution. -->
-        <repository>
-            <id>ossrh.snapshots</id>
-            <name>OSSRH snapshots</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <dependencyManagement>
         <dependencies>
