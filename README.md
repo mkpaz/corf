@@ -1,6 +1,10 @@
-# Corf
+# 🧰 Corf
 
 A set of tools for IT engineers.
+
+Download the latest release from the **[Releases](https://github.com/mkpaz/corf/releases)** page.
+
+![alt](./.screenshots/demo.gif)
 
 ## Tools
 
@@ -11,10 +15,6 @@ A set of tools for IT engineers.
 - **IPv4 Calculator** - supports subnet splitting and IP format conversion.
 - **Password Generator** - password generator that supports different types of passwords.
 - **Sequence Generator** - a tool for generating complex numeric sequences by predefined template.
-
-## Try it out
-
-Download the latest release from the [Releases](https://github.com/mkpaz/corf/releases) page.
 
 ## Plugins
 
