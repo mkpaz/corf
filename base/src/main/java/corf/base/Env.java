@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -262,5 +264,13 @@ public final class Env {
     private static String getFontPath(String family, String fontType, String fontFormat) {
         String subPath = family + "/" + family + "-" + fontType + "." + fontFormat;
         return BASE_MODULE.concat("assets/fonts/" + subPath).toString();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Whatever                                                              //
+    ///////////////////////////////////////////////////////////////////////////
+
+    public static LocalDateTime localDateTime() {
+        return LocalDateTime.now(ZoneId.systemDefault());
     }
 }
