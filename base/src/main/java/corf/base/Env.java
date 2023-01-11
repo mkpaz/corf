@@ -261,6 +261,6 @@ public final class Env {
 
     private static String getFontPath(String family, String fontType, String fontFormat) {
         String subPath = family + "/" + family + "-" + fontType + "." + fontFormat;
-        return BASE_MODULE.concat("assets/fonts" + subPath).toString();
+        return BASE_MODULE.concat("assets/fonts/" + subPath).toString();
     }
 }
