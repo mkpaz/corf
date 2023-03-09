@@ -164,8 +164,10 @@ public class PreferencesDialogViewModel implements Initializable, ViewModel {
     private void saveAndApplyPreferences() {
         // THEME
         if (!Objects.equals(theme.get(), mainStage.getTheme())) {
-            mainStage.setTheme(theme.get());
+            // update preferences first, because main stage emits ThemeEvent
+            // and listeners should be able to obtain updated theme from preferences
             preferences.setStyleTheme(theme.get());
+            mainStage.setTheme(theme.get());
         }
 
         // PROXY

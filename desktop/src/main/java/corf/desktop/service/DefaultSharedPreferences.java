@@ -1,10 +1,11 @@
 package corf.desktop.service;
 
-import org.jetbrains.annotations.Nullable;
+import atlantafx.base.theme.Theme;
 import corf.base.preferences.Proxy;
 import corf.base.preferences.SharedPreferences;
 import corf.base.preferences.SystemPreferences;
 import corf.base.preferences.internal.ApplicationPreferences;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -24,5 +25,10 @@ public final class DefaultSharedPreferences implements SharedPreferences {
     @Override
     public SystemPreferences getSystemPreferences() {
         return preferences.getSystemPreferences();
+    }
+
+    @Override
+    public Theme getStyleTheme() {
+        return preferences.getStyleTheme();
     }
 }

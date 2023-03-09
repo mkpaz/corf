@@ -3,6 +3,8 @@ package corf.desktop.layout;
 import atlantafx.base.theme.Theme;
 import corf.base.Env;
 import corf.base.desktop.Dimension;
+import corf.base.event.Events;
+import corf.base.event.ThemeEvent;
 import corf.base.preferences.internal.ApplicationPreferences;
 import corf.desktop.ResourceLoader;
 import javafx.application.Application;
@@ -64,6 +66,7 @@ public final class MainStage {
             if (val != null) {
                 Application.setUserAgentStylesheet(val.getUserAgentStylesheet());
                 scene.getRoot().pseudoClassStateChanged(DARK, val.isDarkMode());
+                Events.fire(new ThemeEvent(val));
             }
         });
     }

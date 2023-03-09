@@ -42,6 +42,9 @@ public abstract class PluginLauncher<V extends Node> extends Application {
     protected static final System.Logger LOGGER = System.getLogger(PluginLauncher.class.getName());
 
     @SuppressWarnings("NullAway")
+    protected SharedPreferences preferences;
+
+    @SuppressWarnings("NullAway")
     protected StackPane rootContainer;
 
     @SuppressWarnings("NullAway")
@@ -68,8 +71,10 @@ public abstract class PluginLauncher<V extends Node> extends Application {
 
         initServices();
 
+        preferences = getPreferences();
+
         var modules = new ArrayList<DependencyModule>();
-        modules.add(new LauncherDependencyModule());
+        modules.add(new LauncherDependencyModule(preferences));
         modules.addAll(getDependencyModules());
         Injector.getInstance().configure(modules);
 
@@ -106,8 +111,8 @@ public abstract class PluginLauncher<V extends Node> extends Application {
 
         overlay.toBack();
 
-        // set user agent stylesheet
-        Application.setUserAgentStylesheet(getTheme().getUserAgentStylesheet());
+        // set style theme
+        Application.setUserAgentStylesheet(preferences.getStyleTheme().getUserAgentStylesheet());
 
         var scene = new Scene(rootContainer, 1024, 768);
         Env.BASE_MODULE.concat("assets/fonts.css").getResource()
@@ -123,8 +128,8 @@ public abstract class PluginLauncher<V extends Node> extends Application {
     }
 
     /** Reserved for startup customizations. Override when necessary. */
-    protected Theme getTheme() {
-        return new PrimerLight();
+    protected SharedPreferences getPreferences() {
+        return new LauncherSharedPreferences();
     }
 
     /** Reserved for startup customizations. Override when necessary. */
@@ -142,6 +147,12 @@ public abstract class PluginLauncher<V extends Node> extends Application {
 
     public static class LauncherDependencyModule implements DependencyModule {
 
+        private final SharedPreferences preferences;
+
+        public LauncherDependencyModule(SharedPreferences preferences) {
+            this.preferences = Objects.requireNonNull(preferences);
+        }
+
         @Provides
         @Singleton
         public Overlay overlay() {
@@ -151,15 +162,16 @@ public abstract class PluginLauncher<V extends Node> extends Application {
         @Provides
         @Singleton
         public SharedPreferences sharedPreferences() {
-            return new LauncherSharedPreferences();
+            return preferences;
         }
     }
 
     public static class LauncherSharedPreferences implements SharedPreferences {
 
-        private static final Preferences USER_ROOT = Preferences.userRoot().node(Env.APP_NAME + "-Demo");
+        protected static final Preferences USER_ROOT = Preferences.userRoot().node(Env.APP_NAME + "-Demo");
 
-        private final SystemPreferences systemPreferences = new SystemPreferences(USER_ROOT);
+        protected final Theme theme = new PrimerLight();
+        protected final SystemPreferences systemPreferences = new SystemPreferences(USER_ROOT);
 
         @Override
         public @Nullable Proxy getProxy() {
@@ -169,6 +181,11 @@ public abstract class PluginLauncher<V extends Node> extends Application {
         @Override
         public SystemPreferences getSystemPreferences() {
             return systemPreferences;
+        }
+
+        @Override
+        public Theme getStyleTheme() {
+            return theme;
         }
     }
 }
