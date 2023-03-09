@@ -8,6 +8,8 @@ Download the latest release from the **[Releases](https://github.com/mkpaz/corf/
 
 ## Tools
 
+Check [screenshots](https://github.com/mkpaz/corf/tree/master/.screenshots) for a brief feature overview.
+
 - **Base64 Converter** - Base64 batch encoder and decoder.
 - **File Builder** - a tool for generating text files (like CSV, XML, configs, custom scripts etc.) by predefined
   template.
