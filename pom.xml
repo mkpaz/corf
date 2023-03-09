@@ -27,7 +27,7 @@
         <app.name>Corf</app.name>
         <app.version>1.0.0</app.version>
 
-        <lib.atlantafx.version>1.1.0</lib.atlantafx.version>
+        <lib.atlantafx.version>1.2.0</lib.atlantafx.version>
         <lib.backbonefx.version>1.0.1</lib.backbonefx.version>
         <!-- DO NOT UPDATE independently of sshj without a reason -->
         <lib.bouncycastle.version>1.70</lib.bouncycastle.version>
