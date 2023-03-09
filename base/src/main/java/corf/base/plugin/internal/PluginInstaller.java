@@ -222,6 +222,10 @@ final class PluginInstaller {
         var destLibPath = Env.getPluginLibDir(plugin.getClass());
         var destConfigPath = Env.getPluginConfigDir(plugin.getClass());
 
+        // cancel cleanup tasks if plugin installed immediately
+        // after uninstallation without the application restart
+        var cleaner = new PluginCleaner();
+
         try {
             // create plugin root directory first
             FileSystemUtils.createDirTree(pluginDir);
@@ -230,11 +234,13 @@ final class PluginInstaller {
             if (Files.exists(sourceJarPath)) {
                 FileSystemUtils.createDir(destLibPath);
                 FileSystemUtils.copyFile(sourceJarPath, destLibPath.resolve(sourceJarPath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                cleaner.cancelTask(destLibPath);
             }
 
             LOGGER.log(INFO, "Copying plugin resources");
             if (Files.exists(sourceConfigPath)) {
                 FileSystemUtils.copyDir(sourceConfigPath, destConfigPath, false);
+                cleaner.cancelTask(destConfigPath);
             }
         } catch (Throwable t) {
             LOGGER.log(ERROR, "Unable to copy plugin files to the application directory");

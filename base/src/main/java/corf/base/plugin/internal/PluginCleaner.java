@@ -30,6 +30,7 @@ public final class PluginCleaner {
     private static final String TASK_RM = "rm";
     private static final String TASK_RMDIR = "rmdir";
     private static final String ARG_SEPARATOR = " ";
+    private static final String COMMENT = "#";
 
     private final Path configFilePath = Env.PLUGINS_DIR.resolve(CONFIG_FILE_NAME);
 
@@ -58,6 +59,28 @@ public final class PluginCleaner {
         }
     }
 
+    /**
+     * Cancels previously appended task.
+     */
+    public void cancelTask(Path path) {
+        Objects.requireNonNull(path, "path");
+
+        try {
+            List<String> tasks = Files.readAllLines(configFilePath, StandardCharsets.UTF_8);
+            String pathToDelete = path.toAbsolutePath().toString();
+
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).contains(pathToDelete)) {
+                    tasks.set(i, COMMENT + tasks.get(i));
+                }
+            }
+
+            Files.write(configFilePath, tasks, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            LOGGER.log(WARNING, ExceptionUtils.getStackTrace(e));
+        }
+    }
+
     /** Executes all cleaner tasks sequentially. */
     public void executeAll() throws IOException {
         if (!Files.exists(configFilePath)) { return; }
@@ -65,7 +88,7 @@ public final class PluginCleaner {
         LOGGER.log(DEBUG, "Executing tasks:");
         List<String> tasks = Files.readAllLines(configFilePath, StandardCharsets.UTF_8);
         for (String task : tasks) {
-            if (StringUtils.isBlank(task)) { continue; }
+            if (StringUtils.isBlank(task) || task.startsWith(COMMENT)) { continue; }
             String[] args = StringUtils.trim(task).split(ARG_SEPARATOR);
             execute(args);
         }
