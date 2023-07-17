@@ -263,16 +263,6 @@
                                 </module>
                                 <module>
                                     <artifact>
-                                        <groupId>org.apache.commons</groupId>
-                                        <artifactId>commons-compress</artifactId>
-                                    </artifact>
-                                    <moduleInfo>
-                                        <name>org.apache.commons.compress</name>
-                                        <exports>*;</exports>
-                                    </moduleInfo>
-                                </module>
-                                <module>
-                                    <artifact>
                                         <groupId>org.apache.pdfbox</groupId>
                                         <artifactId>pdfbox</artifactId>
                                     </artifact>
@@ -344,16 +334,6 @@
                                 </module>
                                 <module>
                                     <artifact>
-                                        <groupId>org.yaml</groupId>
-                                        <artifactId>snakeyaml</artifactId>
-                                    </artifact>
-                                    <moduleInfo>
-                                        <name>org.yaml.snakeyaml</name>
-                                        <exports>*;</exports>
-                                    </moduleInfo>
-                                </module>
-                                <module>
-                                    <artifact>
                                         <groupId>com.nhl.dflib</groupId>
                                         <artifactId>dflib</artifactId>
                                     </artifact>
@@ -379,26 +359,6 @@
                                     </artifact>
                                     <moduleInfo>
                                         <name>expectit.core</name>
-                                        <exports>*;</exports>
-                                    </moduleInfo>
-                                </module>
-                                <module>
-                                    <artifact>
-                                        <groupId>net.datafaker</groupId>
-                                        <artifactId>datafaker</artifactId>
-                                    </artifact>
-                                    <moduleInfo>
-                                        <name>datafaker</name>
-                                        <exports>*;</exports>
-                                    </moduleInfo>
-                                </module>
-                                <module>
-                                    <artifact>
-                                        <groupId>com.github.mifmif</groupId>
-                                        <artifactId>generex</artifactId>
-                                    </artifact>
-                                    <moduleInfo>
-                                        <name>generex</name>
                                         <exports>*;</exports>
                                     </moduleInfo>
                                 </module>
@@ -435,7 +395,7 @@
                             <outputDirectory>${build.dependenciesDir}</outputDirectory>
                             <overwriteExistingFiles>true</overwriteExistingFiles>
                             <jdepsExtraArgs>
-                                <arg>--ignore-missing-dependencies</arg>
+                                <arg>--ignore-missing-deps</arg>
                             </jdepsExtraArgs>
                             <modules>
                                 <module>
@@ -444,6 +404,33 @@
                                         <artifactId>flyway-core</artifactId>
                                     </artifact>
                                     <moduleInfoFile>src/main/moditect/org.flywaydb.core/module-info.java</moduleInfoFile>
+                                </module>
+                            </modules>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-module-info/with-ignore-missing-deps</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${build.dependenciesDir}</outputDirectory>
+                            <overwriteExistingFiles>true</overwriteExistingFiles>
+                            <jdepsExtraArgs>
+                                <arg>--ignore-missing-deps</arg>
+                            </jdepsExtraArgs>
+                            <modules>
+                                <!-- ignore optional packages (see MANIFEST.MF) -->
+                                <module>
+                                    <artifact>
+                                        <groupId>org.apache.commons</groupId>
+                                        <artifactId>commons-compress</artifactId>
+                                    </artifact>
+                                    <moduleInfo>
+                                        <name>org.apache.commons.compress</name>
+                                        <exports>*;</exports>
+                                    </moduleInfo>
                                 </module>
                             </modules>
                         </configuration>

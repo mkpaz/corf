@@ -22,24 +22,24 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <java.version>17</java.version>
-        <openjfx.version>19</openjfx.version>
+        <openjfx.version>20.0.1</openjfx.version>
 
         <app.name>Corf</app.name>
         <app.version>1.0.0</app.version>
 
-        <lib.atlantafx.version>1.2.0</lib.atlantafx.version>
+        <lib.atlantafx.version>2.0.1</lib.atlantafx.version>
         <lib.backbonefx.version>1.0.1</lib.backbonefx.version>
         <!-- DO NOT UPDATE independently of sshj without a reason -->
         <lib.bouncycastle.version>1.70</lib.bouncycastle.version>
         <lib.commons-codec.version>1.15</lib.commons-codec.version>
         <lib.commons-collections.version>4.4</lib.commons-collections.version>
-        <lib.commons-compress.version>1.22</lib.commons-compress.version>
+        <lib.commons-compress.version>1.23.0</lib.commons-compress.version>
         <lib.commons-dbutils.version>1.7</lib.commons-dbutils.version>
         <lib.commons-csv.version>1.9.0</lib.commons-csv.version>
         <lib.commons-io.version>2.11.0</lib.commons-io.version>
         <lib.commons-lang.version>3.12.0</lib.commons-lang.version>
         <lib.commons-net.version>3.9.0</lib.commons-net.version>
-        <lib.datafaker.version>1.7.0</lib.datafaker.version>
+        <lib.datafaker.version>2.0.1</lib.datafaker.version>
         <lib.dflib.version>0.15</lib.dflib.version>
         <lib.expectit.version>0.9.0</lib.expectit.version>
         <lib.flyway.version>9.8.3</lib.flyway.version>
@@ -49,7 +49,8 @@
         <lib.ikonli.version>12.3.1</lib.ikonli.version>
         <lib.j2html.version>1.6.0</lib.j2html.version>
         <lib.jsoup.version>1.15.3</lib.jsoup.version>
-        <lib.jackson.version>2.14.1</lib.jackson.version>
+        <!-- NOTE: jackson-dataformat-yaml depends on shakeyaml which is also used by datafaker -->
+        <lib.jackson.version>2.15.2</lib.jackson.version>
         <lib.jetbrains-annotations.version>23.0.0</lib.jetbrains-annotations.version>
         <lib.kaitai-struct.version>0.10</lib.kaitai-struct.version>
         <!-- DO NOT UPDATE: This is the last stable version. Newer versions don't add any features or
