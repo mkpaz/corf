@@ -1,5 +1,14 @@
 package corf.desktop.tools.httpsender;
 
+import static atlantafx.base.theme.Styles.TEXT_SUBTLE;
+import static corf.base.i18n.I18n.t;
+
+import corf.base.common.Lazy;
+import corf.base.desktop.controls.FXHelpers;
+import corf.desktop.i18n.DM;
+import corf.desktop.layout.Recommends;
+import corf.desktop.tools.common.ui.DescriptionText;
+import corf.desktop.tools.common.ui.TitleHelpLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,15 +21,6 @@ import javafx.scene.text.Text;
 import org.apache.commons.lang3.StringUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
-import corf.base.common.Lazy;
-import corf.base.desktop.controls.FXHelpers;
-import corf.desktop.i18n.DM;
-import corf.desktop.layout.Recommends;
-import corf.desktop.tools.common.ui.DescriptionText;
-import corf.desktop.tools.common.ui.TitleHelpLabel;
-
-import static atlantafx.base.theme.Styles.TEXT_SUBTLE;
-import static corf.base.i18n.I18n.t;
 
 final class TemplateCard extends VBox {
 
@@ -52,21 +52,15 @@ final class TemplateCard extends VBox {
 
         setSpacing(Recommends.CARD_SPACING);
         getChildren().setAll(
-                createTitle(),
-                createBody()
+            createTitle(),
+            createBody()
         );
         init();
     }
 
     private HBox createTitle() {
-        var icon = new FontIcon(Material2OutlinedAL.ARTICLE);
-
         titleLabel = new TitleHelpLabel(t(DM.TPL_TEMPLATE));
-
-        var title = new HBox(Recommends.CARD_SPACING, icon, titleLabel);
-        title.setAlignment(Pos.CENTER_LEFT);
-
-        return title;
+        return titleLabel;
     }
 
     private VBox createBody() {

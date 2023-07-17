@@ -50,7 +50,9 @@ public class DescriptionText extends TextFlow {
 
         FXHelpers.setManaged(overrunIndicator, false);
         FXHelpers.setManaged(actionLink, false);
+
         getChildren().setAll(displayedText, overrunIndicator, actionLink);
+        getStyleClass().add("description-text");
 
         init();
     }

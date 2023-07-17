@@ -51,6 +51,7 @@ import static corf.base.text.CSV.COMMA_OR_SEMICOLON;
 
 public class ParamList extends ScrollPane {
 
+    protected static final PseudoClass FIRST = PseudoClass.getPseudoClass("first");
     protected static final PseudoClass LAST = PseudoClass.getPseudoClass("last");
     protected static final PseudoClass EMPTY = PseudoClass.getPseudoClass("empty");
 
@@ -184,6 +185,8 @@ public class ParamList extends ScrollPane {
 
             item.setParam(param, doesParamSupportCompletion(param));
             item.setToggleCompletionHandler(completionHandler);
+
+            item.pseudoClassStateChanged(FIRST, i == 0);
             item.pseudoClassStateChanged(LAST, i == items.length - 1);
         }
 

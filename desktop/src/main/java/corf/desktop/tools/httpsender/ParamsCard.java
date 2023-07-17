@@ -1,17 +1,13 @@
 package corf.desktop.tools.httpsender;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import org.apache.commons.collections4.CollectionUtils;
-import org.jetbrains.annotations.Nullable;
-import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.material2.Material2OutlinedAL;
+import static atlantafx.base.theme.Styles.ACCENT;
+import static atlantafx.base.theme.Styles.BUTTON_CIRCLE;
+import static atlantafx.base.theme.Styles.FLAT;
+import static atlantafx.base.theme.Styles.TEXT_BOLD;
+import static atlantafx.base.theme.Styles.TEXT_MUTED;
+import static atlantafx.base.theme.Styles.TITLE_4;
+import static corf.base.i18n.I18n.t;
+
 import corf.base.common.Lazy;
 import corf.desktop.i18n.DM;
 import corf.desktop.layout.Recommends;
@@ -19,12 +15,25 @@ import corf.desktop.tools.common.Param;
 import corf.desktop.tools.common.ui.CSVTextArea;
 import corf.desktop.tools.common.ui.NamedParamsHelpDialog;
 import corf.desktop.tools.common.ui.ParamList;
-
+import corf.desktop.tools.common.ui.TitleHelpLabel;
 import java.util.ArrayList;
 import java.util.Set;
-
-import static atlantafx.base.theme.Styles.*;
-import static corf.base.i18n.I18n.t;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import org.apache.commons.collections4.CollectionUtils;
+import org.jetbrains.annotations.Nullable;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.material2.Material2OutlinedAL;
 
 final class ParamsCard extends VBox {
 
@@ -49,23 +58,15 @@ final class ParamsCard extends VBox {
         });
 
         setSpacing(Recommends.CARD_SPACING);
-        getChildren().setAll(
-                createTitle(),
-                createBody()
-        );
+        getChildren().setAll(createTitle(), createBody());
         init();
     }
 
-    private HBox createTitle() {
-        var pseudoIcon = new Label("{ }");
-        pseudoIcon.getStyleClass().addAll(TITLE_4, TEXT_BOLD);
-
+    private Label createTitle() {
         var label = new Label(t(DM.PARAMETERS));
+        label.getStyleClass().addAll(TITLE_4);
 
-        var title = new HBox(Recommends.CARD_SPACING, pseudoIcon, label);
-        title.setAlignment(Pos.BASELINE_LEFT);
-
-        return title;
+        return label;
     }
 
     private GridPane createBody() {
@@ -79,11 +80,9 @@ final class ParamsCard extends VBox {
         GridPane.setVgrow(csvText, Priority.ALWAYS);
 
         var grid = new GridPane();
-        grid.getRowConstraints().setAll(
-                new RowConstraints(-1, -1, -1),
-                new RowConstraints(-1, -1, Double.MAX_VALUE, Priority.ALWAYS, VPos.TOP, true),
-                new RowConstraints(-1, -1, -1)
-        );
+        grid.getRowConstraints().setAll(new RowConstraints(-1, -1, -1),
+            new RowConstraints(-1, -1, Double.MAX_VALUE, Priority.ALWAYS, VPos.TOP, true),
+            new RowConstraints(-1, -1, -1));
         grid.setVgap(Recommends.CAPTION_MARGIN);
         grid.setHgap(Recommends.FORM_HGAP);
 
@@ -120,15 +119,17 @@ final class ParamsCard extends VBox {
         });
     }
 
-    private Label createSubHeader(String text, @Nullable Button helpBtn) {
+    private Node createSubHeader(String text, @Nullable Button helpBtn) {
         var label = new Label(text);
         label.getStyleClass().addAll(TEXT_BOLD, TEXT_MUTED);
-        label.setContentDisplay(ContentDisplay.RIGHT);
-        label.setGraphicTextGap(10);
-        if (helpBtn != null) {
-            label.setGraphic(helpBtn);
+
+        if (helpBtn == null) {
+            return label;
         }
-        return label;
+
+        var box = new HBox(TitleHelpLabel.GRAPHIC_TEXT_GAP, label, helpBtn);
+        box.setAlignment(Pos.BASELINE_LEFT);
+        return box;
     }
 
     private Button createHelpButton() {

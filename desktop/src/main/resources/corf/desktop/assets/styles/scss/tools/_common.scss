@@ -6,6 +6,10 @@
   -fx-background-insets: 0, 0 1 1 1;
 }
 
+.description-text {
+  -fx-padding: 5px;
+}
+
 .param-list {
   -fx-padding: 0 5px 0 0;
 
@@ -30,12 +34,19 @@
     >.item {
       -fx-background-color: -color-border-muted, -color-bg-default;
       -fx-background-insets: 0, 0 0 1 0;
-      -fx-background-radius: 6px 6px 0 0;
       -fx-padding: 10px;
+
+      &:first {
+        -fx-background-radius: 6px 6px 0 0;
+      }
 
       &:last {
         -fx-background-insets: 0;
         -fx-background-radius: 0 0 6px 6px;
+      }
+
+      &:first:last {
+        -fx-background-radius: 6px;
       }
 
       .text-field {

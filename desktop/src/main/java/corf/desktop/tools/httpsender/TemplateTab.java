@@ -1,6 +1,8 @@
 package corf.desktop.tools.httpsender;
 
+import atlantafx.base.theme.Styles;
 import jakarta.inject.Inject;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import corf.base.common.Lazy;
@@ -44,9 +46,12 @@ final class TemplateTab extends VBox {
         paramsCard = new ParamsCard(view);
         VBox.setVgrow(paramsCard, Priority.ALWAYS);
 
+        var sep = new Separator();
+        sep.getStyleClass().add(Styles.SMALL);
+
         getStyleClass().add(BG_DEFAULT);
         setSpacing(Recommends.CONTENT_SPACING);
-        getChildren().setAll(templateCard, paramsCard);
+        getChildren().setAll(templateCard, sep, paramsCard);
         setId("file-builder");
     }
 

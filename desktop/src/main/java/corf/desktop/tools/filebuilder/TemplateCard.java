@@ -59,14 +59,8 @@ final class TemplateCard extends VBox {
     }
 
     private HBox createTitle() {
-        var icon = new FontIcon(Material2OutlinedAL.ARTICLE);
-
         titleLabel = new TitleHelpLabel(t(DM.TPL_TEMPLATE));
-
-        var title = new HBox(Recommends.CARD_SPACING, icon, titleLabel);
-        title.setAlignment(Pos.CENTER_LEFT);
-
-        return title;
+        return titleLabel;
     }
 
     private VBox createBody() {
