@@ -103,8 +103,8 @@ public final class IPv4CalcView extends VBox implements View<IPv4CalcView, IPv4C
 
     @Override
     public void init() {
-        tabs.setTabMinWidth(TOOL_WIDTH / 3.0 - 40);
-        tabs.setTabMaxWidth(TOOL_WIDTH / 3.0 - 40);
+        tabs.setTabMinWidth(TOOL_WIDTH / 3.0 - 60);
+        tabs.setTabMaxWidth(TOOL_WIDTH / 3.0 - 60);
 
         ipConverterBtn.setOnAction(e -> showConverterDialog());
 
