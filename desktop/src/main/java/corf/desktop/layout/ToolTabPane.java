@@ -1,22 +1,25 @@
 package corf.desktop.layout;
 
+import static corf.base.i18n.I18n.t;
+
 import backbonefx.mvvm.View;
 import corf.base.Injector;
 import corf.base.desktop.Focusable;
 import corf.base.plugin.Tool;
 import corf.base.plugin.internal.PluginBox;
 import corf.desktop.i18n.DM;
+import java.util.Objects;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.*;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Skin;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
-
-import java.util.Objects;
-
-import static corf.base.i18n.I18n.t;
 
 public final class ToolTabPane extends TabPane {
 
@@ -62,6 +65,14 @@ public final class ToolTabPane extends TabPane {
         getStyleClass().add(TabPane.STYLE_CLASS_FLOATING);
         setTabClosingPolicy(TabClosingPolicy.ALL_TABS);
 
+        // tabs can be selected via arrows keys,
+        // this listener protects from selecting 'addTabButton'
+        getSelectionModel().selectedItemProperty().addListener((obs, old, val) -> {
+            if (val == addTabButton) {
+                getSelectionModel().select(old);
+            }
+        });
+
         // This needs further improvements. In particular, code to keep AddButton
         // at the end of the list is an ugly hack. Overall, TabPane is a complete
         // mess and custom implementation is more relevant in this case.
@@ -96,7 +107,9 @@ public final class ToolTabPane extends TabPane {
         });
     }
 
-    /** Adds new blank tab. */
+    /**
+     * Adds new blank tab.
+     */
     public void addTab() {
         // ugly hack to cope with min tab width which isn't working as expected
         var tab = new Tab(" ".repeat(24), new StartPage());
@@ -111,10 +124,14 @@ public final class ToolTabPane extends TabPane {
         addTab(tab);
     }
 
-    /** Sets content to the currently selected tab. */
+    /**
+     * Sets content to the currently selected tab.
+     */
     public void setCurrentTabContent(Tool<?> tool) {
         var tab = getSelectionModel().getSelectedItem();
-        if (tab == null) { return; }
+        if (tab == null) {
+            return;
+        }
 
         Class<? extends View<?, ?>> viewClass = tool.getView();
         View<?, ?> view = Injector.getView(viewClass);
@@ -159,18 +176,24 @@ public final class ToolTabPane extends TabPane {
     public void closePluginTabs(PluginBox plugin) {
         Objects.requireNonNull(plugin, "plugin");
         getTabs().removeIf(tab -> tab != addTabButton
-                & (tab.getUserData() instanceof Tool<?> tool && plugin.providesExtensionImpl(tool.getClass())));
+            & (tab.getUserData() instanceof Tool<?> tool && plugin.providesExtensionImpl(tool.getClass())));
 
-        if (getTabs().isEmpty()) { addTab(); }
+        if (getTabs().isEmpty()) {
+            addTab();
+        }
     }
 
     @SuppressWarnings("ShortCircuitBoolean")
     public void closeAllTabsExceptSelected() {
-        if (getTabs().size() == 2) { return; } // nothing to close
+        if (getTabs().size() == 2) {
+            return;
+        } // nothing to close
         getTabs().removeIf(tab -> tab != addTabButton & tab != getSelectionModel().getSelectedItem());
     }
 
-    /** Adds a new tab before the button and selects it. */
+    /**
+     * Adds a new tab before the button and selects it.
+     */
     private void addTab(Tab tab) {
         getTabs().add(getTabs().size() - 1, tab);
         getSelectionModel().select(getTabs().size() - 2);
