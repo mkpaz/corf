@@ -24,27 +24,27 @@ module org.flywaydb.core {
     opens org.flywaydb.core.internal;
 
     // only most common DBMS included, free Flyway version supports some more
-    uses org.flywaydb.core.internal.database.DatabaseType;
-    provides org.flywaydb.core.internal.database.DatabaseType with
-            org.flywaydb.core.internal.database.cockroachdb.CockroachDBDatabaseType,
-            org.flywaydb.core.internal.database.redshift.RedshiftDatabaseType,
-            org.flywaydb.core.internal.database.db2.DB2DatabaseType,
-            org.flywaydb.core.internal.database.derby.DerbyDatabaseType,
-            org.flywaydb.core.internal.database.h2.H2DatabaseType,
-            org.flywaydb.core.internal.database.hsqldb.HSQLDBDatabaseType,
-            org.flywaydb.core.internal.database.informix.InformixDatabaseType,
-            org.flywaydb.core.internal.database.oracle.OracleDatabaseType,
-            org.flywaydb.core.internal.database.postgresql.PostgreSQLDatabaseType,
-            org.flywaydb.core.internal.database.saphana.SAPHANADatabaseType,
-            org.flywaydb.core.internal.database.snowflake.SnowflakeDatabaseType,
-            org.flywaydb.core.internal.database.sqlite.SQLiteDatabaseType,
-            org.flywaydb.core.internal.database.sybasease.SybaseASEJConnectDatabaseType,
-            org.flywaydb.core.internal.database.sybasease.SybaseASEJTDSDatabaseType,
-            org.flywaydb.core.internal.database.base.TestContainersDatabaseType,
-            org.flywaydb.core.internal.schemahistory.BaseAppliedMigration,
-            org.flywaydb.core.internal.resource.CoreResourceTypeProvider,
-            org.flywaydb.core.internal.database.postgresql.PostgreSQLConfigurationExtension,
-            org.flywaydb.core.internal.command.clean.CleanModeConfigurationExtension;
+    uses org.flywaydb.core.extensibility.Plugin;
+    provides org.flywaydb.core.extensibility.Plugin with
+        org.flywaydb.core.internal.database.cockroachdb.CockroachDBDatabaseType,
+        org.flywaydb.core.internal.database.redshift.RedshiftDatabaseType,
+        org.flywaydb.core.internal.database.db2.DB2DatabaseType,
+        org.flywaydb.core.internal.database.derby.DerbyDatabaseType,
+        org.flywaydb.core.internal.database.h2.H2DatabaseType,
+        org.flywaydb.core.internal.database.hsqldb.HSQLDBDatabaseType,
+        org.flywaydb.core.internal.database.informix.InformixDatabaseType,
+        org.flywaydb.core.internal.database.oracle.OracleDatabaseType,
+        org.flywaydb.core.internal.database.postgresql.PostgreSQLDatabaseType,
+        org.flywaydb.core.internal.database.saphana.SAPHANADatabaseType,
+        org.flywaydb.core.internal.database.snowflake.SnowflakeDatabaseType,
+        org.flywaydb.core.internal.database.sqlite.SQLiteDatabaseType,
+        org.flywaydb.core.internal.database.sybasease.SybaseASEJConnectDatabaseType,
+        org.flywaydb.core.internal.database.sybasease.SybaseASEJTDSDatabaseType,
+        org.flywaydb.core.internal.database.base.TestContainersDatabaseType,
+        org.flywaydb.core.internal.schemahistory.BaseAppliedMigration,
+        org.flywaydb.core.internal.resource.CoreResourceTypeProvider,
+        org.flywaydb.core.internal.database.postgresql.PostgreSQLConfigurationExtension,
+        org.flywaydb.core.internal.command.clean.CleanModeConfigurationExtension;
 
     exports org.flywaydb.core.extensibility;
     uses org.flywaydb.core.extensibility.FlywayExtension;
