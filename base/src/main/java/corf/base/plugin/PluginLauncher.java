@@ -19,9 +19,11 @@ import corf.base.preferences.SharedPreferences;
 import corf.base.preferences.SystemPreferences;
 import jakarta.inject.Singleton;
 import javafx.application.Application;
+import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.ObjectUtils;
@@ -114,7 +116,11 @@ public abstract class PluginLauncher<V extends Node> extends Application {
         // set style theme
         Application.setUserAgentStylesheet(preferences.getStyleTheme().getUserAgentStylesheet());
 
-        var scene = new Scene(rootContainer, 1024, 768);
+        var antialiasing = Platform.isSupported(ConditionalFeature.SCENE3D)
+            ? SceneAntialiasing.BALANCED
+            : SceneAntialiasing.DISABLED;
+
+        var scene = new Scene(rootContainer, 1024, 768, false, antialiasing);
         Env.BASE_MODULE.concat("assets/fonts.css").getResource()
                 .ifPresent(r -> scene.getStylesheets().add(r.toExternalForm()));
         Env.BASE_MODULE.concat("assets/index.css").getResource()
