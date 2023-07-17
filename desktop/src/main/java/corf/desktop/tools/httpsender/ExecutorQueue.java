@@ -1,19 +1,24 @@
 package corf.desktop.tools.httpsender;
 
-import org.apache.commons.collections4.SetUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Nullable;
-import corf.base.net.HttpClient;
 import corf.base.common.NumberUtils;
-import corf.base.text.PlaceholderReplacer;
+import corf.base.net.HttpClient;
 import corf.base.text.CSV;
+import corf.base.text.PlaceholderReplacer;
 import corf.desktop.tools.common.Param;
 import corf.desktop.tools.common.ReplacementCheckResult;
 import corf.desktop.tools.common.TemplateWorker;
 import corf.desktop.tools.httpsender.Template.Batch;
-
 import java.net.URI;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import org.apache.commons.collections4.SetUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
 final class ExecutorQueue implements Iterator<HttpClient.Request>, TemplateWorker {
 
@@ -110,8 +115,8 @@ final class ExecutorQueue implements Iterator<HttpClient.Request>, TemplateWorke
             String batchEnd = PlaceholderReplacer.replace(batch.getEnd(), replacements);
 
             body = batchStart
-                    + String.join(StringUtils.defaultString(batch.getSeparator()), batchBodyArray)
-                    + batchEnd;
+                + String.join(StringUtils.defaultString(batch.getSeparator()), batchBodyArray)
+                + batchEnd;
             processedRows = batchCsvRange.length;
         }
 
@@ -163,7 +168,7 @@ final class ExecutorQueue implements Iterator<HttpClient.Request>, TemplateWorke
             if (rowNum == 0) {
                 firstRowCellCount = maxCellCount = row.length;
 
-                if (template.isBatchMode()) {
+                if (!template.isBatchMode()) {
                     TemplateWorker.putIndexReplacements(replacements, rowNum);
                     TemplateWorker.putCsvReplacements(replacements, row);
 
