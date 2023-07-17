@@ -37,7 +37,7 @@ public final class MainWindowView extends BorderPane implements Component<MainWi
             DESKTOP_MODULE.concat("assets/icons/tools/default_64.png").getResourceAsStream()
     ));
     public static final Image BLANK_TAB_ICON = new Image(Objects.requireNonNull(
-            DESKTOP_MODULE.concat("assets/icons/blank_64.png").getResourceAsStream()
+            DESKTOP_MODULE.concat("assets/icons/tools/default_64.png").getResourceAsStream()
     ));
 
     public static final int TOAST_QUEUE_DISPLAY_SIZE = 4;
