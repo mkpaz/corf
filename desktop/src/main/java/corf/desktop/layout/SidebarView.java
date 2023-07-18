@@ -71,7 +71,7 @@ public final class SidebarView extends VBox implements View<SidebarView, Sidebar
 
     private void createView() {
         navDrawerBtn = createSidebarButton(Material2OutlinedAL.APPS, t(DM.TOOLS));
-        pluginsBtn = createSidebarButton(Material2OutlinedAL.EXTENSION, t(DM.PLUGINS));
+        pluginsBtn = createSidebarButton(Material2OutlinedAL.CONSTRUCTION, t(DM.PLUGINS));
         settingsBtn = createSidebarButton(Material2OutlinedMZ.SETTINGS, t(DM.PREFERENCES));
 
         getChildren().setAll(
