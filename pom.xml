@@ -7,7 +7,7 @@
     <groupId>corf</groupId>
     <artifactId>corf-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <modules>
         <module>base</module>
@@ -25,7 +25,7 @@
         <openjfx.version>20.0.1</openjfx.version>
 
         <app.name>Corf</app.name>
-        <app.version>1.0.0</app.version>
+        <app.version>1.0.1</app.version>
 
         <lib.atlantafx.version>2.0.1</lib.atlantafx.version>
         <lib.backbonefx.version>1.0.1</lib.backbonefx.version>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>corf</groupId>
         <artifactId>corf-parent</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>corf-desktop</artifactId>
@@ -419,6 +419,8 @@
                             <overwriteExistingFiles>true</overwriteExistingFiles>
                             <jdepsExtraArgs>
                                 <arg>--ignore-missing-deps</arg>
+                                <arg>--multi-release</arg>
+                                <arg>9</arg>
                             </jdepsExtraArgs>
                             <modules>
                                 <!-- ignore optional packages (see MANIFEST.MF) -->
