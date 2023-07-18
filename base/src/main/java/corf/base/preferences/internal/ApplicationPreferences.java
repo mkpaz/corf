@@ -27,7 +27,8 @@ public class ApplicationPreferences {
     public static final Path CONFIG_PATH = Env.CONFIG_DIR.resolve("preferences.yaml");
     public static final Theme DEFAULT_THEME = new PrimerLight();
     public static final List<Theme> THEMES = List.of(
-            DEFAULT_THEME, new PrimerDark(), new NordLight(), new NordDark()
+            DEFAULT_THEME, new PrimerDark(), new NordLight(), new NordDark(),
+            new CupertinoLight(), new CupertinoDark(), new Dracula()
     );
     public static final Preferences USER_ROOT = Preferences.userRoot().node(Env.APP_NAME);
 
