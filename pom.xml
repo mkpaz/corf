@@ -33,7 +33,7 @@
         <lib.bouncycastle.version>1.70</lib.bouncycastle.version>
         <lib.commons-codec.version>1.15</lib.commons-codec.version>
         <lib.commons-collections.version>4.4</lib.commons-collections.version>
-        <lib.commons-compress.version>1.23.0</lib.commons-compress.version>
+        <lib.commons-compress.version>1.24.0</lib.commons-compress.version>
         <lib.commons-dbutils.version>1.7</lib.commons-dbutils.version>
         <lib.commons-csv.version>1.9.0</lib.commons-csv.version>
         <lib.commons-io.version>2.11.0</lib.commons-io.version>
